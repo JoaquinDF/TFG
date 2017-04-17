@@ -3,8 +3,7 @@ from configparser import ConfigParser
 from abc import ABCMeta, abstractmethod
 
 
-class Bot(object):
-    __metaclass__ = ABCMeta
+class Bot(object, metaclass=ABCMeta):
 
     def __init__(self):
         config = ConfigParser()
