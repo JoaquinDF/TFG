@@ -7,8 +7,7 @@ from pymongo import MongoClient
 
 
 class BotInstance(Bot):
-
-    def start(self):
+    def run(self):
         url = 'http://cordis.europa.eu/data/cordis-h2020organizations.csv'
         data = pd.read_csv(url, sep=';', encoding='utf-8-sig')
         json_data = data.to_json(orient='records')
@@ -27,4 +26,3 @@ class BotInstance(Bot):
             for doc in docs:
                 collection.replace_one({'id': doc['id']}, doc, upsert=True)
         c.close()
-        return True

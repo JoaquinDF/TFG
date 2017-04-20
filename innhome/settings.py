@@ -16,7 +16,6 @@ import mongoengine
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = 'a&&#j@#_yo$n$r!&6y%20q*5@t#v7jc)m%k6i0nsb9ujydy=n1'
 DEBUG = True
 
 ALLOWED_HOSTS = ['212.128.154.196']
-
 
 # Application definition
 
@@ -73,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'innhome.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -83,7 +80,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -103,7 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -117,12 +112,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
 
 # Database Connection
 
@@ -136,7 +129,6 @@ _MONGODB_DATABASE_HOST = \
 
 mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
 
-
 # REST configuration
 
 REST_FRAMEWORK = {
@@ -146,7 +138,6 @@ REST_FRAMEWORK = {
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
     ),
 }
-
 
 # Celery configuration
 

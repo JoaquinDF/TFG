@@ -18,10 +18,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from rest_framework import routers
-from etl.views import BotViewSet
+from etl.views import BotViewSet, CrawlerViewSet
 
 router = routers.DefaultRouter()
 router.register(r'bot', BotViewSet, r'bot')
+router.register(r'crawler', CrawlerViewSet, r'crawler')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

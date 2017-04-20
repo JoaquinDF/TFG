@@ -7,8 +7,7 @@ from pymongo import MongoClient
 
 
 class BotInstance(Bot):
-
-    def start(self):
+    def run(self):
         url = 'http://ec.europa.eu/research/participants/portal/data/call/h2020/h2020_topics.json'
         response = requests.get(url=url)
         response.encoding = 'ISO-8859-1'
@@ -27,4 +26,3 @@ class BotInstance(Bot):
             for doc in docs:
                 collection.replace_one({'topicId': doc['topicId']}, doc, upsert=True)
         c.close()
-        return True

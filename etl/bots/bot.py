@@ -1,10 +1,11 @@
+from __future__ import absolute_import, unicode_literals
+
 import os
 from configparser import ConfigParser
 from abc import ABCMeta, abstractmethod
 
 
 class Bot(object, metaclass=ABCMeta):
-
     def __init__(self):
         config = ConfigParser()
         __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -14,5 +15,5 @@ class Bot(object, metaclass=ABCMeta):
         self.source = config['database.mongodb']['Source']
 
     @abstractmethod
-    def start(self):
+    def run(self):
         pass
