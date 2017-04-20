@@ -6,14 +6,14 @@ from .crawlers import crawler
 
 
 @shared_task
-def bot(bot_name):
+def bot_task(bot_name):
     b = import_module('.bots.' + bot_name, __package__).BotInstance()
     b.run()
     return True
 
 
 @shared_task
-def crawler(spider_name):
+def crawler_task(spider_name):
     s = import_module('.crawlers.' + spider_name, __package__).SpiderInstance
     crawler.run(s)
     return True
