@@ -26,16 +26,17 @@ class SpiderInstance(Spider):
             driver = webdriver.Chrome()
             try:
                 driver.get(response.url)
+                elements = []
                 flag = True
+                nxt = False
                 while flag:
                     try:
                         elements = driver.find_elements_by_xpath('//div[@class="well-white"]')
-                        if len(elements) is not 0:
+                        if len(elements) is not 0 or nxt:
                             flag = False
-                    except NoSuchElementException:
-                        time.sleep(1)
-                    except StaleElementReferenceException:
-                        time.sleep(1)
+                    except (NoSuchElementException, StaleElementReferenceException):
+                        time.sleep(10)
+                        nxt = True
                 for elem in elements:
                     status = elem.find_element_by_css_selector('span.label').text
                     url = elem.find_element_by_css_selector('a').get_property('href')

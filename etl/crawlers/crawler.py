@@ -34,4 +34,6 @@ def run(spider_instance):
         'MONGO_COLL': spider_instance.collection
     })
     runner.crawl(spider_instance)
-    Thread(target=__init_reactor).start()
+    t = Thread(target=__init_reactor)
+    t.daemon = True
+    t.start()
