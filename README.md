@@ -1,9 +1,11 @@
 # innhome
 
 ## Dependencies
-+ Django
-+ Django REST framework
-+ Django REST framework Mongoengine
 + Celery
++ Django
++ Django-celery-beat
++ Django REST Framework
++ Django REST Framework Mongoengine
 + Mongoengine
 + Scrapy
++ Selenium
