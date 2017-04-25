@@ -7,6 +7,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'innhome.settings')
 app = Celery('innhome')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
+app.conf.timezone = 'Europe/Madrid'
 app.autodiscover_tasks()
 
 
