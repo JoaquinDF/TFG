@@ -1,5 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
+import os
+from configparser import ConfigParser
+from pymongo import MongoClient
+from bson.json_util import dumps
+
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from .tasks import bot_task, crawler_task
@@ -23,3 +28,26 @@ class CrawlerViewSet(ViewSet):
             return Response({'created': True})
         else:
             return Response({'created': False})
+
+
+class DataViewSet(ViewSet):
+    def list(self, request):
+        config = ConfigParser()
+        __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        config.read(os.path.join(__location__, 'settings.INI'))
+        user = config['database.mongodb']['User']
+        pwd = config['database.mongodb']['Pwd']
+        source = config['database.mongodb']['Source']
+        c = MongoClient()
+        db = c[source]
+        db.authenticate(user, pwd, source=source)
+        collection = request.query_params.get('collection', None)
+        if collection and collection in db.collection_names():
+            coll = db[collection]
+            results = coll.find({})
+            c.close()
+            return Response(dumps(results))
+        else:
+            coll = db.collection_names()
+            c.close()
+            return Response(coll)
