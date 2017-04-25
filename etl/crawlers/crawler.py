@@ -7,7 +7,7 @@ from twisted.internet import reactor, error
 from threading import Thread
 
 
-def __init_reactor():
+def __init_reactor__():
     try:
         reactor.run(installSignalHandlers=0)
     except error.ReactorAlreadyRunning:
@@ -34,6 +34,6 @@ def run(spider_instance):
         'MONGO_COLL': spider_instance.collection
     })
     runner.crawl(spider_instance)
-    t = Thread(target=__init_reactor)
+    t = Thread(target=__init_reactor__)
     t.daemon = True
     t.start()
