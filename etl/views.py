@@ -42,9 +42,15 @@ class DataViewSet(ViewSet):
         db = c[source]
         db.authenticate(user, pwd, source=source)
         collection = request.query_params.get('collection', None)
+        p = request.query_params.get('page', None)
         if collection and collection in db.collection_names():
             coll = db[collection]
-            results = coll.find({})
+            if p:
+                skip = int(p) * 100
+                limit = (int(p) + 1) * 100
+                results = coll.find({}, skip=skip, limit=limit)
+            else:
+                results = coll.find({})
             c.close()
             return Response(dumps(results))
         else:
