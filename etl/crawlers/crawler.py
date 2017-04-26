@@ -4,7 +4,7 @@ import os
 from configparser import ConfigParser
 from scrapy.crawler import CrawlerRunner
 from twisted.internet import reactor, error
-from threading import Thread
+from threading import Thread, Lock
 
 
 def __init_reactor__():
@@ -33,7 +33,11 @@ def run(spider_instance):
         'MONGO_SRC': source,
         'MONGO_COLL': spider_instance.collection
     })
-    runner.crawl(spider_instance)
+    lock = Lock()
+    lock.acquire()
+    d = runner.crawl(spider_instance)
+    d.addBoth(lambda _: lock.release())
     t = Thread(target=__init_reactor__)
     t.daemon = True
     t.start()
+    lock.acquire()
