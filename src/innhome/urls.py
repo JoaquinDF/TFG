@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
 from rest_framework import routers
-from etl.views import BotViewSet, CrawlerViewSet, DataViewSet
+
+from src.etl.views import BotViewSet, CrawlerViewSet, DataViewSet
 
 router = routers.DefaultRouter()
 router.register(r'bot', BotViewSet, r'bot')

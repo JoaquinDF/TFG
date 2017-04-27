@@ -6,7 +6,7 @@ CELERY_BIN="/home/bisite/ENV/bin/celery"
 CELERY_APP="innhome"
 
 # Where to chdir at start.
-CELERYBEAT_CHDIR="/home/bisite/Projects/innhome"
+CELERYBEAT_CHDIR="/home/bisite/Projects/innhome/src"
 
 # Extra arguments to celerybeat
-CELERYBEAT_OPTS="--schedule=django"
+CELERYBEAT_OPTS="-S django"
