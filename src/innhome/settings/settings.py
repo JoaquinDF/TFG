@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'oauth2_provider',
     'django_celery_beat',
+    'etl',
 ]
 
 MIDDLEWARE = [
