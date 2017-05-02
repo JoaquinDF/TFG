@@ -31,7 +31,7 @@ class CrawlerViewSet(ViewSet):
 
 
 class DataViewSet(ViewSet):
-    def list(self, request):
+    def __connect__(self):
         config = ConfigParser()
         __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         config.read(os.path.join(__location__, 'settings.INI'))
@@ -41,19 +41,22 @@ class DataViewSet(ViewSet):
         c = MongoClient()
         db = c[source]
         db.authenticate(user, pwd, source=source)
+        return c, db
+
+    def list(self, request):
+        c, db = self.__connect__()
         collection = request.query_params.get('collection', None)
-        p = request.query_params.get('page', None)
         if collection and collection in db.collection_names():
             coll = db[collection]
+            p = request.query_params.get('page', None)
             if p:
                 skip = int(p) * 100
                 limit = (int(p) + 1) * 100
                 results = coll.find({}, skip=skip, limit=limit)
             else:
                 results = coll.find({})
-            c.close()
-            return Response(dumps(results))
+            response = dumps(results)
         else:
-            coll = db.collection_names()
-            c.close()
-            return Response(coll)
+            response = db.collection_names()
+        c.close()
+        return Response(response)
