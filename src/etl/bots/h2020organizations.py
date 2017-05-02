@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import json
 import pandas as pd
 from .bot import Bot
-from pymongo import MongoClient
+from utils.mongodb import Mongodb
 
 
 class BotInstance(Bot):
@@ -15,14 +15,12 @@ class BotInstance(Bot):
         coll = 'bots.h2020.organizations'
         docs = json.loads(json_data)
 
-        c = MongoClient()
-        db = c[self.source]
-        db.authenticate(self.user, self.pwd, source=self.source)
-        if coll not in db.collection_names():
-            collection = db.create_collection(coll)
-            collection.insert_many(docs)
-        else:
-            collection = db[coll]
-            for doc in docs:
-                collection.replace_one({'id': doc['id']}, doc, upsert=True)
-        c.close()
+        with Mongodb() as mongodb:
+            db = mongodb.db
+            if coll not in db.collection_names():
+                collection = db.create_collection(coll)
+                collection.insert_many(docs)
+            else:
+                collection = db[coll]
+                for doc in docs:
+                    collection.replace_one({'id': doc['id']}, doc, upsert=True)
