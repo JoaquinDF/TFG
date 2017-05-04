@@ -21,8 +21,8 @@ import etl
 import www
 
 urlpatterns = [
-    url(r'^$', include(www.urls, namespace='www')),
-    url(r'^api/etl/', include(etl.urls, namespace='api')),
+    url(r'^www/', include(www.urls, namespace='www')),
+    url(r'^api/etl/', include(etl.urls, namespace='elt')),
     url(r'^admin/', admin.site.urls),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
