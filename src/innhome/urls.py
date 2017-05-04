@@ -16,17 +16,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework import routers
 
-from etl.views import BotViewSet, CrawlerViewSet, DataViewSet
-
-router = routers.DefaultRouter()
-router.register(r'bot', BotViewSet, r'bot')
-router.register(r'crawler', CrawlerViewSet, r'crawler')
-router.register(r'data', DataViewSet, r'dada')
+import etl
+import www
 
 urlpatterns = [
+    url(r'^$', include(www.urls, namespace='www')),
+    url(r'^api/etl/', include(etl.urls, namespace='api')),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(router.urls, namespace='api.tutorial')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
