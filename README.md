@@ -3,12 +3,13 @@
 ## Dependencies
 * Celery
 * Django
+* Django Celery Beat
+* Django OAuth Toolkit
 * Django REST Framework
 * Django REST Framework Mongoengine
-* Django OAuth Toolkit
-* Django Celery Beat
 * Mongoengine
-* Scrapy
-* Selenium
 * Pandas
 * Requests
+* Scrapy
+* Selenium
+* xvfbwrapper
