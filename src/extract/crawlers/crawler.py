@@ -18,7 +18,7 @@ def run(spider_instance):
     runner = CrawlerRunner({
         'AUTOTHROTTLE_ENABLED': True,
         'ITEM_PIPELINES': {
-            'etl.crawlers.pipelines.MongoPipeline': 300
+            'extract.crawlers.pipelines.MongoPipeline': 300
         },
         'MONGO_USER': mongodb.user,
         'MONGO_PWD': mongodb.pwd,

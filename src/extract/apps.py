@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class EtlConfig(AppConfig):
-    name = 'src.etl'
+    name = 'src.extract'

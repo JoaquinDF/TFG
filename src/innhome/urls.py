@@ -17,12 +17,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-import etl
+import extract
 import www
 
 urlpatterns = [
     url(r'^www/', include(www.urls, namespace='www')),
-    url(r'^api/etl/', include(etl.urls, namespace='elt')),
+    url(r'^api/extract/', include(extract.urls, namespace='elt')),
     url(r'^admin/', admin.site.urls),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
