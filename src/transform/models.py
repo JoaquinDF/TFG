@@ -2,9 +2,10 @@ from mongoengine import *
 
 
 class Organization(Document):
-    collection = StringField()
-    identification = StringField()
+    collection = StringField(required=True)
+    key = StringField()
+    name = StringField()
 
     meta = {
-        'collection': 'data.organizations'
+        'collection': 'mapper.organizations'
     }
