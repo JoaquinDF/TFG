@@ -18,11 +18,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 import extract
+import transform
 import www
 
 urlpatterns = [
     url(r'^www/', include(www.urls, namespace='www')),
-    url(r'^api/extract/', include(extract.urls, namespace='elt')),
+    url(r'^api/extract/', include(extract.urls, namespace='extract')),
+    url(r'^api/transform/', include(transform.urls, namespace='transform')),
     url(r'^admin/', admin.site.urls),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]

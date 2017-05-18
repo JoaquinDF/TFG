@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from xvfbwrapper import Xvfb
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys

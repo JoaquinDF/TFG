@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from utils.mongodb import Mongodb
 from scrapy.crawler import CrawlerRunner
 from twisted.internet import reactor, error

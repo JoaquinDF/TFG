@@ -1,12 +1,11 @@
-from __future__ import absolute_import, unicode_literals
-
 import json
+
 from bson.json_util import dumps
 from utils.mongodb import Mongodb
-
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+
 from .tasks import bot_task, crawler_task
 
 
