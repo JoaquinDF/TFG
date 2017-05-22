@@ -15,10 +15,10 @@ class BotInstance(Bot):
 
         with Mongodb() as mongodb:
             db = mongodb.db
-            if coll not in db.collection_names():
-                collection = db.create_collection(coll)
-                collection.insert_many(docs)
-            else:
-                collection = db[coll]
-                for doc in docs:
-                    collection.replace_one({'CallIdentifier.CallId': doc['CallIdentifier']['CallId']}, doc, upsert=True)
+            collection = db[coll]
+            bulk = collection.initialize_ordered_bulk_op()
+            for doc in docs:
+                bulk.find({'CallIdentifier.CallId': doc['CallIdentifier']['CallId']}).upsert().replace_one(doc)
+            result = bulk.execute()
+
+        return result

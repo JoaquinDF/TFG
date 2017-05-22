@@ -8,8 +8,8 @@ from .crawlers import crawler
 @shared_task
 def bot_task(bot_name):
     b = import_module('.bots.' + bot_name, __package__).BotInstance()
-    b.run()
-    return True
+    r = b.run()
+    return r
 
 
 @shared_task
