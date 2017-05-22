@@ -14,9 +14,9 @@ class BotViewSet(ViewSet):
         bot_name = request.data.get('name', None)
         if bot_name:
             bot_task.delay(bot_name)
-            return Response({'name': bot_name, 'created': True})
+            return Response({'name': bot_name, 'queued': True})
         else:
-            return Response({'name': bot_name, 'created': False})
+            return Response({'name': bot_name, 'queued': False})
 
 
 class CrawlerViewSet(ViewSet):
@@ -24,9 +24,9 @@ class CrawlerViewSet(ViewSet):
         crawler_name = request.data.get('name', None)
         if crawler_name:
             crawler_task.delay(crawler_name)
-            return Response({'name': crawler_name, 'created': True})
+            return Response({'name': crawler_name, 'queued': True})
         else:
-            return Response({'name': crawler_name, 'created': False})
+            return Response({'name': crawler_name, 'queued': False})
 
 
 class DataViewSet(ViewSet):

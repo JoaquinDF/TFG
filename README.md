@@ -1,15 +1,17 @@
-# innhome
+# Innhome
 
 ## Dependencies
+### Core
 * Celery
 * Django
+* Mongoengine
+* Scrapy
+* Selenium
+### Others
 * Django Celery Beat
 * Django OAuth Toolkit
 * Django REST Framework
 * Django REST Framework Mongoengine
-* Mongoengine
 * Pandas
 * Requests
-* Scrapy
-* Selenium
 * xvfbwrapper
