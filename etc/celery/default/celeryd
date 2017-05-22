@@ -1,5 +1,5 @@
 # Names of nodes to start
-CELERYD_NODES=2
+CELERYD_NODES=1
 
 # Absolute or relative path to the 'celery' command:
 CELERY_BIN="/home/bisite/ENV/bin/celery"
