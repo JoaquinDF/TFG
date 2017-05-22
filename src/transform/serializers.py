@@ -1,9 +1,9 @@
 from rest_framework_mongoengine import serializers
 
-from .models import Organization
+from .models import OrganizationMapper
 
 
-class OrganizationSerializer(serializers.DocumentSerializer):
+class OrganizationMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Organization
+        model = OrganizationMapper
         fields = '__all__'
