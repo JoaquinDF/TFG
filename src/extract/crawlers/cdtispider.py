@@ -13,7 +13,7 @@ class SpiderInstance(scrapy.Spider):
         m = hashlib.sha256()
 
         for li in response.css('ul.tipo1 li'):
-            m.update(li.css('::text').extract()[2])
+            m.update(li.css('::text').extract()[2].encode('utf-8'))
             yield {
                 'nombre_empresa': li.css('::text').extract()[0],
                 'titulo_proyecto': li.css('::text').extract()[2],
