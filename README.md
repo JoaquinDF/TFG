@@ -14,4 +14,5 @@
 * Django REST Framework Mongoengine
 * Pandas
 * Requests
+* xmltodict
 * xvfbwrapper
