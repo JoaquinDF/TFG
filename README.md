@@ -1,5 +1,4 @@
 # Innhome
-
 ## Dependencies
 ### Core
 * Celery
