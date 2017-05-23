@@ -19,6 +19,6 @@ class BotInstance(Bot):
             bulk = collection.initialize_ordered_bulk_op()
             for doc in docs:
                 bulk.find({'id': doc['id']}).upsert().replace_one(doc)
-            result = bulk.execute()
+            bulk.execute()
 
-        return result
+        return True

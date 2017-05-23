@@ -31,3 +31,5 @@ def run(spider_instance):
     t.daemon = True
     t.start()
     lock.acquire()
+
+    return True

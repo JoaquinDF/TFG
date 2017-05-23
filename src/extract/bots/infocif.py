@@ -48,7 +48,7 @@ class BotInstance(Bot):
 
                 bulk.find({'cif': data['cif']}).upsert().replace_one(data)
 
-            result = bulk.execute()
+            bulk.execute()
             driver.close()
 
-        return result
+        return True

@@ -15,5 +15,5 @@ def bot_task(bot_name):
 @shared_task
 def crawler_task(spider_name):
     s = import_module('.crawlers.' + spider_name, __package__).SpiderInstance
-    crawler.run(s)
-    return True
+    r = crawler.run(s)
+    return r
