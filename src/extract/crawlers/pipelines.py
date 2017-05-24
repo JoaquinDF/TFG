@@ -1,4 +1,5 @@
-from pymongo import MongoClient
+import logging
+from pymongo import MongoClient, errors
 
 
 class MongoPipeline(object):
@@ -27,8 +28,14 @@ class MongoPipeline(object):
         self.bulk = collection.initialize_ordered_bulk_op()
 
     def close_spider(self, spider):
-        self.bulk.execute()
-        self.client.close()
+        try:
+            self.bulk.execute()
+        except errors.BulkWriteError as bwe:
+            logging.error(bwe.details)
+        except errors.InvalidOperation as e:
+            logging.error(e)
+        finally:
+            self.client.close()
 
     def process_item(self, item, spider):
         self.bulk.find({'id': item['id']}).upsert().replace_one(item)
