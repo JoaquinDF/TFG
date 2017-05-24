@@ -2,7 +2,10 @@ import logging
 from xvfbwrapper import Xvfb
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 from .bot import Bot
 from utils.mongodb import Mongodb
@@ -21,7 +24,6 @@ class BotInstance(Bot):
             xvfb.start()
             url = 'http://www.infocif.es/'
             driver = webdriver.Chrome()
-            driver.implicitly_wait(10)
 
             collection = db['bots.infocif.organizations']
             bulk = collection.initialize_ordered_bulk_op()
@@ -29,16 +31,20 @@ class BotInstance(Bot):
             for organization in organizations:
                 driver.get(url)
                 try:
-                    field = driver.find_element_by_id('txtempresabusquedaprincipal')
-                except NoSuchElementException as e:
+                    field = WebDriverWait(driver, 10).until(
+                        ec.presence_of_element_located((By.ID, "txtempresabusquedaprincipal"))
+                    )
+                except TimeoutException as e:
                     logging.error(e.msg)
                     continue
                 field.clear()
                 field.send_keys(organization)
                 field.send_keys(Keys.RETURN)
                 try:
-                    row = driver.find_element_by_id('collapsecargos')
-                except NoSuchElementException as e:
+                    row = WebDriverWait(driver, 10).until(
+                        ec.presence_of_element_located((By.ID, "collapsecargos"))
+                    )
+                except TimeoutException as e:
                     logging.error(e.msg)
                     continue
                 fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono', 'domicilio', 'antiguedad', 'cif', 'nombre']
