@@ -1,7 +1,19 @@
 import scrapy
 import urllib
-from urllib.error import HTTPError
 import xmltodict
+import logging
+from urllib.error import HTTPError
+
+
+def parse_xml(response):
+    url = response.urljoin(response.xpath('//a[@class="printToXml"]/@href').extract_first())
+    try:
+        xml = xmltodict.parse(urllib.request.urlopen(url))
+        xml['id'] = xml['project']['rcn']
+    except HTTPError as e:
+        logging.error(e.msg)
+        xml = None
+    yield xml
 
 
 class SpiderInstance(scrapy.Spider):
@@ -18,22 +30,12 @@ class SpiderInstance(scrapy.Spider):
             for div in response.xpath('//div[@id="matchlist"]/div'):
                 xml_page = div.xpath('./div[@class="col-right"]/div/span/a/@href').extract_first()
                 xml_page = response.urljoin(xml_page)
-                yield scrapy.Request(xml_page, callback=self.parseXml)
+                yield scrapy.Request(xml_page, callback=parse_xml)
 
             next_page = response.xpath('//div[@id="pagelistbtm"]/a[text()=">"]/@href').extract_first()
-            if next_page is not None:
+            if next_page:
                 next_page = response.urljoin(next_page)
                 yield scrapy.Request(next_page, callback=self.parse)
         else:
             # forzar request
             yield scrapy.Request(response.url, callback=self.parse, dont_filter=True)
-
-    def parseXml(self, response):
-        url = response.urljoin(response.xpath('//a[@class="printToXml"]/@href').extract_first())
-        try:
-            xml = xmltodict.parse(urllib.request.urlopen(url))
-            xml['id'] = xml['project']['rcn']
-        except HTTPError:
-            # error 500
-            xml = None
-        yield xml

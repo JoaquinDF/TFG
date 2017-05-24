@@ -1,3 +1,4 @@
+import logging
 from utils.mongodb import Mongodb
 from scrapy.crawler import CrawlerRunner
 from twisted.internet import reactor, error
@@ -7,7 +8,8 @@ from threading import Thread, Lock
 def __init_reactor__():
     try:
         reactor.run(installSignalHandlers=0)
-    except error.ReactorAlreadyRunning:
+    except error.ReactorAlreadyRunning as e:
+        logging.error(e)
         pass
 
 
