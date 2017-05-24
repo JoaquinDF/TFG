@@ -11,6 +11,7 @@ def organization_task():
         with Mongodb() as mongodb:
             db = mongodb.db
             collection = db.get_collection(mapper.collection)
+            organizations = []
             for document in collection.find({}):
                 organization = Organization()
                 organization.id = document['_id']
@@ -32,4 +33,5 @@ def organization_task():
                     organization.telephone = document[mapper.telephone]
                 if mapper.www:
                     organization.www = document[mapper.www]
-                organization.save()
+                organizations.append(organization)
+            Organization.objects.insert(organizations)
