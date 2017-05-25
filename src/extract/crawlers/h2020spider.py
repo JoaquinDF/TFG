@@ -59,11 +59,11 @@ class SpiderInstance(Spider):
             try:
                 elements = self.driver.find_elements_by_xpath('//div[@class="well-white"]')
             except (NoSuchElementException, StaleElementReferenceException) as e:
-                logging.error(e.msg)
+                logging.debug(e.msg)
             for elem in elements:
                 status = elem.find_element_by_css_selector('span.label').text
                 url = elem.find_element_by_css_selector('a').get_property('href')
                 yield Request(url, callback=parse_project, meta={'status': status})
         except WebDriverException as e:
-            logging.error(e.msg)
+            logging.debug(e.msg)
             yield Request(response.url, callback=self.parse_challenge, dont_filter=True)

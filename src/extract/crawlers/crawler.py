@@ -9,7 +9,7 @@ def __init_reactor__():
     try:
         reactor.run(installSignalHandlers=0)
     except error.ReactorAlreadyRunning as e:
-        logging.error(e)
+        logging.debug(e)
         pass
 
 

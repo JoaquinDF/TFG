@@ -31,9 +31,9 @@ class MongoPipeline(object):
         try:
             self.bulk.execute()
         except errors.BulkWriteError as bwe:
-            logging.error(bwe.details)
+            logging.debug(bwe.details)
         except errors.InvalidOperation as e:
-            logging.error(e)
+            logging.debug(e)
         finally:
             self.client.close()
 

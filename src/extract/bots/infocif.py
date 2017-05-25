@@ -35,7 +35,7 @@ class BotInstance(Bot):
                         ec.presence_of_element_located((By.ID, "txtempresabusquedaprincipal"))
                     )
                 except TimeoutException as e:
-                    logging.error(e.msg)
+                    logging.debug(e.msg)
                     continue
                 field.clear()
                 field.send_keys(organization)
@@ -45,7 +45,7 @@ class BotInstance(Bot):
                         ec.presence_of_element_located((By.ID, "collapsecargos"))
                     )
                 except TimeoutException as e:
-                    logging.error(e.msg)
+                    logging.debug(e.msg)
                     continue
                 fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono', 'domicilio', 'antiguedad', 'cif', 'nombre']
                 lines = row.find_elements_by_xpath('.//h2[contains(@class, "text-right")]') + row.find_elements_by_xpath('.//p[contains(@class, "text-right")]')
@@ -57,7 +57,7 @@ class BotInstance(Bot):
                         span = line.find_element_by_xpath('.//span')
                         data[fields.pop()] = line.text.replace(span.text, '')
                     except NoSuchElementException as e:
-                        logging.error(e.msg)
+                        logging.debug(e.msg)
                         data[fields.pop()] = line.text
 
                 bulk.find({'cif': data['cif']}).upsert().replace_one(data)
