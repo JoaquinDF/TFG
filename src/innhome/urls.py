@@ -21,10 +21,14 @@ import extract
 import transform
 import www
 
+url_api_v1 = [
+    url(r'^extract/', include(extract.urls, namespace='extract')),
+    url(r'^transform/', include(transform.urls, namespace='transform')),
+]
+
 urlpatterns = [
     url(r'^www/', include(www.urls, namespace='www')),
-    url(r'^api/extract/', include(extract.urls, namespace='extract')),
-    url(r'^api/transform/', include(transform.urls, namespace='transform')),
+    url(r'^api/v1/', include(url_api_v1, namespace='api')),
     url(r'^admin/', admin.site.urls),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]

@@ -20,14 +20,14 @@ function insertElements(data) {
 }
 
 function onClickSideVar(event) {
-    $.get('/api/extract/data/?collection=' + event.data.collection, insertElements);
+    $.get('/api/v1/extract/data/?collection=' + event.data.collection, insertElements);
 }
 
 function onClickButton(event) {
     $.get(event.data.url, insertElements);
 }
 
-$.get('/api/extract/data/', function (data) {
+$.get('/api/v1/extract/data/', function (data) {
     for (var i = 0; i < data.length; i++) {
         var element = $('<li><a href="#">' + data[i] + '</a></li>')
             .click({'collection': data[i]}, onClickSideVar);
