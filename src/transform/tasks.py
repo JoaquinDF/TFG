@@ -11,7 +11,7 @@ def organization_task():
         with Mongodb() as mongodb:
             db = mongodb.db
             collection = db.get_collection(mapper.collection)
-            organizations = []
+            bulk = Organization._get_collection().initialize_ordered_bulk_op()
             for document in collection.find({}):
                 organization = Organization()
                 organization.id = document['_id']
@@ -33,5 +33,6 @@ def organization_task():
                     organization.telephone = document[mapper.telephone]
                 if mapper.www:
                     organization.www = document[mapper.www]
-                organizations.append(organization)
-            Organization.objects.insert(organizations)
+                bulk.find({'_id': organization.id}).upsert().replace_one(organization.to_mongo())
+            bulk.execute()
+    return {'name': 'organization_task', 'finished': True}

@@ -9,11 +9,11 @@ from .crawlers import crawler
 def bot_task(bot_name):
     b = import_module('.bots.' + bot_name, __package__).BotInstance()
     r = b.run()
-    return str({'name': bot_name, 'finished': r})
+    return {'name': bot_name, 'finished': r}
 
 
 @shared_task
 def crawler_task(spider_name):
     s = import_module('.crawlers.' + spider_name, __package__).SpiderInstance
     r = crawler.run(s)
-    return str({'name': spider_name, 'finished': r})
+    return {'name': spider_name, 'finished': r}
