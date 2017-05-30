@@ -7,7 +7,7 @@ from threading import Thread, Lock
 
 def __init_reactor__():
     try:
-        reactor.run(installSignalHandlers=0)
+        reactor.run(installSignalHandlers=False)
     except error.ReactorAlreadyRunning as e:
         logging.debug(e)
         pass

@@ -29,6 +29,7 @@ class CrawlerViewSet(ViewSet):
             return Response({'name': crawler_name, 'queued': False})
 
 
+# TODO: Modificar con Paginator.
 class DataViewSet(ViewSet):
     def list(self, request):
         with Mongodb() as mongodb:
