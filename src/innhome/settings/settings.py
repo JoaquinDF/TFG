@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = 'a&&#j@#_yo$n$r!&6y%20q*5@t#v7jc)m%k6i0nsb9ujydy=n1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['212.128.154.196', 'innhome_dev.der.usal.es']
 

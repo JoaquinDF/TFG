@@ -29,44 +29,31 @@ class CrawlerViewSet(ViewSet):
             return Response({'name': crawler_name, 'queued': False})
 
 
-# TODO: Modificar con Paginator.
 class DataViewSet(ViewSet):
     def list(self, request):
+        default = '100'
         with Mongodb() as mongodb:
             db = mongodb.db
             collection = request.query_params.get('collection', None)
             if collection and collection in db.collection_names():
-                response = {}
-                coll = db[collection]
-                page = request.query_params.get('page', None)
-                if not page:
-                    url = request.build_absolute_uri(request.path_info
-                                                     + '?collection=' + collection
-                                                     + '&page=0')
-                    return HttpResponseRedirect(url)
+                c = db[collection]
                 try:
-                    p = int(page)
+                    limit = int(request.query_params.get('limit', default))
+                    offset = int(request.query_params.get('offset', '0'))
                 except ValueError:
                     return HttpResponseBadRequest()
-                skip = p * 10
-                limit = 10
-                results = json.loads(dumps(coll.find({}, skip=skip, limit=limit)))
-                count = len(results)
-                nxt = None
-                prv = None
-                if count == limit:
-                    nxt = request.build_absolute_uri(request.path_info
-                                                     + '?collection=' + collection
-                                                     + '&page=' + str(p + 1))
-                if p > 0:
-                    prv = request.build_absolute_uri(request.path_info
-                                                     + '?collection=' + collection
-                                                     + '&page=' + str(p - 1))
-                response['count'] = coll.count({})
+                prv = nxt = None
+                l = offset - limit
+                if l >= 0:
+                    prv = request.build_absolute_uri(request.path_info + '?collection=' + collection + '&limit=' + str(limit) + '&offset=' + str(l))
+                l = offset + limit
+                if l < c.count():
+                    nxt = request.build_absolute_uri(request.path_info + '?collection=' + collection + '&limit=' + str(limit) + '&offset=' + str(l))
+                response = dict()
+                response['count'] = c.count({})
                 response['next'] = nxt
                 response['previous'] = prv
-                response['results'] = results
-
+                response['results'] = json.loads(dumps((c.find({}, skip=offset, limit=limit))))
             else:
                 response = db.collection_names()
         return Response(response)

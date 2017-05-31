@@ -20,7 +20,7 @@ function insertElements(data) {
 }
 
 function onClickSideVar(event) {
-    $.get('/api/v1/extract/data/?collection=' + event.data.collection, insertElements);
+    $.get('/api/v1/extract/data/?collection=' + event.data.collection + '&limit=10', insertElements);
 }
 
 function onClickButton(event) {
