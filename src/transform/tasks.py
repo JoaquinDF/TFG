@@ -17,24 +17,16 @@ def organization_mapping_task():
             for document in collection.find({}):
                 organization = Organization()
                 organization.id = document['_id']
-                if mapper.key:
-                    organization.key = document[mapper.key]
-                if mapper.name:
-                    organization.name = document[mapper.name]
-                if mapper.activity_type:
-                    organization.activity_type = document[mapper.activity_type]
-                if mapper.address:
-                    tmp = ''
-                    for address in mapper.address.split(';'):
-                        if document[address]:
-                            tmp = tmp + document[address] + '\n'
-                    organization.address = tmp
-                if mapper.country:
-                    organization.country = document[mapper.country]
-                if mapper.telephone:
-                    organization.telephone = document[mapper.telephone]
-                if mapper.www:
-                    organization.www = document[mapper.www]
+                for k, v in Organization._fields.items():
+                    if k != 'id' and k in mapper and mapper[k]:
+                        tmp = ''
+                        if isinstance(mapper[k], str):
+                            for field in mapper[k].split(';'):
+                                if document[field]:
+                                    tmp += document[field] + ';'
+                            organization[k] = tmp
+                        else:
+                            organization[k] = document[mapper[k]]
                 bulk.find({'_id': organization.id}).upsert().replace_one(organization.to_mongo())
             bulk.execute()
     return {'name': 'organization_matching', 'finished': True}
