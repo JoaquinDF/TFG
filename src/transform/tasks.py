@@ -24,7 +24,7 @@ def organization_mapping_task():
                             for field in mapper[k].split(';'):
                                 if document[field]:
                                     tmp += document[field] + ';'
-                            organization[k] = tmp
+                            organization[k] = tmp.rstrip(';')
                         else:
                             organization[k] = document[mapper[k]]
                 bulk.find({'_id': organization.id}).upsert().replace_one(organization.to_mongo())
@@ -38,8 +38,8 @@ def organization_find_task(field, key, limit):
     for organization in Organization.objects:
         if field in organization:
             l = []
-            for s in organization[field].split(' '):
-                seq = difflib.SequenceMatcher(lambda x: x in " \t", key, s)
+            for s in organization[field].upper().split(' '):
+                seq = difflib.SequenceMatcher(lambda x: x in " \t", key.upper(), s)
                 l.append(seq.ratio())
             results.append({
                 'id': str(organization.id),
