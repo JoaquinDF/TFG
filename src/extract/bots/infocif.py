@@ -14,6 +14,7 @@ from utils.mongodb import Mongodb
 class BotInstance(Bot):
     def run(self):
         organizations = []
+        stop_words = ['-', 'No facilitada']
         with Mongodb() as mongodb:
             db = mongodb.db
             collection = db['crawlers.cdti.projects']
@@ -56,10 +57,19 @@ class BotInstance(Bot):
                     for line in lines:
                         try:
                             span = line.find_element_by_xpath('.//span')
-                            data[fields.pop()] = line.text.replace(span.text, '')
+                            text = line.text.replace(span.text, '')
                         except NoSuchElementException as e:
                             logging.debug(e.msg)
-                            data[fields.pop()] = line.text
+                            text = line.text
+                        finally:
+                            if text in stop_words:
+                                data[fields.pop()] = None
+                            else:
+                                s = text.split('  ')
+                                if len(s) == 3:
+                                    data[fields.pop()] = s[0] + ';' + s[1] + ';' + s[2].split('- ')[-1]
+                                else:
+                                    data[fields.pop()] = text
 
                     bulk.find({'cif': data['cif']}).upsert().replace_one(data)
 
