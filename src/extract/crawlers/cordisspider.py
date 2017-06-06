@@ -38,4 +38,5 @@ class SpiderInstance(scrapy.Spider):
                 yield scrapy.Request(next_page, callback=self.parse)
         else:
             # forzar request
-            yield scrapy.Request(response.url, callback=self.parse, dont_filter=True)
+            # yield scrapy.Request(response.url, callback=self.parse, dont_filter=True)
+            pass

@@ -16,7 +16,16 @@ def __init_reactor__():
 def run(spider_instance):
     mongodb = Mongodb()
     runner = CrawlerRunner({
+        'USER_AGENT': 'crawler (+http://www.bisite.usal.es)',
+        'ROBOTSTXT_OBEY': True,
         'AUTOTHROTTLE_ENABLED': True,
+        'AUTOTHROTTLE_START_DELAY': 5,
+        'AUTOTHROTTLE_MAX_DELAY': 60,
+        'AUTOTHROTTLE_TARGET_CONCURRENCY': 1.0,
+        'FEED_EXPORT_ENCODING': 'utf-8',
+        'LOG_LEVEL': 'INFO',
+        'COOKIES_ENABLED': False,
+        # 'DOWNLOAD_DELAY': 2,
         'ITEM_PIPELINES': {
             'extract.crawlers.pipelines.MongoPipeline': 300
         },
