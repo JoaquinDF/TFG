@@ -2,7 +2,7 @@ from mongoengine import *
 
 
 class Organization(Document):
-    key = StringField()
+    identifier = StringField()
     name = StringField()
     activity_type = StringField()
     address = StringField()
@@ -11,13 +11,13 @@ class Organization(Document):
     www = StringField()
 
     meta = {
-        'collection': 'data.organizations'
+        'collection': 'unfiltered.organizations'
     }
 
 
 class OrganizationMapper(Document):
     collection = StringField(required=True)
-    key = StringField()
+    identifier = StringField()
     name = StringField()
     activity_type = StringField()
     address = StringField()
