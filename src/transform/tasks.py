@@ -9,11 +9,12 @@ from .models import OrganizationMapper, Organization
 
 @shared_task
 def organization_mapping_task():
-    for mapper in OrganizationMapper.objects:
-        with Mongodb() as mongodb:
-            db = mongodb.db
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        bulk = Organization._get_collection().initialize_ordered_bulk_op()
+        # TODO: Split data into different collections
+        for mapper in OrganizationMapper.objects:
             collection = db.get_collection(mapper.collection)
-            bulk = Organization._get_collection().initialize_ordered_bulk_op()
             for document in collection.find({}):
                 organization = Organization()
                 organization.id = document['_id']
@@ -28,7 +29,7 @@ def organization_mapping_task():
                         else:
                             organization[k] = document[mapper[k]]
                 bulk.find({'_id': organization.id}).upsert().replace_one(organization.to_mongo())
-            bulk.execute()
+        bulk.execute()
     return {'name': 'organization_matching', 'finished': True}
 
 
