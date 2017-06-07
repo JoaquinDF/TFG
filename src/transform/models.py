@@ -15,6 +15,19 @@ class Organization(Document):
     }
 
 
+class Project(Document):
+    identifier = StringField()
+    name = StringField()
+    start_date = DateTimeField()
+    end_date = DateTimeField()
+    total_cost = LongField()
+    financing = LongField()
+
+    meta = {
+        'collection': 'data.projects'
+    }
+
+
 class OrganizationMapper(Document):
     collection = StringField(required=True)
     identifier = StringField()
@@ -27,4 +40,18 @@ class OrganizationMapper(Document):
 
     meta = {
         'collection': 'mapper.organizations'
+    }
+
+
+class ProjectMapper(Document):
+    collection = StringField(required=True)
+    identifier = StringField()
+    name = StringField()
+    start_date = DateTimeField()
+    end_date = DateTimeField()
+    total_cost = LongField()
+    financing = LongField()
+
+    meta = {
+        'collection': 'mapper.projects'
     }
