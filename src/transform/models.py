@@ -11,7 +11,7 @@ class Organization(Document):
     www = StringField()
 
     meta = {
-        'collection': 'unfiltered.organizations'
+        'collection': 'data.organizations'
     }
 
 
