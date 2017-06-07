@@ -1,81 +1,74 @@
 import logging
-from xvfbwrapper import Xvfb
+
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
+from xvfbwrapper import Xvfb
 
-from .bot import Bot
-from utils.mongodb import Mongodb
+from extract.bots.bot import Bot
 
 
 class BotInstance(Bot):
-    def run(self):
-        organizations = []
+    collection = 'bots.infocif.organizations'
+    key = 'cif'
+
+    def process_item(self, db=None):
         stop_words = ['-', 'No facilitada']
-        with Mongodb() as mongodb:
-            db = mongodb.db
-            collection = db['crawlers.cdti.projects']
-            for organization in collection.find({}):
-                organizations.append(organization['nombre_empresa'])
 
-            xvfb = Xvfb()
-            xvfb.start()
-            url = 'http://www.infocif.es/'
-            driver = webdriver.Chrome()
+        organizations = []
+        for organization in db['crawlers.cdti.projects'].find({}):
+            organizations.append(organization['nombre_empresa'])
 
-            collection = db['bots.infocif.organizations']
-            bulk = collection.initialize_ordered_bulk_op()
+        xvfb = Xvfb()
+        xvfb.start()
+        url = 'http://www.infocif.es/'
+        driver = webdriver.Chrome()
 
-            try:
-                for organization in organizations:
-                    driver.get(url)
+        try:
+            for organization in organizations:
+                driver.get(url)
+                try:
+                    field = WebDriverWait(driver, 10).until(
+                        ec.presence_of_element_located((By.ID, "txtempresabusquedaprincipal"))
+                    )
+                except TimeoutException as e:
+                    logging.debug(e.msg)
+                    continue
+                field.clear()
+                field.send_keys(organization)
+                field.send_keys(Keys.RETURN)
+                try:
+                    row = WebDriverWait(driver, 10).until(
+                        ec.presence_of_element_located((By.ID, "collapsecargos"))
+                    )
+                except TimeoutException as e:
+                    logging.debug(e.msg)
+                    continue
+                lines = row.find_elements_by_xpath('.//h2[contains(@class, "text-right")]') + row.find_elements_by_xpath('.//p[contains(@class, "text-right")]')
+                fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono', 'domicilio', 'antiguedad', 'cif', 'nombre']
+                data = dict()
+                data[fields.pop()] = organization
+                for line in lines:
                     try:
-                        field = WebDriverWait(driver, 10).until(
-                            ec.presence_of_element_located((By.ID, "txtempresabusquedaprincipal"))
-                        )
-                    except TimeoutException as e:
+                        span = line.find_element_by_xpath('.//span')
+                        text = line.text.replace(span.text, '')
+                    except NoSuchElementException as e:
                         logging.debug(e.msg)
-                        continue
-                    field.clear()
-                    field.send_keys(organization)
-                    field.send_keys(Keys.RETURN)
-                    try:
-                        row = WebDriverWait(driver, 10).until(
-                            ec.presence_of_element_located((By.ID, "collapsecargos"))
-                        )
-                    except TimeoutException as e:
-                        logging.debug(e.msg)
-                        continue
-                    fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono', 'domicilio', 'antiguedad', 'cif', 'nombre']
-                    lines = row.find_elements_by_xpath('.//h2[contains(@class, "text-right")]') + row.find_elements_by_xpath('.//p[contains(@class, "text-right")]')
-                    data = dict()
-                    data[fields.pop()] = organization
-
-                    for line in lines:
-                        try:
-                            span = line.find_element_by_xpath('.//span')
-                            text = line.text.replace(span.text, '')
-                        except NoSuchElementException as e:
-                            logging.debug(e.msg)
-                            text = line.text
-                        finally:
-                            if text in stop_words:
-                                data[fields.pop()] = None
+                        text = line.text
+                    finally:
+                        if text in stop_words:
+                            data[fields.pop()] = None
+                        else:
+                            s = text.split('  ')
+                            if len(s) == 3:
+                                data[fields.pop()] = s[0] + ';' + s[1] + ';' + s[2].split('- ')[-1]
                             else:
-                                s = text.split('  ')
-                                if len(s) == 3:
-                                    data[fields.pop()] = s[0] + ';' + s[1] + ';' + s[2].split('- ')[-1]
-                                else:
-                                    data[fields.pop()] = text
+                                data[fields.pop()] = text
+                yield data
 
-                    bulk.find({'cif': data['cif']}).upsert().replace_one(data)
-
-                bulk.execute()
-            finally:
-                driver.quit()
-                xvfb.stop()
-
-        return True
+        finally:
+            driver.quit()
+            xvfb.stop()
