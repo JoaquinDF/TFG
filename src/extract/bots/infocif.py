@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from xvfbwrapper import Xvfb
 
-from extract.bots.bot import Bot
+from utils.bot import Bot
 
 
 class BotInstance(Bot):

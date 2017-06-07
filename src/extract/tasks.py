@@ -1,8 +1,10 @@
 from __future__ import absolute_import, unicode_literals
+
 from importlib import import_module
+
 from celery import shared_task
 
-from .crawlers import crawler
+from utils import crawler
 
 
 @shared_task

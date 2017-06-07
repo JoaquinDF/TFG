@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from extract.bots.bot import Bot
+from utils.bot import Bot
 
 
 class BotInstance(Bot):

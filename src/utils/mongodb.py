@@ -1,5 +1,4 @@
 import os
-
 from configparser import ConfigParser
 from pymongo import MongoClient
 
@@ -9,9 +8,10 @@ class Mongodb(object):
         config = ConfigParser()
         __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         config.read(os.path.join(__location__, 'settings.INI'))
-        self.user = config['database.mongodb']['User']
-        self.pwd = config['database.mongodb']['Pwd']
-        self.source = config['database.mongodb']['Source']
+        settings = config['database.mongodb']
+        self.user = settings['User']
+        self.pwd = settings['Pwd']
+        self.source = settings['Source']
 
     def __enter__(self):
         self.__c__ = MongoClient()
