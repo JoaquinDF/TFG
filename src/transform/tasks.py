@@ -13,8 +13,7 @@ def __data_mapping__(mapper, format_class, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
         bulk = db['structured.{}.{}'.format(data_type, mapper.collection)].initialize_ordered_bulk_op()
-        collection = db.get_collection(mapper.collection)
-        for original in collection.find({}):
+        for original in db[mapper.collection].find({}):
             copy = format_class()
             keys = format_class._fields.items()
             copy.id = original['_id']
@@ -37,10 +36,37 @@ def __data_mapping__(mapper, format_class, data_type):
             logging.debug(e)
 
 
+def __remove_duplicates__(mapper, format_class, data_type):
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        collection = db['structured.{}.{}'.format(data_type, mapper.collection)]
+        bulk = collection.initialize_ordered_bulk_op()
+        for key in ["$" + k for k, v in format_class._fields.items() if v.required]:
+            cursor = collection.aggregate(
+                [
+                    {"$group": {"_id": key, "unique_ids": {"$addToSet": "$_id"}, "count": {"$sum": 1}}},
+                    {"$match": {"count": {"$gte": 2}}}
+                ]
+            )
+            response = []
+            for doc in cursor:
+                del doc["unique_ids"][0]
+                for k in doc["unique_ids"]:
+                    response.append(k)
+            bulk.find({"_id": {"$in": response}}).remove()
+        try:
+            bulk.execute()
+        except BulkWriteError as e:
+            logging.debug(e.details)
+        except InvalidOperation as e:
+            logging.debug(e)
+
+
 @shared_task
 def organization_mapping_task():
     for mapper in OrganizationMapper.objects:
         __data_mapping__(mapper=mapper, format_class=Organization, data_type='organizations')
+        __remove_duplicates__(mapper=mapper, format_class=Organization, data_type='organizations')
     return {'name': 'organization_matching', 'finished': True}
 
 
@@ -48,4 +74,16 @@ def organization_mapping_task():
 def project_mapping_task():
     for mapper in ProjectMapper.objects:
         __data_mapping__(mapper=mapper, format_class=Project, data_type='projects')
+        __remove_duplicates__(mapper=mapper, format_class=Project, data_type='projects')
     return {'name': 'project_mapping', 'finished': True}
+
+
+@shared_task
+def call_mapping_task():
+    for mapper in CallMapper.objects:
+        __data_mapping__(mapper=mapper, format_class=Call, data_type='calls')
+        __remove_duplicates__(mapper=mapper, format_class=Call, data_type='calls')
+    return {'name': 'call_mapping', 'finished': True}
+
+
+# TODO: Add join task
