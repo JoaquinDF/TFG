@@ -32,7 +32,7 @@ def __get_settings__(collection=None):
         'COOKIES_ENABLED': crawler_settings.getboolean('CookiesEnabled'),
         # 'DOWNLOAD_DELAY': int(crawler_settings['DownloadDelay']),
         'ITEM_PIPELINES': {
-            'extract.crawlers.pipelines.MongoPipeline': int(crawler_settings['MongoPipelines'])
+            'utils.pipelines.MongoPipeline': int(crawler_settings['MongoPipelines'])
         },
         'MONGO_USER': mongodb_settings['User'],
         'MONGO_PWD': mongodb_settings['Pwd'],
