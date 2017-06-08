@@ -4,7 +4,7 @@ from importlib import import_module
 
 from celery import shared_task
 
-from utils import crawler
+from extract.crawlers import crawler
 
 
 @shared_task

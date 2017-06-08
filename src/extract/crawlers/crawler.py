@@ -14,14 +14,13 @@ def __init_reactor__():
         pass
 
 
-# TODO: Fix memory error
-def run(spider_instance):
+def __get_settings__(collection=None):
     config = ConfigParser()
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
     config.read(os.path.join(__location__, 'settings.INI'))
     crawler_settings = config['extract.crawler']
     mongodb_settings = config['database.mongodb']
-    runner = CrawlerRunner({
+    settings = {
         'USER_AGENT': crawler_settings['UserAgent'],
         'ROBOTSTXT_OBEY': crawler_settings.getboolean('RobotsTxt'),
         'AUTOTHROTTLE_ENABLED': crawler_settings.getboolean('AutothrottleEnabled'),
@@ -38,8 +37,15 @@ def run(spider_instance):
         'MONGO_USER': mongodb_settings['User'],
         'MONGO_PWD': mongodb_settings['Pwd'],
         'MONGO_SRC': mongodb_settings['Source'],
-        'MONGO_COLL': spider_instance.collection
-    })
+        'MONGO_COLL': collection,
+    }
+    return settings
+
+
+# TODO: Fix memory error
+def run(spider_instance):
+    settings = __get_settings__(collection=spider_instance.collection)
+    runner = CrawlerRunner(settings)
     lock = Lock()
     lock.acquire()
     d = runner.crawl(spider_instance)
@@ -48,5 +54,4 @@ def run(spider_instance):
     t.daemon = True
     t.start()
     lock.acquire()
-
     return True
