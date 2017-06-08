@@ -60,6 +60,9 @@ class ProjectMapper(Document):
 # TODO: define all fields
 class Call(Document):
     identifier = StringField()
+    title = StringField(required=True)
+    status = StringField()
+    publication_date = StringField()
 
     meta = {
         'collection': 'data.calls'
@@ -70,6 +73,9 @@ class Call(Document):
 class CallMapper(Document):
     collection = StringField(required=True)
     identifier = StringField()
+    title = StringField(required=True)
+    status = StringField()
+    publication_date = StringField()
 
     meta = {
         'collection': 'mapper.calls'
