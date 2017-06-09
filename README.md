@@ -6,6 +6,7 @@
 * Mongoengine
 * Scrapy
 * Selenium
+* Python Record Linkage Toolkit
 ### Others
 * Django Celery Beat
 * Django REST Framework

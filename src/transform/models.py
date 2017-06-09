@@ -3,7 +3,7 @@ from mongoengine import *
 
 class Organization(Document):
     identifier = StringField()
-    name = StringField(required=True)
+    name = StringField()
     activity_type = StringField()
     address = StringField()
     country = StringField()
@@ -17,8 +17,9 @@ class Organization(Document):
 
 class OrganizationMapper(Document):
     collection = StringField(required=True)
+    key = StringField(required=True)
     identifier = StringField()
-    name = StringField(required=True)
+    name = StringField()
     activity_type = StringField()
     address = StringField()
     country = StringField()
@@ -32,7 +33,7 @@ class OrganizationMapper(Document):
 
 class Project(Document):
     identifier = StringField()
-    title = StringField(required=True)
+    title = StringField()
     start_date = StringField()
     end_date = StringField()
     total_cost = StringField()
@@ -45,8 +46,9 @@ class Project(Document):
 
 class ProjectMapper(Document):
     collection = StringField(required=True)
+    key = StringField(required=True)
     identifier = StringField()
-    title = StringField(required=True)
+    title = StringField()
     start_date = StringField()
     end_date = StringField()
     total_cost = StringField()
@@ -57,10 +59,9 @@ class ProjectMapper(Document):
     }
 
 
-# TODO: define all fields
 class Call(Document):
     identifier = StringField()
-    title = StringField(required=True)
+    title = StringField()
     status = StringField()
     publication_date = StringField()
 
@@ -69,11 +70,11 @@ class Call(Document):
     }
 
 
-# TODO: define all fields
 class CallMapper(Document):
     collection = StringField(required=True)
+    key = StringField(required=True)
     identifier = StringField()
-    title = StringField(required=True)
+    title = StringField()
     status = StringField()
     publication_date = StringField()
 

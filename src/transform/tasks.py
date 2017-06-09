@@ -23,8 +23,8 @@ def __data_mapping__(mapper, format_class, data_type):
                     if isinstance(mapper[k], str):
                         for field in mapper[k].split(';'):
                             if field in original and original[field]:
-                                tmp += str(original[field]) + ';'
-                                copy[k] = tmp.rstrip(';')
+                                tmp += '{};'.format(original[field])
+                                copy[k] = tmp.rstrip(';').upper().encode('ascii', 'ignore')
                     elif mapper[k] in original and original[mapper[k]]:
                         copy[k] = original[mapper[k]]
             bulk.find({'_id': copy.id}).upsert().replace_one(copy.to_mongo())
@@ -41,10 +41,10 @@ def __remove_duplicates__(mapper, format_class, data_type):
         db = mongodb.db
         collection = db['structured.{}.{}'.format(data_type, mapper.collection)]
         bulk = collection.initialize_ordered_bulk_op()
-        for key in ["$" + k for k, v in format_class._fields.items() if v.required]:
+        for key in mapper.key.split(';'):
             cursor = collection.aggregate(
                 [
-                    {"$group": {"_id": key, "unique_ids": {"$addToSet": "$_id"}, "count": {"$sum": 1}}},
+                    {"$group": {"_id": '${}'.format(key), "unique_ids": {"$addToSet": "$_id"}, "count": {"$sum": 1}}},
                     {"$match": {"count": {"$gte": 2}}}
                 ]
             )

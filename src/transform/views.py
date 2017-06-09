@@ -45,3 +45,9 @@ class CallViewSet(ReadOnlyModelViewSet):
 class CallMapperViewSet(ModelViewSet):
     queryset = CallMapper.objects.all()
     serializer_class = CallMapperSerializer
+
+
+class CallMappingViewSet(ViewSet):
+    def create(self, request):
+        call_mapping_task.delay()
+        return Response({'data': 'call', 'queued': True})
