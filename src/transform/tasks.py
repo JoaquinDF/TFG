@@ -36,7 +36,7 @@ def __data_mapping__(mapper, format_class, data_type):
             logging.debug(e)
 
 
-def __remove_duplicates__(mapper, format_class, data_type):
+def __remove_duplicates__(mapper, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
         collection = db['structured.{}.{}'.format(data_type, mapper.collection)]
@@ -66,7 +66,7 @@ def __remove_duplicates__(mapper, format_class, data_type):
 def organization_mapping_task():
     for mapper in OrganizationMapper.objects:
         __data_mapping__(mapper=mapper, format_class=Organization, data_type='organizations')
-        __remove_duplicates__(mapper=mapper, format_class=Organization, data_type='organizations')
+        __remove_duplicates__(mapper=mapper, data_type='organizations')
     return {'name': 'organization_matching', 'finished': True}
 
 
@@ -74,7 +74,7 @@ def organization_mapping_task():
 def project_mapping_task():
     for mapper in ProjectMapper.objects:
         __data_mapping__(mapper=mapper, format_class=Project, data_type='projects')
-        __remove_duplicates__(mapper=mapper, format_class=Project, data_type='projects')
+        __remove_duplicates__(mapper=mapper, data_type='projects')
     return {'name': 'project_mapping', 'finished': True}
 
 
@@ -82,7 +82,7 @@ def project_mapping_task():
 def call_mapping_task():
     for mapper in CallMapper.objects:
         __data_mapping__(mapper=mapper, format_class=Call, data_type='calls')
-        __remove_duplicates__(mapper=mapper, format_class=Call, data_type='calls')
+        __remove_duplicates__(mapper=mapper, data_type='calls')
     return {'name': 'call_mapping', 'finished': True}
 
 
