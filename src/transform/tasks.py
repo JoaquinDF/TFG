@@ -24,7 +24,7 @@ def __data_mapping__(mapper, format_class, data_type):
                         for field in mapper[k].split(';'):
                             if field in original and original[field]:
                                 tmp += '{};'.format(original[field])
-                                copy[k] = tmp.rstrip(';').upper().encode('utf-8')
+                        copy[k] = tmp.rstrip(';').upper().encode('utf-8')
                     elif mapper[k] in original and original[mapper[k]]:
                         copy[k] = original[mapper[k]]
             bulk.find({'_id': copy.id}).upsert().replace_one(copy.to_mongo())
