@@ -14,4 +14,5 @@
 * Pandas
 * Requests
 * xmltodict
+* xlrd
 * xvfbwrapper
