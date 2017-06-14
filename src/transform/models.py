@@ -18,7 +18,7 @@ class Organization(Document):
 class OrganizationMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
-    identifier = StringField()
+    identifier = StringField(required=True)
     name = StringField()
     activity_type = StringField()
     address = StringField()
@@ -47,7 +47,7 @@ class Project(Document):
 class ProjectMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
-    identifier = StringField()
+    identifier = StringField(required=True)
     title = StringField()
     start_date = StringField()
     end_date = StringField()
@@ -73,11 +73,49 @@ class Call(Document):
 class CallMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
-    identifier = StringField()
+    identifier = StringField(required=True)
     title = StringField()
     status = StringField()
     publication_date = StringField()
 
     meta = {
         'collection': 'mapper.calls'
+    }
+
+
+class ProjectOrganization(Document):
+    project = StringField()
+    organization = StringField()
+
+    meta = {
+        'collection': 'data.project-organization'
+    }
+
+
+class ProjectOrganizationMapper(Document):
+    collection = StringField(required=True)
+    project = StringField()
+    organization = StringField()
+
+    meta = {
+        'collection': 'mapper.project-organization'
+    }
+
+
+class ProjectCall(Document):
+    project = StringField()
+    call = StringField()
+
+    meta = {
+        'collection': 'data.project-call'
+    }
+
+
+class ProjectCallMapper(Document):
+    collection = StringField(required=True)
+    project = StringField()
+    call = StringField()
+
+    meta = {
+        'collection': 'mapper.project-call'
     }

@@ -37,3 +37,27 @@ class CallSerializer(serializers.DocumentSerializer):
     class Meta:
         model = Call
         fields = '__all__'
+
+
+class ProjectOrganizationMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ProjectOrganizationMapper
+        fields = '__all__'
+
+
+class ProjectOrganizationSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ProjectOrganization
+        fields = '__all__'
+
+
+class ProjectCallMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ProjectCallMapper
+        fields = '__all__'
+
+
+class ProjectCallSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ProjectCall
+        fields = '__all__'

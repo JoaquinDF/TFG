@@ -86,4 +86,18 @@ def call_mapping_task():
     return {'name': 'call_mapping', 'finished': True}
 
 
+@shared_task
+def project_organization_mapping_task():
+    for mapper in ProjectOrganizationMapper.objects:
+        __data_mapping__(mapper=mapper, format_class=ProjectOrganization, data_type='project-organization')
+    return {'name': 'project_organization_mapping_task', 'finished': True}
+
+
+@shared_task
+def project_call_mapping_task():
+    for mapper in ProjectCallMapper.objects:
+        __data_mapping__(mapper=mapper, format_class=ProjectCall, data_type='project-call')
+    return {'name': 'project_call_mapping_task', 'finished': True}
+
+
 # TODO: Add join task

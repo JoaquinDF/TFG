@@ -5,6 +5,7 @@ from .serializers import *
 from .tasks import *
 
 
+# ORGANIZATION
 class OrganizationViewSet(ReadOnlyModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
@@ -21,6 +22,7 @@ class OrganizationMappingViewSet(ViewSet):
         return Response({'data': 'organization', 'queued': True})
 
 
+# PROJECT
 class ProjectViewSet(ReadOnlyModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -37,6 +39,7 @@ class ProjectMappingViewSet(ViewSet):
         return Response({'data': 'project', 'queued': True})
 
 
+# CALL
 class CallViewSet(ReadOnlyModelViewSet):
     queryset = Call.objects.all()
     serializer_class = CallSerializer
@@ -51,3 +54,37 @@ class CallMappingViewSet(ViewSet):
     def create(self, request):
         call_mapping_task.delay()
         return Response({'data': 'call', 'queued': True})
+
+
+# PROJECT-ORGANIZATION
+class ProjectOrganizationViewSet(ModelViewSet):
+    queryset = ProjectOrganization.objects.all()
+    serializer_class = ProjectOrganizationSerializer
+
+
+class ProjectOrganizationMapperViewSet(ModelViewSet):
+    queryset = ProjectOrganizationMapper.objects.all()
+    serializer_class = ProjectOrganizationMapperSerializer
+
+
+class ProjectOrganizationMappingViewSet(ViewSet):
+    def create(self, request):
+        project_organization_mapping_task.delay()
+        return Response({'data': 'project-organization', 'queued': True})
+
+
+# PROJECT-CALL
+class ProjectCallViewSet(ModelViewSet):
+    queryset = ProjectCall.objects.all()
+    serializer_class = ProjectCallSerializer
+
+
+class ProjectCallMapperViewSet(ModelViewSet):
+    queryset = ProjectCallMapper.objects.all()
+    serializer_class = ProjectCallMapperSerializer
+
+
+class ProjectCallMappingViewSet(ViewSet):
+    def create(self, request):
+        project_call_mapping_task.delay()
+        return Response({'data': 'project-call', 'queued': True})
