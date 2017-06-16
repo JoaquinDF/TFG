@@ -9,11 +9,11 @@ def parse_xml(response):
     url = response.urljoin(response.xpath('//a[@class="printToXml"]/@href').extract_first())
     try:
         xml = xmltodict.parse(urllib.request.urlopen(url))
-        xml['project']['id'] = xml['project']['rcn']
+        if 'project' in xml:
+            xml['project']['id'] = xml['project']['rcn']
+            yield xml['project']
     except HTTPError as e:
         logging.error(e.msg)
-        xml = None
-    yield xml['project']
 
 
 class SpiderInstance(scrapy.Spider):
