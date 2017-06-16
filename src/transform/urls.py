@@ -19,5 +19,8 @@ router.register(r'projectorganizationmapping', ProjectOrganizationMappingViewSet
 router.register(r'projectcall', ProjectCallViewSet, r'projectcall')
 router.register(r'projectcallmapper', ProjectCallMapperViewSet, r'projectcallmapper')
 router.register(r'projectcallmapping', ProjectCallMappingViewSet, r'projectcallmapping')
+router.register(r'callcall', CallCallViewSet, r'callcall')
+router.register(r'callcallmapper', CallCallMapperViewSet, r'callcallmapper')
+router.register(r'callcallmapping', CallCallMappingViewSet, r'callcallmapping')
 
 urlpatterns = router.urls

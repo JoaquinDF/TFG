@@ -88,3 +88,20 @@ class ProjectCallMappingViewSet(ViewSet):
     def create(self, request):
         project_call_mapping_task.delay()
         return Response({'data': 'project-call', 'queued': True})
+
+
+# CALL-CALL
+class CallCallViewSet(ModelViewSet):
+    queryset = CallCall.objects.all()
+    serializer_class = CallCallSerializer
+
+
+class CallCallMapperViewSet(ModelViewSet):
+    queryset = CallCallMapper.objects.all()
+    serializer_class = CallCallMapperSerializer
+
+
+class CallCallMappingViewSet(ViewSet):
+    def create(self, request):
+        call_call_mapping_task.delay()
+        return Response({'data': 'call-call', 'queued': True})

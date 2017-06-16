@@ -100,4 +100,11 @@ def project_call_mapping_task():
     return {'name': 'project_call_mapping_task', 'finished': True}
 
 
+@shared_task
+def call_call_mapping_task():
+    for mapper in CallCallMapper.objects:
+        __data_mapping__(mapper=mapper, format_class=CallCall, data_type='call-call')
+    return {'name': 'call_call_mapping_task', 'finished': True}
+
+
 # TODO: Add join task

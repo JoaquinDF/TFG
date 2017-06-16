@@ -61,3 +61,15 @@ class ProjectCallSerializer(serializers.DocumentSerializer):
     class Meta:
         model = ProjectCall
         fields = '__all__'
+
+
+class CallCallMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = CallCallMapper
+        fields = '__all__'
+
+
+class CallCallSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = CallCall
+        fields = '__all__'

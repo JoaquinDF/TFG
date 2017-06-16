@@ -119,3 +119,22 @@ class ProjectCallMapper(Document):
     meta = {
         'collection': 'mapper.project-call'
     }
+
+
+class CallCall(Document):
+    parent = StringField()
+    child = StringField()
+
+    meta = {
+        'collection': 'data.call-call'
+    }
+
+
+class CallCallMapper(Document):
+    collection = StringField(required=True)
+    parent = StringField()
+    child = StringField()
+
+    meta = {
+        'collection': 'mapper.call-call'
+    }
