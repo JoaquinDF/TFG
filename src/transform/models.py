@@ -83,6 +83,28 @@ class CallMapper(Document):
     }
 
 
+class Thematic(Document):
+    identifier = StringField()
+    name = StringField()
+    description = StringField()
+
+    meta = {
+        'collection': 'data.thematics'
+    }
+
+
+class ThematicMapper(Document):
+    collection = StringField(required=True)
+    key = StringField(required=True)
+    identifier = StringField(required=True)
+    name = StringField()
+    description = StringField()
+
+    meta = {
+        'collection': 'mapper.thematics'
+    }
+
+
 class Program(Document):
     identifier = StringField()
     title = StringField()

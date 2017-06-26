@@ -56,6 +56,23 @@ class CallMappingViewSet(ViewSet):
         return Response({'data': 'call', 'queued': True})
 
 
+# THEMATIC
+class ThematicViewSet(ReadOnlyModelViewSet):
+    queryset = Thematic.objects.all()
+    serializer_class = ThematicSerializer
+
+
+class ThematicMapperViewSet(ModelViewSet):
+    queryset = ThematicMapper.objects.all()
+    serializer_class = ThematicMapperSerializer
+
+
+class ThematicMappingViewSet(ViewSet):
+    def create(self, request):
+        thematic_mapping_task.delay()
+        return Response({'data': 'thematic', 'queued': True})
+
+
 # PROGRAM
 class ProgramViewSet(ReadOnlyModelViewSet):
     queryset = Program.objects.all()

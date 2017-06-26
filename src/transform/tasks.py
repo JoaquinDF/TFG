@@ -31,6 +31,14 @@ def call_mapping_task():
 
 
 @shared_task
+def thematic_mapping_task():
+    for mapper in ThematicMapper.objects:
+        data_mapping(mapper=mapper, format_class=Thematic, data_type='thematics')
+        remove_duplicates(mapper=mapper, data_type='thematics')
+    return {'name': 'thematic_mapping_task', 'finished': True}
+
+
+@shared_task
 def program_mapping_task():
     for mapper in ProgramMapper.objects:
         data_mapping(mapper=mapper, format_class=Program, data_type='programs')

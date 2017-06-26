@@ -16,6 +16,10 @@ router.register(r'call', CallViewSet, r'call')
 router.register(r'callMapper', CallMapperViewSet, r'callMapper')
 router.register(r'callMapping', CallMappingViewSet, r'callMapping')
 
+router.register(r'thematic', ThematicViewSet, r'thematic')
+router.register(r'thematicMapper', ThematicMapperViewSet, r'thematicMapper')
+router.register(r'thematicMapping', ThematicMappingViewSet, r'thematicMapping')
+
 router.register(r'program', ProgramViewSet, r'program')
 router.register(r'programMapper', ProgramMapperViewSet, r'programMapper')
 router.register(r'programMapping', ProgramMappingViewSet, r'programMapping')

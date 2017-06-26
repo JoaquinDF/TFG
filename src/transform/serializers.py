@@ -39,6 +39,18 @@ class CallSerializer(serializers.DocumentSerializer):
         fields = '__all__'
 
 
+class ThematicMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ThematicMapper
+        fields = '__all__'
+
+
+class ThematicSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Thematic
+        fields = '__all__'
+
+
 class ProgramMapperSerializer(serializers.DocumentSerializer):
     class Meta:
         model = ProgramMapper
