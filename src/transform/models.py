@@ -83,6 +83,26 @@ class CallMapper(Document):
     }
 
 
+class Program(Document):
+    identifier = StringField()
+    title = StringField()
+
+    meta = {
+        'collection': 'data.programs'
+    }
+
+
+class ProgramMapper(Document):
+    collection = StringField(required=True)
+    key = StringField(required=True)
+    identifier = StringField(required=True)
+    title = StringField()
+
+    meta = {
+        'collection': 'mapper.programs'
+    }
+
+
 class Person(Document):
     identifier = StringField()
     firstName = StringField()
@@ -106,6 +126,32 @@ class PersonMapper(Document):
 
     meta = {
         'collection': 'mapper.persons'
+    }
+
+
+class Result(Document):
+    identifier = StringField()
+    title = StringField()
+    type = StringField()
+    webItem = StringField()
+    webLink = StringField()
+
+    meta = {
+        'collection': 'data.results'
+    }
+
+
+class ResultMapper(Document):
+    collection = StringField(required=True)
+    key = StringField(required=True)
+    identifier = StringField()
+    title = StringField()
+    type = StringField()
+    webItem = StringField()
+    webLink = StringField()
+
+    meta = {
+        'collection': 'mapper.results'
     }
 
 
@@ -163,4 +209,23 @@ class CallCallMapper(Document):
 
     meta = {
         'collection': 'mapper.call-call'
+    }
+
+
+class PersonOrganization(Document):
+    person = StringField()
+    organization = StringField()
+
+    meta = {
+        'collection': 'data.person-organization'
+    }
+
+
+class PersonOrganizationMapper(Document):
+    collection = StringField(required=True)
+    person = StringField()
+    organization = StringField()
+
+    meta = {
+        'collection': 'mapper.person-organization'
     }

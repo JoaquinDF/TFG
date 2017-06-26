@@ -39,6 +39,18 @@ class CallSerializer(serializers.DocumentSerializer):
         fields = '__all__'
 
 
+class ProgramMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ProgramMapper
+        fields = '__all__'
+
+
+class ProgramSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Program
+        fields = '__all__'
+
+
 class PersonMapperSerializer(serializers.DocumentSerializer):
     class Meta:
         model = PersonMapper
@@ -48,6 +60,18 @@ class PersonMapperSerializer(serializers.DocumentSerializer):
 class PersonSerializer(serializers.DocumentSerializer):
     class Meta:
         model = Person
+        fields = '__all__'
+
+
+class ResultMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ResultMapper
+        fields = '__all__'
+
+
+class ResultSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Result
         fields = '__all__'
 
 
@@ -84,4 +108,16 @@ class CallCallMapperSerializer(serializers.DocumentSerializer):
 class CallCallSerializer(serializers.DocumentSerializer):
     class Meta:
         model = CallCall
+        fields = '__all__'
+
+
+class PersonOrganizationMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = PersonOrganizationMapper
+        fields = '__all__'
+
+
+class PersonOrganizationSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = PersonOrganization
         fields = '__all__'

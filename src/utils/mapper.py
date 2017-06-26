@@ -69,3 +69,20 @@ def remove_duplicates(mapper, data_type):
             logging.debug(e.details)
         except InvalidOperation as e:
             logging.debug(e)
+
+
+def remove_empty(mapper, format_class, data_type):
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        collection = db['structured.{}.{}'.format(data_type, mapper.collection)]
+        bulk = collection.initialize_ordered_bulk_op()
+        keys = format_class._fields.items()
+        for k, v in keys:
+            if k != 'id':
+                bulk.find({k: ""}).remove()
+        try:
+            bulk.execute()
+        except BulkWriteError as e:
+            logging.debug(e.details)
+        except InvalidOperation as e:
+            logging.debug(e)

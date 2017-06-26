@@ -56,6 +56,23 @@ class CallMappingViewSet(ViewSet):
         return Response({'data': 'call', 'queued': True})
 
 
+# PROGRAM
+class ProgramViewSet(ReadOnlyModelViewSet):
+    queryset = Program.objects.all()
+    serializer_class = ProgramSerializer
+
+
+class ProgramMapperViewSet(ModelViewSet):
+    queryset = ProgramMapper.objects.all()
+    serializer_class = ProgramMapperSerializer
+
+
+class ProgramMappingViewSet(ViewSet):
+    def create(self, request):
+        program_mapping_task.delay()
+        return Response({'data': 'program', 'queued': True})
+
+
 # PERSON
 class PersonViewSet(ReadOnlyModelViewSet):
     queryset = Person.objects.all()
@@ -71,6 +88,23 @@ class PersonMappingViewSet(ViewSet):
     def create(self, request):
         person_mapping_task.delay()
         return Response({'data': 'person', 'queued': True})
+
+
+# RESULTS
+class ResultViewSet(ReadOnlyModelViewSet):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
+
+
+class ResultMapperViewSet(ModelViewSet):
+    queryset = ResultMapper.objects.all()
+    serializer_class = ResultMapperSerializer
+
+
+class ResultMappingViewSet(ViewSet):
+    def create(self, request):
+        result_mapping_task.delay()
+        return Response({'data': 'result', 'queued': True})
 
 
 # PROJECT-ORGANIZATION
@@ -122,3 +156,20 @@ class CallCallMappingViewSet(ViewSet):
     def create(self, request):
         call_call_mapping_task.delay()
         return Response({'data': 'call-call', 'queued': True})
+
+
+# PERSON-ORGANIZATION
+class PersonOrganizationViewSet(ReadOnlyModelViewSet):
+    queryset = PersonOrganization.objects.all()
+    serializer_class = PersonOrganizationSerializer
+
+
+class PersonOrganizationMapperViewSet(ModelViewSet):
+    queryset = PersonOrganizationMapper.objects.all()
+    serializer_class = PersonOrganizationMapperSerializer
+
+
+class PersonOrganizationMappingViewSet(ViewSet):
+    def create(self, request):
+        person_organization_mapping_task.delay()
+        return Response({'data': 'person-organization', 'queued': True})
