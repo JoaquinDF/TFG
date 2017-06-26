@@ -8,7 +8,19 @@ from utils.mongodb import Mongodb
 from .models import *
 
 
-# TODO: Fix nested documents access
+# TODO: Add iterate over collections
+def __get_nested_docs__(field, doc):
+    lst = field.split('.')
+    tmp = doc
+    for item in lst:
+        if item in tmp:
+            tmp = tmp[item]
+        else:
+            tmp = None
+            break
+    return tmp
+
+
 def __data_mapping__(mapper, format_class, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
@@ -22,8 +34,9 @@ def __data_mapping__(mapper, format_class, data_type):
                     tmp = ''
                     if isinstance(mapper[k], str):
                         for field in mapper[k].split(';'):
-                            if field in original and original[field]:
-                                tmp += '{};'.format(original[field])
+                            item = __get_nested_docs__(field, original)
+                            if item:
+                                tmp += '{};'.format(item)
                         copy[k] = tmp.rstrip(';').upper().encode('utf-8')
                     elif mapper[k] in original and original[mapper[k]]:
                         copy[k] = original[mapper[k]]
