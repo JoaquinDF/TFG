@@ -74,7 +74,7 @@ class PersonMappingViewSet(ViewSet):
 
 
 # PROJECT-ORGANIZATION
-class ProjectOrganizationViewSet(ModelViewSet):
+class ProjectOrganizationViewSet(ReadOnlyModelViewSet):
     queryset = ProjectOrganization.objects.all()
     serializer_class = ProjectOrganizationSerializer
 
@@ -91,7 +91,7 @@ class ProjectOrganizationMappingViewSet(ViewSet):
 
 
 # PROJECT-CALL
-class ProjectCallViewSet(ModelViewSet):
+class ProjectCallViewSet(ReadOnlyModelViewSet):
     queryset = ProjectCall.objects.all()
     serializer_class = ProjectCallSerializer
 
@@ -108,7 +108,7 @@ class ProjectCallMappingViewSet(ViewSet):
 
 
 # CALL-CALL
-class CallCallViewSet(ModelViewSet):
+class CallCallViewSet(ReadOnlyModelViewSet):
     queryset = CallCall.objects.all()
     serializer_class = CallCallSerializer
 
