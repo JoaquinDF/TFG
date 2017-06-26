@@ -83,6 +83,32 @@ class CallMapper(Document):
     }
 
 
+class Person(Document):
+    identifier = StringField()
+    firstName = StringField()
+    lastName = StringField()
+    telephone = StringField()
+    email = StringField()
+
+    meta = {
+        'collection': 'data.persons'
+    }
+
+
+class PersonMapper(Document):
+    collection = StringField(required=True)
+    key = StringField(required=True)
+    identifier = StringField(required=True)
+    firstName = StringField()
+    lastName = StringField()
+    telephone = StringField()
+    email = StringField()
+
+    meta = {
+        'collection': 'mapper.persons'
+    }
+
+
 class ProjectOrganization(Document):
     project = StringField()
     organization = StringField()

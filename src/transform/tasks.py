@@ -100,6 +100,14 @@ def call_mapping_task():
 
 
 @shared_task
+def person_mapping_task():
+    for mapper in PersonMapper.objects:
+        __data_mapping__(mapper=mapper, format_class=Person, data_type='persons')
+        __remove_duplicates__(mapper=mapper, data_type='persons')
+    return {'name': 'person_mapping', 'finished': True}
+
+
+@shared_task
 def project_organization_mapping_task():
     for mapper in ProjectOrganizationMapper.objects:
         __data_mapping__(mapper=mapper, format_class=ProjectOrganization, data_type='project-organization')

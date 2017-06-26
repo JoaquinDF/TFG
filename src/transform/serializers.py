@@ -39,6 +39,18 @@ class CallSerializer(serializers.DocumentSerializer):
         fields = '__all__'
 
 
+class PersonMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = PersonMapper
+        fields = '__all__'
+
+
+class PersonSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+
 class ProjectOrganizationMapperSerializer(serializers.DocumentSerializer):
     class Meta:
         model = ProjectOrganizationMapper

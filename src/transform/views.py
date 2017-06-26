@@ -56,6 +56,23 @@ class CallMappingViewSet(ViewSet):
         return Response({'data': 'call', 'queued': True})
 
 
+# PERSON
+class PersonViewSet(ReadOnlyModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+
+
+class PersonMapperViewSet(ModelViewSet):
+    queryset = PersonMapper.objects.all()
+    serializer_class = PersonMapperSerializer
+
+
+class PersonMappingViewSet(ViewSet):
+    def create(self, request):
+        person_mapping_task.delay()
+        return Response({'data': 'person', 'queued': True})
+
+
 # PROJECT-ORGANIZATION
 class ProjectOrganizationViewSet(ModelViewSet):
     queryset = ProjectOrganization.objects.all()
