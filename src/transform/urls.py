@@ -44,4 +44,8 @@ router.register(r'personorganization', PersonOrganizationViewSet, r'personorgani
 router.register(r'personorganizationMapper', PersonOrganizationMapperViewSet, r'personorganizationMapper')
 router.register(r'personorganizationMapping', PersonOrganizationMappingViewSet, r'personorganizationMapping')
 
+router.register(r'projectresult', ProjectResultViewSet, r'projectresult')
+router.register(r'projectresultmapper', ProjectResultMapperViewSet, r'projectresultmapper')
+router.register(r'projectresultmapping', ProjectResultMappingViewSet, r'projectresultmapping')
+
 urlpatterns = router.urls

@@ -173,3 +173,20 @@ class PersonOrganizationMappingViewSet(ViewSet):
     def create(self, request):
         person_organization_mapping_task.delay()
         return Response({'data': 'person-organization', 'queued': True})
+
+
+# PROJECT-RESULT
+class ProjectResultViewSet(ReadOnlyModelViewSet):
+    queryset = ProjectResult.objects.all()
+    serializer_class = ProjectResultSerializer
+
+
+class ProjectResultMapperViewSet(ModelViewSet):
+    queryset = ProjectResultMapper.objects.all()
+    serializer_class = ProjectResultMapperSerializer
+
+
+class ProjectResultMappingViewSet(ViewSet):
+    def create(self, request):
+        project_result_mapping_task.delay()
+        return Response({'data': 'project-result', 'queued': True})

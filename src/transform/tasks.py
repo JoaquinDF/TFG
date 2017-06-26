@@ -86,4 +86,11 @@ def person_organization_mapping_task():
     return {'name': 'person_organization_mapping_task', 'finished': True}
 
 
+@shared_task
+def project_result_mapping_task():
+    for mapper in ProjectResultMapper.objects:
+        data_mapping(mapper=mapper, format_class=ProjectResult, data_type='project-result')
+        remove_empty(mapper=mapper, format_class=ProjectResult, data_type='project-result')
+    return {'name': 'project_result_mapping_task', 'finished': True}
+
 # TODO: Add join task

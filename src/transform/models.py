@@ -229,3 +229,22 @@ class PersonOrganizationMapper(Document):
     meta = {
         'collection': 'mapper.person-organization'
     }
+
+
+class ProjectResult(Document):
+    project = StringField()
+    result = StringField()
+
+    meta = {
+        'collection': 'data.project-result'
+    }
+
+
+class ProjectResultMapper(Document):
+    collection = StringField(required=True)
+    project = StringField()
+    result = StringField()
+
+    meta = {
+        'collection': 'mapper.project-result'
+    }

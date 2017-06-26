@@ -121,3 +121,15 @@ class PersonOrganizationSerializer(serializers.DocumentSerializer):
     class Meta:
         model = PersonOrganization
         fields = '__all__'
+
+
+class ProjectResultMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ProjectResultMapper
+        fields = '__all__'
+
+
+class ProjectResultSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = ProjectResult
+        fields = '__all__'
