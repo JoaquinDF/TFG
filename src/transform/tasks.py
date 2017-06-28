@@ -87,6 +87,14 @@ def call_call_mapping_task():
 
 
 @shared_task
+def call_thematic_mapping_task():
+    for mapper in CallThematicMapper.objects:
+        data_mapping(mapper=mapper, format_class=CallThematic, data_type='call-thematic')
+        remove_empty(mapper=mapper, format_class=CallThematic, data_type='call-thematic')
+    return {'name': 'call_thematic_mapping_task', 'finished': True}
+
+
+@shared_task
 def person_organization_mapping_task():
     for mapper in PersonOrganizationMapper.objects:
         data_mapping(mapper=mapper, format_class=PersonOrganization, data_type='person-organization')

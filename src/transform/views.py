@@ -175,6 +175,23 @@ class CallCallMappingViewSet(ViewSet):
         return Response({'data': 'call-call', 'queued': True})
 
 
+# CALL-THEMATIC
+class CallThematicViewSet(ReadOnlyModelViewSet):
+    queryset = CallThematic.objects.all()
+    serializer_class = CallThematicSerializer
+
+
+class CallThematicMapperViewSet(ModelViewSet):
+    queryset = CallThematicMapper.objects.all()
+    serializer_class = CallThematicMapperSerializer
+
+
+class CallThematicMappingViewSet(ViewSet):
+    def create(self, request):
+        call_thematic_mapping_task.delay()
+        return Response({'data': 'call-thematic', 'queued': True})
+
+
 # PERSON-ORGANIZATION
 class PersonOrganizationViewSet(ReadOnlyModelViewSet):
     queryset = PersonOrganization.objects.all()

@@ -123,6 +123,18 @@ class CallCallSerializer(serializers.DocumentSerializer):
         fields = '__all__'
 
 
+class CallThematicMapperSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = CallThematicMapper
+        fields = '__all__'
+
+
+class CallThematicSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = CallThematic
+        fields = '__all__'
+
+
 class PersonOrganizationMapperSerializer(serializers.DocumentSerializer):
     class Meta:
         model = PersonOrganizationMapper

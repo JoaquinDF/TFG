@@ -44,6 +44,10 @@ router.register(r'callcall', CallCallViewSet, r'callcall')
 router.register(r'callcallmapper', CallCallMapperViewSet, r'callcallmapper')
 router.register(r'callcallmapping', CallCallMappingViewSet, r'callcallmapping')
 
+router.register(r'callthematic', CallThematicViewSet, r'callthematic')
+router.register(r'callthematicmapper', CallThematicMapperViewSet, r'callthematicmapper')
+router.register(r'callthematicmapping', CallThematicMappingViewSet, r'callthematicmapping')
+
 router.register(r'personorganization', PersonOrganizationViewSet, r'personorganization')
 router.register(r'personorganizationMapper', PersonOrganizationMapperViewSet, r'personorganizationMapper')
 router.register(r'personorganizationMapping', PersonOrganizationMappingViewSet, r'personorganizationMapping')

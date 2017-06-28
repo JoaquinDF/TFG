@@ -234,6 +234,25 @@ class CallCallMapper(Document):
     }
 
 
+class CallThematic(Document):
+    call = StringField()
+    thematic = StringField()
+
+    meta = {
+        'collection': 'data.call-thematic'
+    }
+
+
+class CallThematicMapper(Document):
+    collection = StringField(required=True)
+    call = StringField()
+    thematic = StringField()
+
+    meta = {
+        'collection': 'mapper.call-thematic'
+    }
+
+
 class PersonOrganization(Document):
     person = StringField()
     organization = StringField()
