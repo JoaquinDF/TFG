@@ -5,49 +5,15 @@ from .serializers import *
 from .tasks import *
 
 
-# ORGANIZATION
-class OrganizationViewSet(ReadOnlyModelViewSet):
-    queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
-
-
-class OrganizationMapperViewSet(ModelViewSet):
-    queryset = OrganizationMapper.objects.all()
-    serializer_class = OrganizationMapperSerializer
-
-
-class OrganizationMappingViewSet(ViewSet):
-    def create(self, request):
-        organization_mapping_task.delay()
-        return Response({'data': 'organization', 'queued': True})
-
-
-# PROJECT
-class ProjectViewSet(ReadOnlyModelViewSet):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
-
-
-class ProjectMapperViewSet(ModelViewSet):
-    queryset = ProjectMapper.objects.all()
-    serializer_class = ProjectMapperSerializer
-
-
-class ProjectMappingViewSet(ViewSet):
-    def create(self, request):
-        project_mapping_task.delay()
-        return Response({'data': 'project', 'queued': True})
-
-
 # CALL
 class CallViewSet(ReadOnlyModelViewSet):
-    queryset = Call.objects.all()
-    serializer_class = CallSerializer
+    queryset = Convocatoria.objects.all()
+    serializer_class = ConvocatoriaSerializer
 
 
 class CallMapperViewSet(ModelViewSet):
-    queryset = CallMapper.objects.all()
-    serializer_class = CallMapperSerializer
+    queryset = ConvocatoriaMapper.objects.all()
+    serializer_class = ConvocatoriaMapperSerializer
 
 
 class CallMappingViewSet(ViewSet):
@@ -56,49 +22,49 @@ class CallMappingViewSet(ViewSet):
         return Response({'data': 'call', 'queued': True})
 
 
-# THEMATIC
-class ThematicViewSet(ReadOnlyModelViewSet):
-    queryset = Thematic.objects.all()
-    serializer_class = ThematicSerializer
+# PROJECT
+class ProjectViewSet(ReadOnlyModelViewSet):
+    queryset = Proyecto.objects.all()
+    serializer_class = ProyectoSerializer
 
 
-class ThematicMapperViewSet(ModelViewSet):
-    queryset = ThematicMapper.objects.all()
-    serializer_class = ThematicMapperSerializer
+class ProjectMapperViewSet(ModelViewSet):
+    queryset = ProyectoMapper.objects.all()
+    serializer_class = ProyectoMapperSerializer
 
 
-class ThematicMappingViewSet(ViewSet):
+class ProjectMappingViewSet(ViewSet):
     def create(self, request):
-        thematic_mapping_task.delay()
-        return Response({'data': 'thematic', 'queued': True})
+        project_mapping_task.delay()
+        return Response({'data': 'project', 'queued': True})
 
 
-# PROGRAM
-class ProgramViewSet(ReadOnlyModelViewSet):
-    queryset = Program.objects.all()
-    serializer_class = ProgramSerializer
+# ORGANIZATION
+class OrganizationViewSet(ReadOnlyModelViewSet):
+    queryset = Organizacion.objects.all()
+    serializer_class = OrganizacionSerializer
 
 
-class ProgramMapperViewSet(ModelViewSet):
-    queryset = ProgramMapper.objects.all()
-    serializer_class = ProgramMapperSerializer
+class OrganizationMapperViewSet(ModelViewSet):
+    queryset = OrganizacionMapper.objects.all()
+    serializer_class = OrganizacionMapperSerializer
 
 
-class ProgramMappingViewSet(ViewSet):
+class OrganizationMappingViewSet(ViewSet):
     def create(self, request):
-        program_mapping_task.delay()
-        return Response({'data': 'program', 'queued': True})
+        organization_mapping_task.delay()
+        return Response({'data': 'organization', 'queued': True})
 
 
 # PERSON
 class PersonViewSet(ReadOnlyModelViewSet):
-    queryset = Person.objects.all()
-    serializer_class = PersonSerializer
+    queryset = Persona.objects.all()
+    serializer_class = PersonaSerializer
 
 
 class PersonMapperViewSet(ModelViewSet):
-    queryset = PersonMapper.objects.all()
-    serializer_class = PersonMapperSerializer
+    queryset = PersonaMapper.objects.all()
+    serializer_class = PersonaMapperSerializer
 
 
 class PersonMappingViewSet(ViewSet):
@@ -107,49 +73,15 @@ class PersonMappingViewSet(ViewSet):
         return Response({'data': 'person', 'queued': True})
 
 
-# RESULTS
-class ResultViewSet(ReadOnlyModelViewSet):
-    queryset = Result.objects.all()
-    serializer_class = ResultSerializer
-
-
-class ResultMapperViewSet(ModelViewSet):
-    queryset = ResultMapper.objects.all()
-    serializer_class = ResultMapperSerializer
-
-
-class ResultMappingViewSet(ViewSet):
-    def create(self, request):
-        result_mapping_task.delay()
-        return Response({'data': 'result', 'queued': True})
-
-
-# PROJECT-ORGANIZATION
-class ProjectOrganizationViewSet(ReadOnlyModelViewSet):
-    queryset = ProjectOrganization.objects.all()
-    serializer_class = ProjectOrganizationSerializer
-
-
-class ProjectOrganizationMapperViewSet(ModelViewSet):
-    queryset = ProjectOrganizationMapper.objects.all()
-    serializer_class = ProjectOrganizationMapperSerializer
-
-
-class ProjectOrganizationMappingViewSet(ViewSet):
-    def create(self, request):
-        project_organization_mapping_task.delay()
-        return Response({'data': 'project-organization', 'queued': True})
-
-
 # PROJECT-CALL
 class ProjectCallViewSet(ReadOnlyModelViewSet):
-    queryset = ProjectCall.objects.all()
-    serializer_class = ProjectCallSerializer
+    queryset = ProyectoConvocatoria.objects.all()
+    serializer_class = ProyectoConvocatoriaSerializer
 
 
 class ProjectCallMapperViewSet(ModelViewSet):
-    queryset = ProjectCallMapper.objects.all()
-    serializer_class = ProjectCallMapperSerializer
+    queryset = ProyectoConvocatoriaMapper.objects.all()
+    serializer_class = ProyectoConvocatoriaMapperSerializer
 
 
 class ProjectCallMappingViewSet(ViewSet):
@@ -158,69 +90,52 @@ class ProjectCallMappingViewSet(ViewSet):
         return Response({'data': 'project-call', 'queued': True})
 
 
-# CALL-CALL
-class CallCallViewSet(ReadOnlyModelViewSet):
-    queryset = CallCall.objects.all()
-    serializer_class = CallCallSerializer
+# PROJECT-ORGANIZATION
+class ProjectOrganizationViewSet(ReadOnlyModelViewSet):
+    queryset = ProyectoOrganizacion.objects.all()
+    serializer_class = ProyectoOrganizacionSerializer
 
 
-class CallCallMapperViewSet(ModelViewSet):
-    queryset = CallCallMapper.objects.all()
-    serializer_class = CallCallMapperSerializer
+class ProjectOrganizationMapperViewSet(ModelViewSet):
+    queryset = ProyectoOrganizacionMapper.objects.all()
+    serializer_class = ProyectoOrganizacionMapperSerializer
 
 
-class CallCallMappingViewSet(ViewSet):
+class ProjectOrganizationMappingViewSet(ViewSet):
     def create(self, request):
-        call_call_mapping_task.delay()
-        return Response({'data': 'call-call', 'queued': True})
+        project_organization_mapping_task.delay()
+        return Response({'data': 'project-organization', 'queued': True})
 
 
-# CALL-THEMATIC
-class CallThematicViewSet(ReadOnlyModelViewSet):
-    queryset = CallThematic.objects.all()
-    serializer_class = CallThematicSerializer
+# PERSON-PROJECT
+class PersonProjectViewSet(ReadOnlyModelViewSet):
+    queryset = PersonaProyecto.objects.all()
+    serializer_class = PersonaProyectoSerializer
 
 
-class CallThematicMapperViewSet(ModelViewSet):
-    queryset = CallThematicMapper.objects.all()
-    serializer_class = CallThematicMapperSerializer
+class PersonProjectMapperViewSet(ModelViewSet):
+    queryset = PersonaProyectoMapper.objects.all()
+    serializer_class = PersonaProyectoMapperSerializer
 
 
-class CallThematicMappingViewSet(ViewSet):
+class PersonProjectMappingViewSet(ViewSet):
     def create(self, request):
-        call_thematic_mapping_task.delay()
-        return Response({'data': 'call-thematic', 'queued': True})
+        person_project_mapping_task.delay()
+        return Response({'data': 'person-project', 'queued': True})
 
 
 # PERSON-ORGANIZATION
 class PersonOrganizationViewSet(ReadOnlyModelViewSet):
-    queryset = PersonOrganization.objects.all()
-    serializer_class = PersonOrganizationSerializer
+    queryset = PersonaOrganizacion.objects.all()
+    serializer_class = PersonaOrganizacionSerializer
 
 
 class PersonOrganizationMapperViewSet(ModelViewSet):
-    queryset = PersonOrganizationMapper.objects.all()
-    serializer_class = PersonOrganizationMapperSerializer
+    queryset = PersonaOrganizacionMapper.objects.all()
+    serializer_class = PersonaOrganizacionMapperSerializer
 
 
 class PersonOrganizationMappingViewSet(ViewSet):
     def create(self, request):
         person_organization_mapping_task.delay()
         return Response({'data': 'person-organization', 'queued': True})
-
-
-# PROJECT-RESULT
-class ProjectResultViewSet(ReadOnlyModelViewSet):
-    queryset = ProjectResult.objects.all()
-    serializer_class = ProjectResultSerializer
-
-
-class ProjectResultMapperViewSet(ModelViewSet):
-    queryset = ProjectResultMapper.objects.all()
-    serializer_class = ProjectResultMapperSerializer
-
-
-class ProjectResultMappingViewSet(ViewSet):
-    def create(self, request):
-        project_result_mapping_task.delay()
-        return Response({'data': 'project-result', 'queued': True})

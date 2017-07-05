@@ -1,5 +1,6 @@
 import logging
 from pymongo.errors import BulkWriteError, InvalidOperation
+from mongoengine.fields import *
 
 from utils.mongodb import Mongodb
 
@@ -17,25 +18,40 @@ def __get_nested_docs__(field, doc):
     return tmp
 
 
-def data_mapping(mapper, format_class, data_type):
+def copy_object(original, template, mapper):
+    copy = template()
+    copy.id = original['_id']
+    for k, v in template._fields.items():
+        if not mapper[k]:
+            continue
+        elif isinstance(v, StringField):
+            tmp = ''
+            for field in mapper[k].split(';'):
+                item = __get_nested_docs__(field, original)
+                if item:
+                    tmp += '{};'.format(item)
+            copy[k] = tmp.rstrip(';').upper().encode('utf-8')
+        elif isinstance(v, FloatField):
+            item = __get_nested_docs__(mapper[k], original)
+            copy[k] = float(item)
+        elif isinstance(v, DateTimeField):
+            pass
+        elif isinstance(v, ListField):
+            for field in mapper[k].split(';'):
+                item = __get_nested_docs__(field, original)
+                copy[k].append(item)
+        elif isinstance(v, EmbeddedDocumentField):
+            doc = v.document_type
+            copy[k] = copy_object(original, doc, mapper[k])
+    return copy
+
+
+def data_mapping(mapper, template, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
         bulk = db['structured.{}.{}'.format(data_type, mapper.collection)].initialize_ordered_bulk_op()
         for original in db[mapper.collection].find({}):
-            copy = format_class()
-            keys = format_class._fields.items()
-            copy.id = original['_id']
-            for k, v in keys:
-                if k != 'id' and k in mapper and mapper[k]:
-                    tmp = ''
-                    if isinstance(mapper[k], str):
-                        for field in mapper[k].split(';'):
-                            item = __get_nested_docs__(field, original)
-                            if item:
-                                tmp += '{};'.format(item)
-                        copy[k] = tmp.rstrip(';').upper().encode('utf-8')
-                    elif mapper[k] in original and original[mapper[k]]:
-                        copy[k] = original[mapper[k]]
+            copy = copy_object(original, template, mapper)
             bulk.find({'_id': copy.id}).upsert().replace_one(copy.to_mongo())
         try:
             bulk.execute()

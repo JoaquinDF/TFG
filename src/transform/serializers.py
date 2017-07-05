@@ -3,157 +3,99 @@ from rest_framework_mongoengine import serializers
 from .models import *
 
 
-class OrganizationMapperSerializer(serializers.DocumentSerializer):
+class ConvocatoriaSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = OrganizationMapper
+        model = Convocatoria
         fields = '__all__'
 
 
-class OrganizationSerializer(serializers.DocumentSerializer):
+class ConvocatoriaMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Organization
+        model = ConvocatoriaMapper
         fields = '__all__'
 
 
-class ProjectMapperSerializer(serializers.DocumentSerializer):
+class ProyectoSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = ProjectMapper
+        model = Proyecto
         fields = '__all__'
 
 
-class ProjectSerializer(serializers.DocumentSerializer):
+class ProyectoMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Project
+        model = ProyectoMapper
         fields = '__all__'
 
 
-class CallMapperSerializer(serializers.DocumentSerializer):
+class OrganizacionSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = CallMapper
+        model = Organizacion
+        depth = 2
         fields = '__all__'
 
 
-class CallSerializer(serializers.DocumentSerializer):
+class OrganizacionMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Call
+        model = OrganizacionMapper
+        depth = 2
         fields = '__all__'
 
 
-class ThematicMapperSerializer(serializers.DocumentSerializer):
+class PersonaSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = ThematicMapper
+        model = Persona
         fields = '__all__'
 
 
-class ThematicSerializer(serializers.DocumentSerializer):
+class PersonaMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Thematic
+        model = PersonaMapper
         fields = '__all__'
 
 
-class ProgramMapperSerializer(serializers.DocumentSerializer):
+class ProyectoConvocatoriaSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = ProgramMapper
+        model = ProyectoConvocatoria
         fields = '__all__'
 
 
-class ProgramSerializer(serializers.DocumentSerializer):
+class ProyectoConvocatoriaMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Program
+        model = ProyectoConvocatoriaMapper
         fields = '__all__'
 
 
-class PersonMapperSerializer(serializers.DocumentSerializer):
+class ProyectoOrganizacionSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = PersonMapper
+        model = ProyectoOrganizacion
         fields = '__all__'
 
 
-class PersonSerializer(serializers.DocumentSerializer):
+class ProyectoOrganizacionMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Person
+        model = ProyectoOrganizacionMapper
         fields = '__all__'
 
 
-class ResultMapperSerializer(serializers.DocumentSerializer):
+class PersonaProyectoSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = ResultMapper
+        model = PersonaProyecto
         fields = '__all__'
 
 
-class ResultSerializer(serializers.DocumentSerializer):
+class PersonaProyectoMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = Result
+        model = PersonaProyectoMapper
         fields = '__all__'
 
 
-class ProjectOrganizationMapperSerializer(serializers.DocumentSerializer):
+class PersonaOrganizacionSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = ProjectOrganizationMapper
+        model = PersonaOrganizacion
         fields = '__all__'
 
 
-class ProjectOrganizationSerializer(serializers.DocumentSerializer):
+class PersonaOrganizacionMapperSerializer(serializers.DocumentSerializer):
     class Meta:
-        model = ProjectOrganization
-        fields = '__all__'
-
-
-class ProjectCallMapperSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = ProjectCallMapper
-        fields = '__all__'
-
-
-class ProjectCallSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = ProjectCall
-        fields = '__all__'
-
-
-class CallCallMapperSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = CallCallMapper
-        fields = '__all__'
-
-
-class CallCallSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = CallCall
-        fields = '__all__'
-
-
-class CallThematicMapperSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = CallThematicMapper
-        fields = '__all__'
-
-
-class CallThematicSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = CallThematic
-        fields = '__all__'
-
-
-class PersonOrganizationMapperSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = PersonOrganizationMapper
-        fields = '__all__'
-
-
-class PersonOrganizationSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = PersonOrganization
-        fields = '__all__'
-
-
-class ProjectResultMapperSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = ProjectResultMapper
-        fields = '__all__'
-
-
-class ProjectResultSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = ProjectResult
+        model = PersonaOrganizacionMapper
         fields = '__all__'

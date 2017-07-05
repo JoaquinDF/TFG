@@ -48,7 +48,7 @@ class BotInstance(Bot):
                     logging.debug(e.msg)
                     continue
                 lines = row.find_elements_by_xpath('.//h2[contains(@class, "text-right")]') + row.find_elements_by_xpath('.//p[contains(@class, "text-right")]')
-                fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono', 'domicilio', 'antiguedad', 'cif', 'nombre']
+                fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono', 'ciudad', 'cp', 'calle', 'antiguedad', 'cif', 'nombre']
                 data = dict()
                 data[fields.pop()] = organization
                 for line in lines:
@@ -64,7 +64,9 @@ class BotInstance(Bot):
                         else:
                             s = text.split('  ')
                             if len(s) == 3:
-                                data[fields.pop()] = s[0] + ';' + s[1] + ';' + s[2].split('- ')[-1]
+                                data[fields.pop()] = s[0]
+                                data[fields.pop()] = s[1]
+                                data[fields.pop()] = s[2].split('- ')[-1]
                             else:
                                 data[fields.pop()] = text
                 yield data

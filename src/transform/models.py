@@ -1,149 +1,108 @@
 from mongoengine import *
 
 
-class Organization(Document):
-    identifier = StringField()
-    name = StringField()
-    activity_type = StringField()
-    address = StringField()
-    country = StringField()
-    telephone = StringField()
-    www = StringField()
-
-    meta = {
-        'collection': 'data.organizations'
-    }
-
-
-class OrganizationMapper(Document):
-    collection = StringField(required=True)
-    key = StringField(required=True)
-    identifier = StringField(required=True)
-    name = StringField()
-    activity_type = StringField()
-    address = StringField()
-    country = StringField()
-    telephone = StringField()
-    www = StringField()
-
-    meta = {
-        'collection': 'mapper.organizations'
-    }
-
-
-class Project(Document):
-    identifier = StringField()
-    title = StringField()
-    start_date = StringField()
-    end_date = StringField()
-    total_cost = StringField()
-    financing = StringField()
-
-    meta = {
-        'collection': 'data.projects'
-    }
-
-
-class ProjectMapper(Document):
-    collection = StringField(required=True)
-    key = StringField(required=True)
-    identifier = StringField(required=True)
-    title = StringField()
-    start_date = StringField()
-    end_date = StringField()
-    total_cost = StringField()
-    financing = StringField()
-
-    meta = {
-        'collection': 'mapper.projects'
-    }
-
-
-class Call(Document):
-    identifier = StringField()
-    title = StringField()
-    status = StringField()
-    publication_date = StringField()
+class Convocatoria(Document):
+    tituloConvocatoria = StringField()
+    fechaFinPresentacion = StringField()
+    presupuesto = StringField()
 
     meta = {
         'collection': 'data.calls'
     }
 
 
-class CallMapper(Document):
+class ConvocatoriaMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
-    identifier = StringField(required=True)
-    title = StringField()
-    status = StringField()
-    publication_date = StringField()
+    tituloConvocatoria = StringField(required=True)
+    fechaFinPresentacion = StringField()
+    presupuesto = StringField()
 
     meta = {
         'collection': 'mapper.calls'
     }
 
 
-class Thematic(Document):
-    identifier = StringField()
-    name = StringField()
-    description = StringField()
+class Proyecto(Document):
+    tituloProyecto = StringField()
+    fechaInicio = StringField()
+    fechaFin = StringField()
+    presupuestoPresentado = StringField()
+    presupuestoAceptado = StringField()
+    prestamo = StringField()
+    subvencion = StringField()
 
     meta = {
-        'collection': 'data.thematics'
+        'collection': 'data.projects'
     }
 
 
-class ThematicMapper(Document):
+class ProyectoMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
-    identifier = StringField(required=True)
-    name = StringField()
-    description = StringField()
+    tituloProyecto = StringField(required=True)
+    fechaInicio = StringField()
+    fechaFin = StringField()
+    presupuestoPresentado = StringField()
+    presupuestoAceptado = StringField()
+    prestamo = StringField()
+    subvencion = StringField()
 
     meta = {
-        'collection': 'mapper.thematics'
+        'collection': 'mapper.projects'
     }
 
 
-class Program(Document):
-    identifier = StringField()
-    title = StringField()
+class Direccion(EmbeddedDocument):
+    calle = StringField()
+    cp = StringField()
+    ciudad = StringField()
+
+
+class Organizacion(Document):
+    nombre = StringField()
+    cif = StringField()
+    direccion = EmbeddedDocumentField(Direccion)
+    sector = ListField(StringField())
 
     meta = {
-        'collection': 'data.programs'
+        'collection': 'data.organizations'
     }
 
 
-class ProgramMapper(Document):
+class OrganizacionMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
-    identifier = StringField(required=True)
-    title = StringField()
+    nombre = StringField(required=True)
+    cif = StringField()
+    direccion = EmbeddedDocumentField(Direccion)
+    sector = StringField()
 
     meta = {
-        'collection': 'mapper.programs'
+        'collection': 'mapper.organizations'
     }
 
 
-class Person(Document):
-    identifier = StringField()
-    firstName = StringField()
-    lastName = StringField()
-    telephone = StringField()
+class Persona(Document):
+    nombre = StringField()
+    apellidos = StringField()
+    dni = StringField()
+    telefono = StringField()
     email = StringField()
+    validacion = BooleanField(default=False)
 
     meta = {
         'collection': 'data.persons'
     }
 
 
-class PersonMapper(Document):
+class PersonaMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
-    identifier = StringField(required=True)
-    firstName = StringField()
-    lastName = StringField()
-    telephone = StringField()
+    nombre = StringField(required=True)
+    apellidos = StringField(required=True)
+    dni = StringField()
+    telefono = StringField()
     email = StringField()
 
     meta = {
@@ -151,141 +110,81 @@ class PersonMapper(Document):
     }
 
 
-class Result(Document):
-    identifier = StringField()
-    title = StringField()
-    type = StringField()
-    webItem = StringField()
-    webLink = StringField()
-
-    meta = {
-        'collection': 'data.results'
-    }
-
-
-class ResultMapper(Document):
-    collection = StringField(required=True)
-    key = StringField(required=True)
-    identifier = StringField()
-    title = StringField()
-    type = StringField()
-    webItem = StringField()
-    webLink = StringField()
-
-    meta = {
-        'collection': 'mapper.results'
-    }
-
-
-class ProjectOrganization(Document):
-    project = StringField()
-    organization = StringField()
-
-    meta = {
-        'collection': 'data.project-organization'
-    }
-
-
-class ProjectOrganizationMapper(Document):
-    collection = StringField(required=True)
-    project = StringField()
-    organization = StringField()
-
-    meta = {
-        'collection': 'mapper.project-organization'
-    }
-
-
-class ProjectCall(Document):
-    project = StringField()
-    call = StringField()
+class ProyectoConvocatoria(Document):
+    proyecto = StringField()
+    convocatoria = StringField()
 
     meta = {
         'collection': 'data.project-call'
     }
 
 
-class ProjectCallMapper(Document):
+class ProyectoConvocatoriaMapper(Document):
     collection = StringField(required=True)
-    project = StringField()
-    call = StringField()
+    projecto = StringField(required=True)
+    convocatoria = StringField(required=True)
 
     meta = {
         'collection': 'mapper.project-call'
     }
 
 
-class CallCall(Document):
-    parent = StringField()
-    child = StringField()
+class ProyectoOrganizacion(Document):
+    proyecto = StringField()
+    organizacion = StringField()
 
     meta = {
-        'collection': 'data.call-call'
+        'collection': 'data.project-organization'
     }
 
 
-class CallCallMapper(Document):
+class ProyectoOrganizacionMapper(Document):
     collection = StringField(required=True)
-    parent = StringField()
-    child = StringField()
+    proyecto = StringField(required=True)
+    organizacion = StringField(required=True)
 
     meta = {
-        'collection': 'mapper.call-call'
+        'collection': 'mapper.project-organization'
     }
 
 
-class CallThematic(Document):
-    call = StringField()
-    thematic = StringField()
-
-    meta = {
-        'collection': 'data.call-thematic'
-    }
-
-
-class CallThematicMapper(Document):
-    collection = StringField(required=True)
-    call = StringField()
-    thematic = StringField()
-
-    meta = {
-        'collection': 'mapper.call-thematic'
-    }
-
-
-class PersonOrganization(Document):
-    person = StringField()
-    organization = StringField()
+class PersonaProyecto(Document):
+    persona = StringField()
+    proyecto = StringField()
+    tipoRelaccion = StringField()
 
     meta = {
         'collection': 'data.person-organization'
     }
 
 
-class PersonOrganizationMapper(Document):
+class PersonaProyectoMapper(Document):
     collection = StringField(required=True)
-    person = StringField()
-    organization = StringField()
+    persona = StringField(required=True)
+    proyecto = StringField(required=True)
+    tipoRelaccion = StringField()
 
     meta = {
         'collection': 'mapper.person-organization'
     }
 
 
-class ProjectResult(Document):
-    project = StringField()
-    result = StringField()
+class PersonaOrganizacion(Document):
+    persona = StringField()
+    organizacion = StringField()
+    tipoRelaccion = StringField()
 
     meta = {
-        'collection': 'data.project-result'
+        'collection': 'data.person-organization'
     }
 
 
-class ProjectResultMapper(Document):
+class PersonaOrganizacionMapper(Document):
     collection = StringField(required=True)
-    project = StringField()
-    result = StringField()
+    persona = StringField(required=True)
+    organizacion = StringField(required=True)
+    tipoRelaccion = StringField()
 
     meta = {
-        'collection': 'mapper.project-result'
+        'collection': 'mapper.person-organization'
     }
