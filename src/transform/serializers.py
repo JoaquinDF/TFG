@@ -50,7 +50,7 @@ class PersonaSerializer(serializers.DocumentSerializer):
 class PersonaMapperSerializer(serializers.DocumentSerializer):
     class Meta:
         model = PersonaMapper
-        fields = '__all__'
+        exclude = ('validacion',)
 
 
 class ProyectoConvocatoriaSerializer(serializers.DocumentSerializer):

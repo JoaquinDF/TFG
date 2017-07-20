@@ -104,6 +104,7 @@ class PersonaMapper(Document):
     dni = StringField()
     telefono = StringField()
     email = StringField()
+    validacion = StringField()
 
     meta = {
         'collection': 'mapper.persons'
@@ -121,7 +122,7 @@ class ProyectoConvocatoria(Document):
 
 class ProyectoConvocatoriaMapper(Document):
     collection = StringField(required=True)
-    projecto = StringField(required=True)
+    proyecto = StringField(required=True)
     convocatoria = StringField(required=True)
 
     meta = {
@@ -151,7 +152,7 @@ class ProyectoOrganizacionMapper(Document):
 class PersonaProyecto(Document):
     persona = StringField()
     proyecto = StringField()
-    tipoRelaccion = StringField()
+    tipoRelaccion = StringField(default='CONTACTO')
 
     meta = {
         'collection': 'data.person-organization'
@@ -172,7 +173,7 @@ class PersonaProyectoMapper(Document):
 class PersonaOrganizacion(Document):
     persona = StringField()
     organizacion = StringField()
-    tipoRelaccion = StringField()
+    tipoRelaccion = StringField(default='CONTACTO')
 
     meta = {
         'collection': 'data.person-organization'

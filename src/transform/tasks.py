@@ -42,7 +42,7 @@ def person_mapping_task():
 def project_call_mapping_task():
     for mapper in ProyectoConvocatoriaMapper.objects:
         data_mapping(mapper=mapper, template=ProyectoConvocatoria, data_type='project-call')
-        remove_empty(mapper=mapper, format_class=ProyectoConvocatoria, data_type='project-call')
+        # remove_empty(mapper=mapper, format_class=ProyectoConvocatoria, data_type='project-call')
     return {'name': 'project_call_mapping_task', 'finished': True}
 
 
@@ -50,7 +50,7 @@ def project_call_mapping_task():
 def project_organization_mapping_task():
     for mapper in ProyectoOrganizacionMapper.objects:
         data_mapping(mapper=mapper, template=ProyectoOrganizacion, data_type='project-organization')
-        remove_empty(mapper=mapper, format_class=ProyectoOrganizacion, data_type='project-organization')
+        # remove_empty(mapper=mapper, format_class=ProyectoOrganizacion, data_type='project-organization')
     return {'name': 'project_organization_mapping_task', 'finished': True}
 
 
@@ -58,7 +58,7 @@ def project_organization_mapping_task():
 def person_project_mapping_task():
     for mapper in PersonaProyectoMapper.objects:
         data_mapping(mapper=mapper, template=PersonaProyecto, data_type='person-project')
-        remove_empty(mapper=mapper, format_class=PersonaProyecto, data_type='person-project')
+        # remove_empty(mapper=mapper, format_class=PersonaProyecto, data_type='person-project')
     return {'name': 'person_project_mapping_task', 'finished': True}
 
 
@@ -66,7 +66,7 @@ def person_project_mapping_task():
 def person_organization_mapping_task():
     for mapper in PersonaOrganizacionMapper.objects:
         data_mapping(mapper=mapper, template=PersonaOrganizacion, data_type='person-organization')
-        remove_empty(mapper=mapper, format_class=PersonaOrganizacion, data_type='person-organization')
+        # remove_empty(mapper=mapper, format_class=PersonaOrganizacion, data_type='person-organization')
     return {'name': 'person_organization_mapping_task', 'finished': True}
 
 # TODO: Add join task

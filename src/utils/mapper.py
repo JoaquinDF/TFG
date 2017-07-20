@@ -66,19 +66,21 @@ def remove_duplicates(mapper, data_type):
         db = mongodb.db
         collection = db['structured.{}.{}'.format(data_type, mapper.collection)]
         bulk = collection.initialize_ordered_bulk_op()
+        keys = {}
         for key in mapper.key.split(';'):
-            cursor = collection.aggregate(
-                [
-                    {"$group": {"_id": '${}'.format(key), "unique_ids": {"$addToSet": "$_id"}, "count": {"$sum": 1}}},
-                    {"$match": {"count": {"$gte": 2}}}
-                ]
-            )
-            response = []
-            for doc in cursor:
-                del doc["unique_ids"][0]
-                for k in doc["unique_ids"]:
-                    response.append(k)
-            bulk.find({"_id": {"$in": response}}).remove()
+            keys[key] = '${}'.format(key)
+        cursor = collection.aggregate(
+            [
+                {"$group": {"_id": keys, "unique_ids": {"$addToSet": "$_id"}, "count": {"$sum": 1}}},
+                {"$match": {"count": {"$gte": 2}}}
+            ]
+        )
+        response = []
+        for doc in cursor:
+            del doc["unique_ids"][0]
+            for k in doc["unique_ids"]:
+                response.append(k)
+        bulk.find({"_id": {"$in": response}}).remove()
         try:
             bulk.execute()
         except BulkWriteError as e:
