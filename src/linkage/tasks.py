@@ -25,8 +25,8 @@ def duplicate_collection(dfA, db, coll):
 
 
 def save_docs(df, dfA, dfB, db, coll):
-    del dfA['_id']
-    del dfB['_id']
+    # del dfA['_id']
+    # del dfB['_id']
     docs = []
     X = set()
     Y = set()
