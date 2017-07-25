@@ -82,9 +82,9 @@ def call_linkage_task():
             else:
                 dfB = pd.DataFrame(list(cursor))
                 dfB['ctituloConvocatoria'] = clean(clean(dfB['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
-                pcl = rl.Pairs(dfA, dfB)
-                pairs = pcl.full()
-                compare_cl = rl.Compare(pairs, dfA, dfB)
+                indexer = rl.SortedNeighbourhoodIndex(on='ctituloConvocatoria', window=9)
+                pairs = indexer.index(dfA, dfB)
+                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
                 # compare_cl.string('ctituloConvocatoria','ctituloConvocatoria', 'damerau_levenshtein', threshold=.9, name='tituloConvocatoria')
                 compare_cl.exact('ctituloConvocatoria', 'ctituloConvocatoria', name='tituloConvocatoria')
                 df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
@@ -113,9 +113,9 @@ def organization_linkage_task():
             else:
                 dfB = pd.DataFrame(list(cursor))
                 dfB['cnombre'] = clean(clean(clean(dfB['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
-                pcl = rl.Pairs(dfA, dfB)
-                pairs = pcl.full()
-                compare_cl = rl.Compare(pairs, dfA, dfB)
+                indexer = rl.SortedNeighbourhoodIndex(on='cnombre', window=9)
+                pairs = indexer.index(dfA, dfB)
+                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
                 # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
                 compare_cl.exact('cnombre', 'cnombre', name='nombre')
                 df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
@@ -144,14 +144,12 @@ def project_linkage_task():
             else:
                 dfB = pd.DataFrame(list(cursor))
                 dfB['ctituloProyecto'] = clean(clean(dfB['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
-                pcl = rl.Pairs(dfA, dfB)
-                pairs = pcl.full()
-                compare_cl = rl.Compare(pairs, dfA, dfB)
+                indexer = rl.SortedNeighbourhoodIndex(on='ctituloProyecto', window=9)
+                pairs = indexer.index(dfA, dfB)
+                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
                 # compare_cl.string('ctituloProyecto','ctituloProyecto', 'damerau_levenshtein', threshold=.9, name='tituloProyecto')
                 compare_cl.exact('ctituloProyecto', 'ctituloProyecto', name='tituloProyecto')
-                logging.info('ok')
                 df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
-                logging.info('ok')
                 del dfA['ctituloProyecto']
                 del dfB['ctituloProyecto']
                 save_docs(df, dfA, dfB, db, 'data.projects')
