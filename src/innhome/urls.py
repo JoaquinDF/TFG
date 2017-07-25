@@ -20,12 +20,14 @@ from django.contrib import admin
 import extract
 import transform
 import linkage
+import data
 import www
 
 url_api_v1 = [
     url(r'^extract/', include(extract.urls, namespace='extract')),
     url(r'^transform/', include(transform.urls, namespace='transform')),
     url(r'^linkage/', include(linkage.urls, namespace='linkage')),
+    url(r'^data/', include(data.urls, namespace='data')),
 ]
 
 urlpatterns = [

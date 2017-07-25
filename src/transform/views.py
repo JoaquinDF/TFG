@@ -6,11 +6,6 @@ from .tasks import *
 
 
 # CALL
-class CallViewSet(ReadOnlyModelViewSet):
-    queryset = Convocatoria.objects.all()
-    serializer_class = ConvocatoriaSerializer
-
-
 class CallMapperViewSet(ModelViewSet):
     queryset = ConvocatoriaMapper.objects.all()
     serializer_class = ConvocatoriaMapperSerializer
@@ -23,11 +18,6 @@ class CallMappingViewSet(ViewSet):
 
 
 # PROJECT
-class ProjectViewSet(ReadOnlyModelViewSet):
-    queryset = Proyecto.objects.all()
-    serializer_class = ProyectoSerializer
-
-
 class ProjectMapperViewSet(ModelViewSet):
     queryset = ProyectoMapper.objects.all()
     serializer_class = ProyectoMapperSerializer
@@ -40,11 +30,6 @@ class ProjectMappingViewSet(ViewSet):
 
 
 # ORGANIZATION
-class OrganizationViewSet(ReadOnlyModelViewSet):
-    queryset = Organizacion.objects.all()
-    serializer_class = OrganizacionSerializer
-
-
 class OrganizationMapperViewSet(ModelViewSet):
     queryset = OrganizacionMapper.objects.all()
     serializer_class = OrganizacionMapperSerializer
@@ -57,11 +42,6 @@ class OrganizationMappingViewSet(ViewSet):
 
 
 # PERSON
-class PersonViewSet(ReadOnlyModelViewSet):
-    queryset = Persona.objects.all()
-    serializer_class = PersonaSerializer
-
-
 class PersonMapperViewSet(ModelViewSet):
     queryset = PersonaMapper.objects.all()
     serializer_class = PersonaMapperSerializer
@@ -74,11 +54,6 @@ class PersonMappingViewSet(ViewSet):
 
 
 # PROJECT-CALL
-class ProjectCallViewSet(ReadOnlyModelViewSet):
-    queryset = ProyectoConvocatoria.objects.all()
-    serializer_class = ProyectoConvocatoriaSerializer
-
-
 class ProjectCallMapperViewSet(ModelViewSet):
     queryset = ProyectoConvocatoriaMapper.objects.all()
     serializer_class = ProyectoConvocatoriaMapperSerializer
@@ -91,11 +66,6 @@ class ProjectCallMappingViewSet(ViewSet):
 
 
 # PROJECT-ORGANIZATION
-class ProjectOrganizationViewSet(ReadOnlyModelViewSet):
-    queryset = ProyectoOrganizacion.objects.all()
-    serializer_class = ProyectoOrganizacionSerializer
-
-
 class ProjectOrganizationMapperViewSet(ModelViewSet):
     queryset = ProyectoOrganizacionMapper.objects.all()
     serializer_class = ProyectoOrganizacionMapperSerializer
@@ -108,11 +78,6 @@ class ProjectOrganizationMappingViewSet(ViewSet):
 
 
 # PERSON-PROJECT
-class PersonProjectViewSet(ReadOnlyModelViewSet):
-    queryset = PersonaProyecto.objects.all()
-    serializer_class = PersonaProyectoSerializer
-
-
 class PersonProjectMapperViewSet(ModelViewSet):
     queryset = PersonaProyectoMapper.objects.all()
     serializer_class = PersonaProyectoMapperSerializer
@@ -125,11 +90,6 @@ class PersonProjectMappingViewSet(ViewSet):
 
 
 # PERSON-ORGANIZATION
-class PersonOrganizationViewSet(ReadOnlyModelViewSet):
-    queryset = PersonaOrganizacion.objects.all()
-    serializer_class = PersonaOrganizacionSerializer
-
-
 class PersonOrganizationMapperViewSet(ModelViewSet):
     queryset = PersonaOrganizacionMapper.objects.all()
     serializer_class = PersonaOrganizacionMapperSerializer
