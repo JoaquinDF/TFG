@@ -5,17 +5,17 @@ from .views import *
 
 router = routers.DefaultRouter()
 
-router.register(r'projectMapper', ProjectMapperViewSet, r'projectMapper')
-router.register(r'projectMapping', ProjectMappingViewSet, r'projectMapping')
+router.register(r'projectmapper', ProjectMapperViewSet, r'projectmapper')
+router.register(r'projectmapping', ProjectMappingViewSet, r'projectmapping')
 
-router.register(r'callMapper', CallMapperViewSet, r'callMapper')
-router.register(r'callMapping', CallMappingViewSet, r'callMapping')
+router.register(r'callmapper', CallMapperViewSet, r'callmapper')
+router.register(r'callmapping', CallMappingViewSet, r'callmapping')
 
-router.register(r'organizationMapper', OrganizationMapperViewSet, r'organizationMapper')
-router.register(r'organizationMapping', OrganizationMappingViewSet, r'organizationMapping')
+router.register(r'organizationmapper', OrganizationMapperViewSet, r'organizationmapper')
+router.register(r'organizationmapping', OrganizationMappingViewSet, r'organizationmapping')
 
-router.register(r'personMapper', PersonMapperViewSet, r'personMapper')
-router.register(r'personMapping', PersonMappingViewSet, r'personMapping')
+router.register(r'personmapper', PersonMapperViewSet, r'personmapper')
+router.register(r'personmapping', PersonMappingViewSet, r'personmapping')
 
 router.register(r'projectcallmapper', ProjectCallMapperViewSet, r'projectcallmapper')
 router.register(r'projectcallmapping', ProjectCallMappingViewSet, r'projectcallmapping')
@@ -23,10 +23,10 @@ router.register(r'projectcallmapping', ProjectCallMappingViewSet, r'projectcallm
 router.register(r'projectorganizationmapper', ProjectOrganizationMapperViewSet, r'projectorganizationmapper')
 router.register(r'projectorganizationmapping', ProjectOrganizationMappingViewSet, r'projectorganizationmapping')
 
-router.register(r'personprojectMapper', PersonProjectMapperViewSet, r'personprojectMapper')
-router.register(r'personprojectMapping', PersonProjectMappingViewSet, r'personprojectMapping')
+router.register(r'personprojectmapper', PersonProjectMapperViewSet, r'personprojectmapper')
+router.register(r'personprojectmapping', PersonProjectMappingViewSet, r'personprojectmapping')
 
-router.register(r'personorganizationMapper', PersonOrganizationMapperViewSet, r'personorganizationMapper')
-router.register(r'personorganizationMapping', PersonOrganizationMappingViewSet, r'personorganizationMapping')
+router.register(r'personorganizationmapper', PersonOrganizationMapperViewSet, r'personorganizationmapper')
+router.register(r'personorganizationmapping', PersonOrganizationMappingViewSet, r'personorganizationmapping')
 
 urlpatterns = router.urls
