@@ -4,6 +4,7 @@ from celery import shared_task
 
 from utils.mapper import *
 from .models import *
+from data.models import *
 
 
 @shared_task

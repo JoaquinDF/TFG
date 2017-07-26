@@ -87,7 +87,7 @@ class PersonaProyectoMapper(Document):
     collection = StringField(required=True)
     persona = StringField(required=True)
     proyecto = StringField(required=True)
-    tipoRelaccion = StringField()
+    tipoRelaccion = StringField(default='Contacto')
 
     meta = {
         'collection': 'mapper.person-organization'
@@ -98,7 +98,7 @@ class PersonaOrganizacionMapper(Document):
     collection = StringField(required=True)
     persona = StringField(required=True)
     organizacion = StringField(required=True)
-    tipoRelaccion = StringField()
+    tipoRelaccion = StringField(default='Contacto')
 
     meta = {
         'collection': 'mapper.person-organization'
