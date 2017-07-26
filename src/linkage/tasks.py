@@ -199,3 +199,105 @@ def person_linkage_task():
                 del dfB['ctelefono']
                 save_docs(df, dfA, dfB, db, 'data.persons')
     return {'name': 'person_linkage_task', 'finished': True}
+
+
+@shared_task
+def project_call_linkage_task():
+    logging.info('project_call_linkage_task: started')
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        c = db['data.project-call']
+        c.delete_many({})
+        cols = [col for col in db.collection_names() if col.startswith('structured.project-call.')]
+        for col in cols:
+            c = db[col]
+            cursor = c.find({})
+            dfA = pd.DataFrame(list(cursor))
+            dfA['cproyecto'] = clean(clean(dfA['proyecto'], strip_accents='unicode'), replace_by_none=' ')
+            dfA['cconvocatoria'] = clean(clean(dfA['convocatoria'], strip_accents='unicode'), replace_by_none=' ')
+            c = db['data.projects']
+            cursor = c.find({})
+            dfB = pd.DataFrame(list(cursor))
+            dfB['cproyecto'] = clean(clean(dfB['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+            indexer = rl.SortedNeighbourhoodIndex(on='cproyecto', window=9)
+            pairs = indexer.index(dfA, dfB)
+            compare_cl = rl.Compare(pairs, dfA, dfB)
+            compare_cl.exact('cproyecto', 'cproyecto', name='proyecto')
+            df1 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+            c = db['data.calls']
+            cursor = c.find({})
+            dfC = pd.DataFrame(list(cursor))
+            dfC['cconvocatoria'] = clean(clean(dfC['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+            indexer = rl.SortedNeighbourhoodIndex(on='cconvocatoria', window=9)
+            pairs = indexer.index(dfA, dfC)
+            compare_cl = rl.Compare(pairs, dfA, dfC)
+            compare_cl.exact('cconvocatoria', 'cconvocatoria', name='convocatoria')
+            df2 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+            docs = []
+            for x, y in df1.index.tolist():
+                for i, j in df2.index.tolist():
+                    if x == i:
+                        docs.append({
+                            'proyecto': dfB.loc[y]['_id'],
+                            'convocatoria': dfC.loc[j]['_id']
+                        })
+            c = db['data.project-call']
+            bulk = c.initialize_ordered_bulk_op()
+            for doc in docs:
+                bulk.insert(doc)
+            try:
+                bulk.execute()
+            except BulkWriteError as bwe:
+                logging.error(bwe.details)
+    return {'name': 'project_call_linkage_task', 'finished': True}
+
+
+@shared_task
+def project_organization_linkage_task():
+    logging.info('project_organization_linkage_task: started')
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        c = db['data.project-organization']
+        c.delete_many({})
+        cols = [col for col in db.collection_names() if col.startswith('structured.project-organization.')]
+        for col in cols:
+            c = db[col]
+            cursor = c.find({})
+            dfA = pd.DataFrame(list(cursor))
+            dfA['cproyecto'] = clean(clean(dfA['proyecto'], strip_accents='unicode'), replace_by_none=' ')
+            dfA['corganizacion'] = clean(clean(dfA['organizacion'], strip_accents='unicode'), replace_by_none=' ')
+            c = db['data.projects']
+            cursor = c.find({})
+            dfB = pd.DataFrame(list(cursor))
+            dfB['cproyecto'] = clean(clean(dfB['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+            indexer = rl.SortedNeighbourhoodIndex(on='cproyecto', window=9)
+            pairs = indexer.index(dfA, dfB)
+            compare_cl = rl.Compare(pairs, dfA, dfB)
+            compare_cl.exact('cproyecto', 'cproyecto', name='proyecto')
+            df1 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+            c = db['data.organizations']
+            cursor = c.find({})
+            dfC = pd.DataFrame(list(cursor))
+            dfC['corganizacion'] = clean(clean(dfC['nombre'], strip_accents='unicode'), replace_by_none=' ')
+            indexer = rl.SortedNeighbourhoodIndex(on='corganizacion', window=9)
+            pairs = indexer.index(dfA, dfC)
+            compare_cl = rl.Compare(pairs, dfA, dfC)
+            compare_cl.exact('corganizacion', 'corganizacion', name='organizacion')
+            df2 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+            docs = []
+            for x, y in df1.index.tolist():
+                for i, j in df2.index.tolist():
+                    if x == i:
+                        docs.append({
+                            'proyecto': dfB.loc[y]['_id'],
+                            'organizacion': dfC.loc[j]['_id']
+                        })
+            c = db['data.project-organization']
+            bulk = c.initialize_ordered_bulk_op()
+            for doc in docs:
+                bulk.insert(doc)
+            try:
+                bulk.execute()
+            except BulkWriteError as bwe:
+                logging.error(bwe.details)
+    return {'name': 'project_organization_linkage_task', 'finished': True}
