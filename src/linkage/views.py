@@ -20,3 +20,9 @@ class ProjectLinkageViewSet(ViewSet):
     def create(self, request):
         project_linkage_task.delay()
         return Response({'name': 'project_linkage_task', 'queued': True})
+
+
+class PersonLinkageViewSet(ViewSet):
+    def create(self, request):
+        person_linkage_task.delay()
+        return Response({'name': 'person_linkage_task', 'queued': True})

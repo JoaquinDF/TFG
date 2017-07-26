@@ -6,7 +6,7 @@ import recordlinkage as rl
 
 from celery import shared_task
 from pymongo.errors import BulkWriteError
-from recordlinkage.standardise import clean
+from recordlinkage.standardise import clean, phonenumbers
 
 from utils.mongodb import Mongodb
 
@@ -154,3 +154,48 @@ def project_linkage_task():
                 del dfB['ctituloProyecto']
                 save_docs(df, dfA, dfB, db, 'data.projects')
     return {'name': 'project_linkage_task', 'finished': True}
+
+
+@shared_task
+def person_linkage_task():
+    logging.info('person_linkage_task: started')
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        cols = [col for col in db.collection_names() if col.startswith('structured.persons.')]
+        for col in cols:
+            c = db[col]
+            cursor = c.find({})
+            dfA = pd.DataFrame(list(cursor))
+            dfA['cnombre'] = clean(clean(dfA['nombre'], strip_accents='unicode'), replace_by_none=' ')
+            dfA['capellidos'] = clean(clean(dfA['apellidos'], strip_accents='unicode'), replace_by_none=' ')
+            dfA['ctelefono'] = phonenumbers(dfA['telefono'])
+            c = db['data.persons']
+            cursor = c.find({})
+            if c.count() == 0:
+                del dfA['cnombre']
+                del dfA['capellidos']
+                del dfA['ctelefono']
+                duplicate_collection(dfA, db, 'data.persons')
+            else:
+                dfB = pd.DataFrame(list(cursor))
+                dfB['cnombre'] = clean(clean(dfB['nombre'], strip_accents='unicode'), replace_by_none=' ')
+                dfB['capellidos'] = clean(clean(dfB['apellidos'], strip_accents='unicode'), replace_by_none=' ')
+                dfB['ctelefono'] = phonenumbers(dfB['telefono'])
+                indexer = rl.SortedNeighbourhoodIndex(on='ctelefono', window=9)
+                pairs = indexer.index(dfA, dfB)
+                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
+                # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
+                compare_cl.exact('cnombre', 'cnombre', name='nombre')
+                # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
+                compare_cl.exact('capellidos', 'capellidos', name='apellidos')
+                # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
+                compare_cl.exact('ctelefono', 'ctelefono', name='telefono')
+                df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+                del dfA['cnombre']
+                del dfB['cnombre']
+                del dfA['capellidos']
+                del dfB['capellidos']
+                del dfA['ctelefono']
+                del dfB['ctelefono']
+                save_docs(df, dfA, dfB, db, 'data.persons')
+    return {'name': 'person_linkage_task', 'finished': True}
