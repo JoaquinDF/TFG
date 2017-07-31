@@ -4,5 +4,5 @@
 'use strict';
 
 angular.module('innhomeweb', [
-  'ProyectList'
+  'projectList'
 ]);

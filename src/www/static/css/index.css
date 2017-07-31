@@ -8,9 +8,22 @@ body {
 }
 
 
+
+
+
 /*
  * Global add-ons
  */
+
+
+.bisite_color{
+    background-color: #c62540;
+
+}
+
+.bg-grey {
+    background-color: #f6f6f6;
+}
 
 .sub-header {
   padding-bottom: 10px;
@@ -23,6 +36,7 @@ body {
  */
 .navbar-fixed-top {
   border: 0;
+    padding-bottom: 20px;
 }
 
 /*
@@ -82,4 +96,10 @@ body {
 }
 .main .page-header {
   margin-top: 0;
+}
+
+buttoncontainer{
+    color: red;
+
+
 }
