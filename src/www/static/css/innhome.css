@@ -1,11 +1,17 @@
  .jumbotron {
-      background-color: #f4511e;
+      background-color: #c62540;
       color: #fff;
       padding: 100px 25px;
   }
+
   .bg-grey {
+    background-color: #f6f6f6;
+}
+  .container-fluid {
+      padding: 20px 20px;
+  }
+
+  .project {
       background-color: #f6f6f6;
   }
-  .container-fluid {
-      padding: 60px 50px;
-  }
+

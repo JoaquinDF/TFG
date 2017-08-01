@@ -9,12 +9,38 @@ angular.
     controller: ['$http', function ProjectListController($http) {
       var self = this;
 
-      $http.get('/api/v1/data/project/').then(function(response) {
+      $http.get('/api/v1/extract/data/?collection=data.projects').then(function(responseprojects) {
 
-        self.projects = response.data.results;
-                debugger;
+        self.projects = responseprojects.data.results;
 
       });
+
+        $http.get('/api/v1/extract/data/?collection=data.calls').then(function(responsecalls) {
+
+        self.calls = responsecalls.data.results;
+
+      });
+
+         $http.get('/api/v1/extract/data/?collection=data.organizations').then(function(responseorgs) {
+
+        self.organizations = responseorgs.data.results;
+
+      });
+        $http.get('/api/v1/extract/data/?collection=data.project-call').then(function(responseprojectcalls) {
+
+        self.projectcall = responseprojectcalls.data.results;
+
+      });
+        $http.get('/api/v1/data/projectorganization/').then(function(responseprojectorgs) {
+
+        self.projectorgs = responseprojectorgs.data.results;
+
+      });
+
+
+
     }]
 
   });
+
+

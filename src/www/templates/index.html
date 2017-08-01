@@ -14,7 +14,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <script src="/static/js/angular.js"></script>
+   <script src="/static/js/angular.js"></script>
     <script src="/static/js/app.module.js"></script>
     <script src="/static/js/project-list/project-list.module.js"></script>
     <script src="/static/js/project-list/project-list.component.js"></script>
@@ -22,15 +22,19 @@
 <body>
 
 <div class="jumbotron text-center bisite_color">
-  <h1>InnHome</h1>
+  <h1>INNHOME</h1>
   <p>Bisite</p>
+      <form class="form-inline">
+    <div class="input-group">
+      <input type="Search:" class="form-control" size="50" placeholder="Project | Calls | Organizations" required>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-danger">Search:</button>
+      </div>
+    </div>
+  </form>
 </div>
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-8">
-      <project-list></project-list>
-    </div>
-
+<project-list> </project-list>
   </div>
 </div>
 </body>
