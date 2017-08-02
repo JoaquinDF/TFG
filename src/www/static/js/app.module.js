@@ -3,6 +3,6 @@
  */
 'use strict';
 
-angular.module('innhomeweb', [
+var ListModule = angular.module('innhomeweb', [
   'projectList'
 ]);

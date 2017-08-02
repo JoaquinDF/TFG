@@ -1,15 +1,22 @@
-<div class="container-fluid">
+<div class="container-fluid ">
 
-      <ul class="project">
-        <li ng-repeat="project in $ctrl.projects ">
-          <a href="#">
-              {{project.tituloProyecto}}
+    <ul class="project">
 
-          </a>
+        <div ng-repeat="proyecto in $ctrl.projects">
+     <span ng-class-odd="'odd'" ng-class-even="'even'">
+            <div class="proyectcontainer">
+                <h4>{{ proyecto.tituloProyecto }}</h4>
+                <div ng-repeat="(key, value) in proyecto">
 
 
-        </li>
-      </ul>
+                    <h3>{{ key }}</h3>
+                    <h2>{{ value }}</h2>
+
+                </div>
+            </div>
+          </span>
+        </div>
+    </ul>
 
 
 </div>

@@ -6,10 +6,10 @@ angular.
   component('projectList', {
 
     templateUrl: '/static/templates/project-list.template.html',
-    controller: ['$http', function ProjectListController($http) {
+    controller: ['$http', function ProjectListController($http , $scope) {
       var self = this;
 
-      $http.get('/api/v1/extract/data/?collection=data.projects').then(function(responseprojects) {
+      $http.get('/api/v1/extract/data/?collection=data.projects&limit=10&offset=855').then(function(responseprojects) {
 
         self.projects = responseprojects.data.results;
 
@@ -24,6 +24,7 @@ angular.
          $http.get('/api/v1/extract/data/?collection=data.organizations').then(function(responseorgs) {
 
         self.organizations = responseorgs.data.results;
+
 
       });
         $http.get('/api/v1/extract/data/?collection=data.project-call').then(function(responseprojectcalls) {
@@ -41,6 +42,6 @@ angular.
 
     }]
 
-  });
+  }
 
-
+);
