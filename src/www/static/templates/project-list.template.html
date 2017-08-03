@@ -5,12 +5,18 @@
         <div ng-repeat="proyecto in $ctrl.projects">
      <span ng-class-odd="'odd'" ng-class-even="'even'">
             <div class="proyectcontainer">
-                <h4>{{ proyecto.tituloProyecto }}</h4>
-                <div ng-repeat="(key, value) in proyecto">
+                        <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} <span></h3>
+
+                <div ng-repeat="(key, value) in proyecto |filter:Search ">
+                <span ng-if="key!='_id'">
+                    <span ng-if="key !='tituloProyecto'">
+                        <h3>{{ key }}:  <span>{{ value }} <span></h3>
+
+                    </span>
+
+                </span>
 
 
-                    <h3>{{ key }}</h3>
-                    <h2>{{ value }}</h2>
 
                 </div>
             </div>

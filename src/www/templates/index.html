@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="/static/css/innhome.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-   <script src="/static/js/angular.js"></script>
+    <script src="/static/js/angular.js"></script>
     <script src="/static/js/app.module.js"></script>
     <script src="/static/js/project-list/project-list.module.js"></script>
     <script src="/static/js/project-list/project-list.component.js"></script>
@@ -24,21 +26,73 @@
 <body>
 
 <div class="jumbotron text-center bisite_color">
-  <h1>INNHOME</h1>
-  <p>Bisite</p>
-      <form class="form-inline">
-    <div class="input-group">
-      <input type="Search:" class="form-control" size="50" placeholder="Project | Calls | Organizations" required>
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-danger">Search:</button>
-      </div>
-    </div>
-  </form>
-</div>
-<div class="container-fluid"  >
-<project-list></project-list>
+    <h1>INNHOME</h1>
+    <p>Bisite</p>
 
-  </div>
+    <div class="w3-row" style="padding: 20px 20px 80px 20px">
+    <a href="javascript:void(0)" onclick="openTab(event, 'Projects');">
+        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-button  w3-left-align ">London</div>
+    </a>
+    <a href="javascript:void(0)" onclick="openTab(event, 'Calls');">
+        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-button  w3-left-align ">Paris</div>
+    </a>
+    <a href="javascript:void(0)" onclick="openTab(event, 'Organizations');">
+        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding  w3-button  w3-left-align ">Tokyo</div>
+    </a>
 </div>
+    <form class="form-inline">
+        <div class="input-group">
+            <input ng-model="Search" class="form-control" size="50" placeholder="..." required>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-danger">Search:</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+
+<div id="Projects" class="w3-container tab" style="display:none">
+    <project-list></project-list>
+</div>
+
+<div id="Calls" class="w3-container tab" style="display:none">
+    <h2>Paris</h2>
+    <p>Paris is the capital of France.</p>
+</div>
+
+<div id="Organizations" class="w3-container tab" style="display:none">
+    <h2>Tokyo</h2>
+    <p>Tokyo is the capital of Japan.</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+function openTab(evt, tabName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("tab");
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+      debugger;
+      tablinks[i].className = tablinks[i].className.replace(" w3-light-grey", "");
+      debugger;
+      tablinks[i].className = tablinks[i].className.replace(" w3-border-white", "");
+
+  }
+  document.getElementById(tabName).style.display = "block";
+  debugger;
+  evt.currentTarget.firstElementChild.className += " w3-light-grey";
+  debugger;
+  evt.currentTarget.firstElementChild.className += " w3-border-white";
+
+}
+</script>
 </body>
 </html>
