@@ -31,24 +31,16 @@
 
     <div class="w3-row" style="padding: 20px 20px 80px 20px">
     <a href="javascript:void(0)" onclick="openTab(event, 'Projects');">
-        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-button  w3-left-align ">London</div>
+        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-button  w3-left-align ">Projects</div>
     </a>
     <a href="javascript:void(0)" onclick="openTab(event, 'Calls');">
-        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-button  w3-left-align ">Paris</div>
+        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-button  w3-left-align ">Calls</div>
     </a>
     <a href="javascript:void(0)" onclick="openTab(event, 'Organizations');">
-        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding  w3-button  w3-left-align ">Tokyo</div>
+        <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding  w3-button  w3-left-align ">Organizations</div>
     </a>
 </div>
-    <form class="form-inline">
-        <div class="input-group">
-            <input ng-model="Search" class="form-control" size="50" placeholder="..." required>
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-danger">Search:</button>
-            </div>
-        </div>
 
-    </form>
 </div>
 
 
@@ -80,16 +72,12 @@ function openTab(evt, tabName) {
   }
   tablinks = document.getElementsByClassName("tablink");
   for (i = 0; i < x.length; i++) {
-      debugger;
       tablinks[i].className = tablinks[i].className.replace(" w3-light-grey", "");
-      debugger;
       tablinks[i].className = tablinks[i].className.replace(" w3-border-white", "");
 
   }
   document.getElementById(tabName).style.display = "block";
-  debugger;
   evt.currentTarget.firstElementChild.className += " w3-light-grey";
-  debugger;
   evt.currentTarget.firstElementChild.className += " w3-border-white";
 
 }

@@ -13,6 +13,8 @@ angular.
 
         self.projects = responseprojects.data.results;
 
+
+
       });
 
         $http.get('/api/v1/extract/data/?collection=data.calls').then(function(responsecalls) {

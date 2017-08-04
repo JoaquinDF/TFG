@@ -1,28 +1,56 @@
-<div class="container-fluid ">
+<div class="container-fluid" >
+    <form class="form-inline">
+        <div class="input-group">
+            <input ng-model="search" class="form-control" size="50" placeholder="..." required onkeyup="hidediv(event)">
 
+        </div>
+
+    </form>
     <ul class="project">
 
-        <div ng-repeat="proyecto in $ctrl.projects">
-     <span ng-class-odd="'odd'" ng-class-even="'even'">
-            <div class="proyectcontainer">
-                        <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} <span></h3>
+        <div ng-repeat="proyecto in $ctrl.projects  ">
 
-                <div ng-repeat="(key, value) in proyecto |filter:Search ">
-                <span ng-if="key!='_id'">
+            <span ng-class-odd="'odd'" ng-class-even="'even'">
+
+
+ <div class="proyectcontainer"   >
+<div ng-repeat="(key, value) in proyecto | custom:search " >
+        <span ng-if="key!='_id'">
+                    <span ng-if="key =='tituloProyecto'">
+                        <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} </span></h3>
+
+                    </span>
                     <span ng-if="key !='tituloProyecto'">
-                        <h3>{{ key }}:  <span>{{ value }} <span></h3>
+                        <h3>{{ key }}:  <span>{{ value }} </span></h3>
 
                     </span>
 
                 </span>
-
-
-
-                </div>
+        </div>
             </div>
           </span>
         </div>
     </ul>
 
+
+<script>
+function hidediv(evt) {
+var x ;
+    x = document.getElementsByClassName("ng-scope")
+
+
+
+for (i = 0; i < x.length; i++) {
+
+     var a = x[i];
+     if((a.innerText=="" || (/^\s+$/.test(a.innerText))) && a.tagName=="DIV"){
+ a.style.display = 'none';
+     }else{
+ a.style.display = 'block'
+     }
+    ;
+  }
+}
+</script>
 
 </div>
