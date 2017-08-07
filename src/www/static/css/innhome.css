@@ -3,6 +3,7 @@
       color: #fff;
       padding: 10px 25px;
       font-family: "roboto" !important;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
      font-weight: 600;!important;
   }
 .bg-bisite{
@@ -22,6 +23,50 @@
 
   }
 
+   .searchcontainer {
+      padding: 10px 5px;
+      background-color: white;
+      border-bottom-style: solid;
+      border-color: #c62540;
+      border-width: 1px;
+      border-radius: 6px;
+       width: 75%;
+      margin-top: 20px;
+     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  }
+   .btn-primary{
+       margin: 10px;!important;
+       background-color: #c62540;!important;
+
+
+   }
+
+
+
+
+
+ .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+  color: #ffffff !important;
+  background-color: #B4213B !important;
+  border-color: #B4213B !important;
+}
+
+
+   .material-icons{
+       font-size: 45px !important;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); !important;
+   }
+.searchcontainer .btn-group .page-counter {
+    display: inline;
+}
+
+
+
+
+.searchtext {
+    display:inline ;
+    outline: none;
+}
 
 
   h1{

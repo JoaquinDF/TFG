@@ -4,9 +4,11 @@
 var plist = angular.module('projectList', []);
 
 
-plist
+plist //return the data filtered
 .filter('custom', function() {
   return function(input, search) {
+  var success;
+  success = false;
 
     if (!input) return input;
     if (!search) return input;
@@ -15,56 +17,27 @@ plist
     angular.forEach(input, function(value, key) {
       var actual = ('' + value).toLowerCase();
       if (actual.indexOf(expected) !== -1) {
-        result[key] = value;
+        success = true;
+        debugger;
       }
     });
-    ;
-    console.log("FIN")
-    debugger;
+    if(success==true){
+      angular.forEach(input, function(value, key) {
+        result[key] = value;
+
+      });
+
+       success=false;
+        return result;
+    };
+
+
       return result;
   }
 });
-/*
-
-plist.filter('byCategory', function () {
-    return function (input, search) {
-        debugger;
-    if (!input) return input;
-    if (!search) return input;
-
-    var modelo,busqueda; //modelo= que propiedad busqueda= que es
-    var result = {};
-
-
-    search = search.toLowerCase();
-
-        var splited = search.split(" ");
-        if(splited.length>2)return result;
-
-        modelo = splited[0];
-        busqueda = splited[1];
-
-        //
-debugger;
-        if(modelo.indexOf("proyect")!=-1 || modelo.indexOf("project")!=-1){
-debugger;
-            if(busqueda === null){
-                result = input.tituloProyecto;
-                return result;
-            }else{
-                if(input.indexOf(search)!=-1){
-                    result = input;
-                    return result;
-                }else {
-                    return result;
-                }
-            }
-        }
 
 
 
 
 
-    }
 
-})*/

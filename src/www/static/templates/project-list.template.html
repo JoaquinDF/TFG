@@ -1,9 +1,33 @@
-<div class="container-fluid" >
+<div class="container-fluid">
     <form class="form-inline">
-        <div class="input-group">
-            <input ng-model="search" class="form-control" size="50" placeholder="..." required onkeyup="hidediv(event)">
+
+        <div style="width: 100%">
+            <div class="input-group searchcontainer" style="display: inline-flex">
+                <input ng-model="search" class="w3-input searchtext" size="50" placeholder=". . .  " required
+                       onkeyup="hidediv(event)">
+
+
+            </div>
+           <div class="input-group searchcontainer  " style="display: inline-flex ; width: 20%;">
+                <input ng-model="pagecounter" size="50" class="w3-input searchtext" placeholder="Pág: "  style="width: 40%" ng-change="$ctrl.changepage(pagecounter)" ">
+               <h5>de {{ $ctrl.currentpage}} de {{$ctrl.countprojects }} </h5>
+
+            </div>
+
+            <div class="btn-group btn-group-justified" style="margin-top: 20px">
+                <a href="#" class="btn btn-primary material-icons"
+                   ng-click="$ctrl.prevproject()">
+                    keyboard_arrow_left
+                </a>
+                <a href="#" class="btn btn-primary material-icons"
+                   ng-click="$ctrl.nextproject()">
+                    keyboard_arrow_right</a>
+
+            </div>
+
 
         </div>
+
 
     </form>
     <ul class="project">
@@ -13,13 +37,13 @@
             <span ng-class-odd="'odd'" ng-class-even="'even'">
 
 
- <div class="proyectcontainer"   >
-<div ng-repeat="(key, value) in proyecto | custom:search " >
-        <span ng-if="key!='_id'">
-                    <span ng-if="key =='tituloProyecto'">
-                        <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} </span></h3>
+ <div class="proyectcontainer">
 
-                    </span>
+<div ng-repeat="(key, value) in proyecto | custom:search ">
+        <span ng-if="key!='_id'">
+            <span ng-if="key =='tituloProyecto'">
+              <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} </span></h3>
+            </span>
                     <span ng-if="key !='tituloProyecto'">
                         <h3>{{ key }}:  <span>{{ value }} </span></h3>
 
@@ -33,24 +57,23 @@
     </ul>
 
 
-<script>
-function hidediv(evt) {
-var x ;
-    x = document.getElementsByClassName("ng-scope")
+    <script>
+        function hidediv(evt) {
+            var x;
+            x = document.getElementsByClassName("ng-scope")
 
 
+            for (i = 0; i < x.length; i++) {
 
-for (i = 0; i < x.length; i++) {
-
-     var a = x[i];
-     if((a.innerText=="" || (/^\s+$/.test(a.innerText))) && a.tagName=="DIV"){
- a.style.display = 'none';
-     }else{
- a.style.display = 'block'
-     }
-    ;
-  }
-}
-</script>
+                var a = x[i];
+                if ((a.innerText == "" || (/^\s+$/.test(a.innerText))) && a.tagName == "DIV") {
+                    a.style.display = 'none';
+                } else {
+                    a.style.display = 'block'
+                }
+                ;
+            }
+        }
+    </script>
 
 </div>
