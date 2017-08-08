@@ -3,6 +3,11 @@
  */
 'use strict';
 
-var ListModule = angular.module('innhomeweb', [
-  'projectList'
+var Appmodule = angular.module('innhomeweb', [
+    'projectList',
+  'callList'
 ]);
+
+
+
+

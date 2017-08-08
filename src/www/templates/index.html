@@ -23,6 +23,8 @@
     <script src="/static/js/project-list/project-list.module.js"></script>
     <script src="/static/js/project-list/project-list.component.js"></script>
 
+    <script src="/static/js/call-list/call-list.module.js"></script>
+    <script src="/static/js/call-list/call-list.component.js"></script>
 
 </head>
 <body>
@@ -30,6 +32,7 @@
 <div class="jumbotron text-center bisite_color example z-depth-2">
     <h1>INNHOME</h1>
     <p>Bisite</p>
+
 
     <div class="w3-row" style="padding: 20px 20px 80px 20px">
     <a href="javascript:void(0)" onclick="openTab(event, 'Projects');">
@@ -47,16 +50,15 @@
 
 
 
-<div id="Projects" class="w3-container tab" style="display:none">
+<div id="Projects" class="w3-container tab w3-animate-opacity" style="display:none">
     <project-list></project-list>
 </div>
 
-<div id="Calls" class="w3-container tab" style="display:none">
-    <h2>Paris</h2>
-    <p>Paris is the capital of France.</p>
+<div id="Calls" class="w3-container tab w3-animate-opacity" style="display:none">
+    <call-list></call-list>
 </div>
 
-<div id="Organizations" class="w3-container tab" style="display:none">
+<div id="Organizations" class="w3-container tab w3-animate-opacity" style="display:none">
     <h2>Tokyo</h2>
     <p>Tokyo is the capital of Japan.</p>
 </div>

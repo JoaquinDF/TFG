@@ -1,10 +1,10 @@
 'use strict';
 
 // Define the `projectList` module
-var plist = angular.module('projectList', []);
+var clist = angular.module('callList', []);
 
 
-plist //return the data filtered
+clist //return the data filtered
 .filter('custom', function() {
   return function(input, search) {
   var success;
@@ -36,8 +36,24 @@ plist //return the data filtered
   }
 });
 
+clist.controller('Ctrl', ['$scope', function($scope) {
+    $scope.isobj = function (a) {
+        debugger;
+        if(angular.isObject(a)){
+              angular.forEach(a, function(value, key) {
+                         console.log("Key= "+ value + " Value= " + key);
 
+              });
+        }
+        return angular.isObject(a);
 
+    }
+    $scope.debug = function (a,b) {
+        console.log("Key= "+ a + " Value= " + b);
+        debugger;
+
+    }
+}]);
 
 
 
