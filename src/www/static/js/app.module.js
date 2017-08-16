@@ -11,5 +11,3 @@ var Appmodule = angular.module('innhomeweb', [
 ]);
 
 
-
-
