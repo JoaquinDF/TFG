@@ -52,7 +52,6 @@ angular.module('projectList').component('projectList', {
                         page *= 10;
                         var http = "/api/v1/extract/data/?collection=data.projects&limit=10&offset=" + page;
 
-                        console.log(http);
                         $http.get(http).then(function (responseprojects) {
                             if (responseprojects.data) {
 

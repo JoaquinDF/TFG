@@ -9,7 +9,6 @@ angular.module('callList').component('callList', {
             $http.get('/api/v1/extract/data/?collection=data.calls&limit=10&offset=0').then(function (responsecalls) {
 
                 self.calls = responsecalls.data.results;
-                debugger;
                 self.callsnext = responsecalls.data.next;
                 self.callsprev = responsecalls.data.previous;
                 self.countcalls = Math.floor((responsecalls.data.count) / 10);
@@ -53,12 +52,10 @@ angular.module('callList').component('callList', {
                         page *= 10;
                         var http = "/api/v1/extract/data/?collection=data.calls&limit=10&offset=" + page;
 
-                        console.log(http);
                         $http.get(http).then(function (responsecalls) {
                             if (responsecalls.data) {
 
                                 self.calls = responsecalls.data.results;
-
                                 self.callsnext = responsecalls.data.next;
                                 self.callsprev = responsecalls.data.previous;
 

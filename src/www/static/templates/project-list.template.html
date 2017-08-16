@@ -16,11 +16,11 @@
 
             <div class="btn-group btn-group-justified" style="margin-top: 20px">
                 <a href="#" class="btn btn-primary material-icons"
-                   ng-click="$ctrl.prevproject()">
+                   ng-click="$ctrl.prevproject()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                     keyboard_arrow_left
                 </a>
                 <a href="#" class="btn btn-primary material-icons"
-                   ng-click="$ctrl.nextproject()">
+                   ng-click="$ctrl.nextproject()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                     keyboard_arrow_right</a>
 
             </div>

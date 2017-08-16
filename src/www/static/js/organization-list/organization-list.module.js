@@ -53,7 +53,6 @@ olist.controller('Ctrl', ['$scope', function ($scope) {
     $scope.isobj = function (a) {
         if (angular.isObject(a)) {
             angular.forEach(a, function (value, key) {
-                console.log("Key= " + value + " Value= " + key);
 
             });
         }
@@ -61,8 +60,6 @@ olist.controller('Ctrl', ['$scope', function ($scope) {
 
     }
     $scope.debug = function (a, b) {
-        console.log("Key= " + a + " Value= " + b);
-        debugger;
 
     }
 }]);
