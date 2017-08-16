@@ -1,10 +1,10 @@
 'use strict';
 
 // Define the `projectList` module
-var clist = angular.module('callList', []);
+var olist = angular.module('organizationList', []);
 
 
-clist //return the data filtered
+olist //return the data filtered
     .filter('custom', function () {
         return function (input, search) {
             var success;
@@ -37,9 +37,8 @@ clist //return the data filtered
         }
     });
 
-clist.controller('Ctrl', ['$scope', function ($scope) {
+olist.controller('Ctrl', ['$scope', function ($scope) {
     $scope.isobj = function (a) {
-        debugger;
         if (angular.isObject(a)) {
             angular.forEach(a, function (value, key) {
                 console.log("Key= " + value + " Value= " + key);
@@ -54,9 +53,10 @@ clist.controller('Ctrl', ['$scope', function ($scope) {
         debugger;
 
     }
-    
-
 }]);
+
+
+
 
 
 

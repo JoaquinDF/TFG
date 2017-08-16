@@ -5,36 +5,37 @@ var plist = angular.module('projectList', []);
 
 
 plist //return the data filtered
-.filter('custom', function() {
-  return function(input, search) {
-  var success;
-  success = false;
+    .filter('custom', function () {
+        return function (input, search) {
+            var success;
+            success = false;
 
-    if (!input) return input;
-    if (!search) return input;
-    var expected = ('' + search).toLowerCase();
-    var result = {};
-    angular.forEach(input, function(value, key) {
-      var actual = ('' + value).toLowerCase();
-      if (actual.indexOf(expected) !== -1) {
-        success = true;
+            if (!input) return input;
+            if (!search) return input;
+            var expected = ('' + search).toLowerCase();
+            var result = {};
+            angular.forEach(input, function (value, key) {
+                var actual = ('' + value).toLowerCase();
+                if (actual.indexOf(expected) !== -1) {
+                    success = true;
 
-      }
+                }
+            });
+            if (success == true) {
+                angular.forEach(input, function (value, key) {
+                    result[key] = value;
+
+                });
+
+                success = false;
+                return result;
+            }
+            ;
+
+
+            return result;
+        }
     });
-    if(success==true){
-      angular.forEach(input, function(value, key) {
-        result[key] = value;
-
-      });
-
-       success=false;
-        return result;
-    };
-
-
-      return result;
-  }
-});
 
 
 
