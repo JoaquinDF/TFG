@@ -1,11 +1,17 @@
- .jumbotron {
-      background-color: #c62540;
-      color: #fff;
-      padding: 10px 25px;
-      font-family: "roboto" !important;
-     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-     font-weight: 600;!important;
-  }
+
+
+ * {
+      font-family: roboto;!important;
+        font-weight: 200; !important;
+     font-size: initial;
+    }
+
+
+ .w3-input{
+     background-color: transparent;
+     border-color: #f6f6f6;
+ }
+
 .bg-bisite{
     color: #c62540;
 }
@@ -14,7 +20,7 @@
 }
   .proyectcontainer {
       padding: 20px 20px;
-      background-color: #f6f6f6;
+     // background-color: #f6f6f6;
       border-style: solid;
       border-color: #c62540;
       border-width: 1px;
@@ -25,7 +31,7 @@
 
    .searchcontainer {
       padding: 10px 5px;
-      background-color: white;
+
       border-bottom-style: solid;
       border-color: #c62540;
       border-width: 1px;
@@ -36,9 +42,16 @@
   }
    .btn-primary{
        margin: 10px;!important;
-       background-color: #c62540;!important;
+       border-color: #c62540;!important;
+       background-color: transparent;!important;
+       color: black;!important;
 
 
+
+   }
+
+   .tablink:focus, .tablink:hover{
+       text-decoration: none;
    }
 
 
@@ -47,8 +60,8 @@
    }
 
  .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-  color: #ffffff !important;
-  background-color: #B4213B !important;
+  color: black !important;
+  background-color: transparent !important;
   border-color: #B4213B !important;
 }
 
@@ -70,31 +83,18 @@
 }
 
 
-  h1{
-      font-family: roboto;
-  }
 
- h3{
-        font-family: "roboto" !important;
-        font-weight: 300 !important;
-    }
- span{
-      font-family: "roboto" !important;
-        font-weight: 600;!important;
- }
 
-h4{
-        font-family: "roboto" !important;
-        font-weight: 400 !important;
-    }
+
+
 
 
   .odd .proyectcontainer{
-      background-color: white;
+     // background-color: white;
   }
 
   .even .proyectcontainer{
-      background-color: #f6f6f6;
+   //   background-color: #f6f6f6;
   }
   .animate-show-hide.ng-hide {
   opacity: 0;
@@ -104,3 +104,6 @@ h4{
 .animate-show-hide.ng-hide-remove {
   transition: all linear 1s;
 }
+
+
+
