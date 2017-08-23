@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_celery_beat',
     'extract',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -143,6 +144,7 @@ mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
 
 # Celery configuration

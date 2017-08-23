@@ -22,6 +22,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 
+<link rel="icon" href="/static/images/icon.png" type="image/png">
+
     <script src="/static/js/angular.js"></script>
     <script src="/static/js/app.module.js"></script>
 
@@ -39,7 +41,7 @@
     <body class="w3-theme">
 
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4" style="z-index:3;width:250px; " id="mySidebar">
-  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="#"><img src="https://bisite.usal.es/archivos/bisite-usal-es.png" style="width:80%;"></a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="#"><img src="/static/images/bisite-usal-es.png" style="width:80%;"></a>
   <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
   <a class="w3-bar-item tablink w3-button w3-theme-d1 " href="#" onclick="openTab(event,'Projects')">Projects</a>
   <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Calls')">Calls</a>
@@ -58,8 +60,7 @@
 
 
 <header class=" w3-theme-d4 w3-centered" style="padding:64px 320px">
-  <h1 class="w3-xxxlarge">Innhome</h1>
-  <h2 class="w3-xxlarge">Bisite</h2>
+<img src="/static/images/innhome.png">
 </header>
 
 <div id="Projects" class="w3-container tab w3-animate-opacity w3-theme-l5" style="display:block">
@@ -67,12 +68,18 @@
 </div>
 
 <div id="Calls" class="w3-container tab w3-theme-l5 w3-animate-opacity" style="display:none">
+
     <call-list></call-list>
+
 </div>
 
 <div id="Organizations" class="w3-container w3-theme-l5 tab w3-animate-opacity" style="display:none">
-    <organization-list></organization-list>
+
+        <organization-list></organization-list>
 </div>
+
+
+
 
 <footer class="w3-container w3-theme-d3" style="padding:32px 320px">
 <img alt="Bisite Research Group" src="http://bisite.usal.es/archivos/favicon_2.png" width="42" height="42">

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" >
     <form class="form-inline">
 
         <div style="width: 100%">
@@ -8,11 +8,12 @@
 
 
             </div>
-           <div class="input-group searchcontainer  " style="display: inline-flex ; width: 20%;">
-                <input ng-model=$ctrl.pagecounter size="50" class="w3-input searchtext" placeholder="Pág: "  style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounter)" ">
-               <h5>de {{$ctrl.currentpage}} de {{$ctrl.countprojects }} </h5>
+           <div class="input-group searchcontainer  "  style="display: inline-flex ; width: 20%;">
+                <input ng-model=$ctrl.pagecounter size="50" class="w3-input searchtext" placeholder="Pág: "  style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounter)">
+               <h5>{{$ctrl.currentpage}} de {{$ctrl.countprojects }} </h5>
 
             </div>
+
 
             <div class="btn-group btn-group-justified" style="margin-top: 20px">
                 <a href="#" class="btn btn-primary material-icons"
@@ -25,11 +26,13 @@
 
             </div>
 
-
         </div>
 
 
     </form>
+
+
+
     <div class="project w3-animate-opacity" style="margin: 20px">
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
