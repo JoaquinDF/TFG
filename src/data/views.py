@@ -1,10 +1,12 @@
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet;
+
 import django_filters.rest_framework
 
 from .serializers import *
 from rest_framework import filters
 from rest_framework import generics
 
+# Get an instance of a logger
 
 # CALL
 class CallViewSet(ReadOnlyModelViewSet):
@@ -14,23 +16,22 @@ class CallViewSet(ReadOnlyModelViewSet):
 
 # PROJECT
 class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
-    queryset = Proyecto.objects.all()
     serializer_class = ProyectoSerializer
-    filter_backends = (filters.OrderingFilter,)
-    ordering_fields = ('tituloProyecto',)
-
 
     def get_queryset(self):
-        queryset = Proyecto.objects.all()
-        titulo = self.request.query_params.get('titulo', None)
-        if titulo is not None:
-            queryset = queryset.filter(tituloProyecto=titulo)
-        return queryset
 
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
         queryset = Proyecto.objects.all()
-        subvencion = self.request.query_params.get('subvencion', None)
-        if subvencion is not None:
-            queryset = queryset.filter(subvencion=subvencion)
+        username = self.request.query_params.get('name', None)
+        if username is not None:
+            queryset = queryset.filter(tituloProyecto__contains=username)
+            return queryset
+        username = self.request.query_params.get('money', None)
+        if username is not None:
+            queryset = queryset.filter(subvencion=username)
         return queryset
 
 
@@ -48,19 +49,35 @@ class PersonViewSet(ReadOnlyModelViewSet):
 
 # PROJECT-CALL
 class ProjectCallViewSet(ReadOnlyModelViewSet):
-    queryset = ProyectoConvocatoria.objects.all()
     serializer_class = ProyectoConvocatoriaSerializer
 
 
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = ProyectoConvocatoria.objects.all()
+        username = self.request.query_params.get('call', None)
+        if username is not None:
+            queryset = queryset.filter(convocatoria=username)
+        return queryset
+
 # PROJECT-ORGANIZATION
 class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
-    queryset = ProyectoOrganizacion.objects.all()
+
     serializer_class = ProyectoOrganizacionSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('proyecto','organizacion')
 
-
-
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = ProyectoOrganizacion.objects.all()
+        asd = self.request.query_params.get('org', None)
+        if asd is not None:
+            queryset = queryset.filter(organizacion__contains=asd)
+        return queryset
 
 
 # PERSON-PROJECT

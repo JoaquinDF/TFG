@@ -44,8 +44,12 @@
 
 <div ng-repeat="(key, value) in proyecto | custom:search ">
         <span ng-if="key!='_id'">
-            <span ng-if="key =='tituloProyecto'">
-              <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} </span></h3>
+
+               <span ng-if="key =='tituloProyecto'">
+                   <a href="/www/search/{{ proyecto._id.$oid }}">
+                                     <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} </span></h3>
+
+                   </a>
             </span>
                     <span ng-if="key !='tituloProyecto'">
                         <span ng-if="value" != "NaN">
@@ -55,7 +59,7 @@
 
                 </span>
         </div>
-            </div>
+ </div>
           </span>
         </div>
     </div>
