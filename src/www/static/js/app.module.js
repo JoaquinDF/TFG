@@ -11,3 +11,10 @@ var Appmodule = angular.module('innhomeweb', [
 ]);
 
 
+ Appmodule
+.controller('MainCtrl', ['$scope', '$location',
+                        function ($scope,$location) {
+ $scope.redirectTo = function(from,where){
+     $location.url("'/www/search/' + from + '-' + where");
+ }
+    }]);
