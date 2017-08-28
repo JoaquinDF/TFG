@@ -36,16 +36,20 @@
     <script src="/static/js/call-list/call-list.module.js"></script>
     <script src="/static/js/call-list/call-list.component.js"></script>
 
+    <script src="/static/js/search-list/search-list.module.js"></script>
+    <script src="/static/js/search-list/search-list.component.js"></script>
+
 </head>
 
     <body class="w3-theme">
 
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4" style="z-index:3;width:250px; " id="mySidebar">
-  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="#"><img src="/static/images/bisite-usal-es.png" style="width:80%;"></a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/"><img src="/static/images/bisite-usal-es.png" style="width:80%;"></a>
   <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
-  <a class="w3-bar-item tablink w3-button w3-theme-d1 " href="#" onclick="openTab(event,'Projects')">Projects</a>
+  <a class="w3-bar-item tablink w3-button  " href="#" onclick="openTab(event,'Projects')">Projects</a>
   <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Calls')">Calls</a>
   <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Organizations')" >Organizations</a>
+  <a class="w3-bar-item tablink w3-buttonc w3-disabled" href="#" onclick="openTab(event,'Search')" >Search</a>
 
 </nav>
 
@@ -63,7 +67,7 @@
 <img src="/static/images/innhome.png">
 </header>
 
-<div id="Projects" class="w3-container tab w3-animate-opacity w3-theme-l5" style="display:block">
+<div id="Projects" class="w3-container tab w3-animate-opacity w3-theme-l5" style="display:none">
     <project-list></project-list>
 </div>
 
@@ -72,7 +76,11 @@
     <call-list></call-list>
 
 </div>
+<div id="Search" class="w3-container tab w3-theme-l5 w3-animate-opacity" style="display:none" >
 
+    <search-list></search-list>
+
+</div>
 <div id="Organizations" class="w3-container w3-theme-l5 tab w3-animate-opacity" style="display:none">
 
         <organization-list></organization-list>
@@ -91,6 +99,7 @@
 
 <script>
   window.onscroll = function() {myFunction()};
+  window.onload = function () {LoadSearch()}
 function myFunction() {
     if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
         document.getElementById("myTop").classList.add("w3-card-4", "w3-animate-opacity");
@@ -100,6 +109,18 @@ function myFunction() {
         document.getElementById("myTop").classList.remove("w3-card-4", "w3-animate-opacity");
     }
 }
+function LoadSearch() {
+    var x = document.URL;
+    regex = new RegExp('\/(p|o|c)[0-9a-zA-Z]*');
+    search = regex.exec(x);
+    debugger;
+    if(search!=null){
+        openTab(null,'Search');
+    }
+
+}
+
+
 </script>
 
 </body>

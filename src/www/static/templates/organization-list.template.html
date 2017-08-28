@@ -29,10 +29,16 @@
 						<ul class="project">
 
 							<div ng-repeat="organization in $ctrl.organizations ">
+                           <a href="/www/o{{ organization._id.$oid }}" style="display: block">
+
 								<div ng-class-odd="'odd'" ng-class-even="'even'">
                                     <span ng-if="organization">
 									<div class="proyectcontainer">
+
 										<div ng-repeat="(key, value) in organization | custom:search " ng-controller="Ctrl" >
+
+                                                        <span ng-if="key!='_id'">
+
                                              <span ng-if="isobj(value)== false">
 
 												<span ng-if="value" !="NaN">
@@ -42,7 +48,9 @@
 													</h3>
 												</span>
                                             </span>
-                                            </div>
+                                                        </span>
+
+                                        </div>
                                         <div ng-repeat="(key, value) in organization | custom:search " ng-controller="Ctrl" >
 											<span ng-if="isobj(value)== true">
 
@@ -55,10 +63,11 @@
 											</span>
 
 										</div>
+
 									</div>
 								</span>
 							</div>
-
+                                    </a>
 
 						</div>
 
@@ -71,13 +80,10 @@
             var x;
             x = document.getElementsByClassName("ng-scope")
 
-            debugger;
             for (i = 0; i < x.length; i++) {
 
                 var a = x[i];
-                debugger;
                 if ((a.innerText == "" || (/^\s+$/.test(a.innerText))) && a.tagName == "DIV") {
-                    debugger;
                     a.style.display = 'none';
                 } else {
                     a.style.display = 'block'

@@ -3,6 +3,5 @@ from .views import *
 
 
 urlpatterns = [
-    url(r'^$', index, name='index'),
-    url(r'^search/', indexsearch,name='index'),
+    url(r'^', index, name='index'),
 ]

@@ -6,7 +6,9 @@
 var Appmodule = angular.module('innhomeweb', [
     'projectList',
     'callList',
-    'organizationList'
+    'organizationList',
+    'searchList',
+
 
 ]);
 
