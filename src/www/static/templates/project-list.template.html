@@ -1,4 +1,4 @@
-<div class="container-fluid" >
+<div class="container-fluid" ng-controller="MainCtrl">
     <form class="form-inline">
 
         <div style="width: 100%">
@@ -36,11 +36,14 @@
     <div class="project w3-animate-opacity" style="margin: 20px">
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
+<<<<<<< HEAD
               <a href="/www/p{{ proyecto._id.$oid }}" style="display: block">
+=======
+>>>>>>> origin/develop
             <span ng-class-odd="'odd'" ng-class-even="'even'">
 
 
- <div class="proyectcontainer">
+ <div class="proyectcontainer" ng-click="redirectTo(project,{{proyecto._id.$oid}})">
 
 <div ng-repeat="(key, value) in proyecto | custom:search ">
        <span ng-if="key!='_id'">
@@ -67,7 +70,10 @@
  </div>
 
           </span>
+<<<<<<< HEAD
             </a>
+=======
+>>>>>>> origin/develop
 
         </div>
     </div>
