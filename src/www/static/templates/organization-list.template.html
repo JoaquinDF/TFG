@@ -54,12 +54,18 @@
                                         <div ng-repeat="(key, value) in organization | custom:search " ng-controller="Ctrl" >
 											<span ng-if="isobj(value)== true">
 
-                                                <span ng-if="key!='_id'"><h3 >{{ key }}:</h3></span>
+                                                <span ng-if="key!='_id'">
+                                                    <h3 >{{ key }}:</h3></span>
 												<div ng-repeat="(key2,value2) in value " style="margin-left: 13%">
 													<h3> {{ key2 }}:
 														<span>{{ value2 }} </span>
 													</h3>
 												</div>
+
+                                                <span ng-if="key=='_id'">
+                                <h3>ID :  <span>{{ value.$oid }} </span></h3>
+
+                                 </span>
 											</span>
 
 										</div>

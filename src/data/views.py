@@ -20,6 +20,10 @@ class CallViewSet(ReadOnlyModelViewSet):
         org = self.request.query_params.get('id', None)
         if org is not None:
             queryset = Convocatoria.objects(id=org)
+            return queryset
+        username = self.request.query_params.get('name', None)
+        if username is not None:
+            queryset = queryset.filter(tituloConvocatoria__icontains=username)
         return queryset
 
 
@@ -37,6 +41,10 @@ class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
         username = self.request.query_params.get('id', None)
         if username is not None:
             queryset = queryset.filter(id=ObjectId(username))
+            return queryset
+        username = self.request.query_params.get('name', None)
+        if username is not None:
+            queryset = queryset.filter(tituloProyecto__icontains=username)
         return queryset
 
 
@@ -51,8 +59,11 @@ class OrganizationViewSet(ReadOnlyModelViewSet):
         username = self.request.query_params.get('id', None)
         if username is not None:
             queryset = queryset.filter(id=ObjectId(username))
+            return queryset
+        username = self.request.query_params.get('name', None)
+        if username is not None:
+            queryset = queryset.filter(nombre__icontains=username)
         return queryset
-
 
 
 # PERSON

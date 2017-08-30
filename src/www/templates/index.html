@@ -46,10 +46,10 @@
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4" style="z-index:3;width:250px; " id="mySidebar">
   <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/"><img src="/static/images/bisite-usal-es.png" style="width:80%;"></a>
   <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
-  <a class="w3-bar-item tablink w3-button  " href="#" onclick="openTab(event,'Projects')">Projects</a>
-  <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Calls')">Calls</a>
-  <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Organizations')" >Organizations</a>
-  <a class="w3-bar-item tablink w3-buttonc w3-disabled" href="#" onclick="openTab(event,'Search')" >Search</a>
+  <a class="w3-bar-item tablink w3-button  " href="/www/#" onclick="openTab(event,'Projects')">Projects</a>
+  <a class="w3-bar-item tablink w3-button" href="/www/#" onclick="openTab(event,'Calls')">Calls</a>
+  <a class="w3-bar-item tablink w3-button" href="/www/#" onclick="openTab(event,'Organizations')" >Organizations</a>
+  <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Search')" >Search</a>
 
 </nav>
 
@@ -111,10 +111,31 @@ function myFunction() {
 }
 function LoadSearch() {
     var x = document.URL;
-    regex = new RegExp('\/(p|o|c)[0-9a-zA-Z]*');
+    regex = new RegExp('\/(p|o|c|np|no|nc)[0-9a-zA-Z]*');
     search = regex.exec(x);
     debugger;
     if(search!=null){
+
+        switch (search[1]){
+            case 'np':
+                        index=2;
+                        id = search[0].replace('/np','')
+
+                             var apiget = '/api/v1/data/project/?format=json&name=' + id;
+                             $http = angular.injector(["ng"]).get("$http");
+                             $http.get(apiget).then(function successCallback(response) {
+
+                               var idarray = response.data.results;
+                               debugger;
+                               var gotoid = idarray[0].id;
+                                window.location.replace("/www/p"+gotoid);
+                               debugger;
+
+                            });
+        }
+
+
+
         openTab(null,'Search');
     }
 
