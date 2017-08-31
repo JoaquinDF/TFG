@@ -51,7 +51,7 @@ olist //return the data filtered
 
 olist.controller('Ctrl', ['$scope', function ($scope) {
     $scope.isobj = function (a) {
-        if (angular.isObject(a))return angular.isObject(a);
+        return angular.isObject(a);
 
     }
     $scope.debug = function (a, b) {

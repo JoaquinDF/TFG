@@ -46,9 +46,9 @@
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4" style="z-index:3;width:250px; " id="mySidebar">
   <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/"><img src="/static/images/bisite-usal-es.png" style="width:80%;"></a>
   <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
-  <a class="w3-bar-item tablink w3-button  " href="/www/#" onclick="openTab(event,'Projects')">Projects</a>
-  <a class="w3-bar-item tablink w3-button" href="/www/#" onclick="openTab(event,'Calls')">Calls</a>
-  <a class="w3-bar-item tablink w3-button" href="/www/#" onclick="openTab(event,'Organizations')" >Organizations</a>
+  <a class="w3-bar-item tablink w3-button  " href="#" onclick="openTab(event,'Projects')">Projects</a>
+  <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Calls')">Calls</a>
+  <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Organizations')" >Organizations</a>
   <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Search')" >Search</a>
 
 </nav>
@@ -113,31 +113,65 @@ function LoadSearch() {
     var x = document.URL;
     regex = new RegExp('\/(p|o|c|np|no|nc)[0-9a-zA-Z]*');
     search = regex.exec(x);
-    debugger;
     if(search!=null){
-
+/*
         switch (search[1]){
+
+
+
             case 'np':
                         index=2;
-                        id = search[0].replace('/np','')
+                        id = search[0].replace('/np','');
 
                              var apiget = '/api/v1/data/project/?format=json&name=' + id;
                              $http = angular.injector(["ng"]).get("$http");
                              $http.get(apiget).then(function successCallback(response) {
 
                                var idarray = response.data.results;
-                               debugger;
+                               ;
                                var gotoid = idarray[0].id;
                                 window.location.replace("/www/p"+gotoid);
-                               debugger;
 
                             });
+                             break;
+            case 'no':
+                        index=2;
+                        id = search[0].replace('/no','');
+
+                             var apiget = '/api/v1/data/organization/?format=json&name=' + id;
+                             $http = angular.injector(["ng"]).get("$http");
+                             $http.get(apiget).then(function successCallback(response) {
+
+                               var idarray = response.data.results;
+                               var gotoid = idarray[0].id;
+                                window.location.replace("/www/o"+gotoid);
+
+                            });
+                             break;
+            case 'nc':
+                        index=2;
+                        id = search[0].replace('/nc','');
+
+                             var apiget = '/api/v1/data/call/?format=json&name=' + id;
+                             $http = angular.injector(["ng"]).get("$http");
+                             $http.get(apiget).then(function successCallback(response) {
+
+                               var idarray = response.data.results;
+                               var gotoid = idarray[0].id;
+                                window.location.replace("/www/c"+gotoid);
+
+                            });
+                             break;
+
         }
 
+
+*/
 
 
         openTab(null,'Search');
     }
+
 
 }
 

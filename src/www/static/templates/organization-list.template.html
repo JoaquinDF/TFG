@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html>
 
-		<body>
+    <body>
 
-			<div class="container-fluid">
-				<form class="form-inline">
-					<div style="width: 100%">
-						<div class="input-group searchcontainer" style="display: inline-flex">
-							<input ng-model="search" class="w3-input searchtext" size="50" placeholder=". . .  " required
-                       onkeyup="hidediv(event)">
-							</div>
-							<div class="input-group searchcontainer  " style="display: inline-flex ; width: 20%;">
-								<input ng-model=$ctrl.pagecounterorganizations size="50" class="w3-input searchtext" placeholder="Pág: "
-                       style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounterorganizations)" >
-               <h5>de {{$ctrl.currentpageorganizations}} de {{$ctrl.countorganizations }} </h5>
-								</div>
-								<div class="btn-group btn-group-justified" style="margin-top: 20px" >
-									<a href="#" class="btn btn-primary material-icons"
-                   ng-click="$ctrl.prevorganization()" onmouseup=setTimeout(function(){hidediv(null);},50)>
-                    keyboard_arrow_left
-                </a>
-									<a href="#" class="btn btn-primary material-icons"
-                   ng-click="$ctrl.nextorganization()"onmouseup=setTimeout(function(){hidediv(null);},50)>
-                    keyboard_arrow_right</a>
-								</div>
-							</div>
-						</form>
-						<ul class="project">
+        <div class="container-fluid">
+            <form class="form-inline">
+                <div style="width: 100%">
+                    <div class="input-group searchcontainer" style="display: inline-flex">
+                        <input ng-model="search" class="w3-input searchtext" size="50" placeholder=". . .  " required
+                               onkeyup="hidediv(event)">
+                    </div>
+                    <div class="input-group searchcontainer  " style="display: inline-flex ; width: 20%;">
+                        <input ng-model=$ctrl.pagecounterorganizations size="50" class="w3-input searchtext"
+                               placeholder="Pág: "
+                               style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounterorganizations)">
+                        <h5>de {{$ctrl.currentpageorganizations}} de {{$ctrl.countorganizations }} </h5>
+                    </div>
+                    <div class="btn-group btn-group-justified" style="margin-top: 20px">
+                        <a href="#" class="btn btn-primary material-icons"
+                           ng-click="$ctrl.prevorganization()" onmouseup=setTimeout(function(){hidediv(null);},50)>
+                            keyboard_arrow_left
+                        </a>
+                        <a href="#" class="btn btn-primary material-icons"
+                           ng-click="$ctrl.nextorganization()" onmouseup=setTimeout(function(){hidediv(null);},50)>
+                            keyboard_arrow_right</a>
+                    </div>
+                </div>
+            </form>
+            <ul class="project">
 
-							<div ng-repeat="organization in $ctrl.organizations ">
-                           <a href="/www/o{{ organization._id.$oid }}" style="display: block">
+                <div ng-repeat="organization in $ctrl.organizations ">
+                    <a href="/www/o{{ organization._id.$oid }}" style="display: block">
 
-								<div ng-class-odd="'odd'" ng-class-even="'even'">
+                        <div ng-class-odd="'odd'" ng-class-even="'even'">
                                     <span ng-if="organization">
 									<div class="proyectcontainer">
 
-										<div ng-repeat="(key, value) in organization | custom:search " ng-controller="Ctrl" >
+										<div ng-repeat="(key, value) in organization | custom:search "
+                                             ng-controller="Ctrl">
 
                                                         <span ng-if="key!='_id'">
 
@@ -51,11 +53,12 @@
                                                         </span>
 
                                         </div>
-                                        <div ng-repeat="(key, value) in organization | custom:search " ng-controller="Ctrl" >
+                                        <div ng-repeat="(key, value) in organization | custom:search "
+                                             ng-controller="Ctrl">
 											<span ng-if="isobj(value)== true">
 
                                                 <span ng-if="key!='_id'">
-                                                    <h3 >{{ key }}:</h3></span>
+                                                    <h3>{{ key }}:</h3></span>
 												<div ng-repeat="(key2,value2) in value " style="margin-left: 13%">
 													<h3> {{ key2 }}:
 														<span>{{ value2 }} </span>
@@ -72,36 +75,33 @@
 
 									</div>
 								</span>
-							</div>
-                                    </a>
+                        </div>
+                    </a>
 
-						</div>
+                </div>
 
-					</ul>
+            </ul>
 
 
+            <script>
+                function hidediv(evt) {
+                    var x;
+                    x = document.getElementsByClassName("ng-scope")
 
-					<script>
-        function hidediv(evt) {
-            var x;
-            x = document.getElementsByClassName("ng-scope")
+                    for (i = 0; i < x.length; i++) {
 
-            for (i = 0; i < x.length; i++) {
-
-                var a = x[i];
-                if ((a.innerText == "" || (/^\s+$/.test(a.innerText))) && a.tagName == "DIV") {
-                    a.style.display = 'none';
-                } else {
-                    a.style.display = 'block'
+                        var a = x[i];
+                        if ((a.innerText == "" || (/^\s+$/.test(a.innerText))) && a.tagName == "DIV") {
+                            a.style.display = 'none';
+                        } else {
+                            a.style.display = 'block'
+                        }
+                        ;
+                    }
                 }
-                ;
-            }
-        }
 
 
-
-
-					</script>
-				</div>
-			</body>
-		</html>
+            </script>
+        </div>
+    </body>
+</html>

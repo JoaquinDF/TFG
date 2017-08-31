@@ -6,21 +6,12 @@ from .serializers import *
 from rest_framework import filters
 from rest_framework import generics
 
-from utils.mongodb import Mongodb
 import pprint
-# Get an instance of a logger
 
 # CALL
 class CallViewSet(ReadOnlyModelViewSet):
 
     serializer_class = ConvocatoriaSerializer
-    queryset = Convocatoria.objects.all();
-
-    def get_queryset(self):
-        org = self.request.query_params.get('id', None)
-        if org is not None:
-            queryset = Convocatoria.objects(id=org)
-        return queryset
 
     def get_queryset(self):
         queryset = Convocatoria.objects.all();
@@ -46,19 +37,13 @@ class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
         """
         queryset = Proyecto.objects.all()
         username = self.request.query_params.get('id', None)
-<<<<<<< HEAD
         if username is not None:
             queryset = queryset.filter(id=ObjectId(username))
             return queryset
         username = self.request.query_params.get('name', None)
         if username is not None:
             queryset = queryset.filter(tituloProyecto__icontains=username)
-=======
-        if username is not None:
-            queryset = queryset.filter(id=username)
->>>>>>> origin/develop
         return queryset
-
 
 # ORGANIZATION
 class OrganizationViewSet(ReadOnlyModelViewSet):
@@ -70,7 +55,6 @@ class OrganizationViewSet(ReadOnlyModelViewSet):
         queryset = Organizacion.objects.all()
         username = self.request.query_params.get('id', None)
         if username is not None:
-<<<<<<< HEAD
             queryset = queryset.filter(id=ObjectId(username))
             return queryset
         username = self.request.query_params.get('name', None)
@@ -79,13 +63,10 @@ class OrganizationViewSet(ReadOnlyModelViewSet):
         return queryset
 
 
-=======
-            queryset = queryset.filter(id=username)
-        return queryset
 
 
 
->>>>>>> origin/develop
+
 # PERSON
 class PersonViewSet(ReadOnlyModelViewSet):
     queryset = Persona.objects.all()

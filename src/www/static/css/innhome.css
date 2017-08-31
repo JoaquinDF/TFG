@@ -55,6 +55,15 @@
 
 
    }
+    hr.style2{
+	border-top: 1px solid #c62540;
+}
+
+
+hr.style1 {
+	border-top: 3px double #c62540;
+}
+
 
    .tablink:focus, .tablink:hover{
        text-decoration: none;

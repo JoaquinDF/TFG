@@ -13,8 +13,8 @@ class Convocatoria(Document):
 
 class Proyecto(Document):
     tituloProyecto = StringField()
-    fechaInicio = StringField()
-    fechaFin = StringField()
+    fechaInicio = StringField(default=None)
+    fechaFin = StringField(default=None)
     presupuestoPresentado = StringField()
     presupuestoAceptado = StringField()
     prestamo = StringField()
