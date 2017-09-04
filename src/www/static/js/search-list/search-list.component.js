@@ -15,13 +15,17 @@ angular.module('searchList').component('searchList', {
             if (tipo != null) {
                 switch (tipo[1]) {
                     case 'p':
+
                         projectid = (tipo[0].split('/p'))[1];
+
                         var apiget = '/api/v1/data/project/?format=json&id=' + projectid;
                         $http.get(apiget).then(function successCallback(response) {
                             self.Proyecto = response.data.results;
                             self.Proyectosize = self.Proyecto.length;
 
-                        });
+                         }, function errorCallback(response) {
+                            break;
+                     });
 
 
                         var apiget = '/api/v1/data/projectcall/?format=json&project=' + projectid;

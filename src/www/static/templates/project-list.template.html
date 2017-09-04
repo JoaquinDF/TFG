@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-controller="MainCtrl">
+<div class="container-fluid">
     <form class="form-inline">
 
         <div style="width: 100%">
@@ -8,9 +8,10 @@
 
 
             </div>
-           <div class="input-group searchcontainer  "  style="display: inline-flex ; width: 20%;">
-                <input ng-model=$ctrl.pagecounter size="50" class="w3-input searchtext" placeholder="Pág: "  style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounter)">
-               <h5>{{$ctrl.currentpage}} de {{$ctrl.countprojects }} </h5>
+            <div class="input-group searchcontainer  " style="display: inline-flex ; width: 20%;">
+                <input ng-model=$ctrl.pagecounter size="50" class="w3-input searchtext" placeholder="Pág: "
+                       style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounter)">
+                <h5>{{$ctrl.currentpage}} de {{$ctrl.countprojects }} </h5>
 
             </div>
 
@@ -32,11 +33,10 @@
     </form>
 
 
-
     <div class="project w3-animate-opacity" style="margin: 20px">
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
-              <a href="/www/p{{ proyecto._id.$oid }}" style="display: block">
+            <a href="/www/p{{ proyecto._id.$oid }}" style="display: block">
             <span ng-class-odd="'odd'" ng-class-even="'even'">
 
 
@@ -52,7 +52,7 @@
 
             </span>
                     <span ng-if="key !='tituloProyecto'">
-                        <span ng-if="value" != "NaN">
+                        <span ng-if="value" !="NaN">
                         <h3>{{ key }}:  <span>{{ value }} </span></h3>
                     </span>
                     </span>

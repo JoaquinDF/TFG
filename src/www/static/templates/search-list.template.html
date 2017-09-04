@@ -27,12 +27,15 @@
                         class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </div>
 
-            <ul class="project">
+            <ul class="project" ng-controller="DEBUG">
 
                 <div class="proyectcontainer">
+                    <span ng-init="debug($ctrl.Calls.length>0 , 'CALLS LENGTH')"></span>
+               <span ng-if="$ctrl.Calls.length>0">
+
                     <h2>Convocatoria:</h2>
 
-                    <div ng-repeat="calls in $ctrl.Calls" ng-controller="DEBUG">
+                    <div ng-repeat="calls in $ctrl.Calls">
                         <div ng-repeat="(keycall,valuecall) in calls ">
 
 
@@ -45,8 +48,17 @@
 
                     </div>
 
+  </span>
+                    <span ng-if="!$ctrl.Calls.length>0">
 
+                        <h3>
+                            There is no Call.
+                        </h3>
+                    </span>
                     <hr class="style1">
+
+
+                    <span ng-if="$ctrl.Proyecto.length>0">
                     <h2>Proyecto:</h2>
 
 
@@ -65,50 +77,61 @@
 
                                  </span>
                                 </div>
-                                                               <hr class="style2">
+                                <hr class="style2">
 
                                  </div>
 
+                    </span>
+                    <span ng-if="!$ctrl.Proyecto.length>0">
+                        <h3>
+                            There is no Project.
+                        </h3>
+                    </span>
+                    <hr class="style1">
 
-                <hr class="style1">
+                    <span ng-if="$ctrl.Orgs.length>0">
 
+                    <h2>Organizacion:</h2>
 
-                <h2>Organizacion:</h2>
+                         <div ng-repeat="orgs in $ctrl.Orgs">
 
-                <div ng-repeat="orgs in $ctrl.Orgs" ng-controller="DEBUG">
+                                <div ng-repeat="(key, value) in orgs" style="margin-left: 13%">
 
-                        <div ng-repeat="(key, value) in orgs" style="margin-left: 13%">
+                                              <span ng-if="isobj(value)== false">
 
-                                      <span ng-if="isobj(value)== false">
+                                                        <span ng-if="value" !="NaN">
+                                                            <h3> {{ key }}:
 
-												<span ng-if="value" !="NaN">
-													<h3> {{ key }}:
+                                                                <span>{{ value }} </span>
+                                                            </h3>
+                                                        </span>
+                                              </span>
+                                    <span ng-if="isobj(value)== true">
+                                                        <span ng-if="key!='_id'"><h3>{{ key }}:</h3></span>
+                                                        <div ng-repeat="(key2,value2) in value " style="margin-left: 13%">
+                                                            <h3> {{ key2 }}:
+                                                                <span>{{ value2 }} </span>
+                                                            </h3>
+                                                        </div>
+                                                    </span>
 
-														<span>{{ value }} </span>
-													</h3>
-												</span>
-                                      </span>
-                            <span ng-if="isobj(value)== true">
-                                                <span ng-if="key!='_id'"><h3>{{ key }}:</h3></span>
-												<div ng-repeat="(key2,value2) in value " style="margin-left: 13%">
-													<h3> {{ key2 }}:
-														<span>{{ value2 }} </span>
-													</h3>
-												</div>
-											</span>
-
-                        </div>
+                                </div>
                     <hr class="style2">
 
-                    </div>
+                        </div>
+                    </span>
+                    <span ng-if="!$ctrl.Orgs.length>0">
+                        <h3>
+                            There is no Organization.
+                        </h3>
+                    </span>
                     <hr class="style1">
+
 
                 </div>
 
 
-
-
-        </ul>
+            </ul>
 
 
         </div>
