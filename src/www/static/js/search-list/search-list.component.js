@@ -40,10 +40,10 @@ angular.module('searchList').component('searchList', {
                         var apiget = '/api/v1/data/projectorganization/?format=json&project=' + projectid;
                         $http.get(apiget).then(function successCallback(response) {
                             self.Orgs = [];
-                                //TODO TERMINAR ORGS
+                            debugger;
                             var orgidarray = response.data.results;
                             orgidarray.forEach(function (id) {
-
+                            debugger;
 
                                 var apiget = '/api/v1/data/organization/?format=json&id=' + id.organizacion;
                                 $http.get(apiget).then(function successCallback(response) {
@@ -82,7 +82,6 @@ angular.module('searchList').component('searchList', {
                         $http.get(apiget).then(function successCallback(response) {
                             var projectidarray = response.data.results;
                             self.Proyecto = [];
-                            self.Orgs = [];
 
                             projectidarray.forEach(function (id) {
 
@@ -117,6 +116,60 @@ angular.module('searchList').component('searchList', {
                                 });
 
                         break;
+
+
+                    case 'o':
+                        organizationid = (tipo[0].split('/o'))[1];
+                        var apiget = '/api/v1/data/organization/?format=json&id=' + organizationid;
+                        debugger;
+
+                        $http.get(apiget).then(function successCallback(response) {
+                            self.Orgs = [];
+                            self.Orgs = response.data.results;
+
+                        });
+                        var apiget = '/api/v1/data/projectorganization/?format=json&organization=' + organizationid;
+
+                        $http.get(apiget).then(function successCallback(response) {
+                            var projectidarray = response.data.results;
+
+                            self.Proyecto = [];
+
+                             projectidarray.forEach(function (id) {
+
+
+                                var apiget = '/api/v1/data/project/?format=json&id=' + id.proyecto;
+                                $http.get(apiget).then(function successCallback(response) {
+
+                                    debugger;
+                                    self.Proyecto.push(response.data.results[0])
+                                    debugger;
+                                    self.Proyectosize = self.Proyecto.length;
+
+                                });
+
+
+                            });
+
+
+                        });
+
+                        break;
+
+                        case 'no':
+                         callid = (tipo[0].split('/no'))[1];
+                         debugger;
+                         var apiget = '/api/v1/data/organization/?format=json&name=' + callid;
+                         debugger;
+                         self.Orgs;
+                             $http.get(apiget).then(function successCallback(response) {
+                                 debugger;
+                                    self.Orgs=(response.data.results)
+                                 debugger;
+                                });
+
+                        break;
+
                 }
 
 
