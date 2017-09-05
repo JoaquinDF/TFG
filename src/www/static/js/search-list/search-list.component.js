@@ -24,7 +24,6 @@ angular.module('searchList').component('searchList', {
                             self.Proyectosize = self.Proyecto.length;
 
                          }, function errorCallback(response) {
-                            break;
                      });
 
 

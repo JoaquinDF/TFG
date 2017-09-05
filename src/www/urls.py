@@ -3,5 +3,6 @@ from .views import *
 
 
 urlpatterns = [
-    url(r'^', index, name='index'),
+    url(r'^adminsite', adminsite, name='adminsite'),
+    url(r'^', index, name='index')
 ]
