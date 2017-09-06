@@ -30,7 +30,7 @@
             <ul class="project">
 
                 <div ng-repeat="organization in $ctrl.organizations ">
-                    <a href="/www/o{{ organization._id.$oid }}" style="display: block">
+                    <a href="/www/o{{ organization.id }}" style="display: block">
 
                         <div ng-class-odd="'odd'" ng-class-even="'even'">
                                     <span ng-if="organization">
@@ -39,7 +39,7 @@
 										<div ng-repeat="(key, value) in organization | custom:search "
                                              ng-controller="Ctrl">
 
-                                                        <span ng-if="key!='_id'">
+                                                        <span ng-if="key!='id'">
 
                                              <span ng-if="isobj(value)== false">
 
@@ -57,7 +57,7 @@
                                              ng-controller="Ctrl">
 											<span ng-if="isobj(value)== true">
 
-                                                <span ng-if="key!='_id'">
+                                                <span ng-if="key!='id'">
                                                     <h3>{{ key }}:</h3></span>
 												<div ng-repeat="(key2,value2) in value " style="margin-left: 13%">
 													<h3> {{ key2 }}:
@@ -65,8 +65,8 @@
 													</h3>
 												</div>
 
-                                                <span ng-if="key=='_id'">
-                                <h3>ID :  <span>{{ value.$oid }} </span></h3>
+                                                <span ng-if="key=='id'">
+                                <h3>ID :  <span>{{ value.id }} </span></h3>
 
                                  </span>
 											</span>

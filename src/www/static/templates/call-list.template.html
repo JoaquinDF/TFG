@@ -33,37 +33,33 @@
     <ul class="project">
 
         <div ng-repeat="call in $ctrl.calls  ">
-            <a href="/www/c{{ call._id.$oid }}" style="display: block">
+            <a href="/www/c{{ call.id }}" style="display: block">
 
 
-                <div ng-class-odd="'odd'" ng-class-even="'even'">
 
 
                     <div class="proyectcontainer animate-show-hide">
 
                         <div ng-repeat="(key, value) in call | custom:search " ng-controller="Ctrl">
-  <span ng-if="key!='_id'">
+  <span ng-if="key!='id'">
             <span ng-if="key =='tituloConvocatoria'">
               <h3>TituloConvocatoria:  <span>{{ call.tituloConvocatoria }} </span></h3>
             </span>
 
              <span ng-if="key !='tituloConvocatoria'">
-                        <span ng-if="value" !="NaN">
                         <h3>{{ key }}:  <span>{{ value }} </span></h3>
-                    </span>
 
 
                 </span>
   </span>
 
-                            <span ng-if="key=='_id'">
-            <h3>ID :  <span>{{ value.$oid }} </span></h3>
+                            <span ng-if="key=='id'">
+            <h3>ID :  <span>{{ value.id }} </span></h3>
 
        </span>
                         </div>
                     </div>
                     </span>
-                </div>
             </a>
 
         </div>

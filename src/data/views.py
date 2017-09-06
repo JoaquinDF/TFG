@@ -12,6 +12,9 @@ import pprint
 class CallViewSet(ReadOnlyModelViewSet):
 
     serializer_class = ConvocatoriaSerializer
+    queryset = Convocatoria.objects.all();
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('tituloConvocatoria',)
 
     def get_queryset(self):
         queryset = Convocatoria.objects.all();
@@ -28,7 +31,10 @@ class CallViewSet(ReadOnlyModelViewSet):
 # PROJECT
 class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
     serializer_class = ProyectoSerializer
+    queryset = Proyecto.objects.all()
 
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('tituloProyecto',)
     def get_queryset(self):
 
         """
@@ -48,7 +54,10 @@ class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
 # ORGANIZATION
 class OrganizationViewSet(ReadOnlyModelViewSet):
     serializer_class = OrganizacionSerializer
+    queryset = Organizacion.objects.all()
 
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('nombre',)
 
     def get_queryset(self):
 

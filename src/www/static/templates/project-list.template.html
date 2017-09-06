@@ -36,14 +36,12 @@
     <div class="project w3-animate-opacity" style="margin: 20px">
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
-            <a href="/www/p{{ proyecto._id.$oid }}" style="display: block">
-            <span ng-class-odd="'odd'" ng-class-even="'even'">
+            <a href="/www/p{{ proyecto.id }}" style="display: block">
 
 
  <div class="proyectcontainer">
 
 <div ng-repeat="(key, value) in proyecto | custom:search ">
-       <span ng-if="key!='_id'">
 
                <span ng-if="key =='tituloProyecto'">
 
@@ -57,16 +55,11 @@
                     </span>
                     </span>
 
-                </span>
 
-       <span ng-if="key=='_id'">
-            <h3>ID :  <span>{{ value.$oid }} </span></h3>
 
-       </span>
         </div>
  </div>
 
-          </span>
             </a>
 
         </div>

@@ -6,13 +6,13 @@ angular.module('organizationList').component('organizationList', {
         templateUrl: '/static/templates/organization-list.template.html',
         controller: ['$http', function OrganizationListController($http, $scope) {
              var self = this;
-            $http.get('/api/v1/extract/data/?collection=data.organizations&limit=10&offset=0').then(function (responseorganizations) {
+            $http.get('/api/v1/data/organization/?limit=10&offset=0&ordering=nombre').then(function (responseorganizations) {
 
                 self.organizations = responseorganizations.data.results;
                 self.organizationsnext = responseorganizations.data.next;
                 self.organizationsprev = responseorganizations.data.previous;
-                self.countorganizations = Math.floor((responseorganizations.data.count) / 10);
-                self.currentpageorganizations = 0;
+                self.countorganizations = Math.floor(((responseorganizations.data.count) / 10)+1);
+                self.currentpageorganizations = 1;
                 self.pagecounterorganizations;
 
                 self.nextorganization = function () {
@@ -50,7 +50,8 @@ angular.module('organizationList').component('organizationList', {
                     if (!isNaN(page) && page && page <= self.countorganizations) {
                           self.currentpageorganizations = parseInt(page);
                         page *= 10;
-                        var http = "/api/v1/extract/data/?collection=data.organizations&limit=10&offset=" + page;
+                        page-=10;
+                        var http = "/api/v1/data/organization/?limit=10&offset="+page+"&ordering=nombre";
 
                         $http.get(http).then(function (responseorganizations) {
                             if (responseorganizations.data) {
