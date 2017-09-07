@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+    <body>
+
+        <div class="container-fluid">
+
+
+                 <div class="input-group searchcontainer  " style="display: inline-block ; width: 75%;">
+                     <form  style="
+    text-align: center;
+    font-size: larger;
+">
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio">Crontabs
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio">Intervals
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio">Periodic Task
+                        </label>
+  </form>
+                 </div>
+
+            <ul class="project">
+
+                 <div class="input-group searchcontainer  " style="display: inline-block ; width: 75%; height: 300px">
+                      <div class="input-group" style="height: 20%">
+                                 <input ng-model=$ctrl.minute type="number" class="form-control searchtext" style="height: 100%">
+                                  <span class="input-group-addon">Minute</span>
+                      </div>
+                 <div class="input-group" style="height: 20%">
+                                 <input ng-model=$ctrl.hour size="50" class="form-control searchtext" style="height: 100%">
+                                  <span class="input-group-addon">hour</span>
+                      </div>
+                     <div class="input-group" style="height: 20%">
+                                 <input ng-model=$ctrl.day_of_week size="50" class="form-control searchtext" style="height: 100%">
+                                  <span class="input-group-addon">day_of_week</span>
+                      </div>
+                      <div class="input-group" style="height: 20%">
+                                 <input ng-model=$ctrl.day_of_month size="50" class="form-control searchtext" style="height: 100%">
+                                  <span class="input-group-addon">day_of_month</span>
+                      </div>
+                      <div class="input-group" style="height: 20%">
+                                 <input ng-model=$ctrl.month_of_year size="50" class="searchtext form-control" style="height: 100%">
+                                  <span class="input-group-addon">month_of_year</span>
+                      </div>
+
+        </div>
+
+            </ul>
+
+
+        </div>
+    </body>
+</html>
