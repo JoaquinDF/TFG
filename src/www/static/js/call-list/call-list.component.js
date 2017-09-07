@@ -11,7 +11,6 @@ angular.module('callList').component('callList', {
                 self.calls = responsecalls.data.results;
                 self.callsnext = responsecalls.data.next;
                 self.callsprev = responsecalls.data.previous;
-                debugger;
                 self.countcalls = Math.floor(((responsecalls.data.count) / 10)+1);
                 self.currentpagecalls = 1;
                 self.pagecountercalls;
@@ -33,7 +32,7 @@ angular.module('callList').component('callList', {
                     }
                 }
                 self.prevcall = function () {
-                    if (self.currentpagecalls > 0) {
+                    if (self.currentpagecalls > 1) {
                         $http.get(self.callsprev).then(function (responsecalls) {
                             if (responsecalls.data) {
                                 self.calls = responsecalls.data.results;

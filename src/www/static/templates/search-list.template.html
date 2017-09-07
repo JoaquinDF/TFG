@@ -36,6 +36,8 @@
                     <h2>Convocatoria:</h2>
 
                     <div ng-repeat="calls in $ctrl.Calls">
+                                    <a href="/www/c{{ calls.id }}" style="display: block">
+
                         <div ng-repeat="(keycall,valuecall) in calls ">
 
 
@@ -45,7 +47,7 @@
                         </div>
                         <hr class="style2">
 
-
+                                    </a>
                     </div>
    <hr class="style1">
   </span>
@@ -58,6 +60,8 @@
 
 
                                      <div ng-repeat="proyecto in $ctrl.Proyecto  ">
+                                <a href="/www/p{{ proyecto.id }}" style="display: block">
+
                                 <div ng-repeat="(key, value) in proyecto" style="margin-left: 13%">
 
                                  <span ng-if="key!='_id'">
@@ -73,7 +77,7 @@
                                  </span>
                                 </div>
                                 <hr class="style2">
-
+                                </a>
                                  </div>
 <hr class="style1">
                     </span>
@@ -85,6 +89,7 @@
                     <h2>Organizacion:</h2>
 
                          <div ng-repeat="orgs in $ctrl.Orgs">
+                    <a href="/www/o{{ orgs.id }}" style="display: block">
 
                                 <div ng-repeat="(key, value) in orgs" style="margin-left: 13%">
 
@@ -108,7 +113,7 @@
 
                                 </div>
                     <hr class="style2">
-
+                    </a>
                         </div>
                         <hr class="style1">
                     </span>

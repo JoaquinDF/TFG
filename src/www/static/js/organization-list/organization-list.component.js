@@ -31,7 +31,7 @@ angular.module('organizationList').component('organizationList', {
                     }
                 }
                 self.prevorganization = function () {
-                    if (self.currentpageorganizations > 0) {
+                    if (self.currentpageorganizations > 1) {
                         $http.get(self.organizationsprev).then(function (responseorganizations) {
                             if (responseorganizations.data) {
                                 self.organizations = responseorganizations.data.results;

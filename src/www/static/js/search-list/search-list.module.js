@@ -9,7 +9,6 @@ var slist= angular.module('searchList', []);
 slist.controller('DEBUG', ['$scope', function($scope) {
 
     $scope.debug = function (a,b) {
-                debugger;
 
 
     }

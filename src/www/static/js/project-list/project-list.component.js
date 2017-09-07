@@ -28,9 +28,13 @@ angular.module('projectList').component('projectList', {
                             }
                         });
                     }
+
+
+
                 }
+
                 self.prevproject = function () {
-                    if (self.currentpage > 0) {
+                    if (self.currentpage > 1) {
                         $http.get(self.projectsprev).then(function (responseprojects) {
                             if (responseprojects.data) {
                                 self.projects = responseprojects.data.results;

@@ -8,6 +8,7 @@ var Appmodule = angular.module('innhomeweb', [
     'callList',
     'organizationList',
     'searchList',
+    'adminModule',
 
 
 
