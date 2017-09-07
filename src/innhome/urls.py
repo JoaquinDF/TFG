@@ -22,12 +22,14 @@ import transform
 import linkage
 import data
 import www
+import admin as adminsite
 
 url_api_v1 = [
     url(r'^extract/', include(extract.urls, namespace='extract')),
     url(r'^transform/', include(transform.urls, namespace='transform')),
     url(r'^linkage/', include(linkage.urls, namespace='linkage')),
     url(r'^data/', include(data.urls, namespace='data')),
+    url(r'^admin/', include(adminsite.urls, namespace='admin')),
 ]
 
 urlpatterns = [
