@@ -6,7 +6,9 @@
      font-size: initial;
     }
 
-
+a:hover{
+    background-color:rgba(175,175,175,0.22)
+}
  .w3-input{
      background-color: transparent;
      border-color: #f6f6f6;
@@ -93,10 +95,11 @@ hr.style1 {
 
 
 
-
 .searchtext {
     display:inline ;
     outline: none;
+    font-size: xx-large;!important;
+    text-align: center;
 }
 
 

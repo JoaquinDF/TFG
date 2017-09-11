@@ -40,7 +40,8 @@
     <script src="/static/js/search-list/search-list.module.js"></script>
     <script src="/static/js/search-list/search-list.component.js"></script>
 
-
+    <script src="/static/js/admin-module/admin-module.module.js"></script>
+   <script src="/static/js/admin-module/admin-module.component.js"></script>
 
 
 </head>
@@ -54,7 +55,7 @@
   <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Calls')">Calls</a>
   <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Organizations')" >Organizations</a>
   <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Search')" >Search</a>
-  <a class="w3-bar-item tablink w3-button" href="/www/adminsite/">Admin</a>
+  <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Admin')">Admin</a>
 
 
 </nav>
@@ -92,6 +93,9 @@
         <organization-list></organization-list>
 </div>
 
+<div id="Admin" class="w3-container w3-theme-l5 tab w3-animate-opacity" style="display:block">
+<admin-module></admin-module>
+</div>
 
 
 

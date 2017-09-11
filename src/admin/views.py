@@ -9,7 +9,10 @@ from rest_framework.response import Response
 
 # Create your views here.
 class CrontabsViewSet(ViewSet):
+
     def create(self,request):
+
+        print(request.data)
         minute = request.data.get('minute', '*')
         hour = request.data.get('hour', '*')
         day_of_week = request.data.get('day-week', '*')
