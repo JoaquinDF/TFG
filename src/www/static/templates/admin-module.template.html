@@ -29,6 +29,17 @@
                         </label>
   <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.settask()">Launch</button>
 
+
+    <select ng-model="$ctrl.objectTask.task" ng-options="tasks for tasks in $ctrl.tasks"></select>
+
+    <span ng-if="$ctrl.objectTask.task.indexOf('bot')!=-1">
+        <select ng-model="$ctrl.objectTask.args" ng-options="bots for bots in $ctrl.bots"></select>
+    </span>
+     <span ng-if="$ctrl.objectTask.task.indexOf('crawler')!=-1">
+        <select ng-model="$ctrl.objectTask.args" ng-options="crawlers for crawlers in $ctrl.crawlers"></select>
+    </span>
+
+
   </form>
                  </div>
 
@@ -58,7 +69,7 @@
                       </div>
 
         </div>
-
+        </div>
             </ul>
 
               <h3>object = {{$ctrl.objectTask}}</h3><br/>
