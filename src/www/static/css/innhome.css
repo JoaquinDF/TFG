@@ -33,6 +33,9 @@ a:hover{
       color: black;
   }
 
+  .selectfontsize{
+      font-size: x-large;!important;
+  }
 
 
   .proyectcontainer:hover{
@@ -59,6 +62,24 @@ a:hover{
 
 
    }
+
+    .btn-primary-tab{
+       margin: 10px;!important;
+       border-color: #c62540;!important;
+       background-color: transparent;!important;
+       color: black;!important;
+
+
+
+   }
+
+    .btn-primary-tab:hover, .btn-primary-tab:active, .btn-primary-tab:focus{
+        background-color:rgba(175,175,175,0.22)!important;
+       box-shadow: 0 2px 4px 0 #17599D, 0 3px 10px 0 white; !important;
+
+
+
+    }
     hr.style2{
 	border-top: 1px solid #c62540;
 }
@@ -87,7 +108,8 @@ hr.style1 {
 
    .material-icons{
        font-size: 45px !important;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); !important;
+                    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);!important;
+
    }
 .searchcontainer .btn-group .page-counter {
     display: inline;
