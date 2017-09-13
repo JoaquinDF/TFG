@@ -15,14 +15,14 @@
              </span>
         </span>
 
+
             <ul class="project" style="width: 75%">
 
-        <div>
 
 
                  <div class="input-group searchcontainer  " style="display: inline-block ; width: 75%;">
 
-  <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.settask()" ng-mouseleave="$ctrl.setcrontab()">Launch</button>
+  <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.settask(); $ctrl.setWarningSch()" >Launch</button>
 
 
     <select class="selectfontsize" ng-model="$ctrl.objectTask.task" ng-options="tasks for tasks in $ctrl.tasks"></select>
@@ -42,7 +42,6 @@
 
 
 
-        </div>
 
                 <div class="searchcontainer">
                      <ul class="nav nav-pills">
@@ -51,7 +50,7 @@
 </ul>
 
 <div class="tab-content">
-  <div id="crontab" class="tab-pane fade in active">
+  <div id="crontab" class="tab-pane fade">
            <div class="input-group  " style="display: inline-block ; width: 95%; height: 300px">
                       <div class="input-group" style="height: 20%">
                                  <input ng-model=$ctrl.objectTask.minute type="number" class="form-control searchtext" style="height: 100%">
@@ -94,10 +93,15 @@
   </div>
 
 </div>
+
                 </div>
 
-<h3>{{ $ctrl.objectTask }}</h3>
+
             </ul>
+        <ul id="schedule" class="project searchcontainer">
+                  <div ng-repeat="task in $ctrl.schedule">
+           <a class="btn btn-sch" ng-click="$ctrl.deleteTask(task);  $ctrl.setWarningSch();"><h4>{{ task }}</h4></a>
         </div>
+                    </ul>
     </body>
 </html>

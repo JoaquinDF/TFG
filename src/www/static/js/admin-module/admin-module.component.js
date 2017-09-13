@@ -4,7 +4,7 @@
 angular.module('adminModule').component('adminModule', {
 
         templateUrl: '/static/templates/admin-module.template.html',
-        controller: ['$http', function adminController($http, $scope) {
+        controller: ['$http','$timeout', function adminController($http, $timeout) {
             var self = this;
 
            $http.get('/api/v1/admin/listTask/').then(function (responsetasks) {
@@ -20,7 +20,9 @@ angular.module('adminModule').component('adminModule', {
 
                     });
 
-                        $http.get('/api/v1/admin/listCrawlers/').then(function (responsecrawlers) {
+
+
+            $http.get('/api/v1/admin/listCrawlers/').then(function (responsecrawlers) {
 
                         if (responsecrawlers.data) {
 
@@ -32,7 +34,7 @@ angular.module('adminModule').component('adminModule', {
                         }
 
                     });
-                        $http.get('/api/v1/admin/listBots/').then(function (responsebots) {
+            $http.get('/api/v1/admin/listBots/').then(function (responsebots) {
 
                         if (responsebots.data) {
 
@@ -57,16 +59,39 @@ angular.module('adminModule').component('adminModule', {
             self.settask = function () {
 
                 $http.post('/api/v1/admin/PeriodicTask/',this.objectTask).then(function successCallback(response) {
-                debugger;
 
                     self.warning='CORRECT';
                 }, function errorCallback(response) {
                     self.warning = 'ERROR'
-                                    debugger;
 
               });
 
 
+
+
+            }
+
+            self.getschedule = function () {
+                 $http.get('/api/v1/admin/schedule/').then(function (responsecrawlers) {
+
+                        if (responsecrawlers.data) {
+
+                            self.schedule=responsecrawlers.data;
+                            debugger;
+
+                        }else {
+                            self.schedule = null;
+                        }
+
+                    });
+            }
+            
+            self.setWarningSch = function () {
+               $timeout(function () {
+                   self.warning = null;
+                   debugger;
+                   self.getschedule()
+               }, 750);
 
 
             }
@@ -76,18 +101,26 @@ angular.module('adminModule').component('adminModule', {
                 self.objectTask.interval=true;
                 self.objectTask.crontab=null;
                 self.warning=null;
-                debugger;
             }
             self.setcrontab = function () {
                 self.objectTask.interval=null;
                 self.objectTask.crontab=true;
                 self.warning=null;
 
+            }
+            self.deleteTask = function (name) {
+                var json = {name:name};
                 debugger;
+                 $http.post('/api/v1/admin/DeleteTask/',json).then(function successCallback(response) {
+
+                    self.warning='CORRECT';
+                }, function errorCallback(response) {
+                    self.warning = 'ERROR'
+
+              });
             }
 
-
-
+self.getschedule();
 
         }]
 

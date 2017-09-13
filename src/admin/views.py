@@ -5,9 +5,10 @@ from bson.json_util import dumps
 import pprint
 from random import randint
 from celery import current_app
-
+import celery.beat
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from rest_framework.viewsets import ViewSet
+from django_celery_beat.models import PeriodicTask
 from rest_framework.response import Response
 import os
 
@@ -16,10 +17,6 @@ import os
 class PeriodicTaskViewSet(ViewSet):
 
     def create(self,request):
-
-# cd ENV/lib/python3.4/site-packages/django_celery_beat
-
-#  {task:'', args:'', interval:null, crontab:null ,intervalevery:'', intervalperiod:''  , minute: null, hour: null , day_of_week: null, day_of_month: null, month_of_year: null};
 
         #bot/crawlers
         task = request.data.get('task', '*')
@@ -98,9 +95,25 @@ class ListBotsViewSet(ViewSet):
 
 class ListCrawlersViewSet(ViewSet):
     def list(self, request):
-        print(PeriodicTaskAdmin.changelist_view)
-
         a = os.listdir('extract/crawlers')
         b = [k for k in a if '.py' in k if not '__' in k]
         c = [k.split('.')[0] for k in b]
         return Response(c)
+
+
+class ScheduleViewSet(ViewSet):
+    def list(self, request):
+
+        a = [k.name for k in PeriodicTask.objects.all()]
+        return Response(a)
+
+
+class DeleteTaskViewSet(ViewSet):
+    def create(self, request):
+        name = request.data.get('name', '*')
+        print(name)
+        a = [k for k in PeriodicTask.objects.all()]
+
+        b = [k for k in a if name in k.name]
+        b[0].delete()
+        return Response(True)

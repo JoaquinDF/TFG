@@ -34,9 +34,20 @@ a:hover{
   }
 
   .selectfontsize{
-      font-size: x-large;!important;
+      font-size: large;!important;
   }
 
+  .btn-sch:hover{
+      border: 1px #c62540;
+      border-bottom-style: solid;
+      color: #c62540;
+
+  }
+  .btn-sch:hover:after{
+      content: "Borrar";
+
+
+  }
 
   .proyectcontainer:hover{
       background-color:#d8d8d8; !important;
