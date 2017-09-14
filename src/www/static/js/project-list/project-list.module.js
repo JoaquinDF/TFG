@@ -16,23 +16,24 @@ plist //return the data filtered
             var result = {};
             angular.forEach(input, function (value, key) {
 
-                if(angular.isObject(value)){
-                     angular.forEach(value, function (valueinner, keyinner) {
-                         var actual = ('' + valueinner).toLowerCase();
-                         if (actual.indexOf(expected) !== -1) {
-                             success = true;
+                if (angular.isObject(value)) {
+                    angular.forEach(value, function (valueinner, keyinner) {
+                        var actual = ('' + valueinner).toLowerCase();
+                        if (actual.indexOf(expected) !== -1) {
+                            success = true;
 
-                         }
-                     });
+                        }
+                    });
 
-                }else{
+                } else {
 
-                var actual = ('' + value).toLowerCase();
-                if (actual.indexOf(expected) !== -1) {
-                    success = true;
+                    var actual = ('' + value).toLowerCase();
+                    if (actual.indexOf(expected) !== -1) {
+                        success = true;
 
+                    }
                 }
-            }});
+            });
             if (success == true) {
                 angular.forEach(input, function (value, key) {
                     result[key] = value;

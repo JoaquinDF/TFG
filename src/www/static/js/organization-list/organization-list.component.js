@@ -5,13 +5,13 @@ angular.module('organizationList').component('organizationList', {
 
         templateUrl: '/static/templates/organization-list.template.html',
         controller: ['$http', function OrganizationListController($http, $scope) {
-             var self = this;
+            var self = this;
             $http.get('/api/v1/data/organization/?limit=10&offset=0&ordering=nombre').then(function (responseorganizations) {
 
                 self.organizations = responseorganizations.data.results;
                 self.organizationsnext = responseorganizations.data.next;
                 self.organizationsprev = responseorganizations.data.previous;
-                self.countorganizations = Math.floor(((responseorganizations.data.count) / 10)+1);
+                self.countorganizations = Math.floor(((responseorganizations.data.count) / 10) + 1);
                 self.currentpageorganizations = 1;
                 self.pagecounterorganizations;
 
@@ -25,7 +25,7 @@ angular.module('organizationList').component('organizationList', {
                                 self.organizationsnext = responseorganizations.data.next;
                                 self.organizationsprev = responseorganizations.data.previous;
                                 self.currentpageorganizations += 1;
-                                self.pagecounterorganizations=null;
+                                self.pagecounterorganizations = null;
                             }
                         });
                     }
@@ -38,7 +38,7 @@ angular.module('organizationList').component('organizationList', {
                                 self.organizationsnext = responseorganizations.data.next;
                                 self.organizationsprev = responseorganizations.data.previous;
                                 self.currentpageorganizations -= 1;
-                                self.pagecounterorganizations=null;
+                                self.pagecounterorganizations = null;
 
                             }
                         });
@@ -48,10 +48,10 @@ angular.module('organizationList').component('organizationList', {
 
                 self.changepage = function (page) {
                     if (!isNaN(page) && page && page <= self.countorganizations) {
-                          self.currentpageorganizations = parseInt(page);
+                        self.currentpageorganizations = parseInt(page);
                         page *= 10;
-                        page-=10;
-                        var http = "/api/v1/data/organization/?limit=10&offset="+page+"&ordering=nombre";
+                        page -= 10;
+                        var http = "/api/v1/data/organization/?limit=10&offset=" + page + "&ordering=nombre";
 
                         $http.get(http).then(function (responseorganizations) {
                             if (responseorganizations.data) {

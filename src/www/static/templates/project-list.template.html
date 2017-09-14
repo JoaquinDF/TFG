@@ -39,9 +39,9 @@
             <a href="/www/p{{ proyecto.id }}" style="display: block">
 
 
- <div class="proyectcontainer">
+                <div class="proyectcontainer">
 
-<div ng-repeat="(key, value) in proyecto | custom:search ">
+                    <div ng-repeat="(key, value) in proyecto | custom:search ">
 
                <span ng-if="key =='tituloProyecto'">
 
@@ -49,16 +49,15 @@
 
 
             </span>
-                    <span ng-if="key !='tituloProyecto'">
+                        <span ng-if="key !='tituloProyecto'">
                         <span ng-if="value" !="NaN">
                         <h3>{{ key }}:  <span>{{ value }} </span></h3>
                     </span>
                     </span>
 
 
-
-        </div>
- </div>
+                    </div>
+                </div>
 
             </a>
 

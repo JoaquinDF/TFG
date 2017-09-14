@@ -1,155 +1,155 @@
 
-
- * {
-      font-family: roboto;!important;
-        font-weight: 200; !important;
-     font-size: initial;
-    }
-
-a:hover{
-    background-color:rgba(175,175,175,0.22)
+* {
+    font-family: roboto;
+!important;
+    font-weight: 200;
+!important;
+    font-size: initial;
 }
- .w3-input{
-     background-color: transparent;
-     border-color: #f6f6f6;
- }
 
-.bg-bisite{
+a:hover {
+    background-color: rgba(175, 175, 175, 0.22)
+}
+
+.w3-input {
+    background-color: transparent;
+    border-color: #f6f6f6;
+}
+
+.bg-bisite {
     color: #c62540;
 }
-  .bg-grey {
+
+.bg-grey {
     background-color: #f6f6f6;
 }
-  .proyectcontainer {
-      padding: 20px 20px;
-      border: 1px solid #c62540;
-      border-radius: 12px;
-      margin-top: 20px;
 
-  }
+.proyectcontainer {
+    padding: 20px 20px;
+    border: 1px solid #c62540;
+    border-radius: 12px;
+    margin-top: 20px;
 
-  a:hover{
-      text-decoration: none;
-      color: black;
-  }
-
-  .selectfontsize{
-      font-size: large;!important;
-  }
-
-  .btn-sch:hover{
-      border: 1px #c62540;
-      border-bottom-style: solid;
-      color: #c62540;
-
-  }
-  .btn-sch:hover:after{
-      content: "Borrar";
-
-
-  }
-
-  .proyectcontainer:hover{
-      background-color:#d8d8d8; !important;
-  }
-
-   .searchcontainer {
-      padding: 10px 5px;
-
-      border-bottom-style: solid;
-      border-color: #c62540;
-      border-width: 1px;
-      border-radius: 6px;
-       width: 75%;
-      margin-top: 20px;
-     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  }
-   .btn-primary{
-       margin: 10px;!important;
-       border-color: #c62540;!important;
-       background-color: transparent;!important;
-       color: black;!important;
-
-
-
-   }
-
-    .btn-primary-tab{
-       margin: 10px;!important;
-       border-color: #c62540;!important;
-       background-color: transparent;!important;
-       color: black;!important;
-
-
-
-   }
-
-    .btn-primary-tab:hover, .btn-primary-tab:active, .btn-primary-tab:focus{
-        background-color:rgba(175,175,175,0.22)!important;
-       box-shadow: 0 2px 4px 0 #17599D, 0 3px 10px 0 white; !important;
-
-
-
-    }
-    hr.style2{
-	border-top: 1px solid #c62540;
 }
 
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.selectfontsize {
+    font-size: large;
+!important;
+}
+
+.btn-sch:hover {
+    border: 1px #c62540;
+    border-bottom-style: solid;
+    color: #c62540;
+
+}
+
+.btn-sch:hover:after {
+    content: "Borrar";
+
+}
+
+.proyectcontainer:hover {
+    background-color: #d8d8d8;
+!important;
+}
+
+.searchcontainer {
+    padding: 10px 5px;
+
+    border-bottom-style: solid;
+    border-color: #c62540;
+    border-width: 1px;
+    border-radius: 6px;
+    width: 75%;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btn-primary {
+    margin: 10px;
+!important;
+    border-color: #c62540;
+!important;
+    background-color: transparent;
+!important;
+    color: black;
+!important;
+
+}
+
+.btn-primary-tab {
+    margin: 10px;
+!important;
+    border-color: #c62540;
+!important;
+    background-color: transparent;
+!important;
+    color: black;
+!important;
+
+}
+
+.btn-primary-tab:hover, .btn-primary-tab:active, .btn-primary-tab:focus {
+    background-color: rgba(175, 175, 175, 0.22) !important;
+    box-shadow: 0 2px 4px 0 #17599D, 0 3px 10px 0 white;
+!important;
+
+}
+
+hr.style2 {
+    border-top: 1px solid #c62540;
+}
 
 hr.style1 {
-	border-top: 3px double #c62540;
+    border-top: 3px double #c62540;
 }
 
-
-   .tablink:focus, .tablink:hover{
-       text-decoration: none;
-   }
-
-
-   .organizationstyle{
-       text-indent: 20px;
-   }
-
- .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-  color: black !important;
-  background-color: transparent !important;
-  border-color: #B4213B !important;
+.tablink:focus, .tablink:hover {
+    text-decoration: none;
 }
 
+.organizationstyle {
+    text-indent: 20px;
+}
 
-   .material-icons{
-       font-size: 45px !important;
-                    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);!important;
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    color: black !important;
+    background-color: transparent !important;
+    border-color: #B4213B !important;
+}
 
-   }
+.material-icons {
+    font-size: 45px !important;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+!important;
+
+}
+
 .searchcontainer .btn-group .page-counter {
     display: inline;
 }
 
-
-
 .searchtext {
-    display:inline ;
+    display: inline;
     outline: none;
-    font-size: xx-large;!important;
+    font-size: xx-large;
+!important;
     text-align: center;
 }
 
-
-
-
-
-
-
-
-
-  .animate-show-hide.ng-hide {
-  opacity: 0;
+.animate-show-hide.ng-hide {
+    opacity: 0;
 }
 
 .animate-show-hide.ng-hide-add,
 .animate-show-hide.ng-hide-remove {
-  transition: all linear 1s;
+    transition: all linear 1s;
 }
 
 

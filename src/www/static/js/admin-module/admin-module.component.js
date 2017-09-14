@@ -4,123 +4,125 @@
 angular.module('adminModule').component('adminModule', {
 
         templateUrl: '/static/templates/admin-module.template.html',
-        controller: ['$http','$timeout', function adminController($http, $timeout) {
+    controller: ['$http', '$timeout', function adminController($http, $timeout) {
             var self = this;
 
-           $http.get('/api/v1/admin/listTask/').then(function (responsetasks) {
+        $http.get('/api/v1/admin/listTask/').then(function (responsetasks) {
 
-                        if (responsetasks.data) {
+            if (responsetasks.data) {
 
-                            self.tasks=responsetasks.data;
+                self.tasks = responsetasks.data;
 
-                            debugger;
-                        }else {
-                            self.tasks = null;
-                        }
+            } else {
+                self.tasks = null;
+            }
 
-                    });
-
+        });
 
 
             $http.get('/api/v1/admin/listCrawlers/').then(function (responsecrawlers) {
 
-                        if (responsecrawlers.data) {
+                if (responsecrawlers.data) {
 
-                            self.crawlers=responsecrawlers.data;
+                    self.crawlers = responsecrawlers.data;
 
-                            debugger;
-                        }else {
-                            self.crawlers = null;
-                        }
+                } else {
+                    self.crawlers = null;
+                }
 
-                    });
+            });
             $http.get('/api/v1/admin/listBots/').then(function (responsebots) {
 
-                        if (responsebots.data) {
+                if (responsebots.data) {
 
-                            self.bots=responsebots.data;
+                    self.bots = responsebots.data;
 
-                            debugger;
-                        }else {
-                            self.bots = null;
-                        }
-                debugger;
-                    });
+                } else {
+                    self.bots = null;
+                }
+            });
 
-            self.warning=null;
-            this.intervalperiod = ['IntervalSchedule.DAYS',
-'IntervalSchedule.HOURS',
-'IntervalSchedule.MINUTES',
-'IntervalSchedule.SECONDS',
-'IntervalSchedule.MICROSECONDS']
+        self.warning = null;
+        this.intervalperiod = ['days',
+            , 'hours'
+            , 'minutes'
+            , 'seconds'
+            , 'microseconds'];
 
-             this.objectTask = {task:'', args:'', interval:null, crontab:null ,intervalevery:'', intervalperiod:''  , minute: null, hour: null , day_of_week: null, day_of_month: null, month_of_year: null};
+        this.objectTask = {
+            task: '',
+            args: '',
+            interval: null,
+            crontab: null,
+            intervalevery: '',
+            intervalperiod: '',
+            minute: null,
+            hour: null,
+            day_of_week: null,
+            day_of_month: null,
+            month_of_year: null
+        };
 
             self.settask = function () {
 
-                $http.post('/api/v1/admin/PeriodicTask/',this.objectTask).then(function successCallback(response) {
+                $http.post('/api/v1/admin/PeriodicTask/', this.objectTask).then(function successCallback(response) {
 
-                    self.warning='CORRECT';
+                    self.warning = 'CORRECT';
                 }, function errorCallback(response) {
                     self.warning = 'ERROR'
 
-              });
-
-
+                });
 
 
             }
 
             self.getschedule = function () {
-                 $http.get('/api/v1/admin/schedule/').then(function (responsecrawlers) {
+                $http.get('/api/v1/admin/schedule/').then(function (responsecrawlers) {
 
-                        if (responsecrawlers.data) {
+                    if (responsecrawlers.data) {
 
-                            self.schedule=responsecrawlers.data;
-                            debugger;
+                        self.schedule = responsecrawlers.data;
 
-                        }else {
-                            self.schedule = null;
-                        }
+                    } else {
+                        self.schedule = null;
+                    }
 
-                    });
+                });
             }
-            
+
             self.setWarningSch = function () {
-               $timeout(function () {
-                   self.warning = null;
-                   debugger;
-                   self.getschedule()
-               }, 750);
+                $timeout(function () {
+                    self.warning = null;
+                    self.getschedule()
+                }, 750);
 
 
             }
 
 
             self.setinterval = function () {
-                self.objectTask.interval=true;
-                self.objectTask.crontab=null;
-                self.warning=null;
+                self.objectTask.interval = true;
+                self.objectTask.crontab = null;
+                self.warning = null;
             }
             self.setcrontab = function () {
-                self.objectTask.interval=null;
-                self.objectTask.crontab=true;
-                self.warning=null;
+                self.objectTask.interval = null;
+                self.objectTask.crontab = true;
+                self.warning = null;
 
             }
             self.deleteTask = function (name) {
-                var json = {name:name};
-                debugger;
-                 $http.post('/api/v1/admin/DeleteTask/',json).then(function successCallback(response) {
+                var json = {name: name};
+                $http.post('/api/v1/admin/DeleteTask/', json).then(function successCallback(response) {
 
-                    self.warning='CORRECT';
+                    self.warning = 'CORRECT';
                 }, function errorCallback(response) {
                     self.warning = 'ERROR'
 
-              });
+                });
             }
 
-self.getschedule();
+        self.getschedule();
 
         }]
 

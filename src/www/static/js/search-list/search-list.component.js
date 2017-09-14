@@ -23,8 +23,8 @@ angular.module('searchList').component('searchList', {
                             self.Proyecto = response.data.results;
                             self.Proyectosize = self.Proyecto.length;
 
-                         }, function errorCallback(response) {
-                     });
+                        }, function errorCallback(response) {
+                        });
 
 
                         var apiget = '/api/v1/data/projectcall/?format=json&project=' + projectid;
@@ -58,12 +58,12 @@ angular.module('searchList').component('searchList', {
 
 
                     case 'np':
-                         callid = (tipo[0].split('/np'))[1];
-                         var apiget = '/api/v1/data/project/?format=json&name=' + callid;
-                         self.Proyecto = [];
-                             $http.get(apiget).then(function successCallback(response) {
-                                    self.Proyecto=(response.data.results)
-                                });
+                        callid = (tipo[0].split('/np'))[1];
+                        var apiget = '/api/v1/data/project/?format=json&name=' + callid;
+                        self.Proyecto = [];
+                        $http.get(apiget).then(function successCallback(response) {
+                            self.Proyecto = (response.data.results)
+                        });
 
                         break;
 
@@ -102,13 +102,13 @@ angular.module('searchList').component('searchList', {
 
                         break;
 
-                     case 'nc':
-                         callid = (tipo[0].split('/nc'))[1];
-                         var apiget = '/api/v1/data/call/?format=json&name=' + callid;
-                         self.Calls;
-                             $http.get(apiget).then(function successCallback(response) {
-                                    self.Calls=(response.data.results)
-                                });
+                    case 'nc':
+                        callid = (tipo[0].split('/nc'))[1];
+                        var apiget = '/api/v1/data/call/?format=json&name=' + callid;
+                        self.Calls;
+                        $http.get(apiget).then(function successCallback(response) {
+                            self.Calls = (response.data.results)
+                        });
 
                         break;
 
@@ -129,7 +129,7 @@ angular.module('searchList').component('searchList', {
 
                             self.Proyecto = [];
 
-                             projectidarray.forEach(function (id) {
+                            projectidarray.forEach(function (id) {
 
 
                                 var apiget = '/api/v1/data/project/?format=json&id=' + id.proyecto;
@@ -148,13 +148,13 @@ angular.module('searchList').component('searchList', {
 
                         break;
 
-                        case 'no':
-                         callid = (tipo[0].split('/no'))[1];
-                         var apiget = '/api/v1/data/organization/?format=json&name=' + callid;
-                         self.Orgs;
-                             $http.get(apiget).then(function successCallback(response) {
-                                    self.Orgs=(response.data.results)
-                                });
+                    case 'no':
+                        callid = (tipo[0].split('/no'))[1];
+                        var apiget = '/api/v1/data/organization/?format=json&name=' + callid;
+                        self.Orgs;
+                        $http.get(apiget).then(function successCallback(response) {
+                            self.Orgs = (response.data.results)
+                        });
 
                         break;
 

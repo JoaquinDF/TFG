@@ -11,7 +11,7 @@ angular.module('callList').component('callList', {
                 self.calls = responsecalls.data.results;
                 self.callsnext = responsecalls.data.next;
                 self.callsprev = responsecalls.data.previous;
-                self.countcalls = Math.floor(((responsecalls.data.count) / 10)+1);
+                self.countcalls = Math.floor(((responsecalls.data.count) / 10) + 1);
                 self.currentpagecalls = 1;
                 self.pagecountercalls;
 
@@ -26,7 +26,7 @@ angular.module('callList').component('callList', {
                                 self.callsnext = responsecalls.data.next;
                                 self.callsprev = responsecalls.data.previous;
                                 self.currentpagecalls += 1;
-                                self.pagecountercalls=null;
+                                self.pagecountercalls = null;
                             }
                         });
                     }
@@ -39,7 +39,7 @@ angular.module('callList').component('callList', {
                                 self.callsnext = responsecalls.data.next;
                                 self.callsprev = responsecalls.data.previous;
                                 self.currentpagecalls -= 1;
-                                self.pagecountercalls=null;
+                                self.pagecountercalls = null;
 
                             }
                         });
@@ -49,10 +49,10 @@ angular.module('callList').component('callList', {
 
                 self.changepage = function (page) {
                     if (!isNaN(page) && page && page <= self.countcalls) {
-                          self.currentpagecalls = parseInt(page);
+                        self.currentpagecalls = parseInt(page);
                         page *= 10;
-                        page-=10;
-                        var http = "/api/v1/data/call/?limit=10&offset="+page + "&ordering=tituloConvocatoria";
+                        page -= 10;
+                        var http = "/api/v1/data/call/?limit=10&offset=" + page + "&ordering=tituloConvocatoria";
 
                         $http.get(http).then(function (responsecalls) {
                             if (responsecalls.data) {

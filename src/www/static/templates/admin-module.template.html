@@ -16,92 +16,100 @@
         </span>
 
 
-            <ul class="project" style="width: 75%">
+        <ul class="project" style="width: 75%">
 
 
+            <div class="input-group searchcontainer  " style="display: inline-block ; width: 75%;">
 
-                 <div class="input-group searchcontainer  " style="display: inline-block ; width: 75%;">
+                <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.settask(); $ctrl.setWarningSch()">
+                    Launch
+                </button>
 
-  <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.settask(); $ctrl.setWarningSch()" >Launch</button>
 
+                <select class="selectfontsize" ng-model="$ctrl.objectTask.task" style="width: inherit"
+                        ng-options="tasks for tasks in $ctrl.tasks"></select>
 
-    <select class="selectfontsize" ng-model="$ctrl.objectTask.task" ng-options="tasks for tasks in $ctrl.tasks"></select>
-
-    <span ng-if="$ctrl.objectTask.task.indexOf('bot')!=-1">
-        <select class="selectfontsize" ng-model="$ctrl.objectTask.args" ng-options="bots for bots in $ctrl.bots"></select>
+                <span ng-if="$ctrl.objectTask.task.indexOf('bot')!=-1">
+        <select class="selectfontsize" ng-model="$ctrl.objectTask.args"
+                ng-options="bots for bots in $ctrl.bots"></select>
     </span>
-     <span ng-if="$ctrl.objectTask.task.indexOf('crawler')!=-1">
-        <select class="selectfontsize" ng-model="$ctrl.objectTask.args" ng-options="crawlers for crawlers in $ctrl.crawlers"></select>
+                <span ng-if="$ctrl.objectTask.task.indexOf('crawler')!=-1">
+        <select class="selectfontsize" ng-model="$ctrl.objectTask.args"
+                ng-options="crawlers for crawlers in $ctrl.crawlers"></select>
     </span>
 
 
-  </form>
-                 </div>
+                </form>
+            </div>
 
 
+            <div class="searchcontainer">
+                <ul class="nav nav-pills">
+                    <a class=" btn btn-primary-tab btn-lg" ng-click="$ctrl.setcrontab()" data-toggle="pill"
+                       href="#crontab">Crontabs</a>
+                    <a class=" btn btn-primary-tab btn-lg" ng-click="$ctrl.setinterval()" data-toggle="pill"
+                       href="#intervals">Intervals</a>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="crontab" class="tab-pane fade">
+                        <div class="input-group  " style="display: inline-block ; width: 95%; height: 300px">
+                            <div class="input-group" style="height: 20%">
+                                <input ng-model=$ctrl.objectTask.minute type="number" class="form-control searchtext"
+                                       style="height: 100%">
+                                <span class="input-group-addon">Minute</span>
+                            </div>
+                            <div class="input-group" style="height: 20%">
+                                <input ng-model=$ctrl.objectTask.hour size="50" type="number"
+                                       class="form-control searchtext" style="height: 100%">
+                                <span class="input-group-addon">hour</span>
+                            </div>
+                            <div class="input-group" style="height: 20%">
+                                <input ng-model=$ctrl.objectTask.day_of_week size="50" type="number"
+                                       class="form-control searchtext" style="height: 100%">
+                                <span class="input-group-addon">day_of_week</span>
+                            </div>
+                            <div class="input-group" style="height: 20%">
+                                <input ng-model=$ctrl.objectTask.day_of_month size="50" type="number"
+                                       class="form-control searchtext" style="height: 100%">
+                                <span class="input-group-addon">day_of_month</span>
+                            </div>
+                            <div class="input-group" style="height: 20%">
+                                <input ng-model=$ctrl.objectTask.month_of_year size="50" class="searchtext form-control"
+                                       style="height: 100%">
+                                <span class="input-group-addon">month_of_year</span>
+                            </div>
+
+                        </div>
 
 
+                    </div>
+                    <div id="intervals" class="tab-pane fade">
+                        <div class="input-group  " style="display: inline-block ; width: 75%; height: 300px">
+                            <div class="input-group" style="height: 20%">
+                                <input ng-model=$ctrl.objectTask.intervalevery type="number"
+                                       class="form-control searchtext" style="height: 100%">
+                                <span class="input-group-addon">Every(time)</span>
+                            </div>
+                            <select class="selectfontsize" ng-model="$ctrl.objectTask.intervalperiod"
+                                    ng-options="interval for interval in $ctrl.intervalperiod"></select>
 
 
-                <div class="searchcontainer">
-                     <ul class="nav nav-pills">
-<a class=" btn btn-primary-tab btn-lg" ng-click="$ctrl.setcrontab()" data-toggle="pill" href="#crontab">Crontabs</a>
-<a class=" btn btn-primary-tab btn-lg" ng-click="$ctrl.setinterval()" data-toggle="pill" href="#intervals">Intervals</a>
-</ul>
+                        </div>
 
-<div class="tab-content">
-  <div id="crontab" class="tab-pane fade">
-           <div class="input-group  " style="display: inline-block ; width: 95%; height: 300px">
-                      <div class="input-group" style="height: 20%">
-                                 <input ng-model=$ctrl.objectTask.minute type="number" class="form-control searchtext" style="height: 100%">
-                                  <span class="input-group-addon">Minute</span>
-                      </div>
-                 <div class="input-group" style="height: 20%">
-                                 <input ng-model=$ctrl.objectTask.hour size="50" type="number" class="form-control searchtext" style="height: 100%">
-                                  <span class="input-group-addon">hour</span>
-                      </div>
-                     <div class="input-group" style="height: 20%">
-                                 <input ng-model=$ctrl.objectTask.day_of_week size="50" type="number" class="form-control searchtext" style="height: 100%">
-                                  <span class="input-group-addon">day_of_week</span>
-                      </div>
-                      <div class="input-group" style="height: 20%">
-                                 <input ng-model=$ctrl.objectTask.day_of_month size="50" type="number" class="form-control searchtext" style="height: 100%">
-                                  <span class="input-group-addon">day_of_month</span>
-                      </div>
-                      <div class="input-group" style="height: 20%">
-                                 <input ng-model=$ctrl.objectTask.month_of_year size="50" class="searchtext form-control" style="height: 100%">
-                                  <span class="input-group-addon">month_of_year</span>
-                      </div>
-
-        </div>
-
-
-
-
-  </div>
-  <div id="intervals" class="tab-pane fade">
-       <div class="input-group  " style="display: inline-block ; width: 75%; height: 300px">
-                      <div class="input-group" style="height: 20%">
-                                 <input ng-model=$ctrl.objectTask.intervalevery type="number" class="form-control searchtext" style="height: 100%">
-                                  <span class="input-group-addon">Every(time)</span>
-                      </div>
-                    <select class="selectfontsize" ng-model="$ctrl.objectTask.intervalperiod" ng-options="interval for interval in $ctrl.intervalperiod"></select>
-
-
-        </div>
-
-  </div>
-
-</div>
+                    </div>
 
                 </div>
 
+            </div>
 
-            </ul>
+
+        </ul>
         <ul id="schedule" class="project searchcontainer">
-                  <div ng-repeat="task in $ctrl.schedule">
-           <a class="btn btn-sch" ng-click="$ctrl.deleteTask(task);  $ctrl.setWarningSch();"><h4>{{ task }}</h4></a>
-        </div>
-                    </ul>
+            <div ng-repeat="task in $ctrl.schedule">
+                <a class="btn btn-sch" ng-click="$ctrl.deleteTask(task);  $ctrl.setWarningSch();"><h4>{{ task }}</h4>
+                </a>
+            </div>
+        </ul>
     </body>
 </html>
