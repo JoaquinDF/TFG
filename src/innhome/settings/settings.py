@@ -25,7 +25,7 @@ SECRET_KEY = 'a&&#j@#_yo$n$r!&6y%20q*5@t#v7jc)m%k6i0nsb9ujydy=n1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['212.128.158.52', 'innhome-dev.der.usal.es','192.168.56.101']
+ALLOWED_HOSTS = ['212.128.158.52', 'innhome-dev.der.usal.es','192.168.56.101', '212.128.154.250']
 
 # Application definition
 

@@ -39,7 +39,6 @@
                 <div class="proyectcontainer animate-show-hide">
 
                     <div ng-repeat="(key, value) in call | custom:search " ng-controller="Ctrl">
-  <span ng-if="key!='id'">
             <span ng-if="key =='tituloConvocatoria'">
               <h3>TituloConvocatoria:  <span>{{ call.tituloConvocatoria }} </span></h3>
             </span>
@@ -49,12 +48,8 @@
 
 
                 </span>
-  </span>
 
-                        <span ng-if="key=='id'">
-            <h3>ID :  <span>{{ value.id }} </span></h3>
 
-       </span>
                     </div>
                 </div>
                 </span>
