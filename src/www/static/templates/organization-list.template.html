@@ -4,29 +4,45 @@
     <body>
 
         <div class="container-fluid">
+
+
             <form class="form-inline">
+
                 <div style="width: 100%">
                     <div class="input-group searchcontainer" style="display: inline-flex">
-                        <input ng-model="search" class="w3-input searchtext" size="50" placeholder=". . .  " required
-                               onkeyup="hidediv(event)">
+                        <input ng-model="search" class="w3-input searchtext" placeholder="Palabra por la que filtrar:"
+                               required
+                               onkeyup="hidediv(event)" style="font-size: medium">
+
+
                     </div>
-                    <div class="input-group searchcontainer  " style="display: inline-flex ; width: 20%;">
-                        <input ng-model=$ctrl.pagecounterorganizations size="50" class="w3-input searchtext"
-                               placeholder="Pág: "
+                    <div class="input-group searchcontainer  " style="display: inline-flex ; width: auto;">
+
+                        <input ng-value="$ctrl.currentpageorganizations" ng-model=$ctrl.currentpageorganizations
+                               size="50" class="w3-input searchtext"
                                style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounterorganizations)">
-                        <h5>de {{$ctrl.currentpageorganizations}} de {{$ctrl.countorganizations }} </h5>
-                    </div>
-                    <div class="btn-group btn-group-justified" style="margin-top: 20px">
+                        <h5 style="font-size: medium; margin-right: 20px;"> de {{$ctrl.countorganizations }} </h5>
+
                         <a href="#" class="btn btn-primary material-icons"
+                           style="margin: 0px; padding: 0px; width: auto"
                            ng-click="$ctrl.prevorganization()" onmouseup=setTimeout(function(){hidediv(null);},50)>
-                            keyboard_arrow_left
-                        </a>
+                            keyboard_arrow_left</a>
+
                         <a href="#" class="btn btn-primary material-icons"
+                           style="margin: 0px; padding: 0px; width: auto"
                            ng-click="$ctrl.nextorganization()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                             keyboard_arrow_right</a>
+
+
                     </div>
+
+
                 </div>
+
+
             </form>
+
+
             <ul class="project">
 
                 <div ng-repeat="organization in $ctrl.organizations ">

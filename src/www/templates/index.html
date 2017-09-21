@@ -8,8 +8,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
               crossorigin="anonymous">
-        <link href="/static/css/innhome.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-dark-grey.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -44,24 +44,46 @@
         <script src="/static/js/admin-module/admin-module.module.js"></script>
         <script src="/static/js/admin-module/admin-module.component.js"></script>
 
+        <link href="/static/css/innhome.css" rel="stylesheet">
 
     </head>
 
     <body class="w3-theme">
 
-        <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4"
+        <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4  w3-bar-block"
              style="z-index:3;width:250px; " id="mySidebar">
-            <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/"><img
-                    src="/static/images/bisite-usal-es.png" style="width:80%;"></a>
+            <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/">
+                <img src="/static/images/innhome.png" style="width: 80%;padding-bottom: 30px;">
+                <img src="/static/images/bisite-usal-es.png" style="width: 80%;padding-bottom: 30px;"></a>
             <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close
                 <i class="fa fa-remove"></i></a>
-            <a class="w3-bar-item tablink w3-button  " href="#" onclick="openTab(event,'Projects')">Projects</a>
-            <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Calls')">Calls</a>
-            <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Organizations')">Organizations</a>
-            <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Search')">Search</a>
-            <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Admin')">Admin</a>
+
+            <!-- asdasdasdasd-->
 
 
+            <div class="w3-sidebar w3-bar-block w3-card-2 w3-theme-d4  w3-bar-block"
+                 style="width: inherit; height: auto;">
+                <div class="w3-bar-item w3-button" onclick="myAccFunc()">
+                    Data <i class="fa fa-caret-down"></i></div>
+                <div id="demoAcc" class="w3-hide w3-theme w3-card-4">
+                    <a class="w3-bar-item tablink w3-button  " href="#" onclick="openTab(event,'Projects')">Projects</a>
+                    <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Calls')">Calls</a>
+                    <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Organizations')">Organizations</a>
+
+                </div>
+
+                <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Search')">Search</a>
+                <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Admin')">Admin</a>
+            </div>
+
+
+            <footer class="footer w3-theme-d3" style="padding: 30px">
+                <img alt="Bisite Research Group" src="http://bisite.usal.es/archivos/favicon_2.png" width="42"
+                     height="42">
+                <br/>
+                Bisite Research Group
+                © Copyright 2016 by Bisite Research Group
+            </footer>
         </nav>
 
         <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
@@ -69,18 +91,6 @@
 
         <div class="w3-main" style="margin-left:250px;">
 
-            <div id="myTop" class="w3-container w3-top w3-theme-d4 w3-large">
-                <p><i class="fa fa-bars w3-button w3-theme-d3 w3-hide-large w3-xlarge" onclick="w3_open()"
-                      style="font-size: 31px">
-
-                </i>
-                    <span id="myIntro" class="w3-hide">Innhome </span></p>
-            </div>
-
-
-            <header class=" w3-theme-d4 w3-centered" style="padding:64px 320px">
-                <img src="/static/images/innhome.png">
-            </header>
 
             <div id="Projects" class="w3-container tab w3-animate-opacity w3-theme-l5" style="display:none">
                 <project-list></project-list>
@@ -106,13 +116,6 @@
             </div>
 
 
-            <footer class="w3-container w3-theme-d3" style="padding:32px 320px">
-                <img alt="Bisite Research Group" src="http://bisite.usal.es/archivos/favicon_2.png" width="42"
-                     height="42">
-                Bisite Research Group
-                © Copyright 2016 by Bisite Research Group
-            </footer>
-
         </div>
 
         <script>
@@ -124,11 +127,9 @@
             }
             function myFunction() {
                 if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-                    document.getElementById("myTop").classList.add("w3-card-4", "w3-animate-opacity");
                     document.getElementById("myIntro").classList.add("w3-show-inline-block");
                 } else {
                     document.getElementById("myIntro").classList.remove("w3-show-inline-block");
-                    document.getElementById("myTop").classList.remove("w3-card-4", "w3-animate-opacity");
                 }
             }
             function LoadSearch() {

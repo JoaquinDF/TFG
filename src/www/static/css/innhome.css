@@ -1,10 +1,25 @@
 
+h3 {
+    font-size: 17px;
+!important;
+    font-family: roboto;
+!important;
+    font-weight: 400;
+!important;
+    margin: 10px 0;
+!important;
+}
+
+h2 {
+    font-size: 20px;
+}
+
 * {
     font-family: roboto;
 !important;
     font-weight: 200;
 !important;
-    font-size: initial;
+    font-size: 17px;
 }
 
 a:hover {
@@ -66,7 +81,7 @@ a:hover {
     border-color: #c62540;
     border-width: 1px;
     border-radius: 6px;
-    width: 75%;
+    width: 35%;
     margin-top: 20px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
@@ -138,7 +153,7 @@ hr.style1 {
 .searchtext {
     display: inline;
     outline: none;
-    font-size: xx-large;
+    font-size: medium;
 !important;
     text-align: center;
 }
@@ -152,5 +167,13 @@ hr.style1 {
     transition: all linear 1s;
 }
 
-
+.footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #efefef;
+    text-align: center;
+}
 

@@ -65,7 +65,7 @@ angular.module('adminModule').component('adminModule', {
 
             self.settask = function () {
 
-                $http.post('/api/v1/admin/PeriodicTask/', this.objectTask).then(function successCallback(response) {
+                $http.post('/api/v1/admin/periodicTask/', this.objectTask).then(function successCallback(response) {
 
                     self.warning = 'CORRECT';
                 }, function errorCallback(response) {
@@ -113,7 +113,7 @@ angular.module('adminModule').component('adminModule', {
             }
             self.deleteTask = function (name) {
                 var json = {name: name};
-                $http.post('/api/v1/admin/DeleteTask/', json).then(function successCallback(response) {
+                $http.post('/api/v1/admin/deleteTask/', json).then(function successCallback(response) {
 
                     self.warning = 'CORRECT';
                 }, function errorCallback(response) {
