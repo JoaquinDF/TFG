@@ -13,6 +13,7 @@ angular.module('adminModule').component('adminModule', {
 
                 self.tasks = responsetasks.data;
 
+
             } else {
                 self.tasks = null;
             }

@@ -1,6 +1,7 @@
 
 h3 {
     font-size: 17px;
+    text-transform: uppercase;
 !important;
     font-family: roboto;
 !important;
@@ -12,6 +13,7 @@ h3 {
 
 h2 {
     font-size: 20px;
+    text-transform: uppercase;
 }
 
 * {
@@ -40,10 +42,10 @@ a:hover {
 }
 
 .proyectcontainer {
-    padding: 20px 20px;
+    padding: 1px 10px;
     border: 1px solid #c62540;
     border-radius: 12px;
-    margin-top: 20px;
+    margin-top: 5px;
 
 }
 
