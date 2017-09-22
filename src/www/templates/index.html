@@ -38,6 +38,10 @@
         <script src="/static/js/call-list/call-list.module.js"></script>
         <script src="/static/js/call-list/call-list.component.js"></script>
 
+        <script src="/static/js/transform-module/transform-module.module.js"></script>
+        <script src="/static/js/transform-module/transform-module.component.js"></script>
+
+
         <script src="/static/js/search-list/search-list.module.js"></script>
         <script src="/static/js/search-list/search-list.component.js"></script>
 
@@ -58,9 +62,6 @@
             <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close
                 <i class="fa fa-remove"></i></a>
 
-            <!-- asdasdasdasd-->
-
-
             <div class="w3-sidebar w3-bar-block w3-card-2 w3-theme-d4  w3-bar-block"
                  style="width: inherit; height: auto;">
                 <div class="w3-bar-item w3-button" onclick="myAccFunc()">
@@ -71,7 +72,7 @@
                     <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Organizations')">Organizations</a>
 
                 </div>
-
+                <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Transform')">Transform</a>
                 <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Search')">Search</a>
                 <a class="w3-bar-item tablink w3-button" href="#" onclick="openTab(event,'Admin')">Admin</a>
             </div>
@@ -120,6 +121,10 @@
 
             <div id="Admin" class="w3-container w3-theme-l5 tab w3-animate-opacity" style="display:none">
                 <admin-module style="display: flex"></admin-module>
+            </div>
+
+            <div id="Transform" class="w3-container w3-theme-l5 tab w3-animate-opacity" style="display:none">
+                <transform-module style="display: flex"></transform-module>
             </div>
 
 

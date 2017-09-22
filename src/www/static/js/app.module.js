@@ -9,6 +9,7 @@ var Appmodule = angular.module('innhomeweb', [
     'organizationList',
     'searchList',
     'adminModule',
+    'transformModule'
 
 
 

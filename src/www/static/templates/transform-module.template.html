@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+    <div class="container-fluid" style="margin-top: 5%">
+        <span ng-if=" $ctrl.warning">
+            <span ng-if="$ctrl.warning.indexOf('ERROR')!=-1">
+               <div class="alert alert-warning">
+                   <strong>WARNING: </strong> Error en el Post, revise elementos duplicados y/o el estado del servidor.
+                </div>
+             </span>
+            <span ng-if="$ctrl.warning.indexOf('ERROR')==-1">
+              <div class="alert alert-success">
+                    <strong>Success!</strong> Post realizado con éxito.
+              </div>
+             </span>
+        </span>
+
+        <div class="input-group searchcontainer  " style="display: inline-block ; width: 75%;">
+
+            <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.settask(); $ctrl.setWarningSch()">
+                Launch
+            </button>
+
+
+            <select class="selectfontsize" ng-model="$ctrl.selectedtransform" style="width: inherit"
+                    ng-options="key for (key,value) in $ctrl.transforms "></select>
+
+
+        </div>
+    </div>
+    </body>
+</html>
