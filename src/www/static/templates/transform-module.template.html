@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-    <div class="container-fluid" style="margin-top: 5%">
+    <div class="container-fluid" style="margin-top: 5%; margin-left: inherit; display: inline;">
         <span ng-if=" $ctrl.warning">
             <span ng-if="$ctrl.warning.indexOf('ERROR')!=-1">
                <div class="alert alert-warning">
@@ -15,18 +15,58 @@
              </span>
         </span>
 
-        <div class="input-group searchcontainer  " style="display: inline-block ; width: 75%;">
-
-            <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.settask(); $ctrl.setWarningSch()">
-                Launch
-            </button>
+        <div class="input-group searchcontainer  " style="display: inline-block ; width: 100%;margin-bottom: 5%">
 
 
-            <select class="selectfontsize" ng-model="$ctrl.selectedtransform" style="width: inherit"
-                    ng-options="key for (key,value) in $ctrl.transforms "></select>
+            <select class="selectfontsize" ng-model="$ctrl.selectedtransform"
+                    ng-options="key for (key,value) in $ctrl.transforms "
+                    ng-change="$ctrl.getMapperList(); $ctrl.getMapperOptions()">
+                <option value="" selected>--Select a Mapper--</option>
+
+            </select>
 
 
         </div>
+
+        <div ng-if=" $ctrl.selectedtransform.length>0 || $ctrl.selectedtransform.indexOf('mapper')!=-1"
+             style="width: flex">
+
+            <div id="as" class="project w3-animate-opacity" style="margin-bottom: 5%; display: inline">
+                <div ng-repeat="mapper in $ctrl.MapperList  ">
+
+                    <div class="proyectcontainer btn-sch" style="width:fit-content">
+
+                        <div ng-repeat="(key, value) in mapper">
+
+
+                            <h3>{{ key }}: <span>{{ value }} </span></h3>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            //https://stackoverflow.com/questions/29201237/dynamic-ng-model-in-ng-repeat
+            <div ng-repeat="option in $ctrl.databkeys" style="width: 50%" ng-init="">
+
+                <div class="input-group  " style="display: inline-block; height: auto">
+                    <div class="input-group" style="height: 20%">
+                        <input ng-model="$ctrl.MapperOptions[option]" type="number"
+                               class="form-control searchtext"
+                               style="height: 100%">
+                        <span class="input-group-addon">{{ option }}</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <h3>{{ $ctrl.MapperOptions }}</h3>
+
     </div>
     </body>
 </html>

@@ -6,7 +6,6 @@ angular.module('adminModule').component('adminModule', {
         templateUrl: '/static/templates/admin-module.template.html',
     controller: ['$http', '$timeout', function adminController($http, $timeout) {
             var self = this;
-
         $http.get('/api/v1/admin/listTask/').then(function (responsetasks) {
 
             if (responsetasks.data) {
