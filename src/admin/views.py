@@ -1,16 +1,11 @@
-from django.shortcuts import render
 import json
-from django_celery_beat.models import *
-from bson.json_util import dumps
-import pprint
-from random import randint
+
+import os
 from celery import current_app
-import celery.beat
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
-from rest_framework.viewsets import ViewSet
+from django_celery_beat.models import *
 from django_celery_beat.models import PeriodicTask
 from rest_framework.response import Response
-import os
+from rest_framework.viewsets import ViewSet
 
 
 # Create your views here.
@@ -111,7 +106,6 @@ class ScheduleViewSet(ViewSet):
 class DeleteTaskViewSet(ViewSet):
     def create(self, request):
         name = request.data.get('name', '*')
-        print(name)
         a = [k for k in PeriodicTask.objects.all()]
 
         b = [k for k in a if name in k.name]

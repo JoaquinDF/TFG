@@ -24,7 +24,13 @@
                 <option value="" selected>--Select a Mapper--</option>
 
             </select>
+            <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.LoadMapper(); $ctrl.setWarningSch()">
+                LoadMapper
+            </button>
 
+            <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.LaunchMapping();setWarningSch()">
+                Launch Mapping
+            </button>
 
         </div>
 
@@ -34,26 +40,29 @@
             <div id="as" class="project w3-animate-opacity" style="margin-bottom: 5%; display: inline">
                 <div ng-repeat="mapper in $ctrl.MapperList  ">
 
-                    <div class="proyectcontainer btn-sch" style="width:fit-content">
-
+                    <div class="proyectcontainer " style="width:fit-content">
+                        <a class="btn btn-sch" ng-click="$ctrl.deletekey(mapper.id)">
                         <div ng-repeat="(key, value) in mapper">
+
 
 
                             <h3>{{ key }}: <span>{{ value }} </span></h3>
 
                         </div>
+                        </a>
+
                     </div>
 
                 </div>
 
 
             </div>
-            //https://stackoverflow.com/questions/29201237/dynamic-ng-model-in-ng-repeat
-            <div ng-repeat="option in $ctrl.databkeys" style="width: 50%" ng-init="">
 
-                <div class="input-group  " style="display: inline-block; height: auto">
-                    <div class="input-group" style="height: 20%">
-                        <input ng-model="$ctrl.MapperOptions[option]" type="number"
+            <div ng-repeat="option in $ctrl.databkeys">
+
+                <div class="input-group  " style="display: inline-block; height: auto" ng-if="option.indexOf('id')==-1">
+                    <div class="input-group" style="height: 20%; width: 250px">
+                        <input ng-model="$ctrl.MapperOptions[option]" ng-model-options="{ updateOn: 'blur' }"
                                class="form-control searchtext"
                                style="height: 100%">
                         <span class="input-group-addon">{{ option }}</span>
