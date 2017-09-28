@@ -7,19 +7,30 @@ angular.module('transformModule').component('transformModule', {
         controller: ['$http', '$timeout', function adminController($http, $timeout) {
             var self = this;
             self.MapperOptions = {};
+            self.transforms = {};
             $http.get('/api/v1/transform/').then(function successCallback(response) {
 
                 if (response.data) {
-
-                    self.transforms = response.data
-
+                    var todelete = [];
+                    self.transforms = response.data;
+                    for (var key in self.transforms) {
+                        if (self.transforms[key].indexOf('delete') != -1 || self.transforms[key].indexOf('mapping') != -1) {
+                            debugger;
+                            todelete.push(key);
+                        }
+                    }
+                    for (var key in todelete) {
+                        debugger;
+                        delete self.transforms[todelete[key]];
+                        debugger;
+                    }
+                    debugger;
 
                 } else {
 
                 }
 
             }, function errorCallback(response) {
-                //Error en la recogida de datos.
             });
 
 
@@ -38,6 +49,7 @@ angular.module('transformModule').component('transformModule', {
                     self.warning = 'ERROR'
 
                 });
+                self.MapperOptions = {};
 
             }
 
@@ -51,16 +63,19 @@ angular.module('transformModule').component('transformModule', {
 
                     self.getMapperList();
                     self.warning = 'CORRECT';
+
                 }, function errorCallback(response) {
                     self.warning = 'ERROR'
 
                 });
+                self.MapperOptions = {};
+
 
             }
             self.setWarningSch = function () {
                 $timeout(function () {
                     self.warning = null;
-                }, 750);
+                }, 1500);
 
 
             }
@@ -69,6 +84,8 @@ angular.module('transformModule').component('transformModule', {
                 var object = {id: id};
                 var apiurl = self.selectedtransform;
                 apiurl = apiurl.replace('transform/', 'transform/delete')
+                self.MapperOptions = {};
+
                 debugger;
 
 
@@ -80,21 +97,38 @@ angular.module('transformModule').component('transformModule', {
                     self.warning = 'ERROR'
 
                 }
+
             }
 
             self.getMapperOptions = function () {
                 if (self.selectedtransform && self.selectedtransform.indexOf('mapper') != -1) {
                     debugger;
+                    self.databkeys = [];
+                    self.nestedkey = [];
                     var apiurl = self.selectedtransform;
                     $http({method: 'OPTIONS', url: apiurl}).then(function (data) {
                         debugger;
                         if (data.data.actions) {
                             var datab = data.data.actions.POST;
-                            self.databkeys = Object.keys(datab);
-                            self.MapperOptions = {};
+                            Object.keys(datab).forEach(function (key) {
 
-                            debugger;
+                                debugger;
+                                if (datab[key]['type'].indexOf('nested object') != -1) {
+                                    self.nesteditems = Object.keys(datab[key]['children']);
+                                    self.nestedkey.push(key, self.nesteditems.length)
+                                    self.databkeys.push(key);
+                                    debugger;
+                                } else {
+                                    self.databkeys.push(key);
+                                }
+                            });
+
+
                         }
+
+                        self.MapperOptions = {};
+
+
                     });
 
                 }
