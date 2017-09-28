@@ -5,11 +5,11 @@ from utils.bot import Bot
 
 
 class BotInstance(Bot):
-    collection = 'bots.h2020.organizations'
+    collection = 'bots.fp7.organizations'
     key = 'id'
 
     def process_item(self, db=None):
-        url = 'http://cordis.europa.eu/data/cordis-h2020organizations.xlsx'
+        url = 'http://cordis.europa.eu/data/cordis-fp7organizations.xlsx'
         data = pd.read_excel(url)
         json_data = data.to_json(orient='records')
         docs = json.loads(json_data)
