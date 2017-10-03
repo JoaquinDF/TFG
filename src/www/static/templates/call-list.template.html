@@ -17,11 +17,11 @@
                        style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecountercalls)">
                 <h5 style="font-size: medium; margin-right: 20px;"> de {{$ctrl.countcalls }} </h5>
 
-                <a href="#" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
+                <a href="" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
                    ng-click="$ctrl.prevcall()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                     keyboard_arrow_left</a>
 
-                <a href="#" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
+                <a href="" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
                    ng-click="$ctrl.nextcall()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                     keyboard_arrow_right</a>
 
@@ -38,7 +38,7 @@
     <ul class="project">
 
         <div ng-repeat="call in $ctrl.calls  ">
-            <a href="/www/c{{ call.id }}" style="display: block">
+            <a href="/www/#!/c{{ call.id }}" style="display: block">
 
 
                 <div class="proyectcontainer animate-show-hide">

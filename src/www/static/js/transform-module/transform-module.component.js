@@ -15,16 +15,12 @@ angular.module('transformModule').component('transformModule', {
                     self.transforms = response.data;
                     for (var key in self.transforms) {
                         if (self.transforms[key].indexOf('delete') != -1 || self.transforms[key].indexOf('mapping') != -1) {
-                            debugger;
                             todelete.push(key);
                         }
                     }
                     for (var key in todelete) {
-                        debugger;
                         delete self.transforms[todelete[key]];
-                        debugger;
                     }
-                    debugger;
 
                 } else {
 
@@ -38,7 +34,6 @@ angular.module('transformModule').component('transformModule', {
 
                 var apiurl = self.selectedtransform;
                 apiurl = apiurl.replace('mapper', 'mapping');
-                debugger;
 
                 var emptyjsontopost = {};
 
@@ -56,7 +51,6 @@ angular.module('transformModule').component('transformModule', {
             self.LoadMapper = function () {
 
                 var apiurl = self.selectedtransform;
-                debugger;
 
 
                 $http.post(apiurl, self.MapperOptions).then(function successCallback(response) {
@@ -86,8 +80,6 @@ angular.module('transformModule').component('transformModule', {
                 apiurl = apiurl.replace('transform/', 'transform/delete')
                 self.MapperOptions = {};
 
-                debugger;
-
 
                 $http.post(apiurl, object).then(function successCallback(response) {
 
@@ -102,22 +94,22 @@ angular.module('transformModule').component('transformModule', {
 
             self.getMapperOptions = function () {
                 if (self.selectedtransform && self.selectedtransform.indexOf('mapper') != -1) {
-                    debugger;
+
                     self.databkeys = [];
                     self.nestedkey = [];
                     var apiurl = self.selectedtransform;
                     $http({method: 'OPTIONS', url: apiurl}).then(function (data) {
-                        debugger;
+
                         if (data.data.actions) {
                             var datab = data.data.actions.POST;
                             Object.keys(datab).forEach(function (key) {
 
-                                debugger;
+
                                 if (datab[key]['type'].indexOf('nested object') != -1) {
                                     self.nesteditems = Object.keys(datab[key]['children']);
                                     self.nestedkey.push(key, self.nesteditems.length)
                                     self.databkeys.push(key);
-                                    debugger;
+
                                 } else {
                                     self.databkeys.push(key);
                                 }

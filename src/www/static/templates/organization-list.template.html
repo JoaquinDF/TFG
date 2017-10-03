@@ -23,12 +23,12 @@
                                style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounterorganizations)">
                         <h5 style="font-size: medium; margin-right: 20px;"> de {{$ctrl.countorganizations }} </h5>
 
-                        <a href="#" class="btn btn-primary material-icons"
+                        <a href="" class="btn btn-primary material-icons"
                            style="margin: 0px; padding: 0px; width: auto"
                            ng-click="$ctrl.prevorganization()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                             keyboard_arrow_left</a>
 
-                        <a href="#" class="btn btn-primary material-icons"
+                        <a href="" class="btn btn-primary material-icons"
                            style="margin: 0px; padding: 0px; width: auto"
                            ng-click="$ctrl.nextorganization()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                             keyboard_arrow_right</a>
@@ -46,7 +46,7 @@
             <ul class="project">
 
                 <div ng-repeat="organization in $ctrl.organizations ">
-                    <a href="/www/o{{ organization.id }}" style="display: block">
+                    <a href="/www/#!/o{{ organization.id }}" style="display: block">
 
                         <div ng-class-odd="'odd'" ng-class-even="'even'">
                                     <span ng-if="organization">

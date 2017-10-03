@@ -13,20 +13,6 @@ function w3_close() {
 // Change style of top container on scroll
 
 function openTab(evt, tabName) {
-    var i, x, tablinks;
-    x = document.getElementsByClassName("tab");
-
-    for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < x.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" w3-theme-d1", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-
-    if (evt != null) evt.currentTarget.className += " w3-theme-d1";
-
 
 }
 

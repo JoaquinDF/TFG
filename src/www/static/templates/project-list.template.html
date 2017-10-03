@@ -14,11 +14,11 @@
                        style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounter)">
                 <h5 style="font-size: medium; margin-right: 20px;"> de {{$ctrl.countprojects }} </h5>
 
-                <a href="#" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
+                <a href="" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
                    ng-click="$ctrl.prevproject()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                     keyboard_arrow_left</a>
 
-                <a href="#" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
+                <a href="" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
                    ng-click="$ctrl.nextproject()" onmouseup=setTimeout(function(){hidediv(null);},50)>
                     keyboard_arrow_right</a>
 
@@ -35,7 +35,7 @@
     <div class="project w3-animate-opacity" style="margin: 20px">
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
-            <a href="/www/p{{ proyecto.id }}" style="display: block">
+            <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
 
 
                 <div class="proyectcontainer">

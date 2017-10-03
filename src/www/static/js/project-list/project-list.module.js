@@ -1,7 +1,7 @@
 'use strict';
 
 // Define the `projectList` module
-var plist = angular.module('projectList', []);
+var plist = angular.module('projectList', ['ngRoute']);
 
 
 plist //return the data filtered
