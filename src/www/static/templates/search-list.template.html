@@ -35,17 +35,20 @@
 
                     <h2>Convocatoria:</h2>
 
-                    <div ng-repeat="calls in $ctrl.Calls">
+                    <div ng-repeat="calls in $ctrl.Calls ">
                                     <a href="/www/#!/c{{ calls.id }}" style="display: block">
 
-                        <div ng-repeat="(keycall,valuecall) in calls ">
+                        <div ng-repeat="(keycall,valuecall) in calls  | custom:$ctrl.textsearch">
 
 
                             <h3>{{ keycall }}: <span>{{ valuecall }} </span></h3>
 
 
                         </div>
-                        <hr class="style2">
+
+                                        <span ng-if="$last">
+                                        <hr class="style2">
+                                        </span>
 
                                     </a>
                     </div>
@@ -57,24 +60,22 @@
                     <h2>Proyecto:</h2>
 
 
-                                     <div ng-repeat="proyecto in $ctrl.Proyecto  ">
+                                     <div ng-repeat="proyecto in $ctrl.Proyecto   ">
                                 <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
 
-                                <div ng-repeat="(key, value) in proyecto" style="margin-left: 13%">
+                                <div ng-repeat="(key, value) in proyecto | custom:$ctrl.textsearch"
+                                     style="margin-left: 13%">
 
-                                 <span ng-if="key!='_id'">
-                                     <span ng-if="key =='tituloProyecto'">
-                                            <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} </span></h3></span>
 
-                                     <span ng-if="key !='tituloProyecto'">
-                                         <span ng-if="value" !="NaN">
+                                         <span ng-if="value !='NaN'">
                                              <h3>{{ key }}:  <span>{{ value }} </span></h3>
                                         </span>
-                                     </span>
 
-                                 </span>
+                                        <span ng-if="$last">
+                                        <hr class="style2">
+                                        </span>
                                 </div>
-                                <hr class="style2">
+
                                 </a>
                                  </div>
 <hr class="style1">
@@ -88,7 +89,8 @@
                          <div ng-repeat="orgs in $ctrl.Orgs">
                     <a href="/www/#!/o{{ orgs.id }}" style="display: block">
 
-                                <div ng-repeat="(key, value) in orgs" style="margin-left: 13%">
+                                <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
+                                     style="margin-left: 13%">
 
                                               <span ng-if="isobj(value)== false">
 
@@ -109,11 +111,14 @@
                                                         </div>
                                                     </span>
 
+                                        <span ng-if="$last">
+                                        <hr class="style2">
+                                        </span>
                                 </div>
-                    <hr class="style2">
+
                     </a>
                         </div>
-                        <hr class="style1">
+
                     </span>
 
 

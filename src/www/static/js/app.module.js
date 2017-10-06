@@ -49,9 +49,3 @@ Appmodule.config(['$locationProvider', '$routeProvider',
 
     }]);
 
-Appmodule.controller('ROUTE', ['$route', '$routeParams', '$location',
-    function route($route, $routeParams, $location) {
-        this.$route = $route;
-        this.$location = $location;
-        this.$routeParams = $routeParams;
-    }]);
