@@ -10,6 +10,7 @@ var Appmodule = angular.module('innhomeweb', [
     'searchList',
     'adminModule',
     'transformModule',
+    'metricModule',
     'ngRoute']);
 
 Appmodule.config(['$locationProvider', '$routeProvider',
@@ -47,5 +48,12 @@ Appmodule.config(['$locationProvider', '$routeProvider',
                 template: '<search-list style="display: flex"></search-list>'
             })
 
+            .when('/metric', {
+                template: '<metric-module style="display: flex"></metric-module>'
+            })
+
+            .when('/metric:id', {
+                template: '<metric-module style="display: flex"></metric-module>'
+            })
     }]);
 

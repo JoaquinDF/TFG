@@ -48,6 +48,10 @@
         <script src="/static/js/admin-module/admin-module.module.js"></script>
         <script src="/static/js/admin-module/admin-module.component.js"></script>
 
+        <script src="/static/js/metric-module/metric-module.module.js"></script>
+        <script src="/static/js/metric-module/metric-module.component.js"></script>
+
+
         <link href="/static/css/innhome.css" rel="stylesheet">
         <script src="/static/js/app.module.js"></script>
 
@@ -69,14 +73,21 @@
                 <div class="w3-bar-item w3-button" onclick="myAccFunc()">
                     Data <i class="fa fa-caret-down"></i></div>
                 <div id="demoAcc" class="w3-hide w3-theme w3-card-4">
-                    <a class="w3-bar-item tablink w3-button  " href="#!project">Projects</a>
-                    <a class="w3-bar-item tablink w3-button" href="#!call">Calls</a>
-                    <a class="w3-bar-item tablink w3-button" href="#!organization">Organizations</a>
+                    <a class="w3-bar-item tablink w3-button  " id="Projects" href="#!project"
+                       onclick="tabbarColor('Projects')">Projects</a>
+                    <a class="w3-bar-item tablink w3-button" id="Calls" href="#!call" onclick="tabbarColor('Calls')">Calls</a>
+                    <a class="w3-bar-item tablink w3-button" id="Organizations" href="#!organization"
+                       onclick="tabbarColor('Organizations')">Organizations</a>
 
                 </div>
-                <a class="w3-bar-item tablink w3-button" href="#!transform">Transform</a>
-                <a class="w3-bar-item tablink w3-button" href="/www/#!search">Search</a>
-                <a class="w3-bar-item tablink w3-button" href="#!admin">Admin</a>
+                <a class="w3-bar-item tablink w3-button" id="Transform" href="#!transform"
+                   onclick="tabbarColor('Transform')">Transform</a>
+                <a class="w3-bar-item tablink w3-button" id="Search" href="/www/#!search"
+                   onclick="tabbarColor('Search')">Search</a>
+                <a class="w3-bar-item tablink w3-button" id="Admin" href="#!admin"
+                   onclick="tabbarColor('Admin')">Admin</a>
+                <a class="w3-bar-item tablink w3-button" id="Metrics" href="#!metrics" onclick="tabbarColor('Metrics')">Metrics</a>
+
             </div>
 
             <footer class="footer w3-theme-d3" style="padding: 30px">
@@ -123,16 +134,22 @@
                     document.getElementById("myTop").classList.remove("w3-card-4", "w3-animate-opacity");
                 }
             }
-            /* function LoadSearch() {
-                var x = document.URL;
-                regex = new RegExp('\/(p|o|c|np|no|nc)[0-9a-zA-Z]*');
-                search = regex.exec(x);
-                if (search != null) {
-                    openTab(null, 'Search');
+
+            function tabbarColor(id) {
+
+                var i;
+                var x = document.getElementsByClassName("tablink");
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.background = 'none';
+                    x[i].style.color = '#ffffff';
+
                 }
+                document.getElementById(id).style.background = '#ccc';
+                document.getElementById(id).style.color = '#000000';
 
 
-             }*/
+            }
+
 
 
         </script>

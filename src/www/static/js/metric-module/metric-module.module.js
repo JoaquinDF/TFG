@@ -1,19 +1,17 @@
 'use strict';
 
 // Define the `projectList` module
-var slist= angular.module('searchList', []);
+var mlist = angular.module('metricModule', []);
 
 
+mlist.controller('DEBUG', ['$scope', function ($scope) {
 
-
-slist.controller('DEBUG', ['$scope', function($scope) {
-
-    $scope.debug = function (a,b) {
+    $scope.debug = function (a, b) {
 
 
     }
 
-     $scope.isobj = function (a) {
+    $scope.isobj = function (a) {
         return (angular.isObject(a))
     }
 
@@ -21,10 +19,9 @@ slist.controller('DEBUG', ['$scope', function($scope) {
 }]);
 
 
-slist //return the data filtered
+mlist //return the data filtered
     .filter('custom', function () {
         return function (input, search) {
-            debugger;
             var success;
             success = false;
 
