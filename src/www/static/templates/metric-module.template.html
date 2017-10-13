@@ -84,6 +84,7 @@
 
                                         <span ng-if="$last">
                                         <hr class="style2">
+
                                         </span>
                                 </div>
 
@@ -94,11 +95,18 @@
 
 
                 </div>
+                <div ng-controller="GraphPlot" ng-if="$ctrl.Proyecto.length>0">
+                    <canvas id="pie" class="chart chart-pie"
+                            chart-data="data" chart-labels="labels" chart-options="options">
+                    </canvas>
+                </div>
 
 
             </ul>
 
 
         </div>
+
+
     </body>
 </html>

@@ -4,20 +4,19 @@
 angular.module('metricModule').component('metricModule', {
 
         templateUrl: '/static/templates/metric-module.template.html',
-        controller: ['$http', function CallsListController($http, $scope) {
+    controller: ['$http', '$rootScope', function CallsListController($http, $rootScope) {
             var self = this;
             self.porcentajesubvencionado = 0;
             self.calculateMetrics = function (proy) {
                 self.porcentajesubvencionado += (parseFloat(proy.subvencion) / parseFloat(proy.presupuestoAceptado) )
-
-                debugger;
+                $rootScope.averagesubvencionado = parseInt((self.porcentajesubvencionado / self.Proyecto.length) * 100);
             }
 
 
             var x = document.URL;
 
             var projectid, organizationid, callid;
-            var regex = new RegExp('\/metric(n)?[0-9a-zA-Z]*');
+        var regex = new RegExp('\/metric(n)?[0-9a-zA-Z]+');
 
             var tipo = regex.exec(x);
             if (tipo != null) {
@@ -54,7 +53,6 @@ angular.module('metricModule').component('metricModule', {
 
 
                         });
-                        debugger;
 
                         break;
 

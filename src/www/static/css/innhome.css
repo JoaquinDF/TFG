@@ -1,7 +1,10 @@
 
 h3 {
+    word-wrap: break-word;
     font-size: 17px;
     text-transform: uppercase;
+    white-space: normal;
+!important;
 !important;
     font-family: roboto;
 !important;
