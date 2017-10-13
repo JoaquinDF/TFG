@@ -11,12 +11,12 @@ from recordlinkage.standardise import clean, phonenumbers
 from utils.mongodb import Mongodb
 
 
-def duplicate_collection(dfA, db, coll):
-    del dfA['_id']
+def duplicate_collection(df, db, coll):
+    del df['_id']
     cursor = db[coll]
     cursor.delete_many({})
     bulk = cursor.initialize_ordered_bulk_op()
-    for _, row in dfA.iterrows():
+    for _, row in df.iterrows():
         bulk.insert(row.to_dict())
     try:
         bulk.execute()
@@ -24,34 +24,34 @@ def duplicate_collection(dfA, db, coll):
         logging.error(bwe.details)
 
 
-def save_docs(df, dfA, dfB, db, coll):
+def save_docs(df, dfa, dfb, db, coll):
     # del dfA['_id']
     # del dfB['_id']
     docs = []
-    X = set()
-    Y = set()
+    x_set = set()
+    y_set = set()
     for x, y in set(df.index):
-        X.add(x)
-        Y.add(y)
-    for i, row in dfA.iterrows():
-        if i not in X:
+        x_set.add(x)
+        y_set.add(y)
+    for i, row in dfa.iterrows():
+        if i not in x_set:
             docs.append(row.to_dict())
-    for i, row in dfB.iterrows():
-        if i not in Y:
+    for i, row in dfb.iterrows():
+        if i not in y_set:
             docs.append(row.to_dict())
-    xindex = set([x[0] for x in set(df.index)])
-    yindex = set([y[1] for y in set(df.index)])
+    x_index = set([x[0] for x in set(df.index)])
+    y_index = set([y[1] for y in set(df.index)])
     for x, y in set(df.index):
-        if x not in xindex or y not in yindex:
+        if x not in x_index or y not in y_index:
             continue
-        Xdict = dfA.loc[x].to_dict()
-        Ydict = dfB.loc[y].to_dict()
-        for key in Ydict.keys():
-            if key not in X:
-                Xdict[key] = Ydict[key]
-        docs.append(Xdict)
-        xindex.discard(x)
-        yindex.discard(y)
+        x_dict = dfa.loc[x].to_dict()
+        y_dict = dfb.loc[y].to_dict()
+        for key in y_dict.keys():
+            if key not in x_set:
+                x_dict[key] = y_dict[key]
+        docs.append(x_dict)
+        x_index.discard(x)
+        y_index.discard(y)
     cursor = db[coll]
     cursor.delete_many({})
     bulk = cursor.initialize_ordered_bulk_op()
@@ -72,25 +72,26 @@ def call_linkage_task():
         for col in cols:
             c = db[col]
             cursor = c.find({})
-            dfA = pd.DataFrame(list(cursor))
-            dfA['ctituloConvocatoria'] = clean(clean(dfA['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+            dfa = pd.DataFrame(list(cursor))
+            dfa['ctituloConvocatoria'] = clean(clean(dfa['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
             collection = db['data.calls']
             cursor = collection.find({})
             if collection.count() == 0:
-                del dfA['ctituloConvocatoria']
-                duplicate_collection(dfA, db, 'data.calls')
+                del dfa['ctituloConvocatoria']
+                duplicate_collection(dfa, db, 'data.calls')
             else:
-                dfB = pd.DataFrame(list(cursor))
-                dfB['ctituloConvocatoria'] = clean(clean(dfB['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+                dfb = pd.DataFrame(list(cursor))
+                dfb['ctituloConvocatoria'] = clean(clean(dfb['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
                 indexer = rl.SortedNeighbourhoodIndex(on='ctituloConvocatoria', window=9)
-                pairs = indexer.index(dfA, dfB)
-                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
                 # compare_cl.string('ctituloConvocatoria','ctituloConvocatoria', 'damerau_levenshtein', threshold=.9, name='tituloConvocatoria')
                 compare_cl.exact('ctituloConvocatoria', 'ctituloConvocatoria', name='tituloConvocatoria')
                 df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
-                del dfA['ctituloConvocatoria']
-                del dfB['ctituloConvocatoria']
-                save_docs(df, dfA, dfB, db, 'data.calls')
+                del dfa['ctituloConvocatoria']
+                del dfb['ctituloConvocatoria']
+                save_docs(df, dfa, dfb, db, 'data.calls')
+    logging.info('calls_linkage_task: ended')
     return {'name': 'calls_linkage_task', 'finished': True}
 
 
@@ -103,25 +104,26 @@ def organization_linkage_task():
         for col in cols:
             c = db[col]
             cursor = c.find({})
-            dfA = pd.DataFrame(list(cursor))
-            dfA['cnombre'] = clean(clean(clean(dfA['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
+            dfa = pd.DataFrame(list(cursor))
+            dfa['cnombre'] = clean(clean(clean(dfa['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
             c = db['data.organizations']
             cursor = c.find({})
             if c.count() == 0:
-                del dfA['cnombre']
-                duplicate_collection(dfA, db, 'data.organizations')
+                del dfa['cnombre']
+                duplicate_collection(dfa, db, 'data.organizations')
             else:
-                dfB = pd.DataFrame(list(cursor))
-                dfB['cnombre'] = clean(clean(clean(dfB['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
+                dfb = pd.DataFrame(list(cursor))
+                dfb['cnombre'] = clean(clean(clean(dfb['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
                 indexer = rl.SortedNeighbourhoodIndex(on='cnombre', window=9)
-                pairs = indexer.index(dfA, dfB)
-                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
                 # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
                 compare_cl.exact('cnombre', 'cnombre', name='nombre')
                 df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
-                del dfA['cnombre']
-                del dfB['cnombre']
-                save_docs(df, dfA, dfB, db, 'data.organizations')
+                del dfa['cnombre']
+                del dfb['cnombre']
+                save_docs(df, dfa, dfb, db, 'data.organizations')
+    logging.info('organization_linkage_task: ended')
     return {'name': 'organization_linkage_task', 'finished': True}
 
 
@@ -134,25 +136,26 @@ def project_linkage_task():
         for col in cols:
             c = db[col]
             cursor = c.find({})
-            dfA = pd.DataFrame(list(cursor))
-            dfA['ctituloProyecto'] = clean(clean(dfA['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+            dfa = pd.DataFrame(list(cursor))
+            dfa['ctituloProyecto'] = clean(clean(dfa['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
             c = db['data.projects']
             cursor = c.find({})
             if c.count() == 0:
-                del dfA['ctituloProyecto']
-                duplicate_collection(dfA, db, 'data.projects')
+                del dfa['ctituloProyecto']
+                duplicate_collection(dfa, db, 'data.projects')
             else:
-                dfB = pd.DataFrame(list(cursor))
-                dfB['ctituloProyecto'] = clean(clean(dfB['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+                dfb = pd.DataFrame(list(cursor))
+                dfb['ctituloProyecto'] = clean(clean(dfb['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
                 indexer = rl.SortedNeighbourhoodIndex(on='ctituloProyecto', window=9)
-                pairs = indexer.index(dfA, dfB)
-                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
                 # compare_cl.string('ctituloProyecto','ctituloProyecto', 'damerau_levenshtein', threshold=.9, name='tituloProyecto')
                 compare_cl.exact('ctituloProyecto', 'ctituloProyecto', name='tituloProyecto')
                 df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
-                del dfA['ctituloProyecto']
-                del dfB['ctituloProyecto']
-                save_docs(df, dfA, dfB, db, 'data.projects')
+                del dfa['ctituloProyecto']
+                del dfb['ctituloProyecto']
+                save_docs(df, dfa, dfb, db, 'data.projects')
+    logging.info('project_linkage_task: ended')
     return {'name': 'project_linkage_task', 'finished': True}
 
 
@@ -165,25 +168,25 @@ def person_linkage_task():
         for col in cols:
             c = db[col]
             cursor = c.find({})
-            dfA = pd.DataFrame(list(cursor))
-            dfA['cnombre'] = clean(clean(dfA['nombre'], strip_accents='unicode'), replace_by_none=' ')
-            dfA['capellidos'] = clean(clean(dfA['apellidos'], strip_accents='unicode'), replace_by_none=' ')
-            dfA['ctelefono'] = phonenumbers(dfA['telefono'])
+            dfa = pd.DataFrame(list(cursor))
+            dfa['cnombre'] = clean(clean(dfa['nombre'], strip_accents='unicode'), replace_by_none=' ')
+            dfa['capellidos'] = clean(clean(dfa['apellidos'], strip_accents='unicode'), replace_by_none=' ')
+            dfa['ctelefono'] = phonenumbers(dfa['telefono'])
             c = db['data.persons']
             cursor = c.find({})
             if c.count() == 0:
-                del dfA['cnombre']
-                del dfA['capellidos']
-                del dfA['ctelefono']
-                duplicate_collection(dfA, db, 'data.persons')
+                del dfa['cnombre']
+                del dfa['capellidos']
+                del dfa['ctelefono']
+                duplicate_collection(dfa, db, 'data.persons')
             else:
-                dfB = pd.DataFrame(list(cursor))
-                dfB['cnombre'] = clean(clean(dfB['nombre'], strip_accents='unicode'), replace_by_none=' ')
-                dfB['capellidos'] = clean(clean(dfB['apellidos'], strip_accents='unicode'), replace_by_none=' ')
-                dfB['ctelefono'] = phonenumbers(dfB['telefono'])
+                dfb = pd.DataFrame(list(cursor))
+                dfb['cnombre'] = clean(clean(dfb['nombre'], strip_accents='unicode'), replace_by_none=' ')
+                dfb['capellidos'] = clean(clean(dfb['apellidos'], strip_accents='unicode'), replace_by_none=' ')
+                dfb['ctelefono'] = phonenumbers(dfb['telefono'])
                 indexer = rl.SortedNeighbourhoodIndex(on='ctelefono', window=9)
-                pairs = indexer.index(dfA, dfB)
-                compare_cl = rl.Compare(pairs, dfA, dfB, low_memory=True)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
                 # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
                 compare_cl.exact('cnombre', 'cnombre', name='nombre')
                 # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
@@ -191,13 +194,14 @@ def person_linkage_task():
                 # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
                 compare_cl.exact('ctelefono', 'ctelefono', name='telefono')
                 df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
-                del dfA['cnombre']
-                del dfB['cnombre']
-                del dfA['capellidos']
-                del dfB['capellidos']
-                del dfA['ctelefono']
-                del dfB['ctelefono']
-                save_docs(df, dfA, dfB, db, 'data.persons')
+                del dfa['cnombre']
+                del dfb['cnombre']
+                del dfa['capellidos']
+                del dfb['capellidos']
+                del dfa['ctelefono']
+                del dfb['ctelefono']
+                save_docs(df, dfa, dfb, db, 'data.persons')
+    logging.info('person_linkage_task: ended')
     return {'name': 'person_linkage_task', 'finished': True}
 
 
@@ -212,25 +216,25 @@ def project_call_linkage_task():
         for col in cols:
             c = db[col]
             cursor = c.find({})
-            dfA = pd.DataFrame(list(cursor))
-            dfA['cproyecto'] = clean(clean(dfA['proyecto'], strip_accents='unicode'), replace_by_none=' ')
-            dfA['cconvocatoria'] = clean(clean(dfA['convocatoria'], strip_accents='unicode'), replace_by_none=' ')
+            dfa = pd.DataFrame(list(cursor))
+            dfa['cproyecto'] = clean(clean(dfa['proyecto'], strip_accents='unicode'), replace_by_none=' ')
+            dfa['cconvocatoria'] = clean(clean(dfa['convocatoria'], strip_accents='unicode'), replace_by_none=' ')
             c = db['data.projects']
             cursor = c.find({})
-            dfB = pd.DataFrame(list(cursor))
-            dfB['cproyecto'] = clean(clean(dfB['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+            dfb = pd.DataFrame(list(cursor))
+            dfb['cproyecto'] = clean(clean(dfb['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
             indexer = rl.SortedNeighbourhoodIndex(on='cproyecto', window=9)
-            pairs = indexer.index(dfA, dfB)
-            compare_cl = rl.Compare(pairs, dfA, dfB)
+            pairs = indexer.index(dfa, dfb)
+            compare_cl = rl.Compare(pairs, dfa, dfb)
             compare_cl.exact('cproyecto', 'cproyecto', name='proyecto')
             df1 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
             c = db['data.calls']
             cursor = c.find({})
-            dfC = pd.DataFrame(list(cursor))
-            dfC['cconvocatoria'] = clean(clean(dfC['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+            dfc = pd.DataFrame(list(cursor))
+            dfc['cconvocatoria'] = clean(clean(dfc['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
             indexer = rl.SortedNeighbourhoodIndex(on='cconvocatoria', window=9)
-            pairs = indexer.index(dfA, dfC)
-            compare_cl = rl.Compare(pairs, dfA, dfC)
+            pairs = indexer.index(dfa, dfc)
+            compare_cl = rl.Compare(pairs, dfa, dfc)
             compare_cl.exact('cconvocatoria', 'cconvocatoria', name='convocatoria')
             df2 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
             docs = []
@@ -238,8 +242,8 @@ def project_call_linkage_task():
                 for i, j in df2.index.tolist():
                     if x == i:
                         docs.append({
-                            'proyecto': dfB.loc[y]['_id'],
-                            'convocatoria': dfC.loc[j]['_id']
+                            'proyecto': dfb.loc[y]['_id'],
+                            'convocatoria': dfc.loc[j]['_id']
                         })
             c = db['data.project-call']
             bulk = c.initialize_ordered_bulk_op()
@@ -249,6 +253,7 @@ def project_call_linkage_task():
                 bulk.execute()
             except BulkWriteError as bwe:
                 logging.error(bwe.details)
+    logging.info('project_call_linkage_task: ended')
     return {'name': 'project_call_linkage_task', 'finished': True}
 
 
@@ -263,25 +268,25 @@ def project_organization_linkage_task():
         for col in cols:
             c = db[col]
             cursor = c.find({})
-            dfA = pd.DataFrame(list(cursor))
-            dfA['cproyecto'] = clean(clean(dfA['proyecto'], strip_accents='unicode'), replace_by_none=' ')
-            dfA['corganizacion'] = clean(clean(dfA['organizacion'], strip_accents='unicode'), replace_by_none=' ')
+            dfa = pd.DataFrame(list(cursor))
+            dfa['cproyecto'] = clean(clean(dfa['proyecto'], strip_accents='unicode'), replace_by_none=' ')
+            dfa['corganizacion'] = clean(clean(dfa['organizacion'], strip_accents='unicode'), replace_by_none=' ')
             c = db['data.projects']
             cursor = c.find({})
-            dfB = pd.DataFrame(list(cursor))
-            dfB['cproyecto'] = clean(clean(dfB['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+            dfb = pd.DataFrame(list(cursor))
+            dfb['cproyecto'] = clean(clean(dfb['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
             indexer = rl.SortedNeighbourhoodIndex(on='cproyecto', window=9)
-            pairs = indexer.index(dfA, dfB)
-            compare_cl = rl.Compare(pairs, dfA, dfB)
+            pairs = indexer.index(dfa, dfb)
+            compare_cl = rl.Compare(pairs, dfa, dfb)
             compare_cl.exact('cproyecto', 'cproyecto', name='proyecto')
             df1 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
             c = db['data.organizations']
             cursor = c.find({})
-            dfC = pd.DataFrame(list(cursor))
-            dfC['corganizacion'] = clean(clean(dfC['nombre'], strip_accents='unicode'), replace_by_none=' ')
+            dfc = pd.DataFrame(list(cursor))
+            dfc['corganizacion'] = clean(clean(dfc['nombre'], strip_accents='unicode'), replace_by_none=' ')
             indexer = rl.SortedNeighbourhoodIndex(on='corganizacion', window=9)
-            pairs = indexer.index(dfA, dfC)
-            compare_cl = rl.Compare(pairs, dfA, dfC)
+            pairs = indexer.index(dfa, dfc)
+            compare_cl = rl.Compare(pairs, dfa, dfc)
             compare_cl.exact('corganizacion', 'corganizacion', name='organizacion')
             df2 = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
             docs = []
@@ -289,8 +294,8 @@ def project_organization_linkage_task():
                 for i, j in df2.index.tolist():
                     if x == i:
                         docs.append({
-                            'proyecto': dfB.loc[y]['_id'],
-                            'organizacion': dfC.loc[j]['_id']
+                            'proyecto': dfb.loc[y]['_id'],
+                            'organizacion': dfc.loc[j]['_id']
                         })
             c = db['data.project-organization']
             bulk = c.initialize_ordered_bulk_op()
@@ -300,4 +305,5 @@ def project_organization_linkage_task():
                 bulk.execute()
             except BulkWriteError as bwe:
                 logging.error(bwe.details)
+    logging.info('project_organization_linkage_task: ended')
     return {'name': 'project_organization_linkage_task', 'finished': True}
