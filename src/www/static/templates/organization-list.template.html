@@ -46,9 +46,9 @@
             <ul class="project">
 
                 <div ng-repeat="organization in $ctrl.organizations ">
-                    <a href="/www/#!/o{{ organization.id }}" style="display: block">
+                    <div class="metricdiv" style="display: flex;">
+                        <a class="metric" href="/www/#!/o{{ organization.id }}" style="display: block">
 
-                        <div ng-class-odd="'odd'" ng-class-even="'even'">
                                     <span ng-if="organization">
 									<div class="proyectcontainer">
 
@@ -91,11 +91,12 @@
 
 									</div>
 								</span>
-                        </div>
+
                     </a>
 
-                    <a class="btn btn-primary-tab" href="/www/#!/metric{{ organization.id }}">Metrics</a>
+                        <div class="buttonmetric"><a href="/www/#!/metric{{ organization.id }}"> Metrics: </a></div>
 
+                </div>
                 </div>
 
             </ul>

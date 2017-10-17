@@ -55,10 +55,6 @@
                                                     </span>
 
                                         <span ng-if="$last">
-
-
-
-
                                         <hr class="style2">
                                         </span>
                                 </div>
@@ -67,7 +63,19 @@
                         </div>
 
                     </span>
-                    <span ng-if="$ctrl.Proyecto.length>0">
+
+
+                </div>
+
+                <span ng-if="$ctrl.Proyecto.length>0">
+
+                          <div class="buttonmetric" style="opacity: 1; margin-top: 0%">
+                    <a data-toggle="pill" style="font-size: x-large;" href=""
+                       data-target="#proyectos" data-toggle="tab" role="tab">Proyectos</a>
+                    <a data-toggle="pill" style="font-size: x-large;"
+                       data-target="#metricas" data-toggle="tab" role="tab"
+                       href="">Métricas</a>
+
                     <h2>Proyecto:</h2>
 
 
@@ -78,7 +86,7 @@
                                      style="margin-left: 13%">
 
 
-                                         <span ng-if="value !='NaN'">
+                                         <span ng-if="key.indexOf('titulo')!=-1 || key.indexOf('presupuesto')!=-1 || key.indexOf('subvencion')!=-1">
                                              <h3>{{ key }}:  <span>{{ value }} </span></h3>
                                         </span>
 
