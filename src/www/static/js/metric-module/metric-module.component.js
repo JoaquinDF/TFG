@@ -14,7 +14,15 @@ angular.module('metricModule').component('metricModule', {
 
 
             var x = document.URL;
+        self.options = [{
+            'value': 'metric',
+            'name': 'Id Organization',
 
+        },
+            {
+                'value': 'metricn',
+                'name': 'Name organization',
+            }];
             var projectid, organizationid, callid;
         var regex = new RegExp('\/metric(n)?[0-9a-zA-Z]+');
 

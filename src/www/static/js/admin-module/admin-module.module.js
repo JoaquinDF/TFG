@@ -1,5 +1,5 @@
 'use strict';
 
 // Define the `projectList` module
-angular.module('adminModule', []);
+angular.module('adminModule', ['ngMaterial']);
 
