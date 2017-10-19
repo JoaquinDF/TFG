@@ -3,18 +3,20 @@
 
     <body>
 
-        <div class="container-fluid" style="margin-top: 5%">
+        <div class="container-fluid" style="margin-top: 5%; margin-left: inherit">
 
 
             <div class="input-group searchcontainer  " style="display: inline-flex ; width: auto;">
-                <input size="50" class="w3-input searchtext" ng-model="$ctrl.textmetric">
-                <select class="selectpicker" ng-model=$ctrl.selectmetric>
+                <input size="50" class="w3-input searchtext" ng-model="$ctrl.textmetric"
+                       placeholder=" Insert Orgnization ID or Name ">
 
-                    <optgroup label="organization">
-                        <option value="metric">Id Organization</option>
-                        <option value="metricn">Name organization</option>
-                    </optgroup>
+
+                <select class="selectpicker" ng-init="$ctrl.selectmetric = $ctrl.options[0]"
+                        ng-model="$ctrl.selectmetric" ng-options="option.name for option in $ctrl.options">
+
                 </select>
+
+
                 <button class="btn btn-default" type="submit" style="margin-left: 12px"><a
                         href="/www/#!{{ $ctrl.selectmetric }}{{ $ctrl.textmetric }}">Search</a><span
                         class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
@@ -55,10 +57,6 @@
                                                     </span>
 
                                         <span ng-if="$last">
-
-
-
-
                                         <hr class="style2">
                                         </span>
                                 </div>
@@ -67,32 +65,60 @@
                         </div>
 
                     </span>
-                    <span ng-if="$ctrl.Proyecto.length>0">
-                    <h2>Proyecto:</h2>
 
 
-                                     <div ng-repeat="proyecto in $ctrl.Proyecto   ">
-                                <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
-
-                                <div ng-repeat="(key, value) in proyecto | custom:$ctrl.textsearch"
-                                     style="margin-left: 13%">
+                </div>
 
 
-                                         <span ng-if="value !='NaN'">
-                                             <h3>{{ key }}:  <span>{{ value }} </span></h3>
-                                        </span>
+                <div ng-cloak="" class="tabsdemoDynamicHeight" ng-app="metricModule" ng-if="$ctrl.Proyecto.length>0">
+                    <md-content>
+                        <md-tabs md-dynamic-height="" md-border-bottom="">
 
-                                        <span ng-if="$last">
-                                        <hr class="style2">
-                                        </span>
-                                </div>
+                            <md-tab label="Proyectos">
+                                <md-content class="md-padding">
+                                    <h1 class="md-display-2">Proyectos</h1>
 
-                                </a>
-                                 </div>
+
+                                    <div ng-repeat="proyecto in $ctrl.Proyecto   ">
+                                        <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
+
+                                            <div ng-repeat="(key, value) in proyecto | custom:$ctrl.textsearch"
+                                                 style="margin-left: 13%">
+
+
+                                      <span ng-if="key.indexOf('titulo')!=-1 || key.indexOf('presupuesto')!=-1 || key.indexOf('subvencion')!=-1">
+                                          <h3>{{ key }}:  <span>{{ value }} </span></h3>
+                                     </span>
+
+                                                <span ng-if="$last">
+                                     <hr class="style2">
+
+                                     </span>
+                                            </div>
+
+                                        </a>
+                                    </div>
 <hr class="style1">
-                    </span>
 
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Metricas">
+                                <md-content class="md-padding">
+                                    <h1 class="md-display-2">Metricas</h1>
+                                    <h3> % de presupuesto subvencionado:</h3>
 
+                                    <div class="porcentajesubvencionado" ng-controller="GraphPlot">
+
+                                        <canvas id="pie" class="chart chart-pie"
+                                                chart-data="data" chart-labels="labels" chart-options="options">
+                                        </canvas>
+                                    </div>
+
+                                </md-content>
+                            </md-tab>
+
+                        </md-tabs>
+                    </md-content>
                 </div>
 
 
@@ -100,5 +126,7 @@
 
 
         </div>
+
+
     </body>
 </html>

@@ -1,7 +1,7 @@
 'use strict';
 
 // Define the `projectList` module
-var mlist = angular.module('metricModule', []);
+var mlist = angular.module('metricModule', ["chart.js", 'ngMaterial']);
 
 
 mlist.controller('DEBUG', ['$scope', function ($scope) {
@@ -19,8 +19,7 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 }]);
 
 
-mlist //return the data filtered
-    .filter('custom', function () {
+mlist.filter('custom', function () {
         return function (input, search) {
             var success;
             success = false;
@@ -64,3 +63,26 @@ mlist //return the data filtered
             return result;
         }
     });
+
+mlist.controller('GraphPlot', ['$scope', '$interval', '$rootScope', function ($scope, $interval, $rootScope) {
+
+    var isnan = $interval(function () {
+        if (!isNaN($rootScope.averagesubvencionado)) {
+
+            $interval.cancel(isnan);
+        }
+        var labelsubv = 'Presupuesto Subvencionado - %';
+        var labelsinsubv = 'Presupuesto sin Subvencionar - %';
+
+
+        $scope.labels = [labelsubv, labelsinsubv];
+        $scope.data = [$rootScope.averagesubvencionado, (100 - $rootScope.averagesubvencionado)];
+        $scope.options = {
+            responsive: false,
+            maintainAspectRatio: false
+        }
+
+    }, 1000);
+
+
+}]);

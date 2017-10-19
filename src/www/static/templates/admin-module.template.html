@@ -43,16 +43,18 @@
             </div>
 
 
-            <div class="searchcontainer">
+            <div class="searchcontainer" style="width: 75%;">
+
                 <ul class="nav nav-pills">
                     <a class=" btn btn-primary-tab btn-lg" ng-click="$ctrl.setcrontab()" data-toggle="pill"
-                       href="#crontab">Crontabs</a>
+                       data-target="#crontab" data-toggle="tab" role="tab">Crontabs</a>
                     <a class=" btn btn-primary-tab btn-lg" ng-click="$ctrl.setinterval()" data-toggle="pill"
-                       href="#intervals">Intervals</a>
+                       data-target="#interval" data-toggle="tab" role="tab"
+                       href="">Intervals</a>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="crontab" class="tab-pane fade">
+                    <div id="crontab" class="tab-pane fade active" role="tabpanel">
                         <div class="input-group  " style="display: inline-block ; width: 95%; height: 300px">
                             <div class="input-group" style="height: 20%">
                                 <input ng-model=$ctrl.objectTask.minute type="number" class="form-control searchtext"
@@ -84,7 +86,7 @@
 
 
                     </div>
-                    <div id="intervals" class="tab-pane fade">
+                    <div class="tab-pane fade" role="tabpanel" id="interval">
                         <div class="input-group  " style="display: inline-block ; width: 75%; height: 300px">
                             <div class="input-group" style="height: 20%">
                                 <input ng-model=$ctrl.objectTask.intervalevery type="number"

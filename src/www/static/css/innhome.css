@@ -1,7 +1,10 @@
 
 h3 {
+    word-wrap: break-word;
     font-size: 17px;
     text-transform: uppercase;
+    white-space: normal;
+!important;
 !important;
     font-family: roboto;
 !important;
@@ -29,9 +32,45 @@ h2 {
     font-size: 17px;
 }
 
+a {
+    width: 75%;
+    border-radius: 12px;
+
+}
+
+a:focus {
+    text-decoration: none;
+}
+
+
+
+
 a:hover {
     background-color: rgba(175, 175, 175, 0.22)
 }
+
+.metricdiv:hover .buttonmetric {
+    opacity: 1;
+
+}
+
+.buttonmetric {
+    text-align: center;
+    margin-left: 12px;
+    margin-top: 10%;
+    opacity: 0;
+    transition: opacity .35s ease;
+}
+
+.buttonmetric a {
+    width: 200px;
+    padding: 5px 30px;
+    text-align: center;
+    color: black;
+    border-radius: 0px;
+    border-bottom: 1px solid #c62540;
+}
+
 
 .w3-input {
     background-color: transparent;
@@ -51,6 +90,7 @@ a:hover {
     border: 1px solid #c62540;
     border-radius: 12px;
     margin-top: 5px;
+
 
 }
 
@@ -75,10 +115,10 @@ a:hover {
 
 }
 
-.proyectcontainer:hover {
+/*.proyectcontainer:hover {
     background-color: #d8d8d8;
 !important;
-}
+}*/
 
 .searchcontainer {
     padding: 10px 5px;

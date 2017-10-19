@@ -7,11 +7,11 @@
 
 
             <div class="input-group searchcontainer  " style="display: inline-flex ; width: auto;">
-                <input size="50" class="w3-input searchtext" ng-model="$ctrl.textsearch">
+                <input size="50" class="w3-input searchtext" ng-model="$ctrl.textsearch" placeholder="Search:">
                 <select class="selectpicker" ng-model=$ctrl.selectsearch>
                     <optgroup label="Project">
                         <option value="p">Id Project</option>
-                        <option value="np">Name Project</option>
+                        <option value="np" selected>Name Project</option>
                     </optgroup>
                     <optgroup label="Call">
                         <option value="c">Id Call</option>
@@ -86,8 +86,8 @@
 
                     <h2>Organizacion:</h2>
 
-                         <div ng-repeat="orgs in $ctrl.Orgs">
-                    <a href="/www/#!/o{{ orgs.id }}" style="display: block">
+                         <div ng-repeat="orgs in $ctrl.Orgs" style="display: flex">
+                    <a href="/www/#!/o{{ orgs.id }}" style="display: block; width: 50%">
 
                                 <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
                                      style="margin-left: 13%">
@@ -101,6 +101,7 @@
                                                             </h3>
                                                         </span>
                                               </span>
+
                                     <span ng-if="isobj(value)== true">
                                                         <span ng-if="key!='_id'"><h3>{{ key }}:</h3></span>
                                                         <div ng-repeat="(key2,value2) in value "
@@ -108,15 +109,27 @@
                                                             <h3> {{ key2 }}:
                                                                 <span>{{ value2 }} </span>
                                                             </h3>
+
                                                         </div>
+
                                                     </span>
 
-                                        <span ng-if="$last">
-                                        <hr class="style2">
+                                         <span ng-if="$last">
+                                            <hr class="style2" style="width: 200%">
                                         </span>
+
+
+
                                 </div>
 
+
                     </a>
+
+
+
+
+
+
                         </div>
 
                     </span>
