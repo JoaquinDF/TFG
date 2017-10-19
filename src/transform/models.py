@@ -17,6 +17,7 @@ class ProyectoMapper(Document):
     collection = StringField(required=True)
     key = StringField(required=True)
     tituloProyecto = StringField(required=True)
+    estado = StringField()
     fechaInicio = StringField()
     fechaFin = StringField()
     presupuestoPresentado = StringField()

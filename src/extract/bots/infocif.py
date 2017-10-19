@@ -18,9 +18,11 @@ class BotInstance(Bot):
     def process_item(self, db=None):
         stop_words = ['-', 'No facilitada']
 
-        organizations = []
+        organizations = set()
         for organization in db['crawlers.cdti.projects'].find({}):
-            organizations.append(organization['nombre_empresa'])
+            organizations.update(organization['nombre_empresa'])
+        for organization in db['bots.cdti.projects'].find({}):
+            organizations.update(organization['Entidad'])
 
         xvfb = Xvfb()
         xvfb.start()
