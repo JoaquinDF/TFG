@@ -1,12 +1,10 @@
-from rest_framework.viewsets import ReadOnlyModelViewSet;
-
-import django_filters.rest_framework
 from bson.objectid import ObjectId
-from .serializers import *
 from rest_framework import filters
 from rest_framework import generics
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-import pprint
+from .serializers import *
+
 
 # CALL
 class CallViewSet(ReadOnlyModelViewSet):

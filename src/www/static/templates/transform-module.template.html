@@ -21,7 +21,7 @@
             <select class="selectfontsize" ng-model="$ctrl.selectedtransform"
                     ng-options="key for (key,value) in $ctrl.transforms "
                     ng-change="$ctrl.getMapperList(); $ctrl.getMapperOptions()">
-                <option value="" selected>--Select a Mapper--</option>
+                <option value="" selected>--Select a Mapper: --</option>
 
             </select>
             <button type="button" class="btn btn-lg btn-primary" ng-click="$ctrl.LoadMapper(); $ctrl.setWarningSch()">

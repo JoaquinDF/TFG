@@ -11,14 +11,14 @@
                        placeholder=" Insert Orgnization ID or Name ">
 
 
-                <select class="selectpicker" ng-init="$ctrl.selectmetric = $ctrl.options[0]"
+                <select class="selectpicker" ng-init="$ctrl.selectmetric = $ctrl.options[1]"
                         ng-model="$ctrl.selectmetric" ng-options="option.name for option in $ctrl.options">
 
                 </select>
 
 
                 <button class="btn btn-default" type="submit" style="margin-left: 12px"><a
-                        href="/www/#!{{ $ctrl.selectmetric }}{{ $ctrl.textmetric }}">Search</a><span
+                        href="/www/#!{{ $ctrl.selectmetric.value }}{{ $ctrl.textmetric }}">Search</a><span
                         class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </div>
 

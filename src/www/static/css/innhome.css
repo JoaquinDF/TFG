@@ -57,7 +57,7 @@ a:hover {
 .buttonmetric {
     text-align: center;
     margin-left: 12px;
-    margin-top: 10%;
+    margin-top: 50px;
     opacity: 0;
     transition: opacity .35s ease;
 }
@@ -71,7 +71,14 @@ a:hover {
     border-bottom: 1px solid #c62540;
 }
 
+.md-content.md-default-theme, md-content {
+    background-color: inherit;
+!important;
+}
 
+.w3-button:hover {
+    border-radius: 12px;
+}
 .w3-input {
     background-color: transparent;
     border-color: #f6f6f6;
