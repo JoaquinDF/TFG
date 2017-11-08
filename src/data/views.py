@@ -26,6 +26,11 @@ class CallViewSet(ReadOnlyModelViewSet):
         return queryset
 
 
+
+
+
+
+
 # PROJECT
 class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
     serializer_class = ProyectoSerializer
@@ -53,23 +58,32 @@ class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
 class OrganizationViewSet(ReadOnlyModelViewSet):
     serializer_class = OrganizacionSerializer
     queryset = Organizacion.objects.all()
-
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('nombre',)
+
 
     def get_queryset(self):
 
         queryset = Organizacion.objects.all()
-        username = self.request.query_params.get('id', None)
-        if username is not None:
-            queryset = queryset.filter(id=ObjectId(username))
+        query_params = self.request.query_params.get('id', None)
+        if query_params is not None:
+            queryset = queryset.filter(id=ObjectId(query_params))
             return queryset
-        username = self.request.query_params.get('name', None)
-        if username is not None:
-            queryset = queryset.filter(nombre__icontains=username)
+
+
+        query_params = self.request.query_params.get('nation', None)
+        if query_params is not None and query_params == 'ESP':
+            queryset = queryset.filter(direccion__pais__icontains='pain')
+            return queryset
+        if query_params is not None and query_params == 'EU':
+            queryset = queryset.filter(direccion__european=True)
+            return queryset
+
+
+        query_params = self.request.query_params.get('name', None)
+        if query_params is not None:
+            queryset = queryset.filter(nombre__icontains=query_params)
         return queryset
-
-
 
 
 

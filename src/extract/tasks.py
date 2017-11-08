@@ -2,6 +2,7 @@ from __future__ import absolute_import, unicode_literals
 
 import logging
 from importlib import import_module
+
 from celery import shared_task
 from utils import crawler
 
@@ -22,3 +23,5 @@ def crawler_task(spider_name):
     r = crawler.run(s)
     logging.info('crawler_task - {}: ended'.format(spider_name))
     return {'name': spider_name, 'finished': r}
+
+

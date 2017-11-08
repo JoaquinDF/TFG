@@ -1,10 +1,10 @@
 from mongoengine import *
 
-
 class Convocatoria(Document):
     tituloConvocatoria = StringField()
     fechaFinPresentacion = StringField()
     presupuesto = StringField()
+
 
     meta = {
         'collection': 'data.calls'
@@ -30,6 +30,8 @@ class Direccion(EmbeddedDocument):
     calle = StringField()
     cp = StringField()
     ciudad = StringField()
+    pais = StringField(default='')
+    european = BooleanField(default=False)
 
 
 class Organizacion(Document):

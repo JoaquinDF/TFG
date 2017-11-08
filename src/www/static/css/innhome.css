@@ -122,10 +122,6 @@ a:hover {
 
 }
 
-/*.proyectcontainer:hover {
-    background-color: #d8d8d8;
-!important;
-}*/
 
 .searchcontainer {
     padding: 10px 5px;
@@ -228,5 +224,10 @@ hr.style1 {
     padding: 1rem;
     background-color: #efefef;
     text-align: center;
+}
+
+.md-primary{
+    margin-left: 15px;
+
 }
 

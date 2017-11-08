@@ -11,7 +11,8 @@ var Appmodule = angular.module('innhomeweb', [
     'adminModule',
     'transformModule',
     'metricModule',
-    'ngRoute']);
+    'ngRoute',
+    ]);
 
 Appmodule.config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
