@@ -19,10 +19,10 @@ class BotInstance(Bot):
         stop_words = ['-', 'No facilitada']
 
         organizations = set()
-        for organization in db['crawlers.cdti.projects'].find({}):
-            organizations.update(organization['nombre_empresa'])
-        for organization in db['bots.cdti.projects'].find({}):
-            organizations.update(organization['Entidad'])
+        for organization in db['crawlers.cdti.projects'].distinct('nombre_empresa'):
+            organizations.add(organization)
+        for organization in db['bots.cdti.projects'].distinct('Entidad'):
+            organizations.add(organization)
 
         xvfb = Xvfb()
         xvfb.start()

@@ -38,3 +38,14 @@ class ProjectOrganizationLinkageViewSet(ViewSet):
     def create(self, request):
         project_organization_linkage_task.delay()
         return Response({'name': 'project_organization_linkage_task', 'queued': True})
+
+
+class DatabaseLinkageViewSet(ViewSet):
+    def create(self, request):
+        call_linkage_task.delay()
+        organization_linkage_task.delay()
+        project_linkage_task.delay()
+        person_linkage_task.delay()
+        project_call_linkage_task.delay()
+        project_organization_linkage_task.delay()
+        return Response({'name': 'database_linkage_task', 'queued': True})

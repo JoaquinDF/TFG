@@ -2,6 +2,7 @@ import logging
 from pymongo import MongoClient, errors
 
 
+#TODO: initialize_ordered_bulk_op deprecated, cambiar!!!
 class MongoPipeline(object):
     def __init__(self, user, pwd, src, coll):
         self.user = user

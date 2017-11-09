@@ -4,6 +4,7 @@ from abc import ABCMeta, abstractmethod
 from utils.mongodb import Mongodb
 
 
+#TODO: initialize_ordered_bulk_op deprecated, cambiar!!!
 class Bot(object, metaclass=ABCMeta):
     @property
     @abstractmethod

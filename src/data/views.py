@@ -1,6 +1,5 @@
 from bson.objectid import ObjectId
 from rest_framework import filters
-from rest_framework import generics
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .serializers import *
@@ -8,70 +7,56 @@ from .serializers import *
 
 # CALL
 class CallViewSet(ReadOnlyModelViewSet):
-
     serializer_class = ConvocatoriaSerializer
-    queryset = Convocatoria.objects.all();
+    queryset = Convocatoria.objects.all()
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('tituloConvocatoria',)
 
     def get_queryset(self):
-        queryset = Convocatoria.objects.all();
+        response = Convocatoria.objects.all()
         org = self.request.query_params.get('id', None)
+        name = self.request.query_params.get('name', None)
         if org is not None:
-            queryset = Convocatoria.objects(id=org)
-            return queryset
-        username = self.request.query_params.get('name', None)
-        if username is not None:
-            queryset = queryset.filter(tituloConvocatoria__icontains=username)
-        return queryset
+            response = Convocatoria.objects(id=org)
+        if name is not None:
+            response = response.filter(tituloConvocatoria__icontains=name)
+        return response
 
 
 # PROJECT
-class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
+class ProjectViewSet(ReadOnlyModelViewSet):
     serializer_class = ProyectoSerializer
     queryset = Proyecto.objects.all()
-
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('tituloProyecto',)
-    def get_queryset(self):
 
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
-        queryset = Proyecto.objects.all()
-        username = self.request.query_params.get('id', None)
-        if username is not None:
-            queryset = queryset.filter(id=ObjectId(username))
-            return queryset
-        username = self.request.query_params.get('name', None)
-        if username is not None:
-            queryset = queryset.filter(tituloProyecto__icontains=username)
-        return queryset
+    def get_queryset(self):
+        response = Proyecto.objects.all()
+        org = self.request.query_params.get('id', None)
+        name = self.request.query_params.get('name', None)
+        if org is not None:
+            response = response.filter(id=ObjectId(org))
+        if name is not None:
+            response = response.filter(tituloProyecto__icontains=name)
+        return response
+
 
 # ORGANIZATION
 class OrganizationViewSet(ReadOnlyModelViewSet):
     serializer_class = OrganizacionSerializer
     queryset = Organizacion.objects.all()
-
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('nombre',)
 
     def get_queryset(self):
-
-        queryset = Organizacion.objects.all()
-        username = self.request.query_params.get('id', None)
-        if username is not None:
-            queryset = queryset.filter(id=ObjectId(username))
-            return queryset
-        username = self.request.query_params.get('name', None)
-        if username is not None:
-            queryset = queryset.filter(nombre__icontains=username)
-        return queryset
-
-
-
-
+        response = Organizacion.objects.all()
+        org = self.request.query_params.get('id', None)
+        name = self.request.query_params.get('name', None)
+        if org is not None:
+            response = response.filter(id=ObjectId(org))
+        if name is not None:
+            response = response.filter(nombre__icontains=name)
+        return response
 
 
 # PERSON
@@ -83,52 +68,33 @@ class PersonViewSet(ReadOnlyModelViewSet):
 # PROJECT-CALL
 class ProjectCallViewSet(ReadOnlyModelViewSet):
     serializer_class = ProyectoConvocatoriaSerializer
-
+    queryset = ProyectoConvocatoria.objects.all()
 
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
-        queryset = ProyectoConvocatoria.objects.all()
-        username = self.request.query_params.get('project', None)
-        if username is not None:
-            print(username)
-            queryset = queryset.filter(proyecto=ObjectId(username))
-            return queryset
-
-        username = self.request.query_params.get('call', None)
-        if username is not None:
-            print(username)
-            queryset = queryset.filter(convocatoria=ObjectId(username))
-        return queryset
-
-
+        response = ProyectoConvocatoria.objects.all()
+        project = self.request.query_params.get('project', None)
+        call = self.request.query_params.get('call', None)
+        if project is not None:
+            response = response.filter(proyecto=ObjectId(project))
+        if call is not None:
+            response = response.filter(convocatoria=ObjectId(call))
+        return response
 
 
 # PROJECT-ORGANIZATION
-class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
-
+class ProjectOrganizationViewSet(ReadOnlyModelViewSet):
     serializer_class = ProyectoOrganizacionSerializer
-
+    queryset = ProyectoOrganizacion.objects.all()
 
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
-        queryset = ProyectoOrganizacion.objects.all()
-        username = self.request.query_params.get('project', None)
-        if username is not None:
-            print(username)
-            queryset = queryset.filter(proyecto=ObjectId(username))
-            return queryset
-
-        username = self.request.query_params.get('organization', None)
-        if username is not None:
-            print(username)
-            queryset = queryset.filter(organizacion=ObjectId(username))
-        return queryset
+        response = ProyectoOrganizacion.objects.all()
+        project = self.request.query_params.get('project', None)
+        organization = self.request.query_params.get('organization', None)
+        if project is not None:
+            response = response.filter(proyecto=ObjectId(project))
+        if organization is not None:
+            response = response.filter(organizacion=ObjectId(organization))
+        return response
 
 
 # PERSON-PROJECT

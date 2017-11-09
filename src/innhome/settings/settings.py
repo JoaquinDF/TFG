@@ -25,7 +25,7 @@ SECRET_KEY = 'a&&#j@#_yo$n$r!&6y%20q*5@t#v7jc)m%k6i0nsb9ujydy=n1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['212.128.158.52', 'innhome-dev.der.usal.es', '192.168.56.101', '212.128.154.250', '212.128.156.58']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_celery_beat',
     'extract',
-    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -144,7 +143,6 @@ mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
     )
