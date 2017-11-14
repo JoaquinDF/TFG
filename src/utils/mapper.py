@@ -5,7 +5,6 @@ from mongoengine.fields import *
 from utils.mongodb import Mongodb
 
 
-# TODO: Add iterate over collections
 def __get_nested_docs__(field, doc):
     lst = field.split('.')
     tmp = doc
@@ -104,3 +103,6 @@ def remove_empty(mapper, format_class, data_type):
             logging.debug(e.details)
         except InvalidOperation as e:
             logging.debug(e)
+
+# TODO: Add iterate over collections
+# TODO: Delete duplicates
