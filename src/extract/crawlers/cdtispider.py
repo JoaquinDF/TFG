@@ -1,5 +1,4 @@
 import scrapy
-import hashlib
 
 
 class SpiderInstance(scrapy.Spider):
