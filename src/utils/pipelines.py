@@ -1,5 +1,7 @@
 import logging
-from pymongo import MongoClient, errors
+from pymongo import MongoClient
+from pymongo.operations import ReplaceOne
+from pymongo.errors import BulkWriteError, InvalidOperation
 
 
 #TODO: initialize_ordered_bulk_op deprecated, cambiar!!!
@@ -10,7 +12,9 @@ class MongoPipeline(object):
         self.src = src
         self.coll = coll
         self.client = None
-        self.bulk = None
+        self.db = None
+        # self.bulk = None
+        self.requests = []
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -23,21 +27,24 @@ class MongoPipeline(object):
 
     def open_spider(self, spider):
         self.client = MongoClient()
-        db = self.client[self.src]
-        db.authenticate(self.user, self.pwd, source=self.src)
-        collection = db[self.coll]
-        self.bulk = collection.initialize_ordered_bulk_op()
+        self.db = self.client[self.src]
+        self.db.authenticate(self.user, self.pwd, source=self.src)
+        # collection = db[self.coll]
+        # self.bulk = collection.initialize_ordered_bulk_op()
 
     def close_spider(self, spider):
         try:
-            self.bulk.execute()
-        except errors.BulkWriteError as bwe:
+            # self.bulk.execute()
+            c = self.db[self.coll]
+            c.bulk_write(self.requests)
+        except BulkWriteError as bwe:
             logging.debug(bwe.details)
-        except errors.InvalidOperation as e:
-            logging.debug(e)
+        except InvalidOperation as io:
+            logging.debug(io)
         finally:
             self.client.close()
 
     def process_item(self, item, spider):
-        self.bulk.find({'id': item['id']}).upsert().replace_one(item)
+        # self.bulk.find({'id': item['id']}).upsert().replace_one(item)
+        self.requests.append(ReplaceOne(filter={'id': item['id']}, replacement=item, upsert=True))
         return item

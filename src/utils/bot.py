@@ -1,10 +1,12 @@
 import collections
+import logging
 from abc import ABCMeta, abstractmethod
+from pymongo.operations import ReplaceOne
+from pymongo.errors import BulkWriteError, InvalidOperation
 
 from utils.mongodb import Mongodb
 
 
-#TODO: initialize_ordered_bulk_op deprecated, cambiar!!!
 class Bot(object, metaclass=ABCMeta):
     @property
     @abstractmethod
@@ -24,11 +26,16 @@ class Bot(object, metaclass=ABCMeta):
         with Mongodb() as mongodb:
             db = mongodb.db
             c = db[self.collection]
-            bulk = c.initialize_ordered_bulk_op()
+            requests = []
             for doc in self.process_item(db=db):
                 key = doc
                 for s in self.key.split('.'):
                     key = key[s]
-                bulk.find({self.key: key}).upsert().replace_one(doc)
-            bulk.execute()
+                requests.append(ReplaceOne(filter={self.key: key}, replacement=doc, upsert=True))
+            try:
+                c.bulk_write(requests)
+            except BulkWriteError as bwe:
+                logging.debug(bwe.details)
+            except InvalidOperation as io:
+                logging.debug(io)
         return True
