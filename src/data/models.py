@@ -4,7 +4,7 @@ from mongoengine import *
 class Convocatoria(Document):
     tituloConvocatoria = StringField()
     fechaFinPresentacion = StringField()
-    presupuesto = StringField()
+    presupuesto = FloatField()
 
     meta = {
         'collection': 'data.calls'
@@ -16,10 +16,10 @@ class Proyecto(Document):
     estado = StringField(default='CONCEDIDO')
     fechaInicio = StringField(default=None)
     fechaFin = StringField(default=None)
-    presupuestoPresentado = StringField()
-    presupuestoAceptado = StringField()
-    prestamo = StringField()
-    subvencion = StringField()
+    presupuestoPresentado = FloatField()
+    presupuestoAceptado = FloatField()
+    prestamo = FloatField()
+    subvencion = FloatField()
 
     meta = {
         'collection': 'data.projects'

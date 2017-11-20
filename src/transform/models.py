@@ -2,7 +2,7 @@ from mongoengine import *
 
 
 class ConvocatoriaMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     key = StringField(required=True)
     tituloConvocatoria = StringField(required=True)
     fechaFinPresentacion = StringField()
@@ -14,7 +14,7 @@ class ConvocatoriaMapper(Document):
 
 
 class ProyectoMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     key = StringField(required=True)
     tituloProyecto = StringField(required=True)
     estado = StringField()
@@ -37,7 +37,7 @@ class Direccion(EmbeddedDocument):
 
 
 class OrganizacionMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     key = StringField(required=True)
     nombre = StringField(required=True)
     cif = StringField()
@@ -50,7 +50,7 @@ class OrganizacionMapper(Document):
 
 
 class PersonaMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     key = StringField(required=True)
     nombre = StringField(required=True)
     apellidos = StringField(required=True)
@@ -65,7 +65,7 @@ class PersonaMapper(Document):
 
 
 class ProyectoConvocatoriaMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     proyecto = StringField(required=True)
     convocatoria = StringField(required=True)
 
@@ -75,7 +75,7 @@ class ProyectoConvocatoriaMapper(Document):
 
 
 class ProyectoOrganizacionMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     proyecto = StringField(required=True)
     organizacion = StringField(required=True)
 
@@ -85,7 +85,7 @@ class ProyectoOrganizacionMapper(Document):
 
 
 class PersonaProyectoMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     persona = StringField(required=True)
     proyecto = StringField(required=True)
     tipoRelaccion = StringField()
@@ -96,7 +96,7 @@ class PersonaProyectoMapper(Document):
 
 
 class PersonaOrganizacionMapper(Document):
-    collection = StringField(required=True)
+    collection = StringField(required=True, unique=True)
     persona = StringField(required=True)
     organizacion = StringField(required=True)
     tipoRelaccion = StringField()

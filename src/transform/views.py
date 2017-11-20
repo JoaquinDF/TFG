@@ -12,19 +12,6 @@ class CallMapperViewSet(ModelViewSet):
     serializer_class = ConvocatoriaMapperSerializer
 
 
-class DeleteCallMapperViewSet(ViewSet):
-    def create(self, request):
-        id = request.data.get('id', '*')
-        print(id)
-        a = [k for k in ConvocatoriaMapper.objects.all()]
-        b = []
-        for k in a:
-            if ObjectId(id) == k.id:
-                b.append(k)
-        b[0].delete()
-        return Response(True)
-
-
 class CallMappingViewSet(ViewSet):
     def create(self, request):
         call_mapping_task.delay()
@@ -35,19 +22,6 @@ class CallMappingViewSet(ViewSet):
 class ProjectMapperViewSet(ModelViewSet):
     queryset = ProyectoMapper.objects.all()
     serializer_class = ProyectoMapperSerializer
-
-
-class DeleteProjectMapperViewSet(ViewSet):
-    def create(self, request):
-        id = request.data.get('id', '*')
-        print(id)
-        a = [k for k in ProyectoMapper.objects.all()]
-        b = []
-        for k in a:
-            if ObjectId(id) == k.id:
-                b.append(k)
-        b[0].delete()
-        return Response(True)
 
 
 class ProjectMappingViewSet(ViewSet):
@@ -61,18 +35,6 @@ class OrganizationMapperViewSet(ModelViewSet):
     queryset = OrganizacionMapper.objects.all()
     serializer_class = OrganizacionMapperSerializer
 
-
-class DeleteOrganizationMapperViewSet(ViewSet):
-    def create(self, request):
-        id = request.data.get('id', '*')
-        print(id)
-        a = [k for k in OrganizacionMapper.objects.all()]
-        b = []
-        for k in a:
-            if ObjectId(id) == k.id:
-                b.append(k)
-        b[0].delete()
-        return Response(True)
 
 class OrganizationMappingViewSet(ViewSet):
     def create(self, request):
@@ -98,19 +60,6 @@ class ProjectCallMapperViewSet(ModelViewSet):
     serializer_class = ProyectoConvocatoriaMapperSerializer
 
 
-class DeleteProjectCallMapperViewSet(ViewSet):
-    def create(self, request):
-        id = request.data.get('id', '*')
-        print(id)
-        a = [k for k in ProyectoConvocatoriaMapper.objects.all()]
-        b = []
-        for k in a:
-            if ObjectId(id) == k.id:
-                b.append(k)
-        b[0].delete()
-        return Response(True)
-
-
 class ProjectCallMappingViewSet(ViewSet):
     def create(self, request):
         project_call_mapping_task.delay()
@@ -121,19 +70,6 @@ class ProjectCallMappingViewSet(ViewSet):
 class ProjectOrganizationMapperViewSet(ModelViewSet):
     queryset = ProyectoOrganizacionMapper.objects.all()
     serializer_class = ProyectoOrganizacionMapperSerializer
-
-
-class DeleteProjectOrganizationMapperViewSet(ViewSet):
-    def create(self, request):
-        id = request.data.get('id', '*')
-        print(id)
-        a = [k for k in ProyectoOrganizacionMapper.objects.all()]
-        b = []
-        for k in a:
-            if ObjectId(id) == k.id:
-                b.append(k)
-        b[0].delete()
-        return Response(True)
 
 
 class ProjectOrganizationMappingViewSet(ViewSet):
@@ -148,18 +84,6 @@ class PersonProjectMapperViewSet(ModelViewSet):
     serializer_class = PersonaProyectoMapperSerializer
 
 
-class DeletePersonProjectMapperViewSet(ViewSet):
-    def create(self, request):
-        id = request.data.get('id', '*')
-        print(id)
-        a = [k for k in PersonaProyectoMapper.objects.all()]
-        b = []
-        for k in a:
-            if ObjectId(id) == k.id:
-                b.append(k)
-        b[0].delete()
-        return Response(True)
-
 class PersonProjectMappingViewSet(ViewSet):
     def create(self, request):
         person_project_mapping_task.delay()
@@ -170,19 +94,6 @@ class PersonProjectMappingViewSet(ViewSet):
 class PersonOrganizationMapperViewSet(ModelViewSet):
     queryset = PersonaOrganizacionMapper.objects.all()
     serializer_class = PersonaOrganizacionMapperSerializer
-
-
-class DeletePersonOrganizationMapperViewSet(ViewSet):
-    def create(self, request):
-        id = request.data.get('id', '*')
-        print(id)
-        a = [k for k in PersonaOrganizacionMapper.objects.all()]
-        b = []
-        for k in a:
-            if ObjectId(id) == k.id:
-                b.append(k)
-        b[0].delete()
-        return Response(True)
 
 
 class PersonOrganizationMappingViewSet(ViewSet):

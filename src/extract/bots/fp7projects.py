@@ -4,6 +4,7 @@ import pandas as pd
 from utils.bot import Bot
 
 
+# TODO: Parse dates
 class BotInstance(Bot):
     collection = 'bots.fp7.projects'
     key = 'id'

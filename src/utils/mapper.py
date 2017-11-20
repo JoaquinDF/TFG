@@ -17,6 +17,23 @@ def __get_nested_docs__(field, doc):
     return tmp
 
 
+def __float_formatter__(string):
+    s = string.replace(' ', '').replace('€', '').replace(',', '.')
+    l = s.split('.')
+    n = ''
+    if len(l) > 1:
+        for i, j in enumerate(l):
+            if i + 1 == len(l):
+                n = n + '.' + j
+            else:
+                n = n + j
+    try:
+        result = float(n)
+    except ValueError:
+        result = None
+    return result
+
+
 def copy_object(original, template, mapper):
     copy = template()
     copy.id = original['_id']
@@ -32,7 +49,12 @@ def copy_object(original, template, mapper):
             copy[k] = tmp.rstrip(';').upper().encode('utf-8')
         elif isinstance(v, FloatField):
             item = __get_nested_docs__(mapper[k], original)
-            copy[k] = float(item)
+            if isinstance(item, float):
+                copy[k] = item
+            elif isinstance(item, str):
+                copy[k] = __float_formatter__(item)
+            else:
+                copy[k] = item
         elif isinstance(v, DateTimeField):
             pass
         elif isinstance(v, ListField):
@@ -48,7 +70,9 @@ def copy_object(original, template, mapper):
 def data_mapping(mapper, template, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
-        bulk = db['structured.{}.{}'.format(data_type, mapper.collection)].initialize_ordered_bulk_op()
+        col = db['structured.{}.{}'.format(data_type, mapper.collection)]
+        col.delete_many({})
+        bulk = col.initialize_ordered_bulk_op()
         for original in db[mapper.collection].find({}):
             copy = copy_object(original, template, mapper)
             bulk.find({'_id': copy.id}).upsert().replace_one(copy.to_mongo())
@@ -106,3 +130,4 @@ def remove_empty(mapper, format_class, data_type):
 
 # TODO: Add iterate over collections
 # TODO: Delete duplicates
+# TODO: Fix deprecated initialize_ordered_bulk_op method
