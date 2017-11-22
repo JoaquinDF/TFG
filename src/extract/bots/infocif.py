@@ -17,12 +17,14 @@ class BotInstance(Bot):
 
     def process_item(self, db=None):
         stop_words = ['-', 'No facilitada']
+        collections = [
+            ('crawlers.cdti.projects', 'nombre_empresa'),
+            ('bots.cdti.projects', 'Entidad')
+        ]
 
         organizations = set()
-        for organization in db['crawlers.cdti.projects'].distinct('nombre_empresa'):
-            organizations.add(organization)
-        for organization in db['bots.cdti.projects'].distinct('Entidad'):
-            organizations.add(organization)
+        for k, v in collections:
+            organizations = organizations.union(db[k].distinct(v))
 
         xvfb = Xvfb()
         xvfb.start()

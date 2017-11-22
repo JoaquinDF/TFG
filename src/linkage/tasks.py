@@ -11,6 +11,7 @@ from recordlinkage.standardise import clean, phonenumbers
 from utils.mongodb import Mongodb
 
 
+# TODO: Fix deprecated method
 def duplicate_collection(df, db, coll):
     del df['_id']
     cursor = db[coll]
