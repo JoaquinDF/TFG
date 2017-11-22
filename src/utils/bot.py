@@ -23,6 +23,7 @@ class Bot(object, metaclass=ABCMeta):
         pass
 
     def run(self):
+        limit = 1000
         with Mongodb() as mongodb:
             db = mongodb.db
             c = db[self.collection]
@@ -32,10 +33,20 @@ class Bot(object, metaclass=ABCMeta):
                 for s in self.key.split('.'):
                     key = key[s]
                 requests.append(ReplaceOne(filter={self.key: key}, replacement=doc, upsert=True))
-            try:
-                c.bulk_write(requests)
-            except BulkWriteError as bwe:
-                logging.debug(bwe.details)
-            except InvalidOperation as io:
-                logging.debug(io)
+                if len(requests) == limit:
+                    try:
+                        c.bulk_write(requests)
+                    except BulkWriteError as bwe:
+                        logging.debug(bwe.details)
+                    except InvalidOperation as io:
+                        logging.debug(io)
+                    finally:
+                        requests = []
+            if len(requests) > 0:
+                try:
+                    c.bulk_write(requests)
+                except BulkWriteError as bwe:
+                    logging.debug(bwe.details)
+                except InvalidOperation as io:
+                    logging.debug(io)
         return True
