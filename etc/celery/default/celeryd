@@ -2,7 +2,7 @@
 CELERYD_NODES=1
 
 # Absolute or relative path to the 'celery' command:
-CELERY_BIN="/home/bisite/ENV/bin/celery"
+CELERY_BIN="/home/bisite/innhome/ENV/bin/celery"
 
 # App instance to use
 CELERY_APP="innhome"

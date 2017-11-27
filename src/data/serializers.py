@@ -50,3 +50,21 @@ class PersonaOrganizacionSerializer(serializers.DocumentSerializer):
     class Meta:
         model = PersonaOrganizacion
         fields = '__all__'
+
+
+class OrganizationMetricSerializaer(serializers.DocumentSerializer):
+    class Meta:
+        model = OrganizationMetric
+        fields = '__all__'
+
+
+class RegionMetricSerializaer(serializers.DocumentSerializer):
+    class Meta:
+        model = RegionMetric
+        fields = '__all__'
+
+
+class OrganizationMetricSerializaer(serializers.DocumentSerializer):
+    class Meta:
+        model = OrganizationMetric
+        fields = '__all__'

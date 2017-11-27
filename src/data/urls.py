@@ -13,5 +13,8 @@ router.register(r'projectcall', ProjectCallViewSet, r'projectcall')
 router.register(r'projectorganization', ProjectOrganizationViewSet, r'projectorganization')
 router.register(r'personproject', PersonProjectViewSet, r'personproject')
 router.register(r'personorganization', PersonOrganizationViewSet, r'personorganization')
+router.register(r'RegionMetric', RegionMetricViewSet, r'RegionMetric')
+router.register(r'OrganizationMetric', OrganizationMetricViewSet, r'OrganizationMetric')
 
+OrganizationMetricViewSet
 urlpatterns = router.urls

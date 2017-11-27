@@ -86,6 +86,31 @@ class PersonaProyecto(Document):
     }
 
 
+class OrganizationMetric(Document):
+    organization = StringField()
+    numeroProyectos = StringField()
+    porcentajeSubvencionado = StringField()
+    subvencionTotal = StringField()
+    presupuetoAceptadoTotal = StringField()
+
+    meta = {
+        'collection': 'data.organization-metric'
+    }
+
+
+class RegionMetric(Document):
+    country = StringField()
+    subvencionTotal = StringField()
+    presupuetoAceptadoTotal = StringField()
+    porcentajesubvencionado = StringField()
+    numeroProyectos = StringField()
+    numeroEmpresas = StringField()
+
+    meta = {
+        'collection': 'data.region-metric'
+    }
+
+
 class PersonaOrganizacion(Document):
     persona = StringField()
     organizacion = StringField()

@@ -33,7 +33,7 @@ h2 {
 }
 
 a {
-    width: 75%;
+    width: 50%;
     border-radius: 12px;
 
 }
@@ -56,19 +56,16 @@ a:hover {
 
 .buttonmetric {
     text-align: center;
+    border: 1px solid #c62540;
+    border-radius: 12px;
+    padding: 1px 10px;
     margin-left: 12px;
-    margin-top: 50px;
     opacity: 0;
-    transition: opacity .35s ease;
+    transition: opacity .5s ease;
 }
 
 .buttonmetric a {
-    width: 200px;
-    padding: 5px 30px;
-    text-align: center;
-    color: black;
-    border-radius: 0px;
-    border-bottom: 1px solid #c62540;
+
 }
 
 .md-content.md-default-theme, md-content {
@@ -98,7 +95,6 @@ a:hover {
     border-radius: 12px;
     margin-top: 5px;
 
-
 }
 
 a:hover {
@@ -124,14 +120,13 @@ a:hover {
 
 
 .searchcontainer {
-    padding: 10px 5px;
+    padding: 5px 2px;
 
     border-bottom-style: solid;
     border-color: #c62540;
     border-width: 1px;
     border-radius: 6px;
     width: 35%;
-    margin-top: 20px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -165,6 +160,15 @@ a:hover {
 !important;
 
 }
+
+.red {
+    background-color: red;
+}
+
+.green {
+    color: limegreen;
+}
+
 
 hr.style2 {
     border-top: 1px solid #c62540;

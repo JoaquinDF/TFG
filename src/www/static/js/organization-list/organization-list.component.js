@@ -68,9 +68,56 @@ angular.module('organizationList').component('organizationList', {
 
                 }
 
+                self.onHoverMetrics = function (organization) {
+                    debugger;
+                    if (!organization)return false;
+                    var country = organization.direccion.pais;
+
+                    var http = "/api/v1/data/RegionMetric/?region=" + country;
+
+                    $http.get(http).then(function (responseorganizations) {
+                        if (responseorganizations.data) {
+
+                            var data = responseorganizations.data.results[0];
+
+                            self.regionName = data.country;
+                            self.numeroProyectosR = data.numeroProyectos;
+                            self.porcentajesubvencionadoR = (parseFloat(data.porcentajesubvencionado)).toFixed(1);
+                            self.numeroProyectosMedioR = (parseFloat(data.numeroProyectos) / parseFloat(data.numeroEmpresas)).toFixed(1);
+                            self.numeroEmpresas = parseFloat(data.numeroEmpresas)
+
+                            var http = "/api/v1/data/OrganizationMetric/?organization=" + organization.id;
+
+                            $http.get(http).then(function (responseorganizations) {
+                                if (responseorganizations.data) {
+
+                                    var data = responseorganizations.data.results[0];
+
+                                    self.porcentajesubvencionadoO = (parseFloat(data.porcentajeSubvencionado)).toFixed(1);
+                                    self.numeroProyectosO = data.numeroProyectos;
+
+                                    debugger;
+
+                                    self.porcentajeRelativo = ((self.porcentajesubvencionadoO / self.porcentajesubvencionadoR)).toFixed(1);
+                                    self.proyectosRelativo = (self.numeroProyectosO - self.numeroProyectosMedioR).toFixed(1)
+
+
+                                }
+
+
+                            });
+
+                        }
+
+                    });
+
+
+                    debugger;
+
+                }
+
 
                 self.changepage = function (page) {
-                    debugger;
                     if (!isNaN(page) && page && page <= self.countorganizations) {
                         self.currentpageorganizations = parseInt(page);
                         page *= 10;

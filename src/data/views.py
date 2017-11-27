@@ -145,6 +145,11 @@ class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
         return queryset
 
 
+class RegionMetricViewSet(ReadOnlyModelViewSet):
+    queryset = RegionMetric.objects.all()
+    serializer_class = RegionMetricSerializaer
+
+
 # PERSON-PROJECT
 class PersonProjectViewSet(ReadOnlyModelViewSet):
     queryset = PersonaProyecto.objects.all()
@@ -155,3 +160,36 @@ class PersonProjectViewSet(ReadOnlyModelViewSet):
 class PersonOrganizationViewSet(ReadOnlyModelViewSet):
     queryset = PersonaOrganizacion.objects.all()
     serializer_class = PersonaOrganizacionSerializer
+
+
+class RegionMetricViewSet(ReadOnlyModelViewSet):
+    serializer_class = RegionMetricSerializaer
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = RegionMetric.objects.all()
+        region = self.request.query_params.get('region', None)
+        if region is not None:
+            print(region)
+            queryset = queryset.filter(country=region)
+
+        return queryset
+
+
+class OrganizationMetricViewSet(ReadOnlyModelViewSet):
+    serializer_class = OrganizationMetricSerializaer
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = OrganizationMetric.objects.all()
+        org = self.request.query_params.get('organization', None)
+        if org is not None:
+            queryset = queryset.filter(organization=ObjectId(org))
+
+        return queryset
