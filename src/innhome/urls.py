@@ -36,5 +36,4 @@ urlpatterns = [
     url(r'^www/', include(www.urls, namespace='www')),
     url(r'^api/v1/', include(url_api_v1, namespace='api')),
     url(r'^admin/', admin.site.urls),
-
 ]

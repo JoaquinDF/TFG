@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 GECKO_DRIVER="https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz";
 
 set -e;

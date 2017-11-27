@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name 212.128.154.196;
+    server_name 212.128.153.181;
     access_log  /var/log/nginx/innhome.log;
 
     location / {
@@ -10,6 +10,6 @@ server {
     }
 
     location /static/ {
-        root /home/bisite/Projects/innhome/src;
+        root /home/bisite/innhome/src;
     }
 }
