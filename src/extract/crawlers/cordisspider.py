@@ -33,7 +33,7 @@ class SpiderInstance(scrapy.Spider):
                 yield scrapy.Request(xml_page, callback=parse_xml)
 
             next_page = response.xpath('//div[@id="pagelistbtm"]/a[text()=">"]/@href').extract_first()
-            if next_page:
+            if next_page is not None:
                 next_page = response.urljoin(next_page)
                 yield scrapy.Request(next_page, callback=self.parse)
         else:

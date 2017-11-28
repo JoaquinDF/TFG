@@ -15,7 +15,7 @@ class PeriodicTaskViewSet(ViewSet):
         args = request.data.get('args', '*')
         # chose interval?crontab
         crontab = request.data.get('crontab', '*')
-        if crontab:
+        if crontab is not None:
             # crontabs
             minute = request.data.get('minute', '*')
             hour = request.data.get('hour', '*')

@@ -13,7 +13,6 @@ class MongoPipeline(object):
         self.coll = coll
         self.client = None
         self.db = None
-        # self.bulk = None
         self.requests = []
 
     @classmethod
@@ -29,12 +28,9 @@ class MongoPipeline(object):
         self.client = MongoClient()
         self.db = self.client[self.src]
         self.db.authenticate(self.user, self.pwd, source=self.src)
-        # collection = db[self.coll]
-        # self.bulk = collection.initialize_ordered_bulk_op()
 
     def close_spider(self, spider):
         try:
-            # self.bulk.execute()
             c = self.db[self.coll]
             c.bulk_write(self.requests)
         except BulkWriteError as bwe:
@@ -45,6 +41,5 @@ class MongoPipeline(object):
             self.client.close()
 
     def process_item(self, item, spider):
-        # self.bulk.find({'id': item['id']}).upsert().replace_one(item)
         self.requests.append(ReplaceOne(filter={'id': item['id']}, replacement=item, upsert=True))
         return item

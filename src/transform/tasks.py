@@ -70,4 +70,4 @@ def person_organization_mapping_task():
         remove_empty(mapper=mapper, format_class=PersonaOrganizacion, data_type='person-organization')
     return {'name': 'person_organization_mapping_task', 'finished': True}
 
-# TODO: Add join task
+# TODO: Add remove duplicates

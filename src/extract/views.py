@@ -12,7 +12,7 @@ from .tasks import bot_task, crawler_task
 class BotViewSet(ViewSet):
     def create(self, request):
         bot_name = request.data.get('name', None)
-        if bot_name:
+        if bot_name is not None:
             bot_task.delay(bot_name)
             return Response({'name': bot_name, 'queued': True})
         else:
@@ -22,7 +22,7 @@ class BotViewSet(ViewSet):
 class CrawlerViewSet(ViewSet):
     def create(self, request):
         crawler_name = request.data.get('name', None)
-        if crawler_name:
+        if crawler_name is not None:
             crawler_task.delay(crawler_name)
             return Response({'name': crawler_name, 'queued': True})
         else:
@@ -35,7 +35,7 @@ class DataViewSet(ViewSet):
         with Mongodb() as mongodb:
             db = mongodb.db
             collection = request.query_params.get('collection', None)
-            if collection and collection in db.collection_names():
+            if collection is not None and collection in db.collection_names():
                 c = db[collection]
                 try:
                     limit = int(request.query_params.get('limit', default))

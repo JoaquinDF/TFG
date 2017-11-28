@@ -46,5 +46,6 @@ class BotInstance(Bot):
                     total = int(data['@total-result-count'])
                     end = int(data['ops:range']['@end']) + 1
                 except Exception as e:
+                    # TODO: Define exception
                     logging.debug(e)
                     break
