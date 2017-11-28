@@ -1,5 +1,4 @@
-import logging
-from pymongo.errors import BulkWriteError, InvalidOperation
+from pymongo.operations import DeleteMany, ReplaceOne
 from mongoengine.fields import *
 
 from utils.mongodb import Mongodb
@@ -15,7 +14,6 @@ def __get_nested_docs__(field, doc):
             tmp = None
             break
     return tmp
-
 
 def __float_formatter__(string):
     s = string.replace(' ', '').replace('€', '').replace(',', '.')
@@ -33,12 +31,11 @@ def __float_formatter__(string):
         result = None
     return result
 
-
 def copy_object(original, template, mapper):
     copy = template()
     copy.id = original['_id']
     for k, v in template._fields.items():
-        if not mapper[k]:
+        if mapper[k] is None:
             continue
         elif isinstance(v, StringField):
             tmp = ''
@@ -66,68 +63,51 @@ def copy_object(original, template, mapper):
             copy[k] = copy_object(original, doc, mapper[k])
     return copy
 
-
 def data_mapping(mapper, template, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
-        col = db['structured.{}.{}'.format(data_type, mapper.collection)]
-        col.delete_many({})
-        bulk = col.initialize_ordered_bulk_op()
+        collection = 'structured.{}.{}'.format(data_type, mapper.collection)
+        c = db[collection]
+        c.delete_many({})
+        requests = []
         for original in db[mapper.collection].find({}):
             copy = copy_object(original, template, mapper)
-            bulk.find({'_id': copy.id}).upsert().replace_one(copy.to_mongo())
-        try:
-            bulk.execute()
-        except BulkWriteError as e:
-            logging.debug(e.details)
-        except InvalidOperation as e:
-            logging.debug(e)
-
+            requests.append(ReplaceOne(filter={'_id': copy.id}, replacement=copy.to_mongo(), upsert=True))
+        mongodb.do_bulk_requests(requests,collection=collection)
 
 def remove_duplicates(mapper, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
-        collection = db['structured.{}.{}'.format(data_type, mapper.collection)]
-        bulk = collection.initialize_ordered_bulk_op()
+        collection = 'structured.{}.{}'.format(data_type, mapper.collection)
+        c = db[collection]
         keys = {}
         for key in mapper.key.split(';'):
             keys[key] = '${}'.format(key)
-        cursor = collection.aggregate(
+        cursor = c.aggregate(
             [
                 {"$group": {"_id": keys, "unique_ids": {"$addToSet": "$_id"}, "count": {"$sum": 1}}},
                 {"$match": {"count": {"$gte": 2}}}
             ]
         )
+        requests = []
         response = []
         for doc in cursor:
             del doc["unique_ids"][0]
             for k in doc["unique_ids"]:
                 response.append(k)
-        bulk.find({"_id": {"$in": response}}).remove()
-        try:
-            bulk.execute()
-        except BulkWriteError as e:
-            logging.debug(e.details)
-        except InvalidOperation as e:
-            logging.debug(e)
+        requests.append(DeleteMany({"_id": {"$in": response}}))
+        mongodb.do_bulk_requests(requests, collection=collection)
 
 
 def remove_empty(mapper, format_class, data_type):
     with Mongodb() as mongodb:
-        db = mongodb.db
-        collection = db['structured.{}.{}'.format(data_type, mapper.collection)]
-        bulk = collection.initialize_ordered_bulk_op()
+        collection = 'structured.{}.{}'.format(data_type, mapper.collection)
+        requests = []
         keys = format_class._fields.items()
         for k, v in keys:
             if k != 'id':
-                bulk.find({k: ""}).remove()
-        try:
-            bulk.execute()
-        except BulkWriteError as e:
-            logging.debug(e.details)
-        except InvalidOperation as e:
-            logging.debug(e)
+                requests.append(DeleteMany({k: ""}))
+        mongodb.do_bulk_requests(requests, collection=collection)
 
 # TODO: Add iterate over collections
 # TODO: Delete duplicates
-# TODO: Fix deprecated initialize_ordered_bulk_op method

@@ -1,6 +1,8 @@
 import os
+import logging
 from configparser import ConfigParser
 from pymongo import MongoClient
+from pymongo.errors import BulkWriteError, InvalidOperation
 
 
 class Mongodb(object):
@@ -21,3 +23,15 @@ class Mongodb(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.__c__.close()
+
+    def do_bulk_requests(self, requests, collection):
+        limit = 1000
+        c = self.db[collection]
+        chunks = [requests[x:x + limit] for x in range(0, len(requests), limit)]
+        for chunk in chunks:
+            try:
+                c.bulk_write(chunk)
+            except BulkWriteError as bwe:
+                logging.debug(bwe.details)
+            except InvalidOperation as io:
+                logging.debug(io)
