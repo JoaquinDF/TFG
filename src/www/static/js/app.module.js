@@ -12,6 +12,7 @@ var Appmodule = angular.module('innhomeweb', [
     'transformModule',
     'metricModule',
     'ngRoute',
+    'datamaps',
     ]);
 
 Appmodule.config(['$locationProvider', '$routeProvider',

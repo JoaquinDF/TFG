@@ -44,6 +44,7 @@
                     <h2>Organizacion:</h2>
 
                          <div ng-repeat="orgs in $ctrl.Orgs">
+                    <a href="/www/#!/metric{{ orgs.id }}" style="display: block">
 
                                 <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
                                      style="margin-left: 13%">
@@ -71,7 +72,7 @@
                                         <hr class="style2">
                                         </span>
                                 </div>
-
+                    </a>
 
                         </div>
 
@@ -84,37 +85,66 @@
             </ul>
         </div>
         </div>
-        <div class="container-fluid col-sm-7" style="margin-top: 5%; margin-left: inherit; display: inline-block;">
-            <h1>Métricas</h1>
+        <div class="container-fluid col-sm-7" style="margin-top: 5%; margin-left: inherit; display: inline-block;"
+             ng-controller="Chart">
+
             <div class="row">
 
-                <div ng-if="$ctrl.Proyecto.length>0">
-
+                <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadpieporcentaje()">
+                    <h1>Métricas</h1>
 
                     <div class="porcentajesubvencionado col-sm-6">
                         <h3> % de presupuesto subvencionado:</h3>
                         <canvas id="pie" class="chart chart-pie"
                                 chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
-                                chart-options="$ctrl.optionspie">
+                                chart-options="optionspie">
                         </canvas>
                     </div>
 
                     <div class="col-sm-6">
                         <canvas id="bar" class="chart chart-bar"
-                                chart-data="$ctrl.databar" chart-options="$ctrl.optionsbar"
+                                chart-data="$ctrl.databar" chart-options="optionsbar"
                                 chart-series="$ctrl.seriesbar">
 
                         </canvas>
                     </div>
+                    <div id="container" class="col-sm-12"
+                         style="position: relative; width: 450px; height: 250px;"></div>
 
 
                 </div>
-                <script>
 
-                </script>
 
             </div>
+
+
         </div>
+
+
+        <script>
+            var map = new Datamap({
+                element: document.getElementById('container'),
+                geographyConfig: {
+                    highlightOnHover: true,
+                    popupOnHover: true
+                },
+                scope: 'world',
+
+                // Zoom in on EUROPE
+                setProjection: function (element) {
+                    var projection = d3.geo.mercator()
+                        .center([13, 52])
+                        .scale(350)
+                        .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+                    var path = d3.geo.path()
+                        .projection(projection);
+
+
+                    return {path: path, projection: projection};
+                }
+
+            });
+        </script>
 
     </body>
 </html>

@@ -47,6 +47,7 @@ angular.module('metricModule').component('metricModule', {
                                     self.numeroProyectosMedioR = (parseFloat(data.numeroProyectos) / parseFloat(data.numeroEmpresas)).toFixed(1);
                                     self.numeroEmpresas = parseFloat(data.numeroEmpresas)
 
+
                                 }
                             });
                         });
@@ -82,7 +83,6 @@ angular.module('metricModule').component('metricModule', {
 
                                 self.porcentajesubvencionadoO = (parseFloat(data.porcentajeSubvencionado)).toFixed(1);
                                 self.numeroProyectosO = data.numeroProyectos;
-                                self.loadpieporcentaje();
 
 
                                 self.porcentajeRelativo = ((self.porcentajesubvencionadoO / self.porcentajesubvencionadoR) * 100).toFixed(1);
@@ -117,42 +117,20 @@ angular.module('metricModule').component('metricModule', {
             var labelsinsubv = 'Presupuesto sin Subvencionar - %';
             self.labelspie = [labelsubv, labelsinsubv];
 
-            self.datapie = [self.porcentajesubvencionadoO, (100 - self.porcentajesubvencionadoO)];
-            self.optionspie = {
-                tooltips: {bodyFontSize: 20, titleFontSize: 15, fontColor: 'rgb(255, 99, 132)'},
-                responsive: true,
-                maintainAspectRatio: true
-            };
-            var labelsubvbar = 'Media Empresarial subvencion';
-            var labelsinsubvbar = 'Medio Regional subvencion';
+            self.datapie = [self.porcentajesubvencionadoO, ((100 - self.porcentajesubvencionadoO)).toFixed(1)];
+
+            var labelsubvbar = 'Subvencion Media en la empresa';
+            var labelsinsubvbar = 'Subvencion Media de la región';
             self.seriesbar = [labelsubvbar, labelsinsubvbar];
             debugger;
             self.databar = [[self.porcentajesubvencionadoO], [self.porcentajesubvencionadoR]];
-            self.optionsbar = {
-                tooltips: {bodyFontSize: 20, titleFontSize: 15, fontColor: 'rgb(255, 99, 132)'},
-                responsive: true,
-                maintainAspectRatio: true
-            };
 
 
-            var canvas = document.getElementById("pie");
-            self.datapie = [self.porcentajesubvencionadoO, (100 - self.porcentajesubvencionadoO)];
-            debugger;
-            canvas.config.data = self.datapie;
-            debugger;
-
-            canvas.update();
-            debugger;
+            self.datapie = [self.porcentajesubvencionadoO, ((100 - self.porcentajesubvencionadoO)).toFixed(1)];
 
 
-            var canvas = document.getElementById("bar");
             self.databar = [[self.porcentajesubvencionadoO], [self.porcentajesubvencionadoR]];
-            debugger;
-            canvas.config.data = self.databar;
-            debugger;
 
-            canvas.update();
-            debugger;
 
         }
         }]
