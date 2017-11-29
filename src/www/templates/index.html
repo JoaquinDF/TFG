@@ -69,6 +69,7 @@
 
 
         <link href="/static/css/innhome.css" rel="stylesheet">
+
         <script src="/static/js/app.module.js"></script>
         <!-- MAPS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
@@ -84,6 +85,7 @@
     <body class="w3-theme ">
 
         <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4  w3-bar-block "
+             ng-controller="HandleSearchEvents"
              style="z-index:3;width:250px; " id="mySidebar">
             <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/">
                 <img src="/static/images/innhome.png" style="width: 80%;padding-bottom: 30px;">
@@ -109,7 +111,28 @@
                    onclick="tabbarColor('Search')">Search</a>
                 <a class="w3-bar-item tablink w3-button" id="Admin" href="#!admin"
                    onclick="tabbarColor('Admin')">Admin</a>
-                <a class="w3-bar-item tablink w3-button" id="Metrics" href="#!metric" onclick="tabbarColor('Metrics')">Metrics</a>
+                <div class="w3-sidebar w3-bar-block w3-card-2 w3-theme-d4  w3-bar-block"
+                     style="width: inherit; height: auto;">
+                    <div class="w3-bar-item w3-button" onclick="metricShow()">
+                        Metrics <i class="fa fa-caret-down"></i></div>
+                    <div id="demoMetric" class="w3-hide w3-theme w3-card-4">
+                        <form ng-submit="onMetricEnter(textmetric)">
+                            <input size="50" class="w3-input searchtext " ng-model="textmetric"
+                                   placeholder=" Insert Orgnization Name ">
+                        </form>
+
+
+                    </div>
+                    <div ng-repeat="organization in Orgs">
+                        <!-- DONT SHOW-->
+                        <a class="w3-bar-item tablink w3-button" ng-init="debug(organization, Orgs)"
+                           href="/www/#!/o{{ organization.id }}" style="display: block">{{ organization.nombre }}</a>
+
+
+                    </div>
+
+                </div>
+
 
             </div>
 

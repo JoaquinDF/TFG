@@ -3,6 +3,7 @@
  */
 'use strict';
 
+
 var Appmodule = angular.module('innhomeweb', [
     'projectList',
     'callList',
@@ -47,15 +48,34 @@ Appmodule.config(['$locationProvider', '$routeProvider',
 
 
             .when('/search', {
-                template: '<search-list style="display: flex"></search-list>'
+                template: '<search-list style="display: block"></search-list>'
             })
 
             .when('/metric', {
-                template: '<metric-module style="display: flex"></metric-module>'
+                template: '<metric-module style="display: block "></metric-module>'
             })
 
             .when('/metric:id', {
-                template: '<metric-module style="display: flex"></metric-module>'
+                template: '<metric-module style="display: block"></metric-module>'
             })
     }]);
+
+Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope, $http) {
+    $scope.onMetricEnter = function (url1) {
+
+        var apiget = '/api/v1/data/organization/?format=json&name=' + url1;
+        $scope.Orgs;
+        $http.get(apiget).then(function successCallback(response) {
+            $scope.Orgs = (response.data.results)
+            debugger;
+
+        });
+
+
+    }
+    $scope.debug = function (a, b) {
+        debugger;
+
+    }
+}])
 
