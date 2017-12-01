@@ -15,6 +15,6 @@ router.register(r'personproject', PersonProjectViewSet, r'personproject')
 router.register(r'personorganization', PersonOrganizationViewSet, r'personorganization')
 router.register(r'RegionMetric', RegionMetricViewSet, r'RegionMetric')
 router.register(r'OrganizationMetric', OrganizationMetricViewSet, r'OrganizationMetric')
+router.register(r'RegionMetricToPairDict', RegionMetricToPairDictViewSet, r'RegionMetricToPairDict')
 
-OrganizationMetricViewSet
 urlpatterns = router.urls

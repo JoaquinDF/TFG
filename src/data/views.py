@@ -2,7 +2,10 @@ from bson.objectid import ObjectId
 from rest_framework import filters
 from rest_framework import generics
 from rest_framework.viewsets import ReadOnlyModelViewSet
-
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
+import requests
+import pprint
 from .serializers import *
 
 
@@ -147,7 +150,7 @@ class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
 
 class RegionMetricViewSet(ReadOnlyModelViewSet):
     queryset = RegionMetric.objects.all()
-    serializer_class = RegionMetricSerializaer
+    serializer_class = RegionMetricSerializer
 
 
 # PERSON-PROJECT
@@ -163,7 +166,7 @@ class PersonOrganizationViewSet(ReadOnlyModelViewSet):
 
 
 class RegionMetricViewSet(ReadOnlyModelViewSet):
-    serializer_class = RegionMetricSerializaer
+    serializer_class = RegionMetricSerializer
 
     def get_queryset(self):
         """
@@ -179,8 +182,26 @@ class RegionMetricViewSet(ReadOnlyModelViewSet):
         return queryset
 
 
+class RegionMetricToPairDictViewSet(ViewSet):
+    def create(self, request):
+        queryset = RegionMetric.objects.all()
+        organizations = request.data.get('organization', '*')
+        dictionary = []
+
+        for regionmetric in queryset:
+            url = 'https://restcountries.eu/rest/v2/name/' + regionmetric.country
+
+            data = requests.get(url)
+            json = data.json()
+            ISO = json[0]['alpha2Code']
+            add = (ISO, regionmetric.numeroEmpresas)
+            dictionary.append(add)
+            pprint.pprint(dictionary)
+        return Response(dictionary)
+
+
 class OrganizationMetricViewSet(ReadOnlyModelViewSet):
-    serializer_class = OrganizationMetricSerializaer
+    serializer_class = OrganizationMetricSerializer
 
     def get_queryset(self):
         """

@@ -40,5 +40,28 @@ function metricShow() {
             x.previousElementSibling.className.replace("  w3-theme-d3", "");
     }
 }
+function addData() {
+    debugger;
+
+    var dom_el = document.querySelector('[ng-controller="HandleSearchEvents"]');
+    var ng_el = angular.element(dom_el);
+    var ng_el_scope = ng_el.scope();
+    var Orgs = ng_el_scope["Orgs"];
+    try {
+        var x = document.getElementsByName("busqueda");
+        if (Orgs.length > 0) {
+            debugger;
+            for (var i = 0; i < x.length; i++) {
+
+                x[i].innerText = Orgs[i]["nombre"];
+                debugger
+                x[i].style.fontSize = "smaller";
+                x[i].href = "/www/#!/metric" + Orgs[i].id;
+            }
+        }
+    } catch (err) {
+        ;
+    }
+}
 
 
