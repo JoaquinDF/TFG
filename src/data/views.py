@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 import requests
 import pprint
+import os
 from .serializers import *
 
 
@@ -184,20 +185,68 @@ class RegionMetricViewSet(ReadOnlyModelViewSet):
 
 class RegionMetricToPairDictViewSet(ViewSet):
     def create(self, request):
-        queryset = RegionMetric.objects.all()
-        organizations = request.data.get('organization', '*')
-        dictionary = []
+        what = request.data.get('?', '*')
+        if what == 'orgnum':
+            path = '/home/bisite/innhome/innhome/src/www/static/json/Orgs-Num.json'
+            if os.path.getsize(path) == 0:
+                file = open(path, 'w+')
 
-        for regionmetric in queryset:
-            url = 'https://restcountries.eu/rest/v2/name/' + regionmetric.country
+                queryset = RegionMetric.objects.all()
+                dictionary = []
 
-            data = requests.get(url)
-            json = data.json()
-            ISO = json[0]['alpha2Code']
-            add = (ISO, regionmetric.numeroEmpresas)
-            dictionary.append(add)
-            pprint.pprint(dictionary)
-        return Response(dictionary)
+                for regionmetric in queryset:
+                    url = 'https://restcountries.eu/rest/v2/name/' + regionmetric.country
+
+                    data = requests.get(url)
+                    json = data.json()
+                    ISO = json[0]['alpha3Code']
+                    add = (ISO, regionmetric.numeroEmpresas)
+                    dictionary.append(add)
+
+                from json import dumps as jsdumper
+                data = jsdumper(dictionary)
+                file.write(data)
+                file.close()
+                return Response(dictionary)
+            else:
+                file = open(path, 'r')
+                jsondata = file.read()
+                from json import loads as jsload
+                data = jsload(jsondata)
+
+                pprint.pprint(data)
+                return Response(data)
+
+        elif what == 'orgper':
+            path = '/home/bisite/innhome/innhome/src/www/static/json/Orgs-Per.json'
+            if os.path.getsize(path) == 0:
+                file = open(path, 'w+')
+
+                queryset = RegionMetric.objects.all()
+                dictionary = []
+
+                for regionmetric in queryset:
+                    url = 'https://restcountries.eu/rest/v2/name/' + regionmetric.country
+
+                    data = requests.get(url)
+                    json = data.json()
+                    ISO = json[0]['alpha3Code']
+                    add = (ISO, regionmetric.porcentajesubvencionado)
+                    dictionary.append(add)
+
+                from json import dumps as jsdumper
+                data = jsdumper(dictionary)
+                file.write(data)
+                file.close()
+                return Response(dictionary)
+            else:
+                file = open(path, 'r')
+                jsondata = file.read()
+                from json import loads as jsload
+                data = jsload(jsondata)
+
+                pprint.pprint(data)
+                return Response(data)
 
 
 class OrganizationMetricViewSet(ReadOnlyModelViewSet):

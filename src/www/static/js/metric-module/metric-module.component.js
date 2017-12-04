@@ -32,7 +32,6 @@ angular.module('metricModule').component('metricModule', {
                         $http.get(apiget).then(function successCallback(response) {
                             self.Orgs = [];
                             self.Orgs = response.data.results;
-                            debugger;
                             var http = "/api/v1/data/RegionMetric/?region=" + self.Orgs[0].direccion.pais;
 
                             $http.get(http).then(function (responseorganizations) {
@@ -43,7 +42,6 @@ angular.module('metricModule').component('metricModule', {
                                     self.regionName = data.country;
                                     self.numeroProyectosR = data.numeroProyectos;
                                     self.porcentajesubvencionadoR = (parseFloat(data.porcentajesubvencionado)).toFixed(1);
-                                    debugger;
                                     self.numeroProyectosMedioR = (parseFloat(data.numeroProyectos) / parseFloat(data.numeroEmpresas)).toFixed(1);
                                     self.numeroEmpresas = parseFloat(data.numeroEmpresas)
 
@@ -87,7 +85,6 @@ angular.module('metricModule').component('metricModule', {
 
                                 self.porcentajeRelativo = ((self.porcentajesubvencionadoO / self.porcentajesubvencionadoR) * 100).toFixed(1);
                                 self.proyectosRelativo = (self.numeroProyectosO - self.numeroProyectosMedioR).toFixed(1)
-                                debugger;
 
                             }
 
@@ -122,7 +119,6 @@ angular.module('metricModule').component('metricModule', {
             var labelsubvbar = 'Subvencion Media en la empresa';
             var labelsinsubvbar = 'Subvencion Media de la región';
             self.seriesbar = [labelsubvbar, labelsinsubvbar];
-            debugger;
             self.databar = [[self.porcentajesubvencionadoO], [self.porcentajesubvencionadoR]];
 
 

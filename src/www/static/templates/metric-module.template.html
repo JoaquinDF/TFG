@@ -123,66 +123,12 @@
 
         </div>
 
-        <div class="container-fluid" style="margin-top: 5%; margin-bottom: 5%">
+        <div class="container-fluid" style="margin-top: 5%; margin-bottom: 5%" ng-controller="MAPS">
             <div id="container" class="col-sm-12"
-                 style="position: relative; width: 450px; height: 250px;"></div>
+                 style="position: relative; width: 600px; height: 400px;" ng-init="mapObject()"></div>
 
         </div>
 
-        <script>
-            var map = new Datamap({
-                element: document.getElementById('container'),
-                geographyConfig: {
-                    highlightOnHover: true,
-                    popupOnHover: true
-                },
-                scope: 'world',
-
-
-                fills: {
-                    HIGH: '#afafaf',
-                    LOW: '#123456',
-                    MEDIUM: 'blue',
-                    UNKNOWN: 'rgb(0,0,0)',
-                    defaultFill: '#97BACD'
-                },
-                data: {
-                    IRL: {
-                        fillKey: 'LOW',
-                        numberOfThings: 2002
-                    }, ESP: {
-                        fillKey: 'MEDIUM',
-                        numberOfThings: 2002
-                    }, GB: {
-                        fillKey: 'LOW',
-                        numberOfThings: 2002
-                    }, ITA: {
-                        fillKey: 'LOW',
-                        numberOfThings: 2002
-                    }, IRL: {
-                        fillKey: 'LOW',
-                        numberOfThings: 2002
-                    },
-                    FRA: {
-                        fillKey: 'MEDIUM',
-                        numberOfThings: 10381
-                    }
-                },
-                // Zoom in on EUROPE
-                setProjection: function (element) {
-                    var projection = d3.geo.mercator()
-                        .center([13, 52])
-                        .scale(300)
-                        .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-                    var path = d3.geo.path()
-                        .projection(projection);
-
-
-                    return {path: path, projection: projection};
-                }
-
-            });
-        </script>
 
     </body>
 </html>
