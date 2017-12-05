@@ -4,7 +4,7 @@
 angular.module('metricModule').component('metricModule', {
 
         templateUrl: '/static/templates/metric-module.template.html',
-    controller: ['$http', function CallsListController($http) {
+    controller: ['$http', '$routeParams', function CallsListController($http, $routeParams) {
             var self = this;
 
 
@@ -109,6 +109,19 @@ angular.module('metricModule').component('metricModule', {
 
             }
 
+
+        self.toShow = function () {
+            var a = $routeParams.id;
+            if (a == null) {
+                return false
+            } else {
+                return true
+            }
+
+        }
+            
+            
+            
         self.loadpieporcentaje = function () {
             var labelsubv = 'Presupuesto Subvencionado - %';
             var labelsinsubv = 'Presupuesto sin Subvencionar - %';

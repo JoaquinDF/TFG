@@ -27,13 +27,19 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 }]);
 
 mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
-    $scope.mapObject = function () {
+    $scope.mapObject = function (what) {
 
         var mapdata = {}
         var dataseries = []
         var apiget = '/api/v1/data/RegionMetricToPairDict/'
+        var setobject = {
+            "?": what
+        }
+        document.getElementById('container').innerHTML = "";
 
-        $http.get(apiget).then(function successCallback(response) {
+
+        $http.post(apiget, setobject).then(function successCallback(response) {
+            debugger;
             dataseries = response.data;
 
 
@@ -46,12 +52,12 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
             var paletteScale = d3.scale.linear()
                 .domain([minValue, maxValue])
-                .range(["#ffefef", "#B4213B"]);
-
+                .range(["#FFFFFF", "#5a101d"]);
+            debugger;
             dataseries.forEach(function (item) { //
                 // item example value ["USA", 70]
                 var iso = item[0],
-                    value = item[1];
+                    value = item[1].toFixed(1);
                 mapdata[iso] = {numberOfThings: value, fillColor: paletteScale(value)};
 
             });
@@ -70,8 +76,8 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 // Zoom in on EUROPE
                 setProjection: function (element) {
                     var projection = d3.geo.mercator()
-                        .center([13, 52])
-                        .scale(350)
+                        .center([-15, 56])
+                        .scale(615)
                         .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
                     var path = d3.geo.path()
                         .projection(projection);

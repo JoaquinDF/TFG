@@ -115,15 +115,18 @@
                      style="width: inherit; height: auto;">
                     <div class="w3-bar-item w3-button" onclick="metricShow()">
                         Metrics <i class="fa fa-caret-down"></i></div>
+
                     <div id="demoMetric" class="w3-hide w3-theme w3-card-4">
                         <form>
+                            <a class="w3-bar-item tablink w3-button" id="Metric" href="#!metric"
+                               onclick="tabbarColor('Metric')">Show Global Metrics</a>
+
                             <input size="50" class="w3-input searchtext " ng-model="textmetric"
                                    placeholder=" Insert Orgnization Name " ng-change="onMetricEnter(textmetric)">
                         </form>
 
 
                         <div ng-repeat="organization in Orgs">
-                        <!-- DONT SHOW-->
 
                             <a name="busqueda" class="w3-bar-item tablink w3-button"
                                href="/www/#!/o{{ organization.id }}"

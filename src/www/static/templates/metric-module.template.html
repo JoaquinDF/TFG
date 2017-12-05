@@ -2,7 +2,7 @@
 <html>
 
     <body>
-        <div class="container-fluid row">
+        <div class="container-fluid row" ng-if="$ctrl.toShow()">
 
 
             <div class="container-fluid col-sm-5" style="margin-top: 5%; margin-left: inherit; display: inline-block;">
@@ -10,29 +10,15 @@
 
                 <div class="input-group searchcontainer  " style="display: inline-flex ; width: auto;"
                      ng-controller="LOAD">
-                    <form ng-submit="onURLclick($ctrl.selectmetric.value, $ctrl.textmetric)"
-                          style="display: inline-flex; width: inherit; margin-bottom: 0px">
-                        <input size="50" class="w3-input searchtext" ng-model="$ctrl.textmetric"
-                               placeholder=" Insert Orgnization ID or Name ">
 
-
-                        <select class="selectpicker" ng-init="$ctrl.selectmetric = $ctrl.options[1]"
-                                ng-model="$ctrl.selectmetric" ng-options="option.name for option in $ctrl.options">
-
-                        </select>
-
-
+                    <div ng-if="$ctrl.Proyecto.length>0">
                         <md-button class="md-raised " style="width: 50%;"
-                                   href="/www/#!{{ $ctrl.selectmetric.value }}{{ $ctrl.textmetric }}">Search</a>
-                            <span></span></md-button>
-                        <div ng-if="$ctrl.Proyecto.length>0">
-                            <md-button class="md-raised " style="width: 50%;"
-                                       href="/www/#!o{{ $ctrl.Orgs[0].id }}"></a><span style="margin-top: 10%"
-                                                                                       class="glyphicon glyphicon-paperclip"
-                                                                                       aria-hidden="true"></span>
-                            </md-button>
+                                   href="/www/#!o{{ $ctrl.Orgs[0].id }}"></a><span style="margin-top: 10%"
+                                                                                   class="glyphicon glyphicon-paperclip"
+                                                                                   aria-hidden="true"></span>
+                        </md-button>
 
-                        </div>
+                    </div>
 
                     </form>
                 </div>
@@ -42,12 +28,10 @@
                     <div class="proyectcontainer">
 
 
-  <span ng-if="$ctrl.Orgs.length>0">
+                        <h2>Organizacion:</h2>
 
-                    <h2>Organizacion:</h2>
-
-                         <div ng-repeat="orgs in $ctrl.Orgs">
-                    <a href="/www/#!/metric{{ orgs.id }}" style="display: block">
+                        <div ng-repeat="orgs in $ctrl.Orgs">
+                            <a href="/www/#!/metric{{ orgs.id }}" style="display: block">
 
                                 <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
                                      style="margin-left: 13%">
@@ -71,15 +55,13 @@
                                                         </div>
                                                     </span>
 
-                                        <span ng-if="$last">
+                                    <span ng-if="$last">
                                         <hr class="style2">
                                         </span>
                                 </div>
-                    </a>
+                            </a>
 
                         </div>
-
-                    </span>
 
 
                     </div>
@@ -88,29 +70,31 @@
                 </ul>
             </div>
             <div class="container-fluid col-sm-7 " style="margin-top: 5%; margin-left: inherit; display: inline-block;"
-             ng-controller="Chart">
+                 ng-controller="Chart">
 
-            <div class="row">
+                <div class="row">
 
-                <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadpieporcentaje()">
-                    <h4>Métricas</h4>
+                    <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadpieporcentaje()">
+                        <h4>Métricas</h4>
 
-                    <div class="porcentajesubvencionado col-sm-6">
-                        <h3> % de presupuesto subvencionado:</h3>
-                        <canvas id="pie" class="chart chart-pie"
-                                chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
-                                chart-options="optionspie">
-                        </canvas>
+                        <div class="porcentajesubvencionado col-sm-6">
+                            <h3> % de presupuesto subvencionado:</h3>
+                            <canvas id="pie" class="chart chart-pie"
+                                    chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
+                                    chart-options="optionspie">
+                            </canvas>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="$ctrl.databar" chart-options="optionsbar"
+                                    chart-series="$ctrl.seriesbar">
+
+                            </canvas>
+                        </div>
+
+
                     </div>
-
-                    <div class="col-sm-6">
-                        <canvas id="bar" class="chart chart-bar"
-                                chart-data="$ctrl.databar" chart-options="optionsbar"
-                                chart-series="$ctrl.seriesbar">
-
-                        </canvas>
-                    </div>
-
 
 
                 </div>
@@ -118,17 +102,53 @@
 
             </div>
 
+        </div>
+        <div ng-if="!$ctrl.toShow()" ng-controller="MAPS">
+            <div class="w3-sidebar w3-bar-block w3-theme-d4 w3-card"
+                 style="width:200px; height: 600px; border-radius: 3px">
+                <h5 class="w3-bar-item">Heat Maps</h5>
+                <button id="orgnum" class="w3-bar-item w3-button tablink" ng-click="mapObject('orgnum')"
+                        onclick="tabcolor('orgnum')"> Nº Organizaciones
+                </button>
+                <button id="proynum" class="w3-bar-item w3-button tablink" ng-click="mapObject('proynum')"
+                        onclick="tabcolor('proynum')"> Nº Proyectos
+                </button>
+                <button id="avenum" class="w3-bar-item w3-button tablink" ng-click="mapObject('avenum')"
+                        onclick="tabcolor('avenum')"> ~ Proyectos
+                </button>
+
+                <button id="orgper" class="w3-bar-item w3-button tablink" ng-click="mapObject('orgper')"
+                        onclick="tabcolor('orgper')"> % Subvencion
+                </button>
+            </div>
+
+
+            <div class="container-fluid" style="margin-top: 5%; margin-bottom: 5%">
+                <div id="container" class="col-sm-12"
+                     style="position: relative; width: 1100px; height: 700px;"></div>
+            </div>
+
 
         </div>
-
-        </div>
-
-        <div class="container-fluid" style="margin-top: 5%; margin-bottom: 5%" ng-controller="MAPS">
-            <div id="container" class="col-sm-12"
-                 style="position: relative; width: 600px; height: 400px;" ng-init="mapObject()"></div>
-
-        </div>
-
-
     </body>
+    !
+
+    <script>
+        function tabcolor(id) {
+
+            var i;
+            var x = document.getElementsByClassName("tablink");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.background = 'none';
+                x[i].style.color = '#ffffff';
+
+            }
+            document.getElementById(id).style.background = '#ccc';
+            document.getElementById(id).style.color = '#000000';
+
+
+        }
+
+
+    </script>
 </html>
