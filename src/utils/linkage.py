@@ -71,9 +71,9 @@ def linkage_two_data(c_structured, c_data, s_key, s_columns):
             for i, x in enumerate(s_columns):
                 if x['type'] is 'string':
                     dfs[d_columns[i]] = clean(clean(clean(dfs[x['column']],
-                                                              strip_accents='unicode'),
-                                                        replace_by_none=' '),
-                                                  replace_by_none=x['regex'])
+                                                          strip_accents='unicode'),
+                                                    replace_by_none=' '),
+                                              replace_by_none=x['regex'])
                 elif x['type'] is 'phonenumber':
                     dfs[d_columns[i]] = phonenumbers(dfs[x['column']])
                 else:

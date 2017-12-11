@@ -45,7 +45,6 @@ class DatabaseLinkageViewSet(ViewSet):
         call_linkage_task.delay()
         organization_linkage_task.delay()
         project_linkage_task.delay()
-        person_linkage_task.delay()
         project_call_linkage_task.delay()
         project_organization_linkage_task.delay()
         return Response({'name': 'database_linkage_task', 'queued': True})
