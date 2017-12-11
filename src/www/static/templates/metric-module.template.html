@@ -74,12 +74,12 @@
 
                 <div class="row">
 
-                    <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadpieporcentaje()">
+                    <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadcharts()">
                         <h4>Métricas</h4>
 
                         <div class="porcentajesubvencionado col-sm-6">
                             <h3> % de presupuesto subvencionado:</h3>
-                            <canvas id="pie" class="chart chart-pie"
+                            <canvas id="polar-area" class="chart chart-pie"
                                     chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
                                     chart-options="optionspie">
                             </canvas>
@@ -92,7 +92,11 @@
 
                             </canvas>
                         </div>
+                        <canvas id="polar-area" class="chart chart-bar"
+                                chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar"
+                                chart-options="optionspie">
 
+                        </canvas>
 
                     </div>
 
@@ -131,7 +135,7 @@
 
         </div>
     </body>
-    !
+
 
     <script>
         function tabcolor(id) {

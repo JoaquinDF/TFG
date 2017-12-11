@@ -3,7 +3,7 @@
 // Register `countList` component, along with its associated controller and template!
 angular.module('metricModule').component('metricModule', {
 
-        templateUrl: '/static/templates/metric-module.template.html',
+    templateUrl: '/static/templates/metric-module.template.html',
     controller: ['$http', '$routeParams', function CallsListController($http, $routeParams) {
             var self = this;
 
@@ -119,10 +119,9 @@ angular.module('metricModule').component('metricModule', {
             }
 
         }
-            
-            
-            
-        self.loadpieporcentaje = function () {
+
+
+        self.loadcharts = function () {
             var labelsubv = 'Presupuesto Subvencionado - %';
             var labelsinsubv = 'Presupuesto sin Subvencionar - %';
             self.labelspie = [labelsubv, labelsinsubv];

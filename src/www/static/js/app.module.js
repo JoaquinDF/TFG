@@ -14,7 +14,7 @@ var Appmodule = angular.module('innhomeweb', [
     'metricModule',
     'ngRoute',
     'datamaps',
-    ]);
+]);
 
 Appmodule.config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
@@ -66,27 +66,53 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
 
     $scope.helloworld = "HI!";
     $scope.textmetric = "";
-    $scope.onMetricEnter = function (url1) {
-        if (url1 == "") {
-            $scope.Orgs = [];
+    $scope.onMetricEnter = function (url1, where) {
 
-        } else {
+        if (where == "orgs") {
+            if (url1 == "") {
+                $scope.Orgs = $scope.Orgs.clear();
 
-            var apiget = '/api/v1/data/organization/?format=json&name=' + url1;
-            $scope.Orgs;
-            $http.get(apiget).then(function successCallback(response) {
-                $scope.Orgs = (response.data.results)
-                if ($scope.Orgs.length > 5) {
-                    debugger
-                    $scope.Orgs = $scope.Orgs.slice(0, 5)
-                }
-                debugger;
+            } else {
 
-            });
+                var apiget = '/api/v1/data/organization/?format=json&name=' + url1;
+                $scope.Orgs;
+                $http.get(apiget).then(function successCallback(response) {
+                    $scope.Orgs = (response.data.results)
+                    if ($scope.Orgs.length > 5) {
+                        debugger
+                        $scope.Orgs = $scope.Orgs.slice(0, 5)
+                    }
+                    debugger;
+
+                });
+            }
+
+
+        } else if (where == "proy") {
+            if (url1 == "") {
+                $scope.Proyectos = $scope.Proyectos.clear()
+
+            } else {
+
+                var apiget = '/api/v1/data/project/?format=json&name=' + url1;
+                $scope.Proyectos;
+                $http.get(apiget).then(function successCallback(response) {
+                    $scope.Proyectos = (response.data.results)
+                    if ($scope.Proyectos.length > 5) {
+                        debugger
+                        $scope.Proyectos = $scope.Proyectos.slice(0, 5)
+                    }
+                    debugger;
+
+                });
+            }
+
+
         }
 
 
     }
+
     $scope.debug = function (a, b) {
         debugger;
 

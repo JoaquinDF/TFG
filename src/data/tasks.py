@@ -43,6 +43,35 @@ class UtilsCity:
 
 
 @shared_task
+def changeSectors():
+    # Se pretende cambiar todos los sectores de H2020
+    # HES: Higher or SecondaryEducation
+    # PRC: Private for Profit(excluding Education)
+    # PUB: Public body(excluding Research and Education)
+    # REC: Research Organisations
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        cursorOrganiaztion = db['data.organizations']
+        organizations = cursorOrganiaztion.find({}, no_cursor_timeout=True)
+        for organization in organizations:
+            if not organization['sector'] or not organization['sector'][0]:
+                continue
+            if len(organization['sector'][0]) == 3:
+                if organization['sector'][0] == 'HES':
+                    organization['sector'][0] = 'Higher or SecondaryEducation'
+                elif organization['sector'][0] == 'PRC':
+                    organization['sector'][0] = 'Private for Profit(excluding Education)'
+                elif organization['sector'][0] == 'PUB':
+                    organization['sector'][0] = 'Public body(excluding Research and Education)'
+                elif organization['sector'][0] == 'REC':
+                    organization['sector'][0] = 'Research Organisations'
+                elif organization['sector'][0] == 'OTH':
+                    organization['sector'][0] = 'Other'
+            db.data.organizations.save(organization)
+    organizations.close()
+
+
+@shared_task
 def CreateAllMetrics():
     with Mongodb() as mongodb:
         db = mongodb.db

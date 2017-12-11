@@ -149,9 +149,10 @@ class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
         return queryset
 
 
-class RegionMetricViewSet(ReadOnlyModelViewSet):
-    queryset = RegionMetric.objects.all()
-    serializer_class = RegionMetricSerializer
+class SectorMetricViewSet(ReadOnlyModelViewSet):
+    queryset = Organizacion.objects.all()
+    serializer_class = OrganizationMetric
+
 
 
 # PERSON-PROJECT
