@@ -7,6 +7,8 @@ from rest_framework.viewsets import ViewSet
 import requests
 import pprint
 import os
+import collections
+
 from .serializers import *
 
 
@@ -149,11 +151,26 @@ class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
         return queryset
 
 
-class SectorMetricViewSet(ReadOnlyModelViewSet):
-    queryset = Organizacion.objects.all()
-    serializer_class = OrganizationMetric
+class SectorMetricViewSet(ViewSet):
+    def create(self, request):
+        queryset = Organizacion.objects.all()
+        region = request.data.get('region', '*')
+        print(region)
+        salida = []
+        if region is not None:
+            print(region)
 
+            queryset = queryset.filter(direccion__pais__iexact=region)
+            for org in queryset:
+                try:
+                    salida.append(org.sector)
+                except Exception:
+                    continue
+            flat_list = [item for sublist in salida for item in sublist]
+            pprint.pprint(flat_list)
 
+            counter = collections.Counter(flat_list)
+        return Response(counter)
 
 # PERSON-PROJECT
 class PersonProjectViewSet(ReadOnlyModelViewSet):
