@@ -24,10 +24,15 @@ class Bot(object, metaclass=ABCMeta):
         with Mongodb() as mongodb:
             db = mongodb.db
             requests = []
+            limit = 1000
             for doc in self.process_item(db=db):
                 key = doc
                 for s in self.key.split('.'):
                     key = key[s]
                 requests.append(ReplaceOne(filter={self.key: key}, replacement=doc, upsert=True))
-            mongodb.do_bulk_requests(requests,collection=self.collection)
+                if len(requests) == limit:
+                    mongodb.do_bulk_requests(requests=requests,collection=self.collection)
+                    requests = []
+            if len(requests) > 0:
+                mongodb.do_bulk_requests(requests=requests, collection=self.collection)
         return True

@@ -24,8 +24,7 @@ class Mongodb(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.__c__.close()
 
-    def do_bulk_requests(self, requests, collection):
-        limit = 1000
+    def do_bulk_requests(self, requests, collection, limit=1000):
         c = self.db[collection]
         chunks = [requests[x:x + limit] for x in range(0, len(requests), limit)]
         for chunk in chunks:

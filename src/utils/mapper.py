@@ -70,10 +70,15 @@ def data_mapping(mapper, template, data_type):
         c = db[collection]
         c.delete_many({})
         requests = []
+        limit = 1000
         for original in db[mapper.collection].find({}):
             copy = copy_object(original, template, mapper)
             requests.append(ReplaceOne(filter={'_id': copy.id}, replacement=copy.to_mongo(), upsert=True))
-        mongodb.do_bulk_requests(requests,collection=collection)
+            if len(requests) == limit:
+                mongodb.do_bulk_requests(requests=requests, collection=collection)
+                requests = []
+        if len(requests) > 0:
+            mongodb.do_bulk_requests(requests=requests, collection=collection)
 
 def remove_duplicates(mapper, data_type):
     with Mongodb() as mongodb:
