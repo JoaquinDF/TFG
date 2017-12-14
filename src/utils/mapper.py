@@ -15,6 +15,7 @@ def __get_nested_docs__(field, doc):
             break
     return tmp
 
+
 def __float_formatter__(string):
     s = string.replace(' ', '').replace('€', '').replace(',', '.')
     l = s.split('.')
@@ -30,6 +31,7 @@ def __float_formatter__(string):
     except ValueError:
         result = None
     return result
+
 
 def copy_object(original, template, mapper):
     copy = template()
@@ -63,6 +65,7 @@ def copy_object(original, template, mapper):
             copy[k] = copy_object(original, doc, mapper[k])
     return copy
 
+
 def data_mapping(mapper, template, data_type):
     with Mongodb() as mongodb:
         db = mongodb.db
@@ -79,6 +82,7 @@ def data_mapping(mapper, template, data_type):
                 requests = []
         if len(requests) > 0:
             mongodb.do_bulk_requests(requests=requests, collection=collection)
+
 
 def remove_duplicates(mapper, data_type):
     with Mongodb() as mongodb:
@@ -101,7 +105,7 @@ def remove_duplicates(mapper, data_type):
             for k in doc["unique_ids"]:
                 response.append(k)
         requests.append(DeleteMany({"_id": {"$in": response}}))
-        mongodb.do_bulk_requests(requests, collection=collection)
+        mongodb.do_bulk_requests(requests=requests, collection=collection)
 
 
 def remove_empty(mapper, format_class, data_type):
@@ -112,7 +116,7 @@ def remove_empty(mapper, format_class, data_type):
         for k, v in keys:
             if k != 'id':
                 requests.append(DeleteMany({k: ""}))
-        mongodb.do_bulk_requests(requests, collection=collection)
+        mongodb.do_bulk_requests(requests=requests, collection=collection)
 
 # TODO: Add iterate over collections
 # TODO: Delete duplicates

@@ -11,14 +11,17 @@ class Bot(object, metaclass=ABCMeta):
     def collection(self):
         pass
 
+
     @property
     @abstractmethod
     def key(self):
         pass
 
+
     @abstractmethod
     def process_item(self, db=None) -> collections.Iterable:
         pass
+
 
     def run(self):
         with Mongodb() as mongodb:

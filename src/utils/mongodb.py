@@ -15,14 +15,17 @@ class Mongodb(object):
         self.pwd = settings['Pwd']
         self.source = settings['Source']
 
+
     def __enter__(self):
         self.__c__ = MongoClient()
         self.db = self.__c__[self.source]
         self.db.authenticate(self.user, self.pwd, source=self.source)
         return self
 
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.__c__.close()
+
 
     def do_bulk_requests(self, requests, collection, limit=1000):
         c = self.db[collection]
