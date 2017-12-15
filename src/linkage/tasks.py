@@ -7,7 +7,7 @@ import utils.linkage as l
 
 from celery import shared_task
 from pymongo.errors import BulkWriteError
-from recordlinkage.standardise import clean
+from recordlinkage.standardise import clean, phonenumbers
 
 from utils.mongodb import Mongodb
 
@@ -15,16 +15,31 @@ from utils.mongodb import Mongodb
 @shared_task
 def call_linkage_task():
     logging.debug('calls_linkage_task: started')
-    l.linkage_two_data(c_structured='structured.calls.',
-                       c_data='data.calls',
-                       s_key='tituloConvocatoria',
-                       s_columns=[
-                           {
-                               'column': 'tituloConvocatoria',
-                               'type': 'string',
-                               'regex': None
-                           }
-                       ])
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        cols = [col for col in db.collection_names() if col.startswith('structured.calls.')]
+        for col in cols:
+            c = db[col]
+            cursor = c.find({})
+            dfa = pd.DataFrame(list(cursor))
+            dfa['ctituloConvocatoria'] = clean(clean(dfa['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+            collection = db['data.calls']
+            cursor = collection.find({})
+            if collection.count() == 0:
+                del dfa['ctituloConvocatoria']
+                l.duplicate_collection(dfa, db, 'data.calls')
+            else:
+                dfb = pd.DataFrame(list(cursor))
+                dfb['ctituloConvocatoria'] = clean(clean(dfb['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+                indexer = rl.SortedNeighbourhoodIndex(on='ctituloConvocatoria', window=9)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
+                # compare_cl.string('ctituloConvocatoria','ctituloConvocatoria', 'damerau_levenshtein', threshold=.9, name='tituloConvocatoria')
+                compare_cl.exact('ctituloConvocatoria', 'ctituloConvocatoria', name='tituloConvocatoria')
+                df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+                del dfa['ctituloConvocatoria']
+                del dfb['ctituloConvocatoria']
+                l.save_docs(df, dfa, dfb, db, 'data.calls')
     logging.debug('calls_linkage_task: ended')
     results = {
         'task': 'calls_linkage_task',
@@ -36,16 +51,31 @@ def call_linkage_task():
 @shared_task
 def organization_linkage_task():
     logging.debug('organization_linkage_task: started')
-    l.linkage_two_data(c_structured='structured.organizations.',
-                       c_data='data.organizations',
-                       s_key='nombre',
-                       s_columns=[
-                           {
-                               'column': 'nombre',
-                               'type': 'string',
-                               'regex': r'\b(sa|sl| )\b'
-                           }
-                       ])
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        cols = [col for col in db.collection_names() if col.startswith('structured.organizations.')]
+        for col in cols:
+            c = db[col]
+            cursor = c.find({})
+            dfa = pd.DataFrame(list(cursor))
+            dfa['cnombre'] = clean(clean(clean(dfa['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
+            c = db['data.organizations']
+            cursor = c.find({})
+            if c.count() == 0:
+                del dfa['cnombre']
+                l.duplicate_collection(dfa, db, 'data.organizations')
+            else:
+                dfb = pd.DataFrame(list(cursor))
+                dfb['cnombre'] = clean(clean(clean(dfb['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
+                indexer = rl.SortedNeighbourhoodIndex(on='cnombre', window=9)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
+                # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
+                compare_cl.exact('cnombre', 'cnombre', name='nombre')
+                df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+                del dfa['cnombre']
+                del dfb['cnombre']
+                l.save_docs(df, dfa, dfb, db, 'data.organizations')
     logging.debug('organization_linkage_task: ended')
     results = {
         'task': 'organization_linkage_task',
@@ -57,16 +87,31 @@ def organization_linkage_task():
 @shared_task
 def project_linkage_task():
     logging.debug('project_linkage_task: started')
-    l.linkage_two_data(c_structured='structured.projects.',
-                       c_data='data.projects',
-                       s_key='tituloProyecto',
-                       s_columns=[
-                           {
-                               'column': 'tituloProyecto',
-                               'type': 'string',
-                               'regex': None
-                           }
-                       ])
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        cols = [col for col in db.collection_names() if col.startswith('structured.projects.')]
+        for col in cols:
+            c = db[col]
+            cursor = c.find({})
+            dfa = pd.DataFrame(list(cursor))
+            dfa['ctituloProyecto'] = clean(clean(dfa['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+            c = db['data.projects']
+            cursor = c.find({})
+            if c.count() == 0:
+                del dfa['ctituloProyecto']
+                l.duplicate_collection(dfa, db, 'data.projects')
+            else:
+                dfb = pd.DataFrame(list(cursor))
+                dfb['ctituloProyecto'] = clean(clean(dfb['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+                indexer = rl.SortedNeighbourhoodIndex(on='ctituloProyecto', window=9)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
+                # compare_cl.string('ctituloProyecto','ctituloProyecto', 'damerau_levenshtein', threshold=.9, name='tituloProyecto')
+                compare_cl.exact('ctituloProyecto', 'ctituloProyecto', name='tituloProyecto')
+                df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+                del dfa['ctituloProyecto']
+                del dfb['ctituloProyecto']
+                l.save_docs(df, dfa, dfb, db, 'data.projects')
     logging.debug('project_linkage_task: ended')
     results = {
         'task': 'project_linkage_task',
@@ -78,25 +123,45 @@ def project_linkage_task():
 @shared_task
 def person_linkage_task():
     logging.debug('person_linkage_task: started')
-    l.linkage_two_data(c_structured='structured.persons.',
-                       c_data='data.persons',
-                       s_key='telefono',
-                       s_columns=[
-                           {
-                               'column': 'nombre',
-                               'type': 'string',
-                               'regex': None
-                           },
-                           {
-                               'column': 'apellidos',
-                               'type': 'string',
-                               'regex': None
-                           },
-                           {
-                               'column': 'telefono',
-                               'type': 'phonenumber',
-                           }
-                       ])
+    with Mongodb() as mongodb:
+        db = mongodb.db
+        cols = [col for col in db.collection_names() if col.startswith('structured.persons.')]
+        for col in cols:
+            c = db[col]
+            cursor = c.find({})
+            dfa = pd.DataFrame(list(cursor))
+            dfa['cnombre'] = clean(clean(dfa['nombre'], strip_accents='unicode'), replace_by_none=' ')
+            dfa['capellidos'] = clean(clean(dfa['apellidos'], strip_accents='unicode'), replace_by_none=' ')
+            dfa['ctelefono'] = phonenumbers(dfa['telefono'])
+            c = db['data.persons']
+            cursor = c.find({})
+            if c.count() == 0:
+                del dfa['cnombre']
+                del dfa['capellidos']
+                del dfa['ctelefono']
+                l.duplicate_collection(dfa, db, 'data.persons')
+            else:
+                dfb = pd.DataFrame(list(cursor))
+                dfb['cnombre'] = clean(clean(dfb['nombre'], strip_accents='unicode'), replace_by_none=' ')
+                dfb['capellidos'] = clean(clean(dfb['apellidos'], strip_accents='unicode'), replace_by_none=' ')
+                dfb['ctelefono'] = phonenumbers(dfb['telefono'])
+                indexer = rl.SortedNeighbourhoodIndex(on='ctelefono', window=9)
+                pairs = indexer.index(dfa, dfb)
+                compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
+                # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
+                compare_cl.exact('cnombre', 'cnombre', name='nombre')
+                # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
+                compare_cl.exact('capellidos', 'capellidos', name='apellidos')
+                # compare_cl.string('cnombre','cnombre', 'damerau_levenshtein', threshold=.9, name='nombre')
+                compare_cl.exact('ctelefono', 'ctelefono', name='telefono')
+                df = compare_cl.vectors[compare_cl.vectors.sum(axis=1) >= 1]
+                del dfa['cnombre']
+                del dfb['cnombre']
+                del dfa['capellidos']
+                del dfb['capellidos']
+                del dfa['ctelefono']
+                del dfb['ctelefono']
+                l.save_docs(df, dfa, dfb, db, 'data.persons')
     logging.debug('person_linkage_task: ended')
     results = {
         'task': 'person_linkage_task',
