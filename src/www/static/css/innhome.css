@@ -34,16 +34,13 @@ h2 {
 
 a {
     width: 50%;
-    border-radius: 12px;
+    border-radius: 0px;
 
 }
 
 a:focus {
     text-decoration: none;
 }
-
-
-
 
 a:hover {
     background-color: rgba(175, 175, 175, 0.22)
@@ -74,8 +71,9 @@ a:hover {
 }
 
 .w3-button:hover {
-    border-radius: 12px;
+    border-radius: 0px;
 }
+
 .w3-input {
     background-color: transparent;
     border-color: #f6f6f6;
@@ -97,9 +95,22 @@ a:hover {
 
 }
 
+.tablink:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.tablink:focus {
+    color: white;
+}
+
 a:hover {
     text-decoration: none;
     color: black;
+}
+
+a:focus {
+    color: white;
 }
 
 .selectfontsize {
@@ -117,7 +128,6 @@ a:hover {
     content: "BORRAR";
 
 }
-
 
 .searchcontainer {
     padding: 5px 2px;
@@ -168,7 +178,6 @@ a:hover {
 .green {
     color: limegreen;
 }
-
 
 hr.style2 {
     border-top: 1px solid #c62540;
@@ -230,7 +239,7 @@ hr.style1 {
     text-align: center;
 }
 
-.md-primary{
+.md-primary {
     margin-left: 15px;
 
 }

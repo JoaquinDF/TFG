@@ -1,14 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 
 import json
+import math
+import pprint
+import sys
 
 from celery import shared_task
 from utils.mongodb import Mongodb
-from bson import ObjectId
-import numpy as np
-import pprint
-import math
-import sys
 
 
 class UtilsCity:
@@ -23,8 +21,8 @@ class UtilsCity:
             # print(city.lower())
 
             if dict['City'].lower() == city.lower():
-                    pais = (dict['Country'])
-                    return pais
+                pais = (dict['Country'])
+                return pais
         return 'PAIS'
 
     def getEU(city):
@@ -35,10 +33,10 @@ class UtilsCity:
         for (dict) in data:
 
             if dict['City'].lower() == city.lower():
-                    if 'Europe' in dict['State']:
-                        print(dict['State'])
-                        print(dict['City'].lower())
-                        return True
+                if 'Europe' in dict['State']:
+                    print(dict['State'])
+                    print(dict['City'].lower())
+                    return True
         return False
 
 
@@ -69,6 +67,30 @@ def changeSectors():
                     organization['sector'][0] = 'Other'
             db.data.organizations.save(organization)
     organizations.close()
+
+
+@shared_task
+def getfp7Objetives():
+    with Mongodb() as mongodb:
+        path = '/home/bisite/innhome/innhome/src/www/static/json/objetives.json'
+        file = open(path, 'w+')
+        db = mongodb.db
+        cursorFP7 = db['bots.fp7.projects']
+        fp7objetives = []
+        data = cursorFP7.find({}, no_cursor_timeout=True)
+        i = 0
+        x = []
+        for fp7 in data:
+            i += 1
+            print(str(i) + ' / ' + str(data.count()) + '//  fp7length = ' + str(len(fp7objetives)))
+
+            fp7objetives.append(fp7['objective'])
+        data.close()
+
+        from json import dumps as jsdumper
+        dict = jsdumper(fp7objetives)
+        file.write(dict)
+        file.close()
 
 
 @shared_task

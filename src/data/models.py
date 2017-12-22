@@ -1,10 +1,10 @@
 from mongoengine import *
 
+
 class Convocatoria(Document):
     tituloConvocatoria = StringField()
     fechaFinPresentacion = StringField()
     presupuesto = StringField()
-
 
     meta = {
         'collection': 'data.calls'

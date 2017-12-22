@@ -1,20 +1,20 @@
+import collections
+import pprint
+
+import os
+import requests
 from bson.objectid import ObjectId
 from rest_framework import filters
 from rest_framework import generics
-from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
-import requests
-import pprint
-import os
-import collections
 
 from .serializers import *
 
 
 # CALL
 class CallViewSet(ReadOnlyModelViewSet):
-
     serializer_class = ConvocatoriaSerializer
     queryset = Convocatoria.objects.all();
     filter_backends = (filters.OrderingFilter,)
@@ -32,18 +32,14 @@ class CallViewSet(ReadOnlyModelViewSet):
         return queryset
 
 
-
-
-
-
-
 # PROJECT
-class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
+class ProjectViewSet(ReadOnlyModelViewSet, generics.ListAPIView):
     serializer_class = ProyectoSerializer
     queryset = Proyecto.objects.all()
 
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('tituloProyecto',)
+
     def get_queryset(self):
 
         """
@@ -60,13 +56,13 @@ class ProjectViewSet(ReadOnlyModelViewSet , generics.ListAPIView):
             queryset = queryset.filter(tituloProyecto__icontains=username)
         return queryset
 
+
 # ORGANIZATION
 class OrganizationViewSet(ReadOnlyModelViewSet):
     serializer_class = OrganizacionSerializer
     queryset = Organizacion.objects.all()
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('nombre',)
-
 
     def get_queryset(self):
 
@@ -76,7 +72,6 @@ class OrganizationViewSet(ReadOnlyModelViewSet):
             queryset = queryset.filter(id=ObjectId(query_params))
             return queryset
 
-
         query_params = self.request.query_params.get('nation', None)
         if query_params is not None and query_params == 'ESP':
             queryset = queryset.filter(direccion__pais__icontains='pain')
@@ -85,13 +80,10 @@ class OrganizationViewSet(ReadOnlyModelViewSet):
             queryset = queryset.filter(direccion__european=True)
             return queryset
 
-
         query_params = self.request.query_params.get('name', None)
         if query_params is not None:
             queryset = queryset.filter(nombre__icontains=query_params)
         return queryset
-
-
 
 
 # PERSON
@@ -103,7 +95,6 @@ class PersonViewSet(ReadOnlyModelViewSet):
 # PROJECT-CALL
 class ProjectCallViewSet(ReadOnlyModelViewSet):
     serializer_class = ProyectoConvocatoriaSerializer
-
 
     def get_queryset(self):
         """
@@ -124,13 +115,9 @@ class ProjectCallViewSet(ReadOnlyModelViewSet):
         return queryset
 
 
-
-
 # PROJECT-ORGANIZATION
 class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
-
     serializer_class = ProyectoOrganizacionSerializer
-
 
     def get_queryset(self):
         """
@@ -155,24 +142,26 @@ class SectorMetricViewSet(ViewSet):
     def create(self, request):
         queryset = Organizacion.objects.all()
         region = request.data.get('region', '*')
-        print(region)
         salida = []
-        if region is not None:
-            print(region)
+        if region is not '*':
 
             queryset = queryset.filter(direccion__pais__iexact=region)
             for org in queryset:
                 try:
-                    salida.append(org.sector)
+                    salida.append(org.sector[0].lower())
                 except Exception:
                     continue
-            flat_list = [item for sublist in salida for item in sublist]
-            pprint.pprint(flat_list)
 
-            counter = collections.Counter(flat_list)
+            counter = collections.Counter(salida)
+            pprint.pprint(counter)
+
         return Response(counter)
 
-# PERSON-PROJECT
+
+
+        # PERSON-PROJECT
+
+
 class PersonProjectViewSet(ReadOnlyModelViewSet):
     queryset = PersonaProyecto.objects.all()
     serializer_class = PersonaProyectoSerializer

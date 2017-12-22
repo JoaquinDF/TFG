@@ -8,25 +8,19 @@
             <div class="container-fluid col-sm-5" style="margin-top: 5%; margin-left: inherit; display: inline-block;">
 
 
-                <div class="input-group searchcontainer  " style="display: inline-flex ; width: auto;"
-                     ng-controller="LOAD">
+                <ul class="project" ng-controller="DEBUG">
 
-                    <div ng-if="$ctrl.Proyecto.length>0">
-                        <md-button class="md-raised " style="width: 50%;"
+                    <div class="proyectcontainer">
+
+                    <span ng-if="$ctrl.Proyecto.length>0">
+                        <md-button class="md-raised "
+                                   style="width: auto; position: absolute; top: 0; right: 0; margin-top: 1.5%; margin-right: 3%"
                                    href="/www/#!o{{ $ctrl.Orgs[0].id }}"></a><span style="margin-top: 10%"
                                                                                    class="glyphicon glyphicon-paperclip"
                                                                                    aria-hidden="true"></span>
                         </md-button>
 
-                    </div>
-
-                    </form>
-                </div>
-
-                <ul class="project" ng-controller="DEBUG">
-
-                    <div class="proyectcontainer">
-
+                    </span>
 
                         <h2>Organizacion:</h2>
 
@@ -79,24 +73,32 @@
 
                         <div class="porcentajesubvencionado col-sm-6">
                             <h3> % de presupuesto subvencionado:</h3>
-                            <canvas id="polar-area" class="chart chart-pie"
+                            <canvas id="doughnut" class="chart chart-doughnut"
                                     chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
                                     chart-options="optionspie">
                             </canvas>
                         </div>
 
                         <div class="col-sm-6">
+                            <h3>Subvencion con respecto al País:</h3>
+
                             <canvas id="bar" class="chart chart-bar"
                                     chart-data="$ctrl.databar" chart-options="optionsbar"
                                     chart-series="$ctrl.seriesbar">
 
                             </canvas>
                         </div>
-                        <canvas id="polar-area" class="chart chart-bar"
-                                chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar"
-                                chart-options="optionspie">
+                        <div class="col-sm-6">
+                            <h3>Distribución de los sectores del País:</h3>
 
-                        </canvas>
+                            <canvas id="doughnut" class="chart chart-doughnut"
+                                    chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar"
+                                    chart-options="optionspolar">
+
+                            </canvas>
+
+
+                        </div>
 
                     </div>
 
@@ -107,12 +109,13 @@
             </div>
 
         </div>
-        <div ng-if="!$ctrl.toShow()" ng-controller="MAPS">
+
+        <div ng-if="!$ctrl.toShow()" ng-controller="MAPS" ng-init="mapObject('orgnum')">
             <div class="w3-sidebar w3-bar-block w3-theme-d4 w3-card"
                  style="width:200px; height: 600px; border-radius: 3px">
                 <h5 class="w3-bar-item">Heat Maps</h5>
                 <button id="orgnum" class="w3-bar-item w3-button tablink" ng-click="mapObject('orgnum')"
-                        onclick="tabcolor('orgnum')"> Nº Organizaciones
+                        onclick="tabcolor('orgnum')" style="background: #ccc; color: #000000"> Nº Organizaciones
                 </button>
                 <button id="proynum" class="w3-bar-item w3-button tablink" ng-click="mapObject('proynum')"
                         onclick="tabcolor('proynum')"> Nº Proyectos
@@ -127,9 +130,9 @@
             </div>
 
 
-            <div class="container-fluid" style="margin-top: 5%; margin-bottom: 5%">
-                <div id="container" class="col-sm-12"
-                     style="position: relative; width: 1100px; height: 700px;"></div>
+            <div class="container-fluid" style="margin-top: 2%; margin-bottom: 2%">
+                <div id="container" class="col-sm-12 w3-card"
+                     style="position: relative; width: 1500px; height: 800px;"></div>
             </div>
 
 
@@ -141,6 +144,7 @@
         function tabcolor(id) {
 
             var i;
+            debugger
             var x = document.getElementsByClassName("tablink");
             for (i = 0; i < x.length; i++) {
                 x[i].style.background = 'none';

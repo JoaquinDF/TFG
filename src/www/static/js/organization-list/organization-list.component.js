@@ -48,11 +48,11 @@ angular.module('organizationList').component('organizationList', {
 
 
                 self.onNationChanged = function (where) {
-               if(where){
-                   var togo = '/api/v1/data/organization/?limit=10&nation='+where;
-                    debugger;
+                    if (where) {
+                        var togo = '/api/v1/data/organization/?limit=10&nation=' + where;
+                        debugger;
 
-                    $http.get(togo).then(function (responseorganizations) {
+                        $http.get(togo).then(function (responseorganizations) {
                             if (responseorganizations.data) {
                                 self.organizations = responseorganizations.data.results;
                                 self.organizationsnext = responseorganizations.data.next;
@@ -63,7 +63,7 @@ angular.module('organizationList').component('organizationList', {
 
                             }
                         });
-               }
+                    }
 
 
                 }

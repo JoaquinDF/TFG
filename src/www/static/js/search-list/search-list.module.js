@@ -1,7 +1,7 @@
 'use strict';
 
 // Define the `projectList` module
-var slist= angular.module('searchList', []);
+var slist = angular.module('searchList', []);
 
 slist.controller('LOAD', ['$scope', '$window', function ($scope, $window) {
     $scope.onURLclick = function (url1, url2) {
@@ -13,14 +13,14 @@ slist.controller('LOAD', ['$scope', '$window', function ($scope, $window) {
 }])
 
 
-slist.controller('DEBUG', ['$scope', function($scope) {
+slist.controller('DEBUG', ['$scope', function ($scope) {
 
-    $scope.debug = function (a,b) {
+    $scope.debug = function (a, b) {
 
 
     }
 
-     $scope.isobj = function (a) {
+    $scope.isobj = function (a) {
         return (angular.isObject(a))
     }
 

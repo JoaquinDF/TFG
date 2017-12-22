@@ -76,8 +76,8 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 // Zoom in on EUROPE
                 setProjection: function (element) {
                     var projection = d3.geo.mercator()
-                        .center([-15, 56])
-                        .scale(615)
+                        .center([13, 52])
+                        .scale([element.offsetWidth / 1.5])
                         .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
                     var path = d3.geo.path()
                         .projection(projection);
@@ -125,12 +125,30 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
 mlist.controller('Chart', ['$scope', function ($scope) {
     $scope.optionspie = {
-        tooltips: {bodyFontSize: 20, titleFontSize: 15},
+        tooltips: {bodyFontSize: 15, titleFontSize: 10},
         responsive: true,
         maintainAspectRatio: true,
         display: true,
         legend: {
             display: true,
+            labels: {
+                fontSize: 20,
+
+            }
+        },
+
+    };
+    $scope.optionspolar = {
+        tooltips: {
+            bodyFontSize: 15, titleFontSize: 10,
+
+
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+        display: true,
+        legend: {
+            display: false,
             labels: {
                 fontSize: 20,
 
