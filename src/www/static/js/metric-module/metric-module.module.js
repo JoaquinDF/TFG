@@ -27,6 +27,7 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 }]);
 
 mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
+
     $scope.mapObject = function (what) {
 
         var mapdata = {}
@@ -36,10 +37,11 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
             "?": what
         }
         document.getElementById('container').innerHTML = "";
+        document.getElementById('container').style.display = "block";
+        document.getElementById('sigma-container').style.display = "none";
 
 
         $http.post(apiget, setobject).then(function successCallback(response) {
-            debugger;
             dataseries = response.data;
 
 
@@ -53,7 +55,6 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
             var paletteScale = d3.scale.linear()
                 .domain([minValue, maxValue])
                 .range(["#FFFFFF", "#5a101d"]);
-            debugger;
             dataseries.forEach(function (item) { //
                 // item example value ["USA", 70]
                 var iso = item[0],
@@ -61,7 +62,6 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 mapdata[iso] = {numberOfThings: value, fillColor: paletteScale(value)};
 
             });
-            debugger;
 
             var map = new Datamap({
 
@@ -96,7 +96,6 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                     highlightBorderColor: '#B7B7B7',
                     // show desired information in tooltip
                     popupTemplate: function (geo, mapdata) {
-                        debugger;
                         // don't show tooltip if country don't present in dataset
                         if (!mapdata) {
                             return;
@@ -117,11 +116,94 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
 
     }
-    $scope.debug = function (entrada) {
-        debugger;
-        return entrada;
+    $scope.communityObject = function () {
+        document.getElementById('container').style.display = "none";
+        document.getElementById('sigma-container').style.display = "block";
+        sigma.classes.graph.addMethod('neighbors', function (nodeId) {
+            var k,
+                neighbors = {},
+                index = this.allNeighborsIndex[nodeId] || {};
+
+            for (k in index)
+                neighbors[k] = this.nodesIndex[k];
+
+            return neighbors;
+        });
+
+        sigma.parsers.json('/api/v1/test-files/gexf/', {
+                container: 'sigma-container',
+                renderer: {container: document.getElementById('sigma-container'), type: 'canvas'},
+                settings: {
+                    maxNodeSize: 30,
+                    minEdgeSize: 2,
+                    maxEdgeSize: 2,
+                    minArrowSize: 25,
+                    labelThreshold: 1,
+                    defaultLabelSize: 25,
+
+                }
+
+            },
+
+            function (sigmaInstance) {
+                sigmaInstance.graph.nodes().forEach(function (node, i, a) {
+                    node.x = Math.cos(Math.PI * 2 * i / a.length);
+                    node.y = Math.sin(Math.PI * 2 * i / a.length);
+                });
+                sigmaInstance.refresh();
+                sigmaInstance.startForceAtlas2({
+                    worker: true,
+                    barnesHutOptimize: false,
+                    scalingRatio: 20,
+                });
+
+                setTimeout(function () {
+                    sigmaInstance.stopForceAtlas2();
+                }, 3000);
+
+                sigmaInstance.graph.nodes().forEach(function (n) {
+                    n.originalColor = n.color;
+                });
+                sigmaInstance.graph.edges().forEach(function (e) {
+                    e.originalColor = e.color;
+                });
+
+
+                sigmaInstance.bind('clickNode', function (e) {
+                    var nodeId = e.data.node.id,
+                        toKeep = sigmaInstance.graph.neighbors(nodeId);
+                    toKeep[nodeId] = e.data.node;
+
+                    sigmaInstance.graph.nodes().forEach(function (n) {
+                        if (toKeep[n.id])
+                            n.color = n.originalColor;
+                        else
+                            n.color = 'rgba(198, 36, 63, 0.26)';
+                    });
+
+                    sigmaInstance.graph.edges().forEach(function (e) {
+                        if (toKeep[e.source] && toKeep[e.target])
+                            e.color = e.originalColor;
+                        else
+                            e.color = 'rgba(198, 36, 63, 0.26)';
+                    });
+
+                    // Since the data has been modified, we need to
+                    // call the refresh method to make the colors
+                    // update effective.
+                    sigmaInstance.refresh();
+
+
+                });
+
+
+            });
+
+
     }
-}])
+
+}]);
+
 
 mlist.controller('Chart', ['$scope', function ($scope) {
     $scope.optionspie = {

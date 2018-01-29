@@ -28,6 +28,12 @@ class PersonaSerializer(serializers.DocumentSerializer):
         fields = '__all__'
 
 
+class CommunitySerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Community
+        fields = '__all__'
+
+
 class ProyectoConvocatoriaSerializer(serializers.DocumentSerializer):
     class Meta:
         model = ProyectoConvocatoria

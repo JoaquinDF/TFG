@@ -127,16 +127,38 @@
                 <button id="orgper" class="w3-bar-item w3-button tablink" ng-click="mapObject('orgper')"
                         onclick="tabcolor('orgper')"> % Subvencion
                 </button>
+                <h5 class="w3-bar-item">Communities</h5>
+                <button id="community" class="w3-bar-item w3-button tablink" ng-click="communityObject()"
+                        onclick="tabcolor('community')"> Comunidades
+                </button>
             </div>
 
 
-            <div class="container-fluid" style="margin-top: 2%; margin-bottom: 2%">
-                <div id="container" class="col-sm-12 w3-card"
-                     style="position: relative; width: 1500px; height: 800px;"></div>
+            <div class="container-fluid" id="container-fluid" style="margin-top: 2%; margin-bottom: 2%">
+                <div id="container" class="col-sm-12 w3-card container"
+                     style="position: relative; width: 1500px; height: 800px;">
+
+                </div>
+                <style>
+                    .graph {
+                        margin-left: 20%;
+                        width: 750px;
+                    !important;
+                        height: 750px;
+                    !important;
+                        border: 1px solid black;
+                        position: relative;
+
+                    }
+                </style>
+                <div id="sigma-container" class="graph w3-card"></div>
+
             </div>
 
 
         </div>
+
+
     </body>
 
 

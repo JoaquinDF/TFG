@@ -119,3 +119,13 @@ class PersonaOrganizacion(Document):
     meta = {
         'collection': 'data.person-organization'
     }
+
+
+class Community(Document):
+    best7 = ListField(StringField())
+    projectnames = ListField(StringField())
+    projectCount = StringField()
+
+    meta = {
+        'collection': 'data.community'
+    }

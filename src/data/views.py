@@ -1,5 +1,7 @@
 import collections
 import pprint
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
 
 import os
 import requests
@@ -333,3 +335,17 @@ class OrganizationMetricViewSet(ReadOnlyModelViewSet):
             queryset = queryset.filter(organization=ObjectId(org))
 
         return queryset
+
+
+class CommunityViewSet(ReadOnlyModelViewSet):
+    queryset = Community.objects.all()
+    serializer_class = CommunitySerializer
+
+    def test_files(self, name=None):
+        if name == "gexf":
+            fsock = open('/home/bisite/innhome/innhome/src/www/static/js/metric-module/test.json', "rb")
+            response = HttpResponse(content=fsock)
+            response['Content-Type'] = 'application/gexf'
+            response['Content-Disposition'] = 'attachment; filename="%s.gexf"' \
+                                              % 'whatever'
+            return response

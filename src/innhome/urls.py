@@ -32,6 +32,7 @@ url_api_v1 = [
     url(r'^data/', include(data.urls, namespace='data')),
     url(r'^admin/', include(adminsite.urls, namespace='admin')),
     url(r'^metrics/', include(metrics.urls, namespace='metrics')),
+    url(r'^test-files/(?P<name>.+)/$', data.views.CommunityViewSet.test_files, name='test_files'),
 
 ]
 
