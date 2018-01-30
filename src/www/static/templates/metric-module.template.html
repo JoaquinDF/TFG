@@ -134,7 +134,10 @@
             </div>
 
 
-            <div class="container-fluid" id="container-fluid" style="margin-top: 2%; margin-bottom: 2%">
+            <div class="container-fluid" id="container-fluid" style="display: flex; margin-top: 2%; margin-bottom: 2%"
+                 ng-controller="MAPS">
+
+
                 <div id="container" class="col-sm-12 w3-card container"
                      style="position: relative; width: 1500px; height: 800px;">
 
@@ -142,17 +145,21 @@
                 <style>
                     .graph {
                         margin-left: 20%;
-                        width: 750px;
+                        width: 1200px;
                     !important;
-                        height: 750px;
+                        height: 1200px;
                     !important;
-                        border: 1px solid black;
+
                         position: relative;
 
                     }
                 </style>
                 <div id="sigma-container" class="graph w3-card"></div>
 
+                <div id="nodeinfo" class="nodeinfo" style="margin: 3%">
+                </div>
+                <div id="nodeinfohover" class="nodeinfo " style="margin: 3%">
+                </div>
             </div>
 
 

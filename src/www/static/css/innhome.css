@@ -244,3 +244,12 @@ hr.style1 {
 
 }
 
+.nodeinfo {
+    padding: 2%;
+!important;
+
+    height: fit-content;
+    border-radius: 3px;
+
+}
+

@@ -14,10 +14,6 @@ mlist.controller('LOAD', ['$scope', '$window', function ($scope, $window) {
 
 mlist.controller('DEBUG', ['$scope', function ($scope) {
 
-    $scope.debug = function (a, b) {
-
-
-    }
 
     $scope.isobj = function (a) {
         return (angular.isObject(a))
@@ -27,6 +23,7 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 }]);
 
 mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
+    $scope.nodeinfo = [];
 
     $scope.mapObject = function (what) {
 
@@ -39,7 +36,10 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         document.getElementById('container').innerHTML = "";
         document.getElementById('container').style.display = "block";
         document.getElementById('sigma-container').style.display = "none";
-
+        var nodeinfo = document.getElementsByClassName('nodeinfo');
+        for (var x in nodeinfo.length) {
+            nodeinfo[x].hidden = "true";
+        }
 
         $http.post(apiget, setobject).then(function successCallback(response) {
             dataseries = response.data;
@@ -71,7 +71,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
 
                 fills: {defaultFill: '#F5F5F5'},
-                data: $scope.debug(mapdata),
+                data: mapdata,
 
                 // Zoom in on EUROPE
                 setProjection: function (element) {
@@ -116,19 +116,68 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
 
     }
+
+
+    $scope.reloadinfoonclick = function (info) {
+        debugger;
+        $scope.nodeinfo = info;
+        var arraydata = info.split(" ");
+        var infoinside = "<h3>"
+        for (var data in arraydata) {
+            debugger;
+
+            infoinside += '<br>' + arraydata[data]
+        }
+        infoinside += "</h3>"
+
+        document.getElementById("nodeinfo").innerHTML = infoinside;
+        document.getElementById("nodeinfo").style.background = "rgba(24, 82, 242, 0.21)"
+
+
+    }
+
+    $scope.reloadinfoonhover = function (info) {
+        debugger;
+        $scope.nodeinfo = info;
+        var arraydata = info.split(" ");
+
+        var infoinside = "<h3>"
+        for (var data in arraydata) {
+            debugger;
+
+            infoinside += '<br>' + arraydata[data]
+        }
+        infoinside += "</h3>"
+
+        document.getElementById("nodeinfohover").innerHTML = infoinside;
+        document.getElementById("nodeinfohover").style.background = "rgba(91, 16, 30, 0.21)";
+        var nodeinfo = document.getElementsByClassName('nodeinfo');
+        for (var x in nodeinfo.length) {
+            nodeinfo[x].hidden = "false";
+        }
+    }
+
     $scope.communityObject = function () {
         document.getElementById('container').style.display = "none";
         document.getElementById('sigma-container').style.display = "block";
-        sigma.classes.graph.addMethod('neighbors', function (nodeId) {
-            var k,
-                neighbors = {},
-                index = this.allNeighborsIndex[nodeId] || {};
+        document.getElementById('sigma-container').innerHTML = "";
 
-            for (k in index)
-                neighbors[k] = this.nodesIndex[k];
 
-            return neighbors;
-        });
+        try {
+            sigma.classes.graph.addMethod('neighbors', function (nodeId) {
+                var k,
+                    neighbors = {},
+                    index = this.allNeighborsIndex[nodeId] || {};
+
+                for (k in index)
+                    neighbors[k] = this.nodesIndex[k];
+
+                return neighbors;
+            });
+        } catch (err) {
+            ;
+        }
+
 
         sigma.parsers.json('/api/v1/test-files/gexf/', {
                 container: 'sigma-container',
@@ -154,7 +203,8 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 sigmaInstance.startForceAtlas2({
                     worker: true,
                     barnesHutOptimize: false,
-                    scalingRatio: 20,
+                    scalingRatio: 500,
+                    gravity: 0
                 });
 
                 setTimeout(function () {
@@ -170,13 +220,18 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
 
                 sigmaInstance.bind('clickNode', function (e) {
+
                     var nodeId = e.data.node.id,
                         toKeep = sigmaInstance.graph.neighbors(nodeId);
                     toKeep[nodeId] = e.data.node;
+                    $scope.nodeinfo = e.data.node.info.split(' ');
+                    $scope.reloadinfoonclick(e.data.node.info);
 
                     sigmaInstance.graph.nodes().forEach(function (n) {
-                        if (toKeep[n.id])
+                        if (toKeep[n.id]) {
                             n.color = n.originalColor;
+                            e.data.node.color = '#1954f2'
+                        }
                         else
                             n.color = 'rgba(198, 36, 63, 0.26)';
                     });
@@ -185,7 +240,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                         if (toKeep[e.source] && toKeep[e.target])
                             e.color = e.originalColor;
                         else
-                            e.color = 'rgba(198, 36, 63, 0.26)';
+                            e.color = 'rgba(198, 36, 63, 0.1)';
                     });
 
                     // Since the data has been modified, we need to
@@ -195,10 +250,20 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
 
                 });
+                sigmaInstance.bind('overNode', function (e) {
+
+                    $scope.reloadinfoonhover(e.data.node.info);
+
+
+                });
 
 
             });
 
+
+    }
+    $scope.debug = function (a) {
+        debugger;
 
     }
 
