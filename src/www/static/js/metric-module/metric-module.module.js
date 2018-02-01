@@ -36,6 +36,8 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         document.getElementById('container').innerHTML = "";
         document.getElementById('container').style.display = "block";
         document.getElementById('sigma-container').style.display = "none";
+        document.getElementById('wordcloud').style.display = 'none';
+
         var nodeinfo = document.getElementsByClassName('nodeinfo');
         for (var x in nodeinfo.length) {
             nodeinfo[x].hidden = "true";
@@ -117,47 +119,113 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
     }
 
+    $scope.drawWordCloud = function (text, svglocation) {
+        document.getElementById('wordcloud').style.display = '';
+        var word_count = {};
+
+        var words = [];
+        debugger;
+
+        text.forEach(function (word) {
+            try {
+                var splited = word.split(' ')
+                debugger;
+                var word = splited[1].toLowerCase();
+                word_count[word] = splited[2];
+
+                debugger;
+            } catch (err) {
+                debugger;
+            }
+        })
+
+        debugger;
+
+        var svg_location = svglocation;
+        var width = 800;
+        var height = 400;
+
+        var fill = d3.scale.category20();
+
+        var word_entries = d3.entries(word_count);
+
+        var xScale = d3.scale.log()
+            .domain([d3.min(word_entries, function (d) {
+                return d.value;
+            }), d3.max(word_entries, function (d) {
+                return d.value;
+            })
+            ])
+            .range([20, 150]);
+
+        d3.layout.cloud().size([width, height])
+            .timeInterval(20)
+            .words(word_entries)
+            .fontSize(function (d) {
+                return xScale(+d.value);
+            })
+            .text(function (d) {
+                return d.key;
+            })
+            .rotate(function () {
+                return ~~(Math.random() * 2) * 90;
+            })
+            .font("Impact")
+            .on("end", draw)
+            .start();
+
+        function draw(words) {
+            d3.select(svg_location).append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + [width >> 1, height >> 1] + ")")
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", function (d) {
+                    return xScale(d.value) + "px";
+                })
+                .style("font-family", "Impact")
+                .style("fill", function (d, i) {
+                    return fill(i);
+                })
+                .attr("text-anchor", "middle")
+                .attr("transform", function (d) {
+                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                })
+                .text(function (d) {
+                    return d.key;
+                });
+        }
+
+        d3.layout.cloud().stop();
+    }
+
 
     $scope.reloadinfoonclick = function (info) {
+        document.getElementById("nodeinfo").innerHTML = "";
+
         debugger;
-        $scope.nodeinfo = info;
-        var arraydata = info.split(" ");
-        var infoinside = "<h3>"
-        for (var data in arraydata) {
-            debugger;
+        var arraydata = info.split(",");
+        $scope.drawWordCloud(arraydata, '#nodeinfo')
 
-            infoinside += '<br>' + arraydata[data]
-        }
-        infoinside += "</h3>"
-
-        document.getElementById("nodeinfo").innerHTML = infoinside;
-        document.getElementById("nodeinfo").style.background = "rgba(24, 82, 242, 0.21)"
+        document.getElementById("nodeinfo").style.borderColor = "rgba(24, 82, 242, 0.25)"
 
 
     }
 
     $scope.reloadinfoonhover = function (info) {
-        debugger;
-        $scope.nodeinfo = info;
-        var arraydata = info.split(" ");
+        document.getElementById("nodeinfohover").innerHTML = "";
+        var arraydata = info.split(",");
+        $scope.drawWordCloud(arraydata, '#nodeinfohover')
 
-        var infoinside = "<h3>"
-        for (var data in arraydata) {
-            debugger;
 
-            infoinside += '<br>' + arraydata[data]
-        }
-        infoinside += "</h3>"
+        document.getElementById("nodeinfohover").style.borderColor = "rgba(91, 16, 30, 0.25)";
 
-        document.getElementById("nodeinfohover").innerHTML = infoinside;
-        document.getElementById("nodeinfohover").style.background = "rgba(91, 16, 30, 0.21)";
-        var nodeinfo = document.getElementsByClassName('nodeinfo');
-        for (var x in nodeinfo.length) {
-            nodeinfo[x].hidden = "false";
-        }
     }
 
-    $scope.communityObject = function () {
+    $scope.communityObject = function (datajson) {
         document.getElementById('container').style.display = "none";
         document.getElementById('sigma-container').style.display = "block";
         document.getElementById('sigma-container').innerHTML = "";
@@ -178,8 +246,9 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
             ;
         }
 
+        var apicall = '/api/v1/test-files/' + datajson + '/'
 
-        sigma.parsers.json('/api/v1/test-files/gexf/', {
+        sigma.parsers.json(apicall, {
                 container: 'sigma-container',
                 renderer: {container: document.getElementById('sigma-container'), type: 'canvas'},
                 settings: {
@@ -203,9 +272,11 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 sigmaInstance.startForceAtlas2({
                     worker: true,
                     barnesHutOptimize: false,
-                    scalingRatio: 500,
-                    gravity: 0
+                    scalingRatio: 2,
+                    gravity: 1,
+                    linLogMode: true
                 });
+
 
                 setTimeout(function () {
                     sigmaInstance.stopForceAtlas2();
@@ -221,11 +292,14 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
                 sigmaInstance.bind('clickNode', function (e) {
 
+
                     var nodeId = e.data.node.id,
                         toKeep = sigmaInstance.graph.neighbors(nodeId);
                     toKeep[nodeId] = e.data.node;
                     $scope.nodeinfo = e.data.node.info.split(' ');
-                    $scope.reloadinfoonclick(e.data.node.info);
+                    if (e.data.node.color != '#1954f2') {
+                        $scope.reloadinfoonclick(e.data.node.info);
+                    }
 
                     sigmaInstance.graph.nodes().forEach(function (n) {
                         if (toKeep[n.id]) {
@@ -267,7 +341,8 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
     }
 
-}]);
+}])
+;
 
 
 mlist.controller('Chart', ['$scope', function ($scope) {

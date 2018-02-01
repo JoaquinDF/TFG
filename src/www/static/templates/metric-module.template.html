@@ -128,8 +128,8 @@
                         onclick="tabcolor('orgper')"> % Subvencion
                 </button>
                 <h5 class="w3-bar-item">Communities</h5>
-                <button id="community" class="w3-bar-item w3-button tablink" ng-click="communityObject()"
-                        onclick="tabcolor('community')"> Comunidades
+                <button id="communityh2020" class="w3-bar-item w3-button tablink" ng-click="communityObject('h2020')"
+                        onclick="tabcolor('communityh2020')"> Comunidades-H2020
                 </button>
             </div>
 
@@ -139,12 +139,12 @@
 
 
                 <div id="container" class="col-sm-12 w3-card container"
-                     style="position: relative; width: 1500px; height: 800px;">
+                     style="position: relative; width: 1200px; height: 1200px;">
 
                 </div>
                 <style>
                     .graph {
-                        margin-left: 20%;
+                        margin-left: 12%;
                         width: 1200px;
                     !important;
                         height: 1200px;
@@ -154,12 +154,20 @@
 
                     }
                 </style>
-                <div id="sigma-container" class="graph w3-card"></div>
 
-                <div id="nodeinfo" class="nodeinfo" style="margin: 3%">
+                <div id="sigma-container" class="graph w3-card" style="display: inline-table ; "></div>
+
+                <div class="w3-card " id="wordcloud" style="margin: 3%;display: inline-table">
+                    <div id="nodeinfo" class="nodeinfo">
+
+                    </div>
+                    <div id="nodeinfohover" class="nodeinfo ">
+                    </div>
                 </div>
-                <div id="nodeinfohover" class="nodeinfo " style="margin: 3%">
-                </div>
+
+                <!-- <div id="chart"></div>-->
+
+
             </div>
 
 

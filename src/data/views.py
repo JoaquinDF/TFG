@@ -342,8 +342,8 @@ class CommunityViewSet(ReadOnlyModelViewSet):
     serializer_class = CommunitySerializer
 
     def test_files(self, name=None):
-        if name == "gexf":
-            fsock = open('/home/bisite/innhome/innhome/src/www/static/js/metric-module/test.json', "rb")
+        if name == "h2020":
+            fsock = open('/home/bisite/innhome/innhome/src/www/static/js/metric-module/h2020.json', "rb")
             response = HttpResponse(content=fsock)
             response['Content-Type'] = 'application/gexf'
             response['Content-Disposition'] = 'attachment; filename="%s.gexf"' \

@@ -250,6 +250,9 @@ hr.style1 {
 
     height: fit-content;
     border-radius: 3px;
+    border-style: solid;
+    margin-bot: 3%;
+    border-color: transparent;
 
 }
 
