@@ -64,6 +64,7 @@
                 var data = xhr.responseText;
                 data = data.replace("links", "edges")
                 graph = JSON.parse(data);
+                debugger;
                 var i = 0;
                 var j = 0;
                 var paletteScale = d3.scale.linear()

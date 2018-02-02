@@ -124,22 +124,17 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         var word_count = {};
 
         var words = [];
-        debugger;
 
         text.forEach(function (word) {
             try {
                 var splited = word.split(' ')
-                debugger;
                 var word = splited[1].toLowerCase();
                 word_count[word] = splited[2];
 
-                debugger;
             } catch (err) {
-                debugger;
             }
         })
 
-        debugger;
 
         var svg_location = svglocation;
         var width = 800;
@@ -206,7 +201,6 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
     $scope.reloadinfoonclick = function (info) {
         document.getElementById("nodeinfo").innerHTML = "";
 
-        debugger;
         var arraydata = info.split(",");
         $scope.drawWordCloud(arraydata, '#nodeinfo')
 
@@ -229,6 +223,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         document.getElementById('container').style.display = "none";
         document.getElementById('sigma-container').style.display = "block";
         document.getElementById('sigma-container').innerHTML = "";
+
 
 
         try {
@@ -258,6 +253,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                     minArrowSize: 25,
                     labelThreshold: 1,
                     defaultLabelSize: 25,
+                    doubleClickEnabled: false,
 
                 }
 
@@ -317,9 +313,6 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                             e.color = 'rgba(198, 36, 63, 0.1)';
                     });
 
-                    // Since the data has been modified, we need to
-                    // call the refresh method to make the colors
-                    // update effective.
                     sigmaInstance.refresh();
 
 
@@ -327,6 +320,15 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 sigmaInstance.bind('overNode', function (e) {
 
                     $scope.reloadinfoonhover(e.data.node.info);
+
+
+                });
+
+                sigmaInstance.bind('doubleClickNode', function (e) {
+                    debugger;
+                    var community = e.data.node.label;
+                    debugger
+                    $scope.communityObject(community)
 
 
                 });

@@ -11,6 +11,9 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
+import json
+import networkx as nx
+from networkx.readwrite import json_graph
 
 from .serializers import *
 
@@ -18,7 +21,7 @@ from .serializers import *
 # CALL
 class CallViewSet(ReadOnlyModelViewSet):
     serializer_class = ConvocatoriaSerializer
-    queryset = Convocatoria.objects.all();
+    queryset = Convocatoria.objects.all()
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('tituloConvocatoria',)
 
@@ -106,13 +109,11 @@ class ProjectCallViewSet(ReadOnlyModelViewSet):
         queryset = ProyectoConvocatoria.objects.all()
         username = self.request.query_params.get('project', None)
         if username is not None:
-            print(username)
             queryset = queryset.filter(proyecto=ObjectId(username))
             return queryset
 
         username = self.request.query_params.get('call', None)
         if username is not None:
-            print(username)
             queryset = queryset.filter(convocatoria=ObjectId(username))
         return queryset
 
@@ -129,13 +130,11 @@ class ProjectOrganizationViewSet(generics.ListAPIView, ReadOnlyModelViewSet):
         queryset = ProyectoOrganizacion.objects.all()
         username = self.request.query_params.get('project', None)
         if username is not None:
-            print(username)
             queryset = queryset.filter(proyecto=ObjectId(username))
             return queryset
 
         username = self.request.query_params.get('organization', None)
         if username is not None:
-            print(username)
             queryset = queryset.filter(organizacion=ObjectId(username))
         return queryset
 
@@ -155,7 +154,6 @@ class SectorMetricViewSet(ViewSet):
                     continue
 
             counter = collections.Counter(salida)
-            pprint.pprint(counter)
 
         return Response(counter)
 
@@ -186,7 +184,6 @@ class RegionMetricViewSet(ReadOnlyModelViewSet):
         queryset = RegionMetric.objects.all()
         region = self.request.query_params.get('region', None)
         if region is not None:
-            print(region)
             queryset = queryset.filter(country=region)
 
         return queryset
@@ -194,7 +191,6 @@ class RegionMetricViewSet(ReadOnlyModelViewSet):
 
 class RegionMetricToPairDictViewSet(ViewSet):
     def create(self, request):
-        pprint.pprint(request)
         what = request.data.get('?', '*')
 
         if what == 'orgnum':
@@ -225,7 +221,6 @@ class RegionMetricToPairDictViewSet(ViewSet):
                 from json import loads as jsload
                 data = jsload(jsondata)
 
-                pprint.pprint(data)
                 return Response(data)
 
         elif what == 'orgper':
@@ -256,7 +251,6 @@ class RegionMetricToPairDictViewSet(ViewSet):
                 from json import loads as jsload
                 data = jsload(jsondata)
 
-                pprint.pprint(data)
                 return Response(data)
 
         elif what == 'proynum':
@@ -287,7 +281,6 @@ class RegionMetricToPairDictViewSet(ViewSet):
                 from json import loads as jsload
                 data = jsload(jsondata)
 
-                pprint.pprint(data)
                 return Response(data)
         elif what == 'avenum':
             path = '/home/bisite/innhome/innhome/src/www/static/json/Ave-Num.json'
@@ -344,8 +337,24 @@ class CommunityViewSet(ReadOnlyModelViewSet):
     def test_files(self, name=None):
         if name == "h2020":
             fsock = open('/home/bisite/innhome/innhome/src/www/static/js/metric-module/h2020.json', "rb")
+            print(type(fsock))
             response = HttpResponse(content=fsock)
-            response['Content-Type'] = 'application/gexf'
-            response['Content-Disposition'] = 'attachment; filename="%s.gexf"' \
+            response['Content-Type'] = 'application/json'
+            response['Content-Disposition'] = 'attachment; filename="%s.json"' \
                                               % 'whatever'
             return response
+        else:
+            apiurl = '/home/bisite/innhome/innhome/src/www/static/js/metric-module/h2020graph'
+            G = nx.read_sparse6(apiurl)
+            queryset = Community.objects.all()
+            queryset = queryset.filter(communityId=int(name))
+            for nodes in queryset:
+                node = nodes['communityProjects']
+
+            H = G.subgraph(node)
+            HJson = json_graph.node_link_data(H)
+            print(type(HJson))
+
+            print('Subgraph done')
+
+            return HttpResponse(json.dumps(HJson), content_type="application/json")
