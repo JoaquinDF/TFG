@@ -49,8 +49,11 @@ class BotInstance(Bot):
                 except TimeoutException as e:
                     logging.debug(e.msg)
                     continue
-                lines = row.find_elements_by_xpath('.//h2[contains(@class, "text-right")]') + row.find_elements_by_xpath('.//p[contains(@class, "text-right")]')
-                fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono', 'ciudad', 'cp', 'calle', 'antiguedad', 'cif', 'nombre']
+                lines = row.find_elements_by_xpath(
+                    './/h2[contains(@class, "text-right")]') + row.find_elements_by_xpath(
+                    './/p[contains(@class, "text-right")]')
+                fields = ['other', 'matriz', 'administrador', 'n_empleados', 'sector', 'web', 'registro', 'telefono',
+                          'ciudad', 'cp', 'calle', 'antiguedad', 'cif', 'nombre']
                 data = dict()
                 data[fields.pop()] = organization
                 for line in lines:

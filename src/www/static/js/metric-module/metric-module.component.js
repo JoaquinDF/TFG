@@ -167,7 +167,6 @@ angular.module('metricModule').component('metricModule', {
                         Object.values(response.data).forEach(function (number) {
 
                             var a = (number / sum).toFixed(1)
-                            debugger
                             if (a > 0.0) {
                                 diff0 += 1;
                             }
@@ -176,7 +175,6 @@ angular.module('metricModule').component('metricModule', {
 
 
                         self.labelspolar = Object.keys(response.data)
-                        debugger
 
 
                     }

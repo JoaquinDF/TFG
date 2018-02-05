@@ -74,6 +74,7 @@ class DeleteOrganizationMapperViewSet(ViewSet):
         b[0].delete()
         return Response(True)
 
+
 class OrganizationMappingViewSet(ViewSet):
     def create(self, request):
         organization_mapping_task.delay()
@@ -111,7 +112,6 @@ class DeleteProjectCallMapperViewSet(ViewSet):
         return Response(True)
 
 
-
 class ProjectCallMappingViewSet(ViewSet):
     def create(self, request):
         project_call_mapping_task.delay()
@@ -135,8 +135,6 @@ class DeleteProjectOrganizationMapperViewSet(ViewSet):
                 b.append(k)
         b[0].delete()
         return Response(True)
-
-
 
 
 class ProjectOrganizationMappingViewSet(ViewSet):
@@ -163,6 +161,7 @@ class DeletePersonProjectMapperViewSet(ViewSet):
         b[0].delete()
         return Response(True)
 
+
 class PersonProjectMappingViewSet(ViewSet):
     def create(self, request):
         person_project_mapping_task.delay()
@@ -186,6 +185,7 @@ class DeletePersonOrganizationMapperViewSet(ViewSet):
                 b.append(k)
         b[0].delete()
         return Response(True)
+
 
 class PersonOrganizationMappingViewSet(ViewSet):
     def create(self, request):

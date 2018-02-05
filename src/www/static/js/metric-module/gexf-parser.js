@@ -504,7 +504,6 @@
 
         if (async)
             xhr.onreadystatechange = function () {
-                debugger;
                 if (xhr.readyState === 4)
                     callback(getResult(xhr));
             };

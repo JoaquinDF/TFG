@@ -50,7 +50,6 @@ angular.module('organizationList').component('organizationList', {
                 self.onNationChanged = function (where) {
                     if (where) {
                         var togo = '/api/v1/data/organization/?limit=10&nation=' + where;
-                        debugger;
 
                         $http.get(togo).then(function (responseorganizations) {
                             if (responseorganizations.data) {
@@ -69,7 +68,6 @@ angular.module('organizationList').component('organizationList', {
                 }
 
                 self.onHoverMetrics = function (organization) {
-                    debugger;
                     if (!organization)return false;
                     var country = organization.direccion.pais;
 
@@ -96,7 +94,6 @@ angular.module('organizationList').component('organizationList', {
                                     self.porcentajesubvencionadoO = (parseFloat(data.porcentajeSubvencionado)).toFixed(1);
                                     self.numeroProyectosO = data.numeroProyectos;
 
-                                    debugger;
 
                                     self.porcentajeRelativo = ((self.porcentajesubvencionadoO / self.porcentajesubvencionadoR)).toFixed(1);
                                     self.proyectosRelativo = (self.numeroProyectosO - self.numeroProyectosMedioR).toFixed(1)
@@ -111,8 +108,6 @@ angular.module('organizationList').component('organizationList', {
 
                     });
 
-
-                    debugger;
 
                 }
 

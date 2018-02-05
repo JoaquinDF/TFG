@@ -10,19 +10,18 @@ from rest_framework.viewsets import ViewSet
 
 # Create your views here.
 class PeriodicTaskViewSet(ViewSet):
+    def create(self, request):
 
-    def create(self,request):
-
-        #bot/crawlers
+        # bot/crawlers
         task = request.data.get('task', '*')
         args = request.data.get('args', '*')
 
-        #chose interval?crontab
+        # chose interval?crontab
         crontab = request.data.get('crontab', '*')
         interval = request.data.get('interval', '*')
 
         if crontab:
-            #crontabs
+            # crontabs
             minute = request.data.get('minute', '*')
             hour = request.data.get('hour', '*')
             day_of_week = request.data.get('day-week', '*')
@@ -46,7 +45,7 @@ class PeriodicTaskViewSet(ViewSet):
 
 
         else:
-            #intervals
+            # intervals
             intervalevery = request.data.get('intervalevery', '*')
             intervalperiod = request.data.get('intervalperiod', '*')
 
@@ -55,33 +54,26 @@ class PeriodicTaskViewSet(ViewSet):
                 period=intervalperiod, )
 
             PeriodicTask.objects.create(
-                            interval=schedule,
-                            name='Interval' + '/' + task + '/' + args,
-                            task=task,
-                            args=json.dumps([args])
+                interval=schedule,
+                name='Interval' + '/' + task + '/' + args,
+                task=task,
+                args=json.dumps([args])
             )
-
-
 
         return Response(PeriodicTask.objects.name)
 
 
-
 class ListTasksViewSet(ViewSet):
-
     def list(self, request):
         celery_app = current_app
         tasks = list(sorted(name for name in celery_app.tasks
                             if not name.startswith('celery.')))
-
-
 
         return Response(tasks)
 
 
 class ListBotsViewSet(ViewSet):
     def list(self, request):
-
         a = os.listdir('extract/bots')
         b = [k for k in a if '.py' in k if not '__' in k]
         c = [k.split('.')[0] for k in b]
@@ -98,7 +90,6 @@ class ListCrawlersViewSet(ViewSet):
 
 class ScheduleViewSet(ViewSet):
     def list(self, request):
-
         a = [k.name for k in PeriodicTask.objects.all()]
         return Response(a)
 

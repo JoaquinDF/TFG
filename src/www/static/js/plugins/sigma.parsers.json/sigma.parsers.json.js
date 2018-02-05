@@ -64,11 +64,20 @@
                 var data = xhr.responseText;
                 data = data.replace("links", "edges")
                 graph = JSON.parse(data);
-                debugger;
                 var i = 0;
                 var j = 0;
+
+
+                var MIN = graph.nodes.reduce(function (prev, curr) {
+                    return prev.size < curr.size ? prev : curr;
+                });
+                var MAX = graph.nodes.reduce(function (prev, curr) {
+                    return prev.size > curr.size ? prev : curr;
+                });
+
+
                 var paletteScale = d3.scale.linear()
-                    .domain([0, 1320])
+                    .domain([MIN.size, MAX.size])
                     .range(["#000000", "#c62540"]);
 
                 for (i in graph.nodes) {
@@ -76,9 +85,10 @@
                     node.id = (parseFloat(node.id)).toFixed(1).toString()
                     node["info"] = node.label;
                     node.label = parseInt(node.id).toString();
+
                     var colour = paletteScale(node.size)
 
-                    node.size = parseInt((node.size / 875) * 35) + 20
+                    node.size = parseInt((node.size / MAX.size) * 35) + 20
 
                     node["color"] = colour
                 }
@@ -88,19 +98,20 @@
                     edges.id = (parseFloat(j)).toFixed(1).toString()
                     edges.source = (parseFloat(edges.source)).toFixed(1).toString()
                     edges.target = (parseFloat(edges.target)).toFixed(1).toString()
-                    edges["size"] = 2
-                    edges["color"] = "#c62540"
+                    edges["size"] = 1
+                    edges["color"] = 'rgba(198, 36, 63, 0.3)'
 
                 }
 
-
                 // Update the instance's graph:
                 if (sig instanceof sigma) {
+                    sig.graph.kill()
                     sig.graph.clear();
                     sig.graph.read(graph);
 
                     // ...or instantiate sigma if needed:
                 } else if (typeof sig === 'object') {
+
                     sig.graph = graph;
                     sig = new sigma(sig);
 

@@ -73,7 +73,8 @@ def call_linkage_task():
             c = db[col]
             cursor = c.find({})
             dfa = pd.DataFrame(list(cursor))
-            dfa['ctituloConvocatoria'] = clean(clean(dfa['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+            dfa['ctituloConvocatoria'] = clean(clean(dfa['tituloConvocatoria'], strip_accents='unicode'),
+                                               replace_by_none=' ')
             collection = db['data.calls']
             cursor = collection.find({})
             if collection.count() == 0:
@@ -81,7 +82,8 @@ def call_linkage_task():
                 duplicate_collection(dfa, db, 'data.calls')
             else:
                 dfb = pd.DataFrame(list(cursor))
-                dfb['ctituloConvocatoria'] = clean(clean(dfb['tituloConvocatoria'], strip_accents='unicode'), replace_by_none=' ')
+                dfb['ctituloConvocatoria'] = clean(clean(dfb['tituloConvocatoria'], strip_accents='unicode'),
+                                                   replace_by_none=' ')
                 indexer = rl.SortedNeighbourhoodIndex(on='ctituloConvocatoria', window=9)
                 pairs = indexer.index(dfa, dfb)
                 compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
@@ -105,7 +107,8 @@ def organization_linkage_task():
             c = db[col]
             cursor = c.find({})
             dfa = pd.DataFrame(list(cursor))
-            dfa['cnombre'] = clean(clean(clean(dfa['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
+            dfa['cnombre'] = clean(clean(clean(dfa['nombre'], strip_accents='unicode', replace_by_none='.'),
+                                         replace_by_none=r'\b(sa|sl| )\b'))
             c = db['data.organizations']
             cursor = c.find({})
             if c.count() == 0:
@@ -113,7 +116,8 @@ def organization_linkage_task():
                 duplicate_collection(dfa, db, 'data.organizations')
             else:
                 dfb = pd.DataFrame(list(cursor))
-                dfb['cnombre'] = clean(clean(clean(dfb['nombre'], strip_accents='unicode', replace_by_none='.'), replace_by_none=r'\b(sa|sl| )\b'))
+                dfb['cnombre'] = clean(clean(clean(dfb['nombre'], strip_accents='unicode', replace_by_none='.'),
+                                             replace_by_none=r'\b(sa|sl| )\b'))
                 indexer = rl.SortedNeighbourhoodIndex(on='cnombre', window=9)
                 pairs = indexer.index(dfa, dfb)
                 compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)
@@ -145,7 +149,8 @@ def project_linkage_task():
                 duplicate_collection(dfa, db, 'data.projects')
             else:
                 dfb = pd.DataFrame(list(cursor))
-                dfb['ctituloProyecto'] = clean(clean(dfb['tituloProyecto'], strip_accents='unicode'), replace_by_none=' ')
+                dfb['ctituloProyecto'] = clean(clean(dfb['tituloProyecto'], strip_accents='unicode'),
+                                               replace_by_none=' ')
                 indexer = rl.SortedNeighbourhoodIndex(on='ctituloProyecto', window=9)
                 pairs = indexer.index(dfa, dfb)
                 compare_cl = rl.Compare(pairs, dfa, dfb, low_memory=True)

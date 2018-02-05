@@ -352,9 +352,8 @@ class CommunityViewSet(ReadOnlyModelViewSet):
                 node = nodes['communityProjects']
 
             H = G.subgraph(node)
+            nx.set_node_attributes(H, dict(H.degree()), 'size')
             HJson = json_graph.node_link_data(H)
-            print(type(HJson))
-
-            print('Subgraph done')
+            print('Subgraph done - len =  ' + str(len(H)))
 
             return HttpResponse(json.dumps(HJson), content_type="application/json")

@@ -6,7 +6,6 @@ var slist = angular.module('searchList', []);
 slist.controller('LOAD', ['$scope', '$window', function ($scope, $window) {
     $scope.onURLclick = function (url1, url2) {
         var url = "/www/#!" + url1 + url2
-        debugger;
 
         $window.location.href = url
     }
@@ -31,7 +30,6 @@ slist.controller('DEBUG', ['$scope', function ($scope) {
 slist //return the data filtered
     .filter('custom', function () {
         return function (input, search) {
-            debugger;
             var success;
             success = false;
 

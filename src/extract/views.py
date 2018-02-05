@@ -45,10 +45,12 @@ class DataViewSet(ViewSet):
                 prv = nxt = None
                 l = offset - limit
                 if l >= 0:
-                    prv = request.build_absolute_uri(request.path_info + '?collection=' + collection + '&limit=' + str(limit) + '&offset=' + str(l))
+                    prv = request.build_absolute_uri(
+                        request.path_info + '?collection=' + collection + '&limit=' + str(limit) + '&offset=' + str(l))
                 l = offset + limit
                 if l < c.count():
-                    nxt = request.build_absolute_uri(request.path_info + '?collection=' + collection + '&limit=' + str(limit) + '&offset=' + str(l))
+                    nxt = request.build_absolute_uri(
+                        request.path_info + '?collection=' + collection + '&limit=' + str(limit) + '&offset=' + str(l))
                 response = dict()
                 response['count'] = c.count({})
                 response['next'] = nxt

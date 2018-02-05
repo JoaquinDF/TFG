@@ -40,7 +40,6 @@ function metricShow(where) {
     }
 }
 function addData(where) {
-    debugger;
     if (where == 'orgs') {
         var dom_el = document.querySelector('[ng-controller="HandleSearchEvents"]');
         var ng_el = angular.element(dom_el);
@@ -49,11 +48,9 @@ function addData(where) {
         try {
             var x = document.getElementsByName("busquedaorg");
             if (Orgs.length > 0) {
-                debugger;
                 for (var i = 0; i < x.length; i++) {
 
                     x[i].innerText = Orgs[i]["nombre"];
-                    debugger
                     x[i].style.fontSize = "smaller";
                     x[i].href = "/www/#!/metric" + Orgs[i].id;
                 }
@@ -69,11 +66,9 @@ function addData(where) {
         try {
             var x = document.getElementsByName("busquedaproy");
             if (Proyectos.length > 0) {
-                debugger;
                 for (var i = 0; i < x.length; i++) {
 
                     x[i].innerText = Proyectos[i]["tituloProyecto"];
-                    debugger
                     x[i].style.fontSize = "smaller";
                     x[i].href = "/www/#!/p" + Proyectos[i].id;
                 }

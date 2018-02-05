@@ -24,6 +24,7 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 
 mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
     $scope.nodeinfo = [];
+    $scope.initialcommunity = true
 
     $scope.mapObject = function (what) {
 
@@ -123,6 +124,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         document.getElementById('wordcloud').style.display = '';
         var word_count = {};
 
+
         var words = [];
 
         text.forEach(function (word) {
@@ -211,6 +213,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
     $scope.reloadinfoonhover = function (info) {
         document.getElementById("nodeinfohover").innerHTML = "";
+
         var arraydata = info.split(",");
         $scope.drawWordCloud(arraydata, '#nodeinfohover')
 
@@ -221,10 +224,20 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
     $scope.communityObject = function (datajson) {
         document.getElementById('container').style.display = "none";
+
         document.getElementById('sigma-container').style.display = "block";
         document.getElementById('sigma-container').innerHTML = "";
 
 
+        var a = parseInt(datajson)
+        debugger;
+        if (isNaN(a)) {
+            $scope.initialcommunity = true;
+
+        } else {
+            $scope.initialcommunity = false;
+
+        }
 
         try {
             sigma.classes.graph.addMethod('neighbors', function (nodeId) {
@@ -247,11 +260,12 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 container: 'sigma-container',
                 renderer: {container: document.getElementById('sigma-container'), type: 'canvas'},
                 settings: {
-                    maxNodeSize: 30,
-                    minEdgeSize: 2,
-                    maxEdgeSize: 2,
+                    maxNodeSize: 25,
+                    minNodeSize: 7,
+                    minEdgeSize: 1,
+                    maxEdgeSize: 1,
                     minArrowSize: 25,
-                    labelThreshold: 1,
+                    labelThreshold: 25,
                     defaultLabelSize: 25,
                     doubleClickEnabled: false,
 
@@ -261,8 +275,10 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
             function (sigmaInstance) {
                 sigmaInstance.graph.nodes().forEach(function (node, i, a) {
+
                     node.x = Math.cos(Math.PI * 2 * i / a.length);
                     node.y = Math.sin(Math.PI * 2 * i / a.length);
+
                 });
                 sigmaInstance.refresh();
                 sigmaInstance.startForceAtlas2({
@@ -274,10 +290,16 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                 });
 
 
-                setTimeout(function () {
-                    sigmaInstance.stopForceAtlas2();
-                }, 3000);
+                if (sigmaInstance.graph.nodes().length > 75) {
 
+
+                } else {
+                    setTimeout(function () {
+                        sigmaInstance.stopForceAtlas2();
+                    }, 3000);
+
+
+                }
                 sigmaInstance.graph.nodes().forEach(function (n) {
                     n.originalColor = n.color;
                 });
@@ -292,9 +314,10 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                     var nodeId = e.data.node.id,
                         toKeep = sigmaInstance.graph.neighbors(nodeId);
                     toKeep[nodeId] = e.data.node;
-                    $scope.nodeinfo = e.data.node.info.split(' ');
                     if (e.data.node.color != '#1954f2') {
-                        $scope.reloadinfoonclick(e.data.node.info);
+                        if ($scope.initialcommunity) {
+                            $scope.reloadinfoonclick(e.data.node.info);
+                        }
                     }
 
                     sigmaInstance.graph.nodes().forEach(function (n) {
@@ -302,15 +325,26 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
                             n.color = n.originalColor;
                             e.data.node.color = '#1954f2'
                         }
-                        else
-                            n.color = 'rgba(198, 36, 63, 0.26)';
+                        else if ($scope.initialcommunity) {
+                            n.color = 'rgba(198, 36, 63, 0.15)';
+
+                        } else {
+                            n.color = 'rgba(198, 36, 63, 0.05)';
+
+                        }
+
                     });
 
                     sigmaInstance.graph.edges().forEach(function (e) {
                         if (toKeep[e.source] && toKeep[e.target])
                             e.color = e.originalColor;
-                        else
-                            e.color = 'rgba(198, 36, 63, 0.1)';
+                        else if ($scope.initialcommunity) {
+                            e.color = 'rgba(198, 36, 63, 0.15)';
+
+                        } else {
+                            e.color = 'rgba(198, 36, 63, 0.05)';
+
+                        }
                     });
 
                     sigmaInstance.refresh();
@@ -318,23 +352,28 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
                 });
                 sigmaInstance.bind('overNode', function (e) {
+                    console.log($scope.initialcommunity + " overnode")
+                    if ($scope.initialcommunity) {
 
-                    $scope.reloadinfoonhover(e.data.node.info);
 
+                        $scope.reloadinfoonhover(e.data.node.info);
+                    }
 
                 });
 
                 sigmaInstance.bind('doubleClickNode', function (e) {
-                    debugger;
                     var community = e.data.node.label;
-                    debugger
+                    document.getElementById('wordcloud').innerHTML = "";
+                    $scope.initialcommunity = false;
+                    sigmaInstance.graph.clear()
                     $scope.communityObject(community)
 
 
                 });
 
 
-            });
+            }
+        );
 
 
     }

@@ -9,12 +9,10 @@ angular.module('searchList').component('searchList', {
             var x = document.URL;
 
             var projectid, organizationid, callid;
-            debugger;
             var regex = new RegExp('\/(p|o|c|np|no|nc)[0-9a-zA-Z]*');
 
             var tipo = regex.exec(x);
             if (tipo != null) {
-                debugger;
                 switch (tipo[1]) {
 
                     case 'p':

@@ -23,5 +23,3 @@ def crawler_task(spider_name):
     r = crawler.run(s)
     logging.info('crawler_task - {}: ended'.format(spider_name))
     return {'name': spider_name, 'finished': r}
-
-

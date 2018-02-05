@@ -11,8 +11,4 @@ router.register(r'listCrawlers', ListCrawlersViewSet, r'listCrawlers')
 router.register(r'schedule', ScheduleViewSet, r'schedule')
 router.register(r'deleteTask', DeleteTaskViewSet, r'deleteTask')
 
-
-
-
-
 urlpatterns = router.urls
