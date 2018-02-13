@@ -22,9 +22,16 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 
 }]);
 
-mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
+mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, $http, $cacheFactory) {
+    try {
+        console.log("cache")
+        $scope.cache = $cacheFactory('c1');
+    }
+    catch (err) {
+        console.log('Intancia de Cache ya creada')
+    }
     $scope.nodeinfo = [];
-    $scope.initialcommunity = true
+    $scope.initialcommunity = true;
 
     $scope.mapObject = function (what) {
 
@@ -118,7 +125,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         });
 
 
-    }
+    };
 
     $scope.drawWordCloud = function (text, svglocation) {
         document.getElementById('wordcloud').style.display = '';
@@ -197,7 +204,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         }
 
         d3.layout.cloud().stop();
-    }
+    };
 
 
     $scope.reloadinfoonclick = function (info) {
@@ -209,7 +216,7 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         document.getElementById("nodeinfo").style.borderColor = "rgba(24, 82, 242, 0.25)"
 
 
-    }
+    };
 
     $scope.reloadinfoonhover = function (info) {
         document.getElementById("nodeinfohover").innerHTML = "";
@@ -220,24 +227,13 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
 
         document.getElementById("nodeinfohover").style.borderColor = "rgba(91, 16, 30, 0.25)";
 
-    }
+    };
 
     $scope.communityObject = function (datajson) {
         document.getElementById('container').style.display = "none";
 
         document.getElementById('sigma-container').style.display = "block";
         document.getElementById('sigma-container').innerHTML = "";
-
-
-        var a = parseInt(datajson)
-        debugger;
-        if (isNaN(a)) {
-            $scope.initialcommunity = true;
-
-        } else {
-            $scope.initialcommunity = false;
-
-        }
 
         try {
             sigma.classes.graph.addMethod('neighbors', function (nodeId) {
@@ -255,128 +251,169 @@ mlist.controller('MAPS', ['$scope', '$http', function ($scope, $http) {
         }
 
         var apicall = '/api/v1/test-files/' + datajson + '/'
+        var aa = angular.isUndefined($scope.cache.get(datajson)) ? null : $scope.cache.get(datajson);
+        debugger
 
-        sigma.parsers.json(apicall, {
-                container: 'sigma-container',
-                renderer: {container: document.getElementById('sigma-container'), type: 'canvas'},
-                settings: {
-                    maxNodeSize: 25,
-                    minNodeSize: 7,
-                    minEdgeSize: 1,
-                    maxEdgeSize: 1,
-                    minArrowSize: 25,
-                    labelThreshold: 25,
-                    defaultLabelSize: 25,
-                    doubleClickEnabled: false,
+        if (angular.isUndefined($scope.cache.get(datajson))) {
 
-                }
-
-            },
-
-            function (sigmaInstance) {
-                sigmaInstance.graph.nodes().forEach(function (node, i, a) {
-
-                    node.x = Math.cos(Math.PI * 2 * i / a.length);
-                    node.y = Math.sin(Math.PI * 2 * i / a.length);
-
-                });
-                sigmaInstance.refresh();
-                sigmaInstance.startForceAtlas2({
-                    worker: true,
-                    barnesHutOptimize: false,
-                    scalingRatio: 2,
-                    gravity: 1,
-                    linLogMode: true
-                });
+            sigma.parsers.json(apicall, {
+                    renderer: {
+                        container: document.getElementById('sigma-container'),
+                        type: 'canvas',
 
 
-                if (sigmaInstance.graph.nodes().length > 75) {
+                    },
 
+                    settings: {
+                        maxNodeSize: 35,
+                        minNodeSize: 7,
+                        minEdgeSize: 1,
+                        maxEdgeSize: 1,
+                        minArrowSize: 25,
+                        labelThreshold: 75,
+                        defaultLabelSize: 25,
+                        doubleClickEnabled: false,
 
-                } else {
-                    setTimeout(function () {
-                        sigmaInstance.stopForceAtlas2();
-                    }, 3000);
-
-
-                }
-                sigmaInstance.graph.nodes().forEach(function (n) {
-                    n.originalColor = n.color;
-                });
-                sigmaInstance.graph.edges().forEach(function (e) {
-                    e.originalColor = e.color;
-                });
-
-
-                sigmaInstance.bind('clickNode', function (e) {
-
-
-                    var nodeId = e.data.node.id,
-                        toKeep = sigmaInstance.graph.neighbors(nodeId);
-                    toKeep[nodeId] = e.data.node;
-                    if (e.data.node.color != '#1954f2') {
-                        if ($scope.initialcommunity) {
-                            $scope.reloadinfoonclick(e.data.node.info);
-                        }
                     }
+                },
 
-                    sigmaInstance.graph.nodes().forEach(function (n) {
-                        if (toKeep[n.id]) {
-                            n.color = n.originalColor;
-                            e.data.node.color = '#1954f2'
-                        }
-                        else if ($scope.initialcommunity) {
-                            n.color = 'rgba(198, 36, 63, 0.15)';
+                function (sigmaInstance) {
 
-                        } else {
-                            n.color = 'rgba(198, 36, 63, 0.05)';
+                    sigmaInstance.graph.nodes().forEach(function (node, i, a) {
 
-                        }
+                        node.x = Math.cos(Math.PI * 2 * i / a.length);
+                        node.y = Math.sin(Math.PI * 2 * i / a.length);
 
                     });
-
-                    sigmaInstance.graph.edges().forEach(function (e) {
-                        if (toKeep[e.source] && toKeep[e.target])
-                            e.color = e.originalColor;
-                        else if ($scope.initialcommunity) {
-                            e.color = 'rgba(198, 36, 63, 0.15)';
-
-                        } else {
-                            e.color = 'rgba(198, 36, 63, 0.05)';
-
-                        }
-                    });
-
                     sigmaInstance.refresh();
+                    $scope.cache.put(datajson, sigmaInstance);
+
+                    sigmaInstance.startForceAtlas2({
+                        worker: true,
+                        barnesHutOptimize: false,
+                        scalingRatio: 2,
+                        gravity: 1,
+                        linLogMode: true
+                    });
 
 
-                });
-                sigmaInstance.bind('overNode', function (e) {
-                    console.log($scope.initialcommunity + " overnode")
-                    if ($scope.initialcommunity) {
+                    if (sigmaInstance.graph.nodes().length > 75) {
+                        setTimeout(function () {
+                            $scope.cache.put(datajson, sigmaInstance.graph.nodes());
+
+                        }, 3000);
+
+                    } else {
+                        setTimeout(function () {
+                            sigmaInstance.stopForceAtlas2();
+                            $scope.cache.put('initialnodepos', sigmaInstance.graph.nodes());
+
+                        }, 3000);
 
 
-                        $scope.reloadinfoonhover(e.data.node.info);
                     }
-
-                });
-
-                sigmaInstance.bind('doubleClickNode', function (e) {
-                    var community = e.data.node.label;
-                    document.getElementById('wordcloud').innerHTML = "";
-                    $scope.initialcommunity = false;
-                    sigmaInstance.graph.clear()
-                    $scope.communityObject(community)
+                    sigmaInstance.graph.nodes().forEach(function (n) {
+                        n.originalColor = n.color;
+                    });
+                    sigmaInstance.graph.edges().forEach(function (e) {
+                        e.originalColor = e.color;
+                    });
 
 
-                });
+                    sigmaInstance.bind('clickNode', function (e) {
 
 
-            }
-        );
+                        var nodeId = e.data.node.id,
+                            toKeep = sigmaInstance.graph.neighbors(nodeId);
+                        toKeep[nodeId] = e.data.node;
+                        if (e.data.node.color != '#1954f2') {
+                            if ($scope.initialcommunity) {
+                                $scope.reloadinfoonclick(e.data.node.info);
+                            }
+                        }
+
+                        sigmaInstance.graph.nodes().forEach(function (n) {
+                            if (toKeep[n.id]) {
+                                n.color = n.originalColor;
+                                e.data.node.color = '#1954f2'
+                            }
+                            else {
+                                n.color = 'rgba(198, 36, 63, 0.15)';
+
+                            }
+
+                        });
+
+                        sigmaInstance.graph.edges().forEach(function (e) {
+
+                            if (toKeep[e.source] && toKeep[e.target])
+                                e.color = e.originalColor;
+                            else {
+                                e.color = 'rgba(198, 36, 63, 0.15)';
+
+                            }
+                        });
+
+                        sigmaInstance.refresh();
 
 
-    }
+                    });
+                    sigmaInstance.bind('overNode', function (e) {
+                        console.log($scope.initialcommunity + " overnode")
+                        if ($scope.initialcommunity) {
+
+
+                            $scope.reloadinfoonhover(e.data.node.info);
+                        }
+
+                    });
+
+                    sigmaInstance.bind('doubleClickNode', function (e) {
+                        debugger;
+                        var community = e.data.node.label.split(' - ')[0];
+
+
+                        document.getElementById('nodeinfo').display = "";
+                        document.getElementById('nodeinfohover').innerHTML = "";
+
+                        $scope.initialcommunity = false;
+                        sigmaInstance.graph.clear()
+                        $scope.communityObject(community)
+
+
+                    });
+
+
+                }
+            );
+        } else {
+            var instance = $scope.cache.get(datajson);
+            sigma.parsers.json(apicall, instance,
+
+                function () {
+                    var positions = $scope.cache.get('initialnodepos')
+
+                    instance.graph.nodes().forEach(function (node, i, a) {
+
+                        node.x = positions[i].x;
+                        node.y = positions[i].y;
+
+                    });
+                    instance.graph.nodes().forEach(function (n) {
+                        n.originalColor = n.color;
+                    });
+                    instance.graph.edges().forEach(function (e) {
+                        e.originalColor = e.color;
+                    });
+
+                    instance.refresh();
+
+                    debugger;
+                }
+            );
+        }
+
+    };
     $scope.debug = function (a) {
         debugger;
 

@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
 import json
+import time
 import networkx as nx
 from networkx.readwrite import json_graph
 
@@ -345,15 +346,23 @@ class CommunityViewSet(ReadOnlyModelViewSet):
             return response
         else:
             apiurl = '/home/bisite/innhome/innhome/src/www/static/js/metric-module/h2020graph'
+            itime = time.time()
             G = nx.read_sparse6(apiurl)
+            print(nx.density(G))
+            print('tiempo de carga del grafo sparse6 -> ' + str(time.time() - itime))
             queryset = Community.objects.all()
             queryset = queryset.filter(communityId=int(name))
             for nodes in queryset:
                 node = nodes['communityProjects']
+            itime = time.time()
 
             H = G.subgraph(node)
+            print('tiempo de carga del SUBgrafo H -> ' + str(time.time() - itime))
+            itime = time.time()
+
             nx.set_node_attributes(H, dict(H.degree()), 'size')
             HJson = json_graph.node_link_data(H)
             print('Subgraph done - len =  ' + str(len(H)))
+            print('tiempo de carga de los atributos -> ' + str(time.time() - itime))
 
             return HttpResponse(json.dumps(HJson), content_type="application/json")

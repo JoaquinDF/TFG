@@ -74,9 +74,11 @@
                 var MAX = graph.nodes.reduce(function (prev, curr) {
                     return prev.size > curr.size ? prev : curr;
                 });
+                var maxvalue = MAX.size;
 
+                debugger;
 
-                var paletteScale = d3.scale.linear()
+                var paletteScale = d3.scale.log()
                     .domain([MIN.size, MAX.size])
                     .range(["#000000", "#c62540"]);
 
@@ -84,11 +86,11 @@
                     var node = graph.nodes[i];
                     node.id = (parseFloat(node.id)).toFixed(1).toString()
                     node["info"] = node.label;
-                    node.label = parseInt(node.id).toString();
+                    node.label = parseInt(node.id).toString() + " - (" + node.size + ")";
 
                     var colour = paletteScale(node.size)
 
-                    node.size = parseInt((node.size / MAX.size) * 35) + 20
+                    node.size = parseInt((node.size / maxvalue) * 28) + 7
 
                     node["color"] = colour
                 }
@@ -99,21 +101,22 @@
                     edges.source = (parseFloat(edges.source)).toFixed(1).toString()
                     edges.target = (parseFloat(edges.target)).toFixed(1).toString()
                     edges["size"] = 1
-                    edges["color"] = 'rgba(198, 36, 63, 0.3)'
+                    edges["color"] = 'rgba(198, 36, 63, 0.8)'
 
                 }
 
+                debugger;
+
                 // Update the instance's graph:
                 if (sig instanceof sigma) {
-                    sig.graph.kill()
                     sig.graph.clear();
                     sig.graph.read(graph);
 
                     // ...or instantiate sigma if needed:
                 } else if (typeof sig === 'object') {
-
                     sig.graph = graph;
                     sig = new sigma(sig);
+
 
                     // ...or it's finally the callback:
                 } else if (typeof sig === 'function') {
