@@ -1,7 +1,7 @@
 
 h3 {
     word-wrap: break-word;
-    font-size: 17px;
+    font-size: 15px;
     text-transform: uppercase;
     white-space: normal;
 !important;
@@ -15,7 +15,7 @@ h3 {
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 17px;
     text-transform: uppercase;
 }
 
@@ -29,7 +29,7 @@ h2 {
 !important;
     font-weight: 200;
 !important;
-    font-size: 17px;
+    font-size: 15px;
 }
 
 a {
@@ -249,7 +249,7 @@ hr.style1 {
 !important;
 
     height: fit-content;
-    border-radius: 3px;
+    border-radius: 0px;
     border-style: solid;
     margin-bot: 3%;
     border-color: transparent;

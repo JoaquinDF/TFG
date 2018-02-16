@@ -68,7 +68,7 @@ angular.module('organizationList').component('organizationList', {
                 }
 
                 self.onHoverMetrics = function (organization) {
-                    if (!organization)return false;
+                    if (!organization) return false;
                     var country = organization.direccion.pais;
 
                     var http = "/api/v1/data/RegionMetric/?region=" + country;

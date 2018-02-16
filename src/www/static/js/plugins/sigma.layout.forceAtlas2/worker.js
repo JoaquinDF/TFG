@@ -315,12 +315,12 @@
                             // Update center of mass and mass (we only do it for non-leave regions)
                             RegionMatrix[rp(r, 'massCenterX')] =
                                 (RegionMatrix[rp(r, 'massCenterX')] * RegionMatrix[rp(r, 'mass')] +
-                                NodeMatrix[np(n, 'x')] * NodeMatrix[np(n, 'mass')]) /
+                                    NodeMatrix[np(n, 'x')] * NodeMatrix[np(n, 'mass')]) /
                                 (RegionMatrix[rp(r, 'mass')] + NodeMatrix[np(n, 'mass')]);
 
                             RegionMatrix[rp(r, 'massCenterY')] =
                                 (RegionMatrix[rp(r, 'massCenterY')] * RegionMatrix[rp(r, 'mass')] +
-                                NodeMatrix[np(n, 'y')] * NodeMatrix[np(n, 'mass')]) /
+                                    NodeMatrix[np(n, 'y')] * NodeMatrix[np(n, 'mass')]) /
                                 (RegionMatrix[rp(r, 'mass')] + NodeMatrix[np(n, 'mass')]);
 
                             RegionMatrix[rp(r, 'mass')] += NodeMatrix[np(n, 'mass')];
@@ -873,11 +873,11 @@
                             );
 
                         traction = Math.sqrt(
-                                (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) *
-                                (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) +
-                                (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')]) *
-                                (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')])
-                            ) / 2;
+                            (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) *
+                            (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) +
+                            (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')]) *
+                            (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')])
+                        ) / 2;
 
                         nodespeed =
                             0.1 * Math.log(1 + traction) / (1 + Math.sqrt(swinging));
@@ -906,11 +906,11 @@
                             );
 
                         traction = Math.sqrt(
-                                (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) *
-                                (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) +
-                                (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')]) *
-                                (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')])
-                            ) / 2;
+                            (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) *
+                            (NodeMatrix[np(n, 'old_dx')] + NodeMatrix[np(n, 'dx')]) +
+                            (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')]) *
+                            (NodeMatrix[np(n, 'old_dy')] + NodeMatrix[np(n, 'dy')])
+                        ) / 2;
 
                         nodespeed = NodeMatrix[np(n, 'convergence')] *
                             Math.log(1 + traction) / (1 + Math.sqrt(swinging));
@@ -920,7 +920,7 @@
                             Math.min(1, Math.sqrt(
                                 nodespeed *
                                 (Math.pow(NodeMatrix[np(n, 'dx')], 2) +
-                                Math.pow(NodeMatrix[np(n, 'dy')], 2)) /
+                                    Math.pow(NodeMatrix[np(n, 'dy')], 2)) /
                                 (1 + Math.sqrt(swinging))
                             ));
 

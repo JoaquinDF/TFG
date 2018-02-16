@@ -3,23 +3,23 @@
 // Register `countList` component, along with its associated controller and template!
 angular.module('metricModule').component('metricModule', {
 
-    templateUrl: '/static/templates/metric-module.template.html',
-    controller: ['$http', '$routeParams', function CallsListController($http, $routeParams) {
+        templateUrl: '/static/templates/metric-module.template.html',
+        controller: ['$http', '$routeParams', function CallsListController($http, $routeParams) {
             var self = this;
 
 
             var x = document.URL;
-        self.options = [{
-            'value': 'metric',
-            'name': 'Id Organization',
+            self.options = [{
+                'value': 'metric',
+                'name': 'Id Organization',
 
-        },
-            {
-                'value': 'metricn',
-                'name': 'Name organization',
-            }];
+            },
+                {
+                    'value': 'metricn',
+                    'name': 'Name organization',
+                }];
             var projectid, organizationid, callid;
-        var regex = new RegExp('\/metric(n)?[0-9a-zA-Z]+');
+            var regex = new RegExp('\/metric(n)?[0-9a-zA-Z]+');
 
             var tipo = regex.exec(x);
             if (tipo != null) {
@@ -110,82 +110,82 @@ angular.module('metricModule').component('metricModule', {
             }
 
 
-        self.toShow = function () {
-            var a = $routeParams.id;
-            if (a == null) {
-                return false
-            } else {
-                return true
-            }
-
-        }
-
-
-        self.loadcharts = function () {
-
-
-            self.loadpie();
-            self.loadbar()
-            self.loadpolar()
-
-        }
-
-        self.loadpie = function () {
-            var labelsubv = 'Presupuesto Subvencionado - %';
-            var labelsinsubv = 'Presupuesto sin Subvencionar - %';
-            self.labelspie = [labelsubv, labelsinsubv];
-            self.datapie = [self.porcentajesubvencionadoO, ((100 - self.porcentajesubvencionadoO)).toFixed(1)];
-        }
-        self.loadbar = function () {
-            var labelsubvbar = 'Subvencion Media en la empresa';
-            var labelsinsubvbar = 'Subvencion Media del país';
-            self.seriesbar = [labelsubvbar, labelsinsubvbar];
-            self.databar = [[self.porcentajesubvencionadoO], [self.porcentajesubvencionadoR]];
-        }
-
-
-        self.loadpolar = function () {
-            var country = self.regionName
-            if (country) {
-
-                var setobject = {
-                    "region": country
+            self.toShow = function () {
+                var a = $routeParams.id;
+                if (a == null) {
+                    return false
+                } else {
+                    return true
                 }
 
-                var apiget = '/api/v1/data/SectorMetric/'
-                $http.post(apiget, setobject).then(function successCallback(response) {
-                    if (response.data) {
-
-
-                        self.labelspolar = Object.keys(response.data)
-                        self.datapolar = []
-                        var diff0 = 0
-                        var sum = Object.values(response.data).reduce(function (pv, cv) {
-                            return pv + cv;
-                        }, 0);
-
-                        Object.values(response.data).forEach(function (number) {
-
-                            var a = (number / sum).toFixed(1)
-                            if (a > 0.0) {
-                                diff0 += 1;
-                            }
-                            self.datapolar.push(a)
-                        });
-
-
-                        self.labelspolar = Object.keys(response.data)
-
-
-                    }
-
-                });
-
-
             }
 
 
-        }
+            self.loadcharts = function () {
+
+
+                self.loadpie();
+                self.loadbar()
+                self.loadpolar()
+
+            }
+
+            self.loadpie = function () {
+                var labelsubv = 'Presupuesto Subvencionado - %';
+                var labelsinsubv = 'Presupuesto sin Subvencionar - %';
+                self.labelspie = [labelsubv, labelsinsubv];
+                self.datapie = [self.porcentajesubvencionadoO, ((100 - self.porcentajesubvencionadoO)).toFixed(1)];
+            }
+            self.loadbar = function () {
+                var labelsubvbar = 'Subvencion Media en la empresa';
+                var labelsinsubvbar = 'Subvencion Media del país';
+                self.seriesbar = [labelsubvbar, labelsinsubvbar];
+                self.databar = [[self.porcentajesubvencionadoO], [self.porcentajesubvencionadoR]];
+            }
+
+
+            self.loadpolar = function () {
+                var country = self.regionName
+                if (country) {
+
+                    var setobject = {
+                        "region": country
+                    }
+
+                    var apiget = '/api/v1/data/SectorMetric/'
+                    $http.post(apiget, setobject).then(function successCallback(response) {
+                        if (response.data) {
+
+
+                            self.labelspolar = Object.keys(response.data)
+                            self.datapolar = []
+                            var diff0 = 0
+                            var sum = Object.values(response.data).reduce(function (pv, cv) {
+                                return pv + cv;
+                            }, 0);
+
+                            Object.values(response.data).forEach(function (number) {
+
+                                var a = (number / sum).toFixed(1)
+                                if (a > 0.0) {
+                                    diff0 += 1;
+                                }
+                                self.datapolar.push(a)
+                            });
+
+
+                            self.labelspolar = Object.keys(response.data)
+
+
+                        }
+
+                    });
+
+
+                }
+
+
+            }
         }]
 
     }

@@ -74,3 +74,9 @@ class OrganizationMetricSerializer(serializers.DocumentSerializer):
     class Meta:
         model = OrganizationMetric
         fields = '__all__'
+
+
+class GraphH2020ViewSetSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Graph_nodes
+        fields = '__all__'

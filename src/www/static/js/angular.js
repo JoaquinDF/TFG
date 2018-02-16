@@ -572,9 +572,9 @@
     }
 
     var isNumberNaN = Number.isNaN || function isNumberNaN(num) {
-            // eslint-disable-next-line no-self-compare
-            return num !== num;
-        };
+        // eslint-disable-next-line no-self-compare
+        return num !== num;
+    };
 
 
     function inherit(parent, extra) {
@@ -894,8 +894,8 @@
      */
     function isElement(node) {
         return !!(node &&
-        (node.nodeName  // We are a direct element.
-        || (node.prop && node.attr && node.find)));  // We have an on and find method part of jQuery API.
+            (node.nodeName  // We are a direct element.
+                || (node.prop && node.attr && node.find)));  // We have an on and find method part of jQuery API.
     }
 
     /**
@@ -1254,7 +1254,7 @@
 
 
             var ngCspElement = (window.document.querySelector('[ng-csp]') ||
-            window.document.querySelector('[data-ng-csp]'));
+                window.document.querySelector('[data-ng-csp]'));
 
             if (ngCspElement) {
                 var ngCspAttribute = ngCspElement.getAttribute('ng-csp') ||
@@ -3191,9 +3191,9 @@
 
 // IE9-11 has no method "contains" in SVG element and in Node.prototype. Bug #10259.
     var jqLiteContains = window.Node.prototype.contains || /** @this */ function (arg) {
-            // eslint-disable-next-line no-bitwise
-            return !!(this.compareDocumentPosition(arg) & 16);
-        };
+        // eslint-disable-next-line no-bitwise
+        return !!(this.compareDocumentPosition(arg) & 16);
+    };
 
 /////////////////////////////////////////////
     function JQLite(element) {
@@ -6047,6 +6047,7 @@
                     var index = 0;
 
                     next();
+
                     function next() {
                         if (index === chain.length) {
                             callback(true);
@@ -8010,6 +8011,7 @@
      * @description
      */
     $CompileProvider.$inject = ['$provide', '$$sanitizeUriProvider'];
+
     /** @this */
     function $CompileProvider($provide, $$sanitizeUriProvider) {
         var hasDirectives = {},
@@ -8268,7 +8270,7 @@
          */
         this.component = function registerComponent(name, options) {
             var controller = options.controller || function () {
-                };
+            };
 
             function factory($injector) {
                 function makeInjectable(fn) {
@@ -9031,13 +9033,13 @@
                         }
 
                         childLinkFn = (nodeLinkFn && nodeLinkFn.terminal ||
-                        !(childNodes = nodeList[i].childNodes) ||
-                        !childNodes.length)
+                            !(childNodes = nodeList[i].childNodes) ||
+                            !childNodes.length)
                             ? null
                             : compileNodes(childNodes,
                                 nodeLinkFn ? (
-                                (nodeLinkFn.transcludeOnThisElement || !nodeLinkFn.templateOnThisElement)
-                                && nodeLinkFn.transclude) : transcludeFn);
+                                    (nodeLinkFn.transcludeOnThisElement || !nodeLinkFn.templateOnThisElement)
+                                    && nodeLinkFn.transclude) : transcludeFn);
 
                         if (nodeLinkFn || childLinkFn) {
                             linkFns.push(i, nodeLinkFn, childLinkFn);
@@ -9456,7 +9458,7 @@
                         // compile the `transclude` function rather than doing it lazily in order to throw
                         // exceptions at the correct time
                         if (!didScanForMultipleTransclusion && ((directive.replace && (directive.templateUrl || directive.template))
-                            || (directive.transclude && !directive.$$tlb))) {
+                                || (directive.transclude && !directive.$$tlb))) {
                             var candidateDirective;
 
                             for (var scanningIndex = i + 1; (candidateDirective = directives[scanningIndex++]);) {
@@ -9751,7 +9753,7 @@
                         if (newIsolateScopeDirective) {
                             // Initialize isolate scope bindings for new isolate scope directive.
                             compile.$$addScopeInfo($element, isolateScope, true, !(templateDirective && (templateDirective === newIsolateScopeDirective ||
-                            templateDirective === newIsolateScopeDirective.$$originalDirective)));
+                                templateDirective === newIsolateScopeDirective.$$originalDirective)));
                             compile.$$addScopeClass($element, true);
                             isolateScope.$$isolateBindings =
                                 newIsolateScopeDirective.$$isolateBindings;
@@ -10186,7 +10188,7 @@
                                     var oldClasses = beforeTemplateLinkNode.className;
 
                                     if (!(previousCompileContext.hasElementTranscludeDirective &&
-                                        origAsyncDirective.replace)) {
+                                            origAsyncDirective.replace)) {
                                         // it was cloned therefore we have to clone as well.
                                         linkNode = jqLiteClone(compileNode);
                                     }
@@ -10534,12 +10536,12 @@
                                     compare = simpleCompare;
                                 }
                                 parentSet = parentGet.assign || function () {
-                                        // reset the change, or we will throw this exception on every $digest
-                                        lastValue = destination[scopeName] = parentGet(scope);
-                                        throw $compileMinErr('nonassign',
-                                            'Expression \'{0}\' in attribute \'{1}\' used with directive \'{2}\' is non-assignable!',
-                                            attrs[attrName], attrName, directive.name);
-                                    };
+                                    // reset the change, or we will throw this exception on every $digest
+                                    lastValue = destination[scopeName] = parentGet(scope);
+                                    throw $compileMinErr('nonassign',
+                                        'Expression \'{0}\' in attribute \'{1}\' used with directive \'{2}\' is non-assignable!',
+                                        attrs[attrName], attrName, directive.name);
+                                };
                                 lastValue = destination[scopeName] = parentGet(scope);
                                 var parentValueWatch = function parentValueWatch(parentValue) {
                                     if (!compare(parentValue, destination[scopeName])) {
@@ -14708,7 +14710,7 @@
         isWhitespace: function (ch) {
             // IE treats non-breaking space as \u00A0
             return (ch === ' ' || ch === '\r' || ch === '\t' ||
-            ch === '\n' || ch === '\v' || ch === '\u00A0');
+                ch === '\n' || ch === '\v' || ch === '\u00A0');
         },
 
         isIdentifierStart: function (ch) {
@@ -14719,8 +14721,8 @@
 
         isValidIdentifierStart: function (ch) {
             return ('a' <= ch && ch <= 'z' ||
-            'A' <= ch && ch <= 'Z' ||
-            '_' === ch || ch === '$');
+                'A' <= ch && ch <= 'Z' ||
+                '_' === ch || ch === '$');
         },
 
         isIdentifierContinue: function (ch) {
@@ -15364,9 +15366,9 @@
     function isLiteral(ast) {
         return ast.body.length === 0 ||
             ast.body.length === 1 && (
-            ast.body[0].expression.type === AST.Literal ||
-            ast.body[0].expression.type === AST.ArrayExpression ||
-            ast.body[0].expression.type === AST.ObjectExpression);
+                ast.body[0].expression.type === AST.Literal ||
+                ast.body[0].expression.type === AST.ArrayExpression ||
+                ast.body[0].expression.type === AST.ObjectExpression);
     }
 
     function isConstant(ast) {
@@ -15689,8 +15691,8 @@
                         forEach(ast.properties, function (property) {
                             self.recurse(property.value, ast.constant ? undefined : self.nextId(), undefined, function (expr) {
                                 args.push(self.escape(
-                                        property.key.type === AST.Identifier ? property.key.name :
-                                            ('' + property.key.value)) +
+                                    property.key.type === AST.Identifier ? property.key.name :
+                                        ('' + property.key.value)) +
                                     ':' + expr);
                             });
                         });
@@ -18116,7 +18118,7 @@
                                     // yes, this code is a bit crazy, but it works and we have tests to prove it!
                                     // this piece should be kept in sync with the traversal in $broadcast
                                     if (!(next = ((current.$$watchersCount && current.$$childHead) ||
-                                        (current !== target && current.$$nextSibling)))) {
+                                            (current !== target && current.$$nextSibling)))) {
                                         while (current !== target && !(next = current.$$nextSibling)) {
                                             current = current.$parent;
                                         }
@@ -18592,7 +18594,7 @@
                             // this piece should be kept in sync with the traversal in $digest
                             // (though it differs due to having the extra check for $$listenerCount)
                             if (!(next = ((current.$$listenerCount[name] && current.$$childHead) ||
-                                (current !== target && current.$$nextSibling)))) {
+                                    (current !== target && current.$$nextSibling)))) {
                                 while (current !== target && !(next = current.$$nextSibling)) {
                                     current = current.$parent;
                                 }
@@ -19937,7 +19939,7 @@
                     !isNw &&
                     $window.chrome &&
                     ($window.chrome.app && $window.chrome.app.runtime ||
-                    !$window.chrome.app && $window.chrome.runtime && $window.chrome.runtime.id),
+                        !$window.chrome.app && $window.chrome.runtime && $window.chrome.runtime.id),
                 hasHistoryPushState = !isChromePackagedApp && $window.history && $window.history.pushState,
                 android =
                     toInt((/android (\d+)/.exec(lowercase(($window.navigator || {}).userAgent)) || [])[1]),
@@ -20413,7 +20415,7 @@
     function urlIsSameOrigin(requestUrl) {
         var parsed = (isString(requestUrl)) ? urlResolve(requestUrl) : requestUrl;
         return (parsed.protocol === originUrl.protocol &&
-        parsed.host === originUrl.host);
+            parsed.host === originUrl.host);
     }
 
     /**
@@ -20632,6 +20634,7 @@
      </example>
      */
     $FilterProvider.$inject = ['$provide'];
+
     /** @this */
     function $FilterProvider($provide) {
         var suffix = 'Filter';
@@ -21021,6 +21024,7 @@
      </example>
      */
     currencyFilter.$inject = ['$locale'];
+
     function currencyFilter($locale) {
         var formats = $locale.NUMBER_FORMATS;
         return function (amount, currencySymbol, fractionSize) {
@@ -21094,6 +21098,7 @@
      </example>
      */
     numberFilter.$inject = ['$locale'];
+
     function numberFilter($locale) {
         var formats = $locale.NUMBER_FORMATS;
         return function (number, fractionSize) {
@@ -21541,10 +21546,12 @@
      </example>
      */
     dateFilter.$inject = ['$locale'];
+
     function dateFilter($locale) {
 
 
         var R_ISO8601_STR = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
+
         // 1        2       3         4          5          6          7          8  9     10      11
         function jsonStringToDate(string) {
             var match;
@@ -22362,6 +22369,7 @@
      *
      */
     orderByFilter.$inject = ['$parse'];
+
     function orderByFilter($parse) {
         return function (array, sortPredicate, reverseOrder, compareFn) {
 
@@ -23057,6 +23065,7 @@
      */
 //asks for $scope to fool the BC controller module
     FormController.$inject = ['$element', '$attrs', '$scope', '$animate', '$interpolate'];
+
     function FormController($element, $attrs, $scope, $animate, $interpolate) {
         this.$$controls = [];
 
@@ -25166,7 +25175,7 @@
     function numberFormatterParser(ctrl) {
         ctrl.$$parserName = 'number';
         ctrl.$parsers.push(function (value) {
-            if (ctrl.$isEmpty(value))      return null;
+            if (ctrl.$isEmpty(value)) return null;
             if (NUMBER_REGEXP.test(value)) return parseFloat(value);
             return undefined;
         });
@@ -28404,6 +28413,7 @@
      *
      */
     NgModelController.$inject = ['$scope', '$exceptionHandler', '$attrs', '$element', '$parse', '$animate', '$timeout', '$q', '$interpolate'];
+
     function NgModelController($scope, $exceptionHandler, $attr, $element, $parse, $animate, $timeout, $q, $interpolate) {
         this.$viewValue = Number.NaN;
         this.$modelValue = Number.NaN;
@@ -29697,6 +29707,7 @@
      */
     var ngModelOptionsDirective = function () {
         NgModelOptionsController.$inject = ['$attrs', '$scope'];
+
         function NgModelOptionsController($attrs, $scope) {
             this.$$attrs = $attrs;
             this.$$scope = $scope;
@@ -31131,7 +31142,7 @@
                 var keyIdentifier = match[2];
 
                 if (aliasAs && (!/^[$a-zA-Z_][$a-zA-Z0-9_]*$/.test(aliasAs) ||
-                    /^(null|undefined|this|\$index|\$first|\$middle|\$last|\$even|\$odd|\$parent|\$root|\$id)$/.test(aliasAs))) {
+                        /^(null|undefined|this|\$index|\$first|\$middle|\$last|\$even|\$odd|\$parent|\$root|\$id)$/.test(aliasAs))) {
                     throw ngRepeatMinErr('badident', 'alias \'{0}\' is invalid --- must be a valid JS identifier which is not a reserved name.',
                         aliasAs);
                 }

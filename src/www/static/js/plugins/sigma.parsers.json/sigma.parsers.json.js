@@ -89,8 +89,7 @@
                     node.label = parseInt(node.id).toString() + " - (" + node.size + ")";
 
                     var colour = paletteScale(node.size)
-
-                    node.size = parseInt((node.size / maxvalue) * 28) + 7
+                    node.size = parseInt((node.size / maxvalue) * 16) + 4
 
                     node["color"] = colour
                 }
@@ -101,7 +100,7 @@
                     edges.source = (parseFloat(edges.source)).toFixed(1).toString()
                     edges.target = (parseFloat(edges.target)).toFixed(1).toString()
                     edges["size"] = 1
-                    edges["color"] = 'rgba(198, 36, 63, 0.8)'
+                    edges["color"] = 'rgba(198, 36, 63, 0.5)'
 
                 }
 

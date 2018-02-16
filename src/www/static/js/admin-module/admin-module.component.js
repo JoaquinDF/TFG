@@ -4,20 +4,20 @@
 angular.module('adminModule').component('adminModule', {
 
         templateUrl: '/static/templates/admin-module.template.html',
-    controller: ['$http', '$timeout', function adminController($http, $timeout) {
+        controller: ['$http', '$timeout', function adminController($http, $timeout) {
             var self = this;
-        $http.get('/api/v1/admin/listTask/').then(function (responsetasks) {
+            $http.get('/api/v1/admin/listTask/').then(function (responsetasks) {
 
-            if (responsetasks.data) {
+                if (responsetasks.data) {
 
-                self.tasks = responsetasks.data;
+                    self.tasks = responsetasks.data;
 
 
-            } else {
-                self.tasks = null;
-            }
+                } else {
+                    self.tasks = null;
+                }
 
-        });
+            });
 
 
             $http.get('/api/v1/admin/listCrawlers/').then(function (responsecrawlers) {
@@ -42,26 +42,26 @@ angular.module('adminModule').component('adminModule', {
                 }
             });
 
-        self.warning = null;
-        this.intervalperiod = ['days',
-            , 'hours'
-            , 'minutes'
-            , 'seconds'
-            , 'microseconds'];
+            self.warning = null;
+            this.intervalperiod = ['days',
+                , 'hours'
+                , 'minutes'
+                , 'seconds'
+                , 'microseconds'];
 
-        this.objectTask = {
-            task: '',
-            args: '',
-            interval: null,
-            crontab: null,
-            intervalevery: '',
-            intervalperiod: '',
-            minute: null,
-            hour: null,
-            day_of_week: null,
-            day_of_month: null,
-            month_of_year: null
-        };
+            this.objectTask = {
+                task: '',
+                args: '',
+                interval: null,
+                crontab: null,
+                intervalevery: '',
+                intervalperiod: '',
+                minute: null,
+                hour: null,
+                day_of_week: null,
+                day_of_month: null,
+                month_of_year: null
+            };
 
             self.settask = function () {
 
@@ -122,7 +122,7 @@ angular.module('adminModule').component('adminModule', {
                 });
             }
 
-        self.getschedule();
+            self.getschedule();
 
         }]
 

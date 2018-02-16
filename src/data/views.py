@@ -11,12 +11,14 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
+import pandas as pd
 import json
 import time
 import networkx as nx
 from networkx.readwrite import json_graph
 
 from .serializers import *
+from collections import *
 
 
 # CALL
@@ -157,8 +159,6 @@ class SectorMetricViewSet(ViewSet):
             counter = collections.Counter(salida)
 
         return Response(counter)
-
-
 
         # PERSON-PROJECT
 
@@ -331,8 +331,12 @@ class OrganizationMetricViewSet(ReadOnlyModelViewSet):
         return queryset
 
 
+class GraphH2020ViewSet(ReadOnlyModelViewSet):
+    serializer_class = GraphH2020ViewSetSerializer
+    queryset = Graph_nodes.objects.all()
+
+
 class CommunityViewSet(ReadOnlyModelViewSet):
-    queryset = Community.objects.all()
     serializer_class = CommunitySerializer
 
     def test_files(self, name=None):
@@ -344,25 +348,33 @@ class CommunityViewSet(ReadOnlyModelViewSet):
             response['Content-Disposition'] = 'attachment; filename="%s.json"' \
                                               % 'whatever'
             return response
+
+
         else:
-            apiurl = '/home/bisite/innhome/innhome/src/www/static/js/metric-module/h2020graph'
-            itime = time.time()
-            G = nx.read_sparse6(apiurl)
-            print(nx.density(G))
-            print('tiempo de carga del grafo sparse6 -> ' + str(time.time() - itime))
-            queryset = Community.objects.all()
-            queryset = queryset.filter(communityId=int(name))
-            for nodes in queryset:
-                node = nodes['communityProjects']
-            itime = time.time()
 
-            H = G.subgraph(node)
-            print('tiempo de carga del SUBgrafo H -> ' + str(time.time() - itime))
-            itime = time.time()
+            node = []
+            comunity = Community.objects.all()
+            comunity_filtered = comunity.filter(communityId=int(name))
+            for nodes in comunity_filtered:
+                node = (nodes['communityProjects'])
 
-            nx.set_node_attributes(H, dict(H.degree()), 'size')
-            HJson = json_graph.node_link_data(H)
-            print('Subgraph done - len =  ' + str(len(H)))
-            print('tiempo de carga de los atributos -> ' + str(time.time() - itime))
+            edges = Graph_edges.objects.all()
 
+            edges_filtered = edges.filter(source__in=list(node), target__in=list(node))
+
+            nodes = Graph_nodes.objects.all()
+            nodes_filtered = nodes.filter(idnode__in=list(node))
+            nodes_pd = pd.read_json(nodes_filtered.to_json())
+
+            edges_pd = pd.read_json(edges_filtered.to_json())
+            Y = nx.from_pandas_edgelist(edges_pd, 'source', 'target', 'weight')
+
+            nx.set_node_attributes(Y, dict(Y.degree()), 'size')
+            for node in Y.nodes:
+                Y.node[node]['idproject'] = ((nodes_pd.loc[nodes_pd['idnode'] == node]['idproject']).iloc[0])['$oid']
+
+            HJson = json_graph.node_link_data(Y)
+            print("Graph Done - Nº Nodes = " + str(len(Y.nodes)) + " Density = " + str(nx.density(Y)))
+
+            # pprint.pprint(json.dumps(HJson))
             return HttpResponse(json.dumps(HJson), content_type="application/json")

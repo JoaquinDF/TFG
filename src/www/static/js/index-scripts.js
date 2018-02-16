@@ -5,6 +5,7 @@ function w3_open() {
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("myOverlay").style.display = "block";
 }
+
 function w3_close() {
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("myOverlay").style.display = "none";
@@ -27,6 +28,7 @@ function myAccFunc() {
             x.previousElementSibling.className.replace("  w3-theme-d3", "");
     }
 }
+
 function metricShow(where) {
 
     var x = document.getElementById(where);
@@ -39,6 +41,7 @@ function metricShow(where) {
             x.previousElementSibling.className.replace("  w3-theme-d3", "");
     }
 }
+
 function addData(where) {
     if (where == 'orgs') {
         var dom_el = document.querySelector('[ng-controller="HandleSearchEvents"]');

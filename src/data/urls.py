@@ -16,6 +16,5 @@ router.register(r'RegionMetric', RegionMetricViewSet, r'RegionMetric')
 router.register(r'OrganizationMetric', OrganizationMetricViewSet, r'OrganizationMetric')
 router.register(r'RegionMetricToPairDict', RegionMetricToPairDictViewSet, r'RegionMetricToPairDict')
 router.register(r'SectorMetric', SectorMetricViewSet, r'SectorMetric')
-router.register(r'Community', CommunityViewSet, r'Community')
-
+router.register(r'GraphH2020', GraphH2020ViewSet, r'GraphH2020')
 urlpatterns = router.urls

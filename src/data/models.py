@@ -130,8 +130,8 @@ class Community(Document):
     }
 
 
-class Graph_nodes(EmbeddedDocument):
-    id = StringField()
+class Graph_nodes(Document):
+    idnode = StringField()
     community = StringField()
     idproject = StringField()
     subvencion = StringField()
@@ -141,18 +141,10 @@ class Graph_nodes(EmbeddedDocument):
     }
 
 
-class Graph_edges(EmbeddedDocument):
+class Graph_edges(Document):
     source = StringField()
     target = StringField()
+    weight = StringField()
     meta = {
         'collection': 'data.graph_edges'
-    }
-
-
-class Graphs(Document):
-    call = StringField()
-    nodes = EmbeddedDocumentField(Graph_nodes)
-    edges = EmbeddedDocumentField(Graph_edges)
-    meta = {
-        'collection': 'data.graphs'
     }
