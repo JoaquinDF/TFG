@@ -347,6 +347,7 @@ class CommunityViewSet(ReadOnlyModelViewSet):
             response['Content-Type'] = 'application/json'
             response['Content-Disposition'] = 'attachment; filename="%s.json"' \
                                               % 'whatever'
+
             return response
 
 

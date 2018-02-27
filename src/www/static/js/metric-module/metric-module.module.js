@@ -438,22 +438,53 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
 
 
                 var colorgen = d3.scale.ordinal()
-                    .range(["#a6cee3", "#1f78b4", "#b2df8a", "#33a02c",
-                        "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00",
-                        "#cab2d6", "#6a3d9a", "#ffff99", "#b15928"]);
+                    .range(["#5DA5B3", "#D58323", "#DD6CA7", "#54AF52", "#8C92E8", "#E15E5A", "#725D82", "#776327", "#50AB84", "#954D56", "#AB9C27", "#517C3F", "#9D5130", "#357468", "#5E9ACF", "#C47DCB", "#7D9E33", "#DB7F85", "#BA89AD", "#4C6C86", "#B59248", "#D8597D", "#944F7E", "#D67D4B", "#8F86C2"]);
+
 
                 var color = function (d) {
                     return colorgen(d.community);
                 };
 
+                var dimensions = {
+                    "community":
+                        {
+                            orient: 'right',
+                            type: 'number',
+                            tickPadding: 0,
+                            innerTickSize: 8,
+                            ticks: 58
+                        },
+
+                    "presupuesto":
+                        {
+                            orient: 'right',
+                            type: 'number',
+                            tickPadding: 0,
+                            innerTickSize: 8,
+                            ticks: 25
+                        },
+
+                    "subvencion":
+                        {
+                            orient: 'right',
+                            type: 'number',
+                            tickPadding: 0,
+                            innerTickSize: 8,
+                            ticks: 25
+
+                        }
+
+                };
+
+
                 var parcoords = d3.parcoords()("#parallel")
                     .data(datagraph[0])
                     .hideAxis(["id", "idproject", "idnode", "tituloProyecto"])
                     .color(color)
+                    .dimensions(dimensions)
                     .alpha(0.5)
                     .composite("darken")
                     .mode("queue")
-                    .autoscale()
                     .render()
                     .brushMode("1D-axes");  // enable brushing
 
