@@ -432,8 +432,11 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
         $http.get(apiget).then(function successCallback(response) {
 
             $scope.paralleldata.push(response.data.results);
+
             d3.json(JSON.stringify($scope.paralleldatada), function (data) {
                 var datagraph = $scope.paralleldata
+
+
                 var colorgen = d3.scale.ordinal()
                     .range(["#a6cee3", "#1f78b4", "#b2df8a", "#33a02c",
                         "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00",
@@ -445,21 +448,71 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
 
                 var parcoords = d3.parcoords()("#parallel")
                     .data(datagraph[0])
-                    .hideAxis(["id", "idproject"])
+                    .hideAxis(["id", "idproject", "idnode", "tituloProyecto"])
                     .color(color)
-                    .alpha(0.25)
+                    .alpha(0.5)
                     .composite("darken")
-
                     .mode("queue")
+                    .autoscale()
                     .render()
                     .brushMode("1D-axes");  // enable brushing
 
                 parcoords.svg.selectAll("text")
                     .style("font", "10px sans-serif");
+
+
+                var grid = d3.divgrid();
+
+
+                d3.select("#grid")
+                    .datum(function () {
+                        for (var i in datagraph[0].slice(0, 5)) {
+                            delete datagraph[0][i]['idnode']
+                            delete datagraph[0][i]['id']
+
+
+                        }
+                        return datagraph[0].slice(0, 5)
+                    })
+                    .call(grid)
+                    .selectAll(".row")
+                    .on({
+                        "mouseover": function (d) {
+
+                            parcoords.highlight([d])
+                        },
+                        "mouseout": parcoords.unhighlight
+                    });
+                // update data table on brush event
+                parcoords.on("brush", function (d) {
+
+                    d3.select("#grid")
+                        .datum(function () {
+
+                            for (var i in d.slice(0, 5)) {
+                                delete d[i]['idnode']
+                                delete d[i]['id']
+
+
+                            }
+                            return d.slice(0, 5)
+                        })
+
+                        .call(grid)
+                        .selectAll(".row")
+                        .on({
+                            "mouseover": function (d) {
+                                parcoords.highlight([d])
+                            },
+                            "mouseout": parcoords.unhighlight
+                        });
+                    //updateThumbnails(d);
+                });
+
+                // update data table on brush event
+
             });
-
         });
-
     }
 
     $scope.debug = function (a) {
@@ -467,7 +520,8 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
 
     }
 
-}])
+}
+])
 ;
 
 

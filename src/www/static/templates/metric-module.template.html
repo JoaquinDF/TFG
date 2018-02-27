@@ -170,10 +170,48 @@
                     <div id="nodeinfohover" class="nodeinfo ">
                     </div>
                 </div>
+                <style>
 
-                <div id="parallel" class="parcoords" style="width:80%;height:40%; margin-left: 15%"></div>
 
+                    .row {
+                        clear: left;
+                        font-size: 12px;
+                        line-height: 18px;
+                        height: 18px;
+                        margin-bottom: 1%;
+                        border-bottom: 1px solid rgba(198, 37, 64, 0.3)
+                    }
 
+                    .header {
+                        height: 30px;
+                        text-transform: uppercase;
+                        background: rgba(198, 37, 64, 0.1);
+
+                    }
+
+                    .cell {
+                        float: left;
+                        height: fit-content;
+                        margin-left: 5%;
+                        white-space: pre-line;
+                        overflow: scroll;
+                        height: auto;
+                        width: 13%;
+                    }
+
+                    .col-0 {
+                        width: 25%;
+                        margin-left: 8%;
+
+                    }
+
+                </style>
+
+                <div style="width: 100%; height: 100%;">
+                    <div id="parallel" class="parcoords"
+                         style="background: #f6f6f6; height: 60%; width: 100%;"></div>
+                    <div id="grid"></div>
+                </div>
                 <div id="projectid" class="col-sm-2" style="display:none; height: fit-content;
     padding: 1%; margin: 1%;">
                     <div ng-repeat="(key, value) in Proyecto[0]">

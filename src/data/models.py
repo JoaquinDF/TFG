@@ -132,10 +132,12 @@ class Community(Document):
 
 class Graph_nodes(Document):
     idnode = StringField()
+    tituloProyecto = StringField()
     community = StringField()
+
     idproject = StringField()
-    subvencion = StringField()
-    presupuesto = StringField()
+    presupuesto = IntField()
+    subvencion = IntField()
     meta = {
         'collection': 'data.graph_nodes'
     }
