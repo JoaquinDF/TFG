@@ -333,7 +333,51 @@ class OrganizationMetricViewSet(ReadOnlyModelViewSet):
 
 class GraphH2020ViewSet(ReadOnlyModelViewSet):
     serializer_class = GraphH2020ViewSetSerializer
-    queryset = Graph_nodes.objects.all()
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Graph_nodes.objects.all()
+
+        title = self.request.query_params.get('title', None)
+        if title is not None:
+            queryset = queryset.filter(tituloProyecto__icontains=title)
+            return queryset
+
+        community = self.request.query_params.get('community', None)
+        if community is not None:
+            print(community)
+            queryset = queryset.filter(community=int(community))
+
+        moreP = int(self.request.query_params.get('moreP', 0))
+        lessP = int(self.request.query_params.get('lessP', 0))
+
+        moreS = int(self.request.query_params.get('moreS', 0))
+        lessS = int(self.request.query_params.get('lessS', 0))
+
+        if moreP > 0:
+            queryset = queryset.filter(presupuesto__lte=moreP)
+            print(moreP)
+
+        if moreS > 0:
+            queryset = queryset.filter(subvencion__lte=moreS)
+            print(moreS)
+
+        if lessP > 0:
+            queryset = queryset.filter(presupuesto__gte=lessP)
+            print(lessP)
+
+        if lessS > 0:
+            queryset = queryset.filter(subvencion__gte=lessS)
+            print(lessS)
+        return queryset
+
+
+class AllCommunityViewSet(ReadOnlyModelViewSet):
+    serializer_class = CommunitySerializer
+    queryset = Community.objects.all()
 
 
 class CommunityViewSet(ReadOnlyModelViewSet):

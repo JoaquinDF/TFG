@@ -124,6 +124,7 @@ class PersonaOrganizacion(Document):
 class Community(Document):
     communityId = StringField()
     communityProjects = ListField(StringField())
+    label = StringField()
 
     meta = {
         'collection': 'data.community'

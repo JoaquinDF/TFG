@@ -132,7 +132,7 @@
                         onclick="tabcolor('communityh2020');">
                     Comunidades-H2020
                 </button>
-                <button id="ParallelCoord" class="w3-bar-item w3-button tablink" ng-click="parallelcoordinates()"
+                <button id="ParallelCoord" class="w3-bar-item w3-button tablink" ng-click="loadparallels()"
                         onclick="tabcolor('ParallelCoord');">
                     Parallel Coordinates
                 </button>
@@ -140,7 +140,7 @@
 
 
             <div class="container-fluid col-sm-11" id="container-fluid"
-                 style="display: flex; margin-top: 2%; margin-bottom: 2%; width: 100%">
+                 style=" margin-top: 2%; margin-bottom: 2%; width: 100%">
 
                 <style>
                     .graph {
@@ -203,7 +203,55 @@
 
                 </style>
 
-                <div style="width: 100%; height: 100%;">
+                <div id="choseparallel" style="display: none; margin-left: 13%;">
+                    <h3>Comunidad: {{ comunidad }}</h3>
+                    <select ng-model="comunidad" style="width: 60%">
+
+                        <option ng-repeat="data in communities" value="{{ data.communityId }}">
+                            {{ data.communityId }}
+                            - {{ data.label }}
+                        </option>
+
+
+                    </select>
+                    <div style="display: flex; width: 30%">
+                        <h3>Presupuesto: </h3>
+                        <H3> min:</h3>
+                        <input size="40" ng-model="lessP" class="searchtext w3-input">
+                        <H3> MAX:</h3>
+                        <input size="40" ng-model="moreP" class="searchtext w3-input">
+
+                    </div>
+                    <hr class="style2" style="margin: 2px; width: 60%;">
+
+                    <div style="display: flex; width: 30%">
+
+
+                        <h3>Subvención: </h3>
+                        <H3> min:</h3>
+                        <input size="40" ng-model="lessS" class=" searchtext w3-input">
+                        <H3> MAX:</h3>
+                        <input size="40" ng-model="moreS" class=" searchtext w3-input">
+
+                    </div>
+                    <div style="display: flex; width: 30%">
+                        <h3>Titulo: </h3>
+                        <input ng-model="titulo" class="searchtext w3-input" placeholder=" Cointains...">
+                    </div>
+
+                    {{ lessS }}
+
+                    <button class="w3-btn w3-block " style="width:20%"
+                            ng-click="parallelcoordinates('moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+                        Parallel
+                        Coordinates
+                    </button>
+
+
+                </div>
+
+
+                <div id="loadparallel" style="width: 100%; height: 100%; display: none">
                     <div id="parallel" class="parcoords"
                          style="background: #f6f6f6; height: 60%; width: 100%;"></div>
                     <div id="grid"></div>

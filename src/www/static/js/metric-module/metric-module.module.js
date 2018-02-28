@@ -419,7 +419,8 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
 
     };
 
-    $scope.parallelcoordinates = function () {
+
+    $scope.loadparallels = function () {
 
         document.getElementById('container').style.display = 'none'
         document.getElementById('sigma-container').style.display = 'none'
@@ -427,7 +428,51 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
         document.getElementById('projectid').style.display = 'none'
 
 
-        var apiget = '/api/v1/data/GraphH2020/?limit=14837&offset=0';
+        document.getElementById('loadparallel').style.display = ''
+        document.getElementById('choseparallel').style.display = ''
+        $scope.parallelcoordinates("")
+
+        $scope.comunidad = "";
+        $scope.lessP = 0;
+        $scope.moreP = 0;
+        $scope.lessS = 0;
+        $scope.moreS = 0;
+        $scope.titulo = "";
+
+
+        function compare(a, b) {
+            if (parseInt(a.communityId) < parseInt(b.communityId))
+                return -1;
+            if (parseInt(a.communityId) > parseInt(b.communityId))
+                return 1;
+            return 0;
+        }
+
+        $http.get('/api/v1/data/AllCommunity/').then(function (communityresponse) {
+
+            if (communityresponse.data) {
+
+                $scope.communities = communityresponse.data.results;
+                $scope.communities.sort(compare);
+
+
+            } else {
+                $scope.communities = null;
+            }
+        });
+
+
+    }
+
+
+    $scope.parallelcoordinates = function (url) {
+
+        debugger;
+        document.getElementById('choseparallel').style.display = ""
+        document.getElementById('choseparallel').innerHTML = "parallel"
+
+
+        var apiget = '/api/v1/data/GraphH2020/?limit=14837&offset=0' + url;
         $scope.paralleldata = []
         $http.get(apiget).then(function successCallback(response) {
 
