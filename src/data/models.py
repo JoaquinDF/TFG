@@ -139,6 +139,8 @@ class Graph_nodes(Document):
     idproject = StringField()
     presupuesto = IntField()
     subvencion = IntField()
+    country = StringField()
+    startdate = DateTimeField()
     meta = {
         'collection': 'data.graph_nodes'
     }

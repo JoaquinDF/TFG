@@ -342,36 +342,51 @@ class GraphH2020ViewSet(ReadOnlyModelViewSet):
         queryset = Graph_nodes.objects.all()
 
         title = self.request.query_params.get('title', None)
+
         if title is not None:
             queryset = queryset.filter(tituloProyecto__icontains=title)
-            return queryset
 
         community = self.request.query_params.get('community', None)
-        if community is not None:
-            print(community)
-            queryset = queryset.filter(community=int(community))
+        if community is not None and community is not '':
 
-        moreP = int(self.request.query_params.get('moreP', 0))
-        lessP = int(self.request.query_params.get('lessP', 0))
+            data = community.split(" ")
+            data = list(map(int, data))
 
-        moreS = int(self.request.query_params.get('moreS', 0))
-        lessS = int(self.request.query_params.get('lessS', 0))
+            pprint.pprint(data)
+            if len(data) > 0:
+                queryset = queryset.filter(community__in=list(data))
+
+            else:
+                queryset = queryset.filter(community=int(community))
+
+        moreP = self.request.query_params.get('moreP', 0)
+        moreP = 0 if moreP is '' else int(moreP)
+
+        lessP = self.request.query_params.get('lessP', 0)
+        lessP = 0 if lessP is '' else int(lessP)
+
+        moreS = self.request.query_params.get('moreS', 0)
+        moreS = 0 if moreS is '' else int(moreS)
+
+        lessS = self.request.query_params.get('lessS', 0)
+        lessS = 0 if lessS is '' else int(lessS)
 
         if moreP > 0:
             queryset = queryset.filter(presupuesto__lte=moreP)
-            print(moreP)
+            print('moreP' + str(moreP))
 
         if moreS > 0:
             queryset = queryset.filter(subvencion__lte=moreS)
-            print(moreS)
+            print('moreS' + str(moreS))
 
         if lessP > 0:
             queryset = queryset.filter(presupuesto__gte=lessP)
-            print(lessP)
+            print('lessP' + str(lessP))
 
         if lessS > 0:
             queryset = queryset.filter(subvencion__gte=lessS)
-            print(lessS)
+            print('lessS' + str(lessS))
+
         return queryset
 
 

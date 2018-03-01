@@ -469,7 +469,7 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
 
         debugger;
         document.getElementById('choseparallel').style.display = ""
-        document.getElementById('choseparallel').innerHTML = "parallel"
+        document.getElementById('parallel').innerHTML = ""
 
 
         var apiget = '/api/v1/data/GraphH2020/?limit=14837&offset=0' + url;
@@ -490,6 +490,9 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
                     return colorgen(d.community);
                 };
 
+
+                debugger;
+
                 var dimensions = {
                     "community":
                         {
@@ -497,7 +500,14 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
                             type: 'number',
                             tickPadding: 0,
                             innerTickSize: 8,
-                            ticks: 58
+                            ticks: function () {
+                                var ticks = datagraph[0].map(function (obj) {
+                                    return obj.community;
+                                });
+                                ticks = ticks.filter(function (v, i) {
+                                    return len(ticks.indexOf(v) == i);
+                                });
+                            }
                         },
 
                     "presupuesto":
@@ -516,6 +526,38 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
                             tickPadding: 0,
                             innerTickSize: 8,
                             ticks: 25
+
+                        },
+                    "country":
+                        {
+                            orient: 'right',
+                            type: 'date',
+                            tickPadding: 0,
+                            innerTickSize: 8,
+                            ticks: function () {
+                                var ticks = datagraph[0].map(function (obj) {
+                                    return obj.country;
+                                });
+                                ticks = ticks.filter(function (v, i) {
+                                    return len(ticks.indexOf(v) == i) / 6;
+                                });
+                            }
+
+                        },
+                    "startdate":
+                        {
+                            orient: 'right',
+                            type: 'string',
+                            tickPadding: 0,
+                            innerTickSize: 8,
+                            ticks: function () {
+                                var ticks = datagraph[0].map(function (obj) {
+                                    return obj.startdate;
+                                });
+                                ticks = ticks.filter(function (v, i) {
+                                    return len(ticks.indexOf(v) == i);
+                                });
+                            }
 
                         }
 
@@ -542,9 +584,11 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
 
                 d3.select("#grid")
                     .datum(function () {
+
                         for (var i in datagraph[0].slice(0, 5)) {
                             delete datagraph[0][i]['idnode']
                             delete datagraph[0][i]['id']
+
 
 
                         }

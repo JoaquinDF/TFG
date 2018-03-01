@@ -175,7 +175,7 @@
 
                     .row {
                         clear: left;
-                        font-size: 12px;
+                        font-size: 8px;
                         line-height: 18px;
                         margin-bottom: 1%;
                         border-bottom: 1px solid rgba(198, 37, 64, 0.3)
@@ -204,8 +204,16 @@
                 </style>
 
                 <div id="choseparallel" style="display: none; margin-left: 13%;">
-                    <h3>Comunidad: {{ comunidad }}</h3>
-                    <select ng-model="comunidad" style="width: 60%">
+                    <div style="display:flex ">
+                        <h3>Comunidad: </h3>
+                        <input style="width: 25%; border-bottom: rgba(180,33,59,0.19) solid 1px; margin-bottom: 3px"
+                               ng-model="comunidad"
+                               class="searchtext w3-input"
+                               ng-change="parallelcoordinates('&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+
+                    </div>
+                    <select ng-model="comunidad" style="width: 60%"
+                            ng-change="parallelcoordinates('&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
 
                         <option ng-repeat="data in communities" value="{{ data.communityId }}">
                             {{ data.communityId }}
@@ -216,10 +224,12 @@
                     </select>
                     <div style="display: flex; width: 30%">
                         <h3>Presupuesto: </h3>
-                        <H3> min:</h3>
-                        <input size="40" ng-model="lessP" class="searchtext w3-input">
-                        <H3> MAX:</h3>
-                        <input size="40" ng-model="moreP" class="searchtext w3-input">
+                        <H3> min: </h3>
+                        <input size="40" ng-model="lessP" class="searchtext w3-input"
+                               ng-change="parallelcoordinates('&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+                        <H3> MAX: </h3>
+                        <input size="40" ng-model="moreP" class="searchtext w3-input"
+                               ng-change="parallelcoordinates('&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
 
                     </div>
                     <hr class="style2" style="margin: 2px; width: 60%;">
@@ -228,30 +238,30 @@
 
 
                         <h3>Subvención: </h3>
-                        <H3> min:</h3>
-                        <input size="40" ng-model="lessS" class=" searchtext w3-input">
-                        <H3> MAX:</h3>
-                        <input size="40" ng-model="moreS" class=" searchtext w3-input">
+                        <H3> min: </h3>
+                        <input size="40" ng-model="lessS" class=" searchtext w3-input"
+                               ng-change="parallelcoordinates('&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+
+                        <H3> MAX: </h3>
+                        <input size="40" ng-model="moreS" class=" searchtext w3-input"
+                               ng-change="parallelcoordinates('&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
 
                     </div>
                     <div style="display: flex; width: 30%">
                         <h3>Titulo: </h3>
-                        <input ng-model="titulo" class="searchtext w3-input" placeholder=" Cointains...">
+                        <input ng-model="titulo" class="searchtext w3-input" placeholder=" Cointains..."
+                               ng-change="parallelcoordinates('&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+
                     </div>
 
                     {{ lessS }}
 
-                    <button class="w3-btn w3-block " style="width:20%"
-                            ng-click="parallelcoordinates('moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-                        Parallel
-                        Coordinates
-                    </button>
 
 
                 </div>
 
 
-                <div id="loadparallel" style="width: 100%; height: 100%; display: none">
+                <div id="loadparallel" style="width: 80%; height: 60%; display: none">
                     <div id="parallel" class="parcoords"
                          style="background: #f6f6f6; height: 60%; width: 100%;"></div>
                     <div id="grid"></div>
