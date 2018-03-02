@@ -208,6 +208,35 @@ hr.style1 {
 
 }
 
+.loader {
+    border: 10px solid rgba(180, 33, 59, 0.10);
+    border-radius: 50%;
+    border-top: 10px solid rgba(180, 33, 59, 0.80);
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .searchcontainer .btn-group .page-counter {
     display: inline;
 }
@@ -254,35 +283,4 @@ hr.style1 {
     margin-bot: 3%;
     border-color: transparent;
 
-}
-
-#grid {
-    height: 198px;
-}
-
-.row, .header {
-    clear: left;
-    font-size: 12px;
-    line-height: 18px;
-    height: 18px;
-}
-
-.row:nth-child(odd) {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-.header {
-    font-weight: bold;
-}
-
-.cell {
-    float: left;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100px;
-    height: 18px;
-}
-
-.col-0 {
-    width: 180px;
 }

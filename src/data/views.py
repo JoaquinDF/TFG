@@ -352,12 +352,23 @@ class GraphH2020ViewSet(ReadOnlyModelViewSet):
             data = community.split(" ")
             data = list(map(int, data))
 
-            pprint.pprint(data)
             if len(data) > 0:
                 queryset = queryset.filter(community__in=list(data))
 
             else:
                 queryset = queryset.filter(community=int(community))
+
+        country = self.request.query_params.get('country', None)
+        if country is not None and country is not '':
+
+            data = country.split(" ")
+            data = list(map(str.upper, data))
+            print(data)
+            if len(data) > 0:
+                queryset = queryset.filter(country__in=list(data))
+
+            else:
+                queryset = queryset.filter(country=data)
 
         moreP = self.request.query_params.get('moreP', 0)
         moreP = 0 if moreP is '' else int(moreP)
