@@ -76,6 +76,9 @@
                 });
                 var maxvalue = MAX.size;
 
+
+
+
                 debugger;
 
                 var paletteScale = d3.scale.log()

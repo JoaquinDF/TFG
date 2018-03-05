@@ -35,7 +35,8 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
         if (value) {
             document.getElementById('wordcloud').style.display = ""
             document.getElementById('projectid').style.display = "none"
-
+            document.getElementById('choseparallel').style.display = "none"
+            document.getElementById('loadparallel').style.display = "none"
 
             $scope.wordcloud = value
 
@@ -61,6 +62,8 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
         document.getElementById('container').innerHTML = "";
         document.getElementById('container').style.display = "";
         document.getElementById('sigma-container').style.display = "none";
+        document.getElementById('choseparallel').style.display = "none"
+        document.getElementById('loadparallel').style.display = "none"
 
         var nodeinfo = document.getElementsByClassName('nodeinfo');
         for (var x in nodeinfo.length) {
@@ -195,6 +198,7 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
             .start();
 
         function draw(words) {
+            d3.select(svg_location).select("svg").remove();
             d3.select(svg_location).append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -236,7 +240,6 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
     };
 
     $scope.reloadinfoonhover = function (info) {
-
         document.getElementById("nodeinfohover").innerHTML = "";
 
         var arraydata = info.split(",");
@@ -420,13 +423,22 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
     };
 
 
+    var ShowLoader = function () {
+        document.getElementById('loader').style.display = ''
+
+    }
+
+    var HideLoader = function () {
+        document.getElementById('loader').style.display = 'none'
+
+    }
+
     $scope.loadparallels = function () {
 
         document.getElementById('container').style.display = 'none'
         document.getElementById('sigma-container').style.display = 'none'
         document.getElementById('wordcloud').style.display = 'none'
         document.getElementById('projectid').style.display = 'none'
-        document.getElementById('loader').style.display = ''
         document.getElementById('grid').style.display = 'none'
 
 
@@ -469,6 +481,7 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
 
 
     $scope.parallelcoordinates = function (url) {
+        ShowLoader();
 
         debugger;
         document.getElementById('choseparallel').style.display = ""
@@ -481,8 +494,7 @@ mlist.controller('MAPS', ['$scope', '$http', '$cacheFactory', function ($scope, 
         $http.get(apiget).then(function successCallback(response) {
 
             $scope.paralleldata.push(response.data.results);
-            document.getElementById('loader').style.display = 'none'
-
+            HideLoader();
             d3.json(JSON.stringify($scope.paralleldatada), function (data) {
                 var datagraph = $scope.paralleldata
                 var format = d3.time.format("%Y-%m-%d");

@@ -209,9 +209,9 @@ hr.style1 {
 }
 
 .loader {
-    border: 10px solid rgba(180, 33, 59, 0.10);
+    border: 5px solid rgba(180, 33, 59, 0.10);
     border-radius: 50%;
-    border-top: 10px solid rgba(180, 33, 59, 0.80);
+    border-top: 5px solid rgba(180, 33, 59, 0.80);
     width: 60px;
     height: 60px;
     -webkit-animation: spin 2s linear infinite; /* Safari */
