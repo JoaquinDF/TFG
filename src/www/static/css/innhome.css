@@ -284,3 +284,38 @@ hr.style1 {
     border-color: transparent;
 
 }
+
+resizable-input {
+    /* make resizable */
+    overflow-x: hidden;
+    resize: both;
+    display: inline-block;
+    background: #B4213B;
+    /* no extra spaces */
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+
+    /* default widths */
+    width: 10em;
+    min-width: 2em;
+    max-width: 30em;
+}
+
+/* let <input> assume the size of the wrapper */
+.resizable-input > input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* add a visible handle */
+.resizable-input > span {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: -16px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAJUlEQVR4AcXJRwEAIBAAIPuXxgiOW3xZYzi1Q3Nqh+bUDk1yD9sQaUG/4ehuEAAAAABJRU5ErkJggg==");
+    cursor: ew-resize;
+}

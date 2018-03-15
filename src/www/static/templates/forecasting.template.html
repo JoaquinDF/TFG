@@ -1,0 +1,44 @@
+<div class="container-fluid" style="margin: 3%">
+
+                <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
+                          class="w3-input searchtext input-group searchcontainer"
+                          placeholder="Introduzca la descripción de su proyecto (Inglés)" required
+                          style="font-size: small; width:800px;height: 350px ">
+                </textarea>
+    <div style="display: flex">
+        <div id="sigma-container" class="graph col-sm-9" style="display: inline-table ; margin: 0% "></div>
+
+
+        <div class="col-sm-2 " id="wordcloud"
+             style="display: inline-table;height: fit-content;">
+            <div id="nodeinfo" class="nodeinfo">
+
+            </div>
+            <div id="nodeinfohover" class="nodeinfo ">
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+        .graph {
+            margin-left: 12%;
+            width: 60%;
+        !important;
+            height: 85%;
+        !important;
+
+            position: relative;
+
+        }
+    </style>
+
+
+    <div id="loader" class="loader" style="margin-top: 10%; margin-left: 30%; display: none"></div>
+
+
+</div>
+</div>
+
+
+

@@ -14,6 +14,7 @@ var Appmodule = angular.module('innhomeweb', [
     'metricModule',
     'ngRoute',
     'datamaps',
+    'forecastingModule',
 ]);
 
 Appmodule.config(['$locationProvider', '$routeProvider',
@@ -58,6 +59,9 @@ Appmodule.config(['$locationProvider', '$routeProvider',
 
             .when('/metric:id', {
                 template: '<metric-module style="display: block"></metric-module>'
+            })
+            .when('/forecasting', {
+                template: '<forecasting-module style="display: block"></forecasting-module>'
             })
     }]);
 

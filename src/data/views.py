@@ -2,7 +2,7 @@ import collections
 import pprint
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
-
+import django_tqdm
 import os
 import requests
 from bson.objectid import ObjectId
@@ -13,12 +13,51 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
 import pandas as pd
 import json
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+from nltk.stem.snowball import EnglishStemmer
 import time
 import networkx as nx
 from networkx.readwrite import json_graph
-
 from .serializers import *
 from collections import *
+from sklearn.externals import joblib
+from pymongo import MongoClient
+
+from scipy import stats
+
+timea = time.time()
+
+client = MongoClient('212.128.154.3', 27017)
+db = client.innhome
+
+db.authenticate(name='innhome', password='innhome00')
+raw_documents = []
+c = db.get_collection('bots.h2020.projects')
+documents = c.find()
+for d in documents:
+    raw_documents.append(d['objective'])
+
+
+def stemmed_words(doc):
+    stemmer = EnglishStemmer()
+    analyzer = TfidfVectorizer(
+        strip_accents='unicode',
+        stop_words='english',
+    ).build_analyzer()
+    return (stemmer.stem(w) for w in analyzer(doc))
+
+
+tfidf_vectorizer = TfidfVectorizer(
+    strip_accents='unicode',
+    analyzer=stemmed_words,
+    stop_words='english',
+    norm='l1',
+    sublinear_tf=True,
+)
+
+tfidf = tfidf_vectorizer.fit(raw_documents)
+print(time.time() - timea)
 
 
 # CALL
@@ -449,3 +488,42 @@ class CommunityViewSet(ReadOnlyModelViewSet):
 
             # pprint.pprint(json.dumps(HJson))
             return HttpResponse(json.dumps(HJson), content_type="application/json")
+
+
+class CommunityEstimationViewSet(ViewSet, django_tqdm.BaseCommand):
+
+    def create(self, request):
+
+        lsa_model = joblib.load(
+            '/home/bisite/innhome/innhome/src/www/static/js/Forecasting-module/models-h2020/lsa_model.sav')
+        svd_model = joblib.load(
+            '/home/bisite/innhome/innhome/src/www/static/js/Forecasting-module/models-h2020/svd_model.sav')
+
+        new_entry = []
+        entry = request.data.get('entry', '*')
+        new_entry.append(entry)
+
+        entry = tfidf.transform(new_entry)
+
+        if entry is not '*':
+            lsa_entry = svd_model.transform(entry)
+            sim = []
+            for i, row in enumerate(lsa_model):
+                rho, _ = stats.spearmanr(lsa_entry[0], row)
+                sim.append({
+                    'index': i,
+                    'rho': rho
+                })
+            sorted_sim = sorted(sim, reverse=True, key=lambda x: x['rho'])
+            Graph_nodes.objects.all()
+
+            c = db.data.community
+            mayority_com = []
+
+            for entry in sorted_sim[:100]:
+                com = c.find_one({'communityProjects': entry['index']})
+                mayority_com.append(com['communityId'])
+
+            c = Counter(mayority_com)
+            print(c.most_common())
+        return Response(dict(c.most_common()))
