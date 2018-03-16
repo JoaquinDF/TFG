@@ -18,13 +18,17 @@ angular.module('forecastingModule').component('forecastingModule', {
                     self.data = {
                         entry: this.search
                     };
-
                     document.getElementById('loader').style.display = ''
+                    document.getElementById("nodeinfohover").innerHTML = "";
+                    document.getElementById("nodeinfo").innerHTML = "";
+                    document.getElementById('sigma-container').style.display = 'none'
 
 
                     $http.post('/api/v1/data/CommunityEstimation/', self.data).then(function successCallback(response) {
                         document.getElementById('entry').style.height = "100px"
                         document.getElementById('loader').style.display = 'none'
+                        document.getElementById('sigma-container').style.display = ''
+
                         self.estimation = response.data;
                         self.loadgraph(self.estimation)
                         debugger;
@@ -139,11 +143,13 @@ angular.module('forecastingModule').component('forecastingModule', {
 
             };
 
-            hexToRGB = function (hex) {
-                var r = hex >> 16;
-                var g = hex >> 8 & 0xFF;
-                var b = hex & 0xFF;
-                return [r, g, b];
+
+            self.hexToRGB = function (hex) {
+                var color = [3]
+                color[0] = parseInt(hex.slice(1, 3), 16);
+                color[1] = parseInt(hex.slice(3, 5), 16);
+                color[2] = parseInt(hex.slice(5, 7), 16);
+                return color;
             }
             self.loadgraph = function (datajson) {
                 document.getElementById('sigma-container').style.display = "block";
@@ -178,12 +184,24 @@ angular.module('forecastingModule').component('forecastingModule', {
 
                         sigmaInstance.graph.nodes().forEach(function (node, i, a) {
 
+                            var color = d3.scale.linear()
+                                .domain([0, 50, 100])
+                                .range(["blue", "orange", "red"]);
+
                             node.x = Math.cos(Math.PI * 2 * i / a.length);
                             node.y = Math.sin(Math.PI * 2 * i / a.length);
-                            color = [3]
-                            color = hexToRGB(node.color)
 
-                            //TODO Hacer que cada nodo ajuste la intensidad de su color a la calidad de los datos.
+                            var intensity = datajson[(parseInt(node.id))]
+                            if (intensity == undefined) intensity = 0;
+
+                            node.color = color(intensity)
+
+
+                        });
+
+                        sigmaInstance.graph.edges().forEach(function (edge) {
+
+                            edge.color = 'rgba(58, 58, 58, 0.2)'
 
                         });
 

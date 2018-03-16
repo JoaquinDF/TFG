@@ -445,6 +445,7 @@ class AllCommunityViewSet(ReadOnlyModelViewSet):
     queryset = Community.objects.all()
 
 
+
 class CommunityViewSet(ReadOnlyModelViewSet):
     serializer_class = CommunitySerializer
 

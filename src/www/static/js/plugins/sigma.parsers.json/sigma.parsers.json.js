@@ -86,7 +86,6 @@
                 for (i in graph.nodes) {
 
                     var node = graph.nodes[i];
-                    debugger;
                     node.id = (parseFloat(node.id)).toFixed(1).toString()
                     node["info"] = node.label;
                     node.label = parseInt(node.id).toString() + " - (" + node.size + ")";
