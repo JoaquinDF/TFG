@@ -56,7 +56,7 @@ tfidf_vectorizer = TfidfVectorizer(
     sublinear_tf=True,
 )
 
-tfidf = tfidf_vectorizer.fit(raw_documents)
+# tfidf = tfidf_vectorizer.fit(raw_documents)
 print(time.time() - timea)
 
 
@@ -443,7 +443,6 @@ class GraphH2020ViewSet(ReadOnlyModelViewSet):
 class AllCommunityViewSet(ReadOnlyModelViewSet):
     serializer_class = CommunitySerializer
     queryset = Community.objects.all()
-
 
 
 class CommunityViewSet(ReadOnlyModelViewSet):

@@ -63,6 +63,15 @@ Appmodule.config(['$locationProvider', '$routeProvider',
             .when('/forecasting', {
                 template: '<forecasting-module style="display: block"></forecasting-module>'
             })
+            .when('/maps/:map', {
+                templateUrl: '/static/templates/maps-metric-module.template.html',
+                controller: 'MAPS'
+            })
+
+            .when('/community/:group/', {
+                templateUrl: '/static/templates/community-metric-module.template.html',
+                controller: 'COMMUNITY'
+            })
     }]);
 
 

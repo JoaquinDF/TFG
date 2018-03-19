@@ -63,10 +63,15 @@
         <script src="/static/js/admin-module/admin-module.module.js"></script>
         <script src="/static/js/admin-module/admin-module.component.js"></script>
 
+
         <script src="/static/js/Forecasting-module/forecasting.module.js"></script>
         <script src="/static/js/Forecasting-module/forecasting.component.js"></script>
+
         <script src="/static/js/metric-module/metric-module.module.js"></script>
         <script src="/static/js/metric-module/metric-module.component.js"></script>
+
+        <script src="/static/js/metric-module/maps-metric-module.module.js"></script>
+        <script src="/static/js/metric-module/community-metric-module.module.js"></script>
 
 
         <link href="/static/css/innhome.css" rel="stylesheet">
@@ -173,6 +178,10 @@
                     <form>
                         <a class="w3-bar-item tablink w3-button" id="Metric" href="#!metric"
                            onclick="tabbarColor('Metric')">Show Global Metrics</a>
+                        <a class="w3-bar-item tablink w3-button" id="Maps" href="#!/maps/orgnum"
+                           onclick="tabbarColor('Maps')">Heat Maps</a>
+                        <a class="w3-bar-item tablink w3-button" id="h2020" href="#!/community/h2020/"
+                           onclick="tabbarColor('h2020')">H2020</a>
 
                         <input size="50" class="w3-input searchtext " ng-model="textmetric"
                                placeholder=" Insert Orgnization Name " ng-change="onMetricEnter(textmetric,'orgs')">

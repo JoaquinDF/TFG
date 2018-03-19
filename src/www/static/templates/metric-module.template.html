@@ -110,24 +110,11 @@
 
         </div>
 
-        <div ng-if="!$ctrl.toShow()" class="row" ng-controller="MAPS" ng-init="mapObject('orgnum')"
+        <div ng-if="!$ctrl.toShow()" class="row" ng-controller="MAPS10" ng-init="mapObject('orgnum')"
              style="height: 85%; border-style: none">
             <div class="w3-sidebar w3-bar-block w3-theme-d4 w3-card col-sm-1 "
                  style="width:auto; height:auto; border-radius: 3px">
-                <h5 class="w3-bar-item">Heat Maps</h5>
-                <button id="orgnum" class="w3-bar-item w3-button tablink" ng-click="mapObject('orgnum')"
-                        onclick="tabcolor('orgnum')" style="background: #ccc; color: #000000"> Nº Organizaciones
-                </button>
-                <button id="proynum" class="w3-bar-item w3-button tablink" ng-click="mapObject('proynum')"
-                        onclick="tabcolor('proynum')"> Nº Proyectos
-                </button>
-                <button id="avenum" class="w3-bar-item w3-button tablink" ng-click="mapObject('avenum')"
-                        onclick="tabcolor('avenum')"> ~ Proyectos
-                </button>
 
-                <button id="orgper" class="w3-bar-item w3-button tablink" ng-click="mapObject('orgper')"
-                        onclick="tabcolor('orgper')"> % Subvencion
-                </button>
                 <h5 class="w3-bar-item">Communities</h5>
                 <button id="communityh2020" class="w3-bar-item w3-button tablink" ng-click="communityObject('h2020')"
                         onclick="tabcolor('communityh2020');">
