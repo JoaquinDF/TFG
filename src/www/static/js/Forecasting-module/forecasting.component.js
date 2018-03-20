@@ -4,7 +4,7 @@
 angular.module('forecastingModule').component('forecastingModule', {
 
         templateUrl: '/static/templates/forecasting.template.html',
-        controller: ['$http', function forecastingController($http, $scope) {
+        controller: ['$http', '$window', function forecastingController($http, $window) {
 
             var self = this;
             self.search = "";
@@ -236,6 +236,18 @@ angular.module('forecastingModule').component('forecastingModule', {
 
 
                         });
+
+                        sigmaInstance.bind('doubleClickNode', function (e) {
+                            var community = e.data.node.label.split(' - ')[0];
+
+                            var url = "/www/#!" + 'parallels/' + community
+
+                            $window.location.href = url
+
+
+                        });
+
+
                         sigmaInstance.refresh();
 
                     });

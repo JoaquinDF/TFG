@@ -1,9 +1,6 @@
 'use strict';
 
-var mlist = angular.module('metricModule', []);
-
-
-mlist.controller('MAPS', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+angular.module('mapsModule', []).controller('ControladorMaps', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
 
     var what = $routeParams.map
 

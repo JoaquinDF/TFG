@@ -1,21 +1,19 @@
 'use strict';
-
-var mlist = angular.module('metricModule', []);
-
-mlist.controller('COMMUNITY', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
 
 
     $scope.nodeinfo = [];
 
     $scope.showwordcloud = function (value) {
         if (value) {
-            document.getElementById('wordcloud').style.display = ""
+            document.getElementById('nodeinfohover').style.display = ''
+
             document.getElementById('projectid').style.display = "none"
 
             $scope.wordcloud = value
 
         } else {
-            document.getElementById('wordcloud').style.display = "none"
+            document.getElementById('nodeinfohover').style.display = "none"
             document.getElementById('projectid').style.display = ""
 
             $scope.wordcloud = value
@@ -44,8 +42,8 @@ mlist.controller('COMMUNITY', ['$scope', '$http', '$routeParams', function ($sco
 
 
         var svg_location = svglocation;
-        var width = 600;
-        var height = 500;
+        var width = 400;
+        var height = 300;
 
         var fill = d3.scale.category20();
 
@@ -183,9 +181,6 @@ mlist.controller('COMMUNITY', ['$scope', '$http', '$routeParams', function ($sco
             function (sigmaInstance) {
                 HideLoader()
 
-                document.getElementById('wordcloud').style.display = ''
-                document.getElementById('nodeinfohover').style.display = 'none'
-
 
                 sigmaInstance.graph.nodes().forEach(function (node, i, a) {
 
@@ -214,6 +209,7 @@ mlist.controller('COMMUNITY', ['$scope', '$http', '$routeParams', function ($sco
 
                     setTimeout(function () {
 
+                        sigmaInstance.stopForceAtlas2();
 
                     }, 1200);
 

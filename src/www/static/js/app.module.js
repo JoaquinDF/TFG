@@ -15,6 +15,9 @@ var Appmodule = angular.module('innhomeweb', [
     'ngRoute',
     'datamaps',
     'forecastingModule',
+    'parallelsModule',
+    'mapsModule',
+    'communityModule',
 ]);
 
 Appmodule.config(['$locationProvider', '$routeProvider',
@@ -41,13 +44,6 @@ Appmodule.config(['$locationProvider', '$routeProvider',
                 template: ' <transform-module style="display: flex"></transform-module>'
             })
 
-            .when('/p:id', {template: ' <search-list style="display: flex"></search-list>'})
-            .when('/np:id', {template: ' <search-list style="display: flex"></search-list>'})
-            .when('/c:id', {template: ' <search-list style="display: flex"></search-list>'})
-            .when('/nc:id', {template: ' <search-list style="display: flex"></search-list>'})
-            .when('/o:id', {template: ' <search-list style="display: flex"></search-list>'})
-            .when('/no:id', {template: ' <search-list style="display: flex"></search-list>'})
-
 
             .when('/search', {
                 template: '<search-list style="display: block"></search-list>'
@@ -65,13 +61,32 @@ Appmodule.config(['$locationProvider', '$routeProvider',
             })
             .when('/maps/:map', {
                 templateUrl: '/static/templates/maps-metric-module.template.html',
-                controller: 'MAPS'
+                controller: 'ControladorMaps'
             })
 
             .when('/community/:group/', {
-                templateUrl: '/static/templates/community-metric-module.template.html',
+                templateUrl: '/static/templates/community-module.template.html',
                 controller: 'COMMUNITY'
             })
+            .when('/parallels', {
+
+                templateUrl: '/static/templates/parallels-module.template.html',
+                controller: 'PARALLELS'
+            })
+
+            .when('/parallels/:id/', {
+
+                templateUrl: '/static/templates/parallels-module.template.html',
+                controller: 'PARALLELS'
+            })
+
+            .when('/p:id', {template: ' <search-list style="display: flex"></search-list>'})
+            .when('/np:id', {template: ' <search-list style="display: flex"></search-list>'})
+            .when('/c:id', {template: ' <search-list style="display: flex"></search-list>'})
+            .when('/nc:id', {template: ' <search-list style="display: flex"></search-list>'})
+            .when('/o:id', {template: ' <search-list style="display: flex"></search-list>'})
+            .when('/no:id', {template: ' <search-list style="display: flex"></search-list>'})
+
     }]);
 
 

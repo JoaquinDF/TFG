@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 
-    <body>
-        <div class="container-fluid row" ng-if="$ctrl.toShow()">
+    <div class="container-fluid row">
 
 
-            <div class="container-fluid col-sm-5" style="margin-top: 5%; margin-left: inherit; display: inline-block;">
+        <div class="container-fluid col-sm-5" style="margin-top: 5%; margin-left: inherit; display: inline-block;">
 
 
-                <ul class="project" ng-controller="DEBUG">
+            <ul class="project" ng-controller="DEBUG">
 
-                    <div class="proyectcontainer">
+                <div class="proyectcontainer">
 
                     <span ng-if="$ctrl.Proyecto.length>0">
                         <md-button class="md-raised "
@@ -22,13 +21,13 @@
 
                     </span>
 
-                        <h2>Organizacion:</h2>
+                    <h2>Organizacion:</h2>
 
-                        <div ng-repeat="orgs in $ctrl.Orgs">
-                            <a href="/www/#!/metric{{ orgs.id }}" style="display: block">
+                    <div ng-repeat="orgs in $ctrl.Orgs">
+                        <a href="/www/#!/metric{{ orgs.id }}" style="display: block">
 
-                                <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
-                                     style="margin-left: 13%">
+                            <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
+                                 style="margin-left: 13%">
 
                                               <span ng-if="isobj(value)== false">
 
@@ -39,7 +38,7 @@
                                                             </h3>
                                                         </span>
                                               </span>
-                                    <span ng-if="isobj(value)== true">
+                                <span ng-if="isobj(value)== true">
                                                         <span ng-if="key!='_id'"><h3>{{ key }}:</h3></span>
                                                         <div ng-repeat="(key2,value2) in value "
                                                              style="margin-left: 13%">
@@ -49,56 +48,11 @@
                                                         </div>
                                                     </span>
 
-                                    <span ng-if="$last">
+                                <span ng-if="$last">
                                         <hr class="style2">
                                         </span>
-                                </div>
-                            </a>
-
-                        </div>
-
-
-                    </div>
-
-
-                </ul>
-            </div>
-            <div class="container-fluid col-sm-7 " style="margin-top: 5%; margin-left: inherit; display: inline-block;"
-                 ng-controller="Chart">
-
-                <div class="row">
-
-                    <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadcharts()">
-                        <h4>Métricas</h4>
-
-                        <div class="porcentajesubvencionado col-sm-6">
-                            <h3> % de presupuesto subvencionado:</h3>
-                            <canvas id="doughnut" class="chart chart-doughnut"
-                                    chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
-                                    chart-options="optionspie">
-                            </canvas>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <h3>Subvencion con respecto al País:</h3>
-
-                            <canvas id="bar" class="chart chart-bar"
-                                    chart-data="$ctrl.databar" chart-options="optionsbar"
-                                    chart-series="$ctrl.seriesbar">
-
-                            </canvas>
-                        </div>
-                        <div class="col-sm-6">
-                            <h3>Distribución de los sectores del País:</h3>
-
-                            <canvas id="doughnut" class="chart chart-doughnut"
-                                    chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar"
-                                    chart-options="optionspolar">
-
-                            </canvas>
-
-
-                        </div>
+                            </div>
+                        </a>
 
                     </div>
 
@@ -106,175 +60,54 @@
                 </div>
 
 
+            </ul>
+        </div>
+        <div class="container-fluid col-sm-7 " style="margin-top: 5%; margin-left: inherit; display: inline-block;"
+             ng-controller="Chart">
+
+            <div class="row">
+
+                <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadcharts()">
+                    <h4>Métricas</h4>
+
+                    <div class="porcentajesubvencionado col-sm-6">
+                        <h3> % de presupuesto subvencionado:</h3>
+                        <canvas id="doughnut" class="chart chart-doughnut"
+                                chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
+                                chart-options="optionspie">
+                        </canvas>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h3>Subvencion con respecto al País:</h3>
+
+                        <canvas id="bar" class="chart chart-bar"
+                                chart-data="$ctrl.databar" chart-options="optionsbar"
+                                chart-series="$ctrl.seriesbar">
+
+                        </canvas>
+                    </div>
+                    <div class="col-sm-6">
+                        <h3>Distribución de los sectores del País:</h3>
+
+                        <canvas id="doughnut" class="chart chart-doughnut"
+                                chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar"
+                                chart-options="optionspolar">
+
+                        </canvas>
+
+
+                    </div>
+
+                </div>
+
+
             </div>
+
 
         </div>
 
-        <div ng-if="!$ctrl.toShow()" class="row" ng-controller="MAPS10" ng-init="mapObject('orgnum')"
-             style="height: 85%; border-style: none">
-            <div class="w3-sidebar w3-bar-block w3-theme-d4 w3-card col-sm-1 "
-                 style="width:auto; height:auto; border-radius: 3px">
-
-                <h5 class="w3-bar-item">Communities</h5>
-                <button id="communityh2020" class="w3-bar-item w3-button tablink" ng-click="communityObject('h2020')"
-                        onclick="tabcolor('communityh2020');">
-                    Comunidades-H2020
-                </button>
-                <button id="ParallelCoord" class="w3-bar-item w3-button tablink" ng-click="loadparallels()"
-                        onclick="tabcolor('ParallelCoord');">
-                    Parallel Coordinates
-                </button>
-            </div>
-
-
-            <div class="container-fluid col-sm-11" id="container-fluid"
-                 style=" margin-top: 2%; margin-bottom: 2%; width: 100%">
-
-                <style>
-                    .graph {
-                        margin-left: 12%;
-                        width: 60%;
-                    !important;
-                        height: 85%;
-                    !important;
-
-                        position: relative;
-
-                    }
-                </style>
-                <div id="container" class="graph col-sm-9 "
-                     style="display: inline-table; width: 60%; height: 85%;">
-
-                </div>
-
-
-                <div id="sigma-container" class="graph col-sm-9" style="display: inline-table ; "></div>
-
-                <div class="col-sm-2 " id="wordcloud"
-                     style="display: inline-table;height: fit-content;">
-                    <div id="nodeinfo" class="nodeinfo">
-
-                    </div>
-                    <div id="nodeinfohover" class="nodeinfo ">
-                    </div>
-                </div>
-                <style>
-
-
-                    .row {
-                        clear: left;
-                        font-size: 8px;
-                        margin-bottom: 1%;
-                        border-bottom: 1px solid rgba(198, 37, 64, 0.3)
-                    }
-
-                    .header {
-                        height: 30px;
-                        text-transform: uppercase;
-                        background: rgba(198, 37, 64, 0.1);
-
-                    }
-
-                    .cell {
-                        float: left;
-                        margin-left: 1%;
-                        white-space: pre-line;
-                        height: auto;
-                        width: 200px;;
-                    }
-
-                    .col-0 {
-                        width: 200px;
-                        margin-left: 1%;
-
-                    }
-
-                </style>
-
-                <div id="choseparallel" style="display: none; margin-left: 13%;">
-                    <div style="display:flex ">
-                        <h3>Comunidad: </h3>
-                        <input style="width: 25%; border-bottom: rgba(180,33,59,0.19) solid 1px; margin-bottom: 3px"
-                               ng-model="comunidad"
-                               class="searchtext w3-input"
-                               ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
-                        <h3>País: </h3>
-                        <input style="width: 25%; border-bottom: rgba(180,33,59,0.19) solid 1px; margin-bottom: 3px"
-                               ng-model="pais"
-                               class="searchtext w3-input"
-                               ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
-
-                    </div>
-                    <select ng-model="comunidad" style="width: 60%"
-                            ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
-                        <option ng-repeat="data in communities" value="{{ data.communityId }}">
-                            {{ data.communityId }}
-                            - {{ data.label }}
-                        </option>
-
-
-                    </select>
-                    <div style="display: flex; width: 30%">
-                        <h3>Presupuesto: </h3>
-                        <H3> min: </h3>
-                        <input size="40" ng-model="lessP" class="searchtext w3-input"
-                               ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-                        <H3> MAX: </h3>
-                        <input size="40" ng-model="moreP" class="searchtext w3-input"
-                               ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
-                    </div>
-                    <hr class="style2" style="margin: 2px; width: 60%;">
-
-                    <div style="display: flex; width: 30%">
-
-
-                        <h3>Subvención: </h3>
-                        <H3> min: </h3>
-                        <input size="40" ng-model="lessS" class=" searchtext w3-input"
-                               ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
-                        <H3> MAX: </h3>
-                        <input size="40" ng-model="moreS" class=" searchtext w3-input"
-                               ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
-                    </div>
-                    <div style="display: flex; width: 30%">
-                        <h3>Titulo: </h3>
-                        <input ng-model="titulo" class="searchtext w3-input" placeholder=" Cointains..."
-                               ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
-                    </div>
-
-
-                </div>
-
-                <div id="loader" class="loader" style="margin-top: 7px; margin-left: 30%; display: none"></div>
-
-                <div id="loadparallel" style="width: 100%; height: 60%; display: none; margin-left: 5%">
-                    <div id="parallel" class="parcoords"
-                         style="background: #f6f6f6; height: 60%; width: 100%;"></div>
-                    <div id="grid"></div>
-                </div>
-                <div id="projectid" class="col-sm-2" style="display:none; height: fit-content;
-    padding: 1%; margin: 1%;">
-                    <div ng-repeat="(key, value) in Proyecto[0]">
-                        <h3> {{ key }}:
-
-                            <span>{{ value }} </span>
-                        </h3>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-
-    </body>
+    </div>
 
 
     <script>
@@ -295,4 +128,3 @@
 
 
     </script>
-</html>
