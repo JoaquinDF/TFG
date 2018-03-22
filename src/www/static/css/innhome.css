@@ -322,14 +322,3 @@ resizable-input {
     cursor: ew-resize;
 }
 
-.clickblue {
-    border: 2px solid rgba(23, 89, 157, 0.69);
-    border-radius: 1px;
-
-}
-
-.clickbrown {
-    border: 2px solid rgba(139, 69, 19, 0.69);
-    border-radius: 1px;
-
-}

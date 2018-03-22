@@ -4,6 +4,62 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
     $scope.nodeinfo = [];
 
+    $scope.tofind = function (data) {
+        var sigmainstance = sigma.instances()[0];
+
+
+        if (!data == "") {
+            if (!isNaN(data)) { //es un numero
+                sigmainstance.graph.nodes().forEach(function (n) {
+                    if (parseFloat(data) != n.id) {
+                        n.color = 'rgb(211,211,211,0.3)'
+
+                    } else {
+                        n.color = n.originalColor
+                    }
+                });
+            } else {
+
+                sigmainstance.graph.nodes().forEach(function (n) {
+                    if (n.info.indexOf(data) == -1) {
+                        n.color = 'rgb(211,211,211,0.3)'
+
+                    } else {
+                        n.color = n.originalColor
+                    }
+                });
+
+
+            }
+            sigmainstance.graph.edges().forEach(function (e) {
+
+
+                e.color = 'rgba(198, 36, 63, 0.05)';
+
+
+            });
+
+        } else {
+
+            sigmainstance.graph.nodes().forEach(function (n) {
+                n.color = n.originalColor
+
+
+            });
+            sigmainstance.graph.edges().forEach(function (e) {
+
+
+                e.color = e.originalColor;
+
+
+            });
+
+
+        }
+        sigmainstance.refresh()
+    }
+
+
     $scope.showwordcloud = function (value) {
         if (value) {
             document.getElementById('nodeinfohover').style.display = ''
@@ -201,6 +257,7 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
                 if (sigmaInstance.graph.nodes().length > 75) {
                     setTimeout(function () {
                         sigmaInstance.stopForceAtlas2();
+                        document.getElementById('finder').style.display = ''
 
 
                     }, 3000);
@@ -210,6 +267,8 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
                     setTimeout(function () {
 
                         sigmaInstance.stopForceAtlas2();
+                        document.getElementById('finder').style.display = ''
+
 
                     }, 1200);
 
@@ -291,6 +350,20 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
 
                 });
+                sigmaInstance.bind('clickStage', function (e) {
+
+                    sigmaInstance.graph.nodes().forEach(function (n) {
+                        n.color = n.originalColor
+
+
+                    });
+                    sigmaInstance.graph.edges().forEach(function (e) {
+                        e.color = e.originalColor
+
+
+                    });
+
+                });
 
 
             }
@@ -305,6 +378,8 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
         $window.location.href = url
     }
     var ShowLoader = function () {
+        document.getElementById('finder').style.display = 'none'
+
         document.getElementById('loader').style.display = ''
 
     }
