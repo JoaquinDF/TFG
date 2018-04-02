@@ -1,0 +1,48 @@
+<div style="margin: 3%; width: 60%;" xmlns="http://www.w3.org/1999/html">
+    <div class="panel panel-default">
+
+        <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
+                  class=" panel-body searchtext input-group searchcontainer "
+                  placeholder="Introduzca la descripción de su proyecto (Inglés)" required
+                  style="font-size: small; width:847px;height: 460px; margin: 3%">
+        </textarea>
+    </div>
+    <div class="panel panel-default">
+
+    <textarea id="entry" ng-model="$ctrl.startdate"
+              class=" panel-body searchtext input-group searchcontainer "
+              placeholder="Fecha de Inicio del proyecto (Año-Mes-Día)" required
+              style="font-size: small; width: 300px;height:36px; margin: 2%">
+                </textarea>
+    </div>
+    <div class="panel panel-default">
+
+        <select class="panel-body" ng-model="pais" style="width: 150px; margin: 2%">
+            <option value="" selected> Select Country:</option>
+            <option ng-repeat="country in $ctrl.countries" value="{{ country }}">
+                {{ country }}
+            </option>
+        </select>
+    </div>
+    <div class="panel panel-default">
+
+        <textarea id="entry" ng-model="$ctrl.presupuesto"
+                  class="panel-body  searchtext input-group searchcontainer "
+                  placeholder="Indique el presupuesto del proyecto (€)" required
+                  style="font-size: small; width: 400px;height:36px; margin: 2%">
+        </textarea>
+
+    </div>
+    <div class="panel panel-default">
+
+        <textarea id="entry" ng-model="$ctrl.subvencion"
+                  class="panel-body searchtext input-group searchcontainer "
+                  placeholder="Indique la cantidad de financiación que desee obtener (€)" required
+                  style="font-size: small; width: 400px;height:36px; margin: 2%">
+        </textarea>
+    </div>
+
+</div>
+
+
+

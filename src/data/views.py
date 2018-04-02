@@ -13,6 +13,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
 import pandas as pd
 import json
+from data.utils import checkifAccepted
+import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from nltk.stem.snowball import EnglishStemmer
@@ -26,6 +28,8 @@ from pymongo import MongoClient
 
 from scipy import stats
 
+DATESTARTH2020 = 1388534400
+DATEENDH2020 = 1577836800
 timea = time.time()
 
 client = MongoClient('212.128.154.3', 27017)
@@ -56,7 +60,10 @@ tfidf_vectorizer = TfidfVectorizer(
     sublinear_tf=True,
 )
 
-# tfidf = tfidf_vectorizer.fit(raw_documents)
+if not os.path.exists('www/static/js/Forecasting-module/models-h2020/tfidf.sav'):
+    tfidf = tfidf_vectorizer.fit(raw_documents)
+    joblib.dump(tfidf, 'www/static/js/Forecasting-module/models-h2020/tfidf.sav')
+
 print(time.time() - timea)
 
 
@@ -490,14 +497,16 @@ class CommunityViewSet(ReadOnlyModelViewSet):
             return HttpResponse(json.dumps(HJson), content_type="application/json")
 
 
-class CommunityEstimationViewSet(ViewSet, django_tqdm.BaseCommand):
+class CommunityEstimationViewSet(ViewSet):
 
     def create(self, request):
 
         lsa_model = joblib.load(
-            '/home/bisite/innhome/innhome/src/www/static/js/Forecasting-module/models-h2020/lsa_model.sav')
+            'www/static/js/Forecasting-module/models-h2020/lsa_model.sav')
         svd_model = joblib.load(
-            '/home/bisite/innhome/innhome/src/www/static/js/Forecasting-module/models-h2020/svd_model.sav')
+            'www/static/js/Forecasting-module/models-h2020/svd_model.sav')
+        tfidf = joblib.load(
+            'www/static/js/Forecasting-module/models-h2020/tfidf.sav')
 
         new_entry = []
         entry = request.data.get('entry', '*')
@@ -527,3 +536,34 @@ class CommunityEstimationViewSet(ViewSet, django_tqdm.BaseCommand):
             c = Counter(mayority_com)
             print(c.most_common())
         return Response(dict(c.most_common()))
+
+
+class ListCountriesAvailableViewSet(ViewSet):
+    serializer_class = GraphH2020ViewSetSerializer
+
+    def list(self, _):
+        queryset = Graph_nodes.objects.values_list('country').order_by('country').distinct('country')
+        return Response(queryset)
+
+
+class GetRecommendation(ReadOnlyModelViewSet):
+    serializer_class = GraphH2020ViewSetSerializer
+
+    def create(self, request):
+        presupuesto = request.data.get('presupuesto', '*')
+        subvencion = request.data.get('subvencion', '*')
+        country = request.data.get('country', '*')
+        startdate = request.data.get('startdate', '*')
+
+        df = pd.read_pickle('www/static/js/Forecasting-module/models-h2020/pandas_all_SVM_data.pkl')
+        df = df.drop(axis=1, labels='id')
+        quartiles = df.quantile([0., .25, .5, .75, 1.], axis=0)
+        LabelEncoder = joblib.load('www/static/js/Forecasting-module/models-h2020/LabelEncoder.sav')
+        data = {
+            "presupuesto": presupuesto,
+            "subvencion": subvencion,
+            "country": LabelEncoder.transform(country),
+            "startdate": startdate
+        }
+        results = checkifAccepted(data, quartiles)
+        return HttpResponse(json.dumps(results), content_type="application/json")
