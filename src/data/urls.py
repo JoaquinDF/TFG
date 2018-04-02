@@ -20,5 +20,6 @@ router.register(r'GraphH2020', GraphH2020ViewSet, r'GraphH2020')
 router.register(r'AllCommunity', AllCommunityViewSet, r'AllCommunity')
 router.register(r'CommunityEstimation', CommunityEstimationViewSet, r'CommunityEstimation')
 router.register(r'ListCountriesAvailable', ListCountriesAvailableViewSet, r'ListCountriesAvailable')
+router.register(r'GetRecommendation', GetRecommendationViewSet, r'GetRecommendation')
 
 urlpatterns = router.urls

@@ -24,6 +24,31 @@ angular.module('forecastingModule').component('recommenderModule', {
             });
 
 
+            self.check = function () {
+                self.data = {
+                    "presupuesto": self.presupuesto,
+                    "subvencion": self.subvención,
+                    "country": self.countries,
+                    "startdate": self.startdate
+                }
+                $http.post('/api/v1/data/CommunityEstimation/', self.data).then(function successCallback(response) {
+                    document.getElementById('entry').style.height = "100px"
+                    document.getElementById('loader').style.display = 'none'
+                    document.getElementById('sigma-container').style.display = ''
+
+                    self.estimation = response.data;
+                    self.loadgraph(self.estimation)
+                    debugger;
+
+                }, function errorCallback(response) {
+
+
+                });
+
+
+            }
+
+
         }]
 
     }

@@ -546,8 +546,7 @@ class ListCountriesAvailableViewSet(ViewSet):
         return Response(queryset)
 
 
-class GetRecommendation(ReadOnlyModelViewSet):
-    serializer_class = GraphH2020ViewSetSerializer
+class GetRecommendationViewSet(ViewSet):
 
     def create(self, request):
         LabelEncoder = joblib.load('www/static/js/Forecasting-module/models-h2020/LabelEncoder.sav')
