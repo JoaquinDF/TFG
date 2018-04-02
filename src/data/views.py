@@ -550,15 +550,19 @@ class GetRecommendation(ReadOnlyModelViewSet):
     serializer_class = GraphH2020ViewSetSerializer
 
     def create(self, request):
+        LabelEncoder = joblib.load('www/static/js/Forecasting-module/models-h2020/LabelEncoder.sav')
+
         presupuesto = request.data.get('presupuesto', '*')
         subvencion = request.data.get('subvencion', '*')
         country = request.data.get('country', '*')
         startdate = request.data.get('startdate', '*')
 
         df = pd.read_pickle('www/static/js/Forecasting-module/models-h2020/pandas_all_SVM_data.pkl')
+        # get only the rows of the selected country
+        df.loc[df['country'] == LabelEncoder.transform(country)]
+
         df = df.drop(axis=1, labels='id')
         quartiles = df.quantile([0., .25, .5, .75, 1.], axis=0)
-        LabelEncoder = joblib.load('www/static/js/Forecasting-module/models-h2020/LabelEncoder.sav')
         data = {
             "presupuesto": presupuesto,
             "subvencion": subvencion,
