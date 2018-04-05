@@ -13,7 +13,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
 import pandas as pd
 import json
-from data.utils import checkifAccepted
+import matplotlib.pyplot as plt
+
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -25,6 +26,7 @@ from .serializers import *
 from collections import *
 from sklearn.externals import joblib
 from pymongo import MongoClient
+from sklearn import preprocessing
 
 from scipy import stats
 
@@ -59,10 +61,10 @@ tfidf_vectorizer = TfidfVectorizer(
     norm='l1',
     sublinear_tf=True,
 )
-
-if not os.path.exists('www/static/js/Forecasting-module/models-h2020/tfidf.sav'):
+print(os.getcwd())
+if not os.path.exists('data/models-h2020/tfidf.sav'):
     tfidf = tfidf_vectorizer.fit(raw_documents)
-    joblib.dump(tfidf, 'www/static/js/Forecasting-module/models-h2020/tfidf.sav')
+    joblib.dump(tfidf, 'data/models-h2020/tfidf.sav')
 
 print(time.time() - timea)
 
@@ -502,11 +504,11 @@ class CommunityEstimationViewSet(ViewSet):
     def create(self, request):
 
         lsa_model = joblib.load(
-            'www/static/js/Forecasting-module/models-h2020/lsa_model.sav')
+            'data/models-h2020/lsa_model.sav')
         svd_model = joblib.load(
-            'www/static/js/Forecasting-module/models-h2020/svd_model.sav')
+            'data/models-h2020/svd_model.sav')
         tfidf = joblib.load(
-            'www/static/js/Forecasting-module/models-h2020/tfidf.sav')
+            'data/models-h2020/tfidf.sav')
 
         new_entry = []
         entry = request.data.get('entry', '*')
@@ -549,24 +551,82 @@ class ListCountriesAvailableViewSet(ViewSet):
 class GetRecommendationViewSet(ViewSet):
 
     def create(self, request):
-        LabelEncoder = joblib.load('www/static/js/Forecasting-module/models-h2020/LabelEncoder.sav')
-
+        entry = request.data.get('search', '*')
         presupuesto = request.data.get('presupuesto', '*')
         subvencion = request.data.get('subvencion', '*')
         country = request.data.get('country', '*')
         startdate = request.data.get('startdate', '*')
 
-        df = pd.read_pickle('www/static/js/Forecasting-module/models-h2020/pandas_all_SVM_data.pkl')
-        # get only the rows of the selected country
-        df.loc[df['country'] == LabelEncoder.transform(country)]
+        df = joblib.load('data/models-h2020/pandas_all_SVM_data.sav')
 
-        df = df.drop(axis=1, labels='id')
-        quartiles = df.quantile([0., .25, .5, .75, 1.], axis=0)
-        data = {
-            "presupuesto": presupuesto,
-            "subvencion": subvencion,
-            "country": LabelEncoder.transform(country),
-            "startdate": startdate
-        }
-        results = checkifAccepted(data, quartiles)
-        return HttpResponse(json.dumps(results), content_type="application/json")
+        mins, maxs = df['subvencion'].quantile([0., 1.])
+        minp, maxp = df['presupuesto'].quantile([0., 1.])
+
+        svd_model = joblib.load(
+            'data/models-h2020/svd_model.sav')
+        LabelEncoder = joblib.load('data/models-h2020/LabelEncoder.sav')
+        tfidf = joblib.load(
+            'data/models-h2020/tfidf.sav')
+        IsolationForest = joblib.load(
+            'data/models-h2020/IsolationForest.sav')
+        IsolationForest_Sub_Pres = joblib.load(
+            'data/models-h2020/IsolationForest_Sub_Pres.sav')
+
+        mintime, maxtime = [1388534400, 1543622000]
+        print(startdate / 1000)
+        if int(startdate / 1000) < mintime | int(startdate / 1000) > maxtime:
+            print('startdate low or high')
+            return HttpResponse(json.dumps({"results": '0'}), content_type="application/json")
+
+        d = {'country': LabelEncoder.transform([country]), 'subvencion': [subvencion], 'presupuesto': [presupuesto],
+             'startdate': [startdate]}
+
+        dataframe_no_objetive = pd.DataFrame(data=d)
+        pprint.pprint(dataframe_no_objetive)
+        new_entry = []
+        new_entry.append(entry)
+        entry = tfidf.transform(new_entry)
+        print()
+        print()
+        if entry is not '*':
+            DimensionalityReduction = svd_model.transform(entry)
+            DimensionalityReduction_dataframe = pd.DataFrame(DimensionalityReduction)
+            result = pd.concat([dataframe_no_objetive, DimensionalityReduction_dataframe], axis=1)
+            print(result.head())
+
+            result = result.drop(axis=1, labels=['startdate'])
+            print(result.shape)
+            Isolation = IsolationForest.predict(result)
+            print(Isolation)
+
+            predict = [subvencion, presupuesto]
+            y = IsolationForest_Sub_Pres.predict([predict])
+            print("SUB_PRES")
+            print(y)
+
+            xx, yy = np.meshgrid(np.linspace(mins, maxs, 500), np.linspace(minp, maxp, 500))
+            Z = IsolationForest_Sub_Pres.decision_function(np.c_[xx.ravel(), yy.ravel()])
+            Z = Z.reshape(xx.shape)
+            plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
+            pr = plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
+            plt.contourf(xx, yy, Z, levels=[0, Z.max()], colors='palevioletred')
+
+            c1 = plt.scatter(predict[0], predict[1], c='white',
+                             s=150, edgecolor='k')
+
+            plt.xlim((predict[0] / 3, predict[0] * 3))
+            plt.ylim((predict[1] / 3, predict[1] * 3))
+
+            plt.legend([pr.collections[0], c1],
+                       ["Learning Limit", "Predicted Result"], loc="upper left")
+
+            path = 'www/static/images/foo.png'
+
+            try:
+                os.remove(path)
+            except Exception as e:
+                print(e)
+
+            plt.savefig(path)
+
+        return HttpResponse(json.dumps({'result': str(Isolation)}), content_type="application/json")

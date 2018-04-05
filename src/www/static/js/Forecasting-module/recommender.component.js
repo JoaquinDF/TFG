@@ -9,9 +9,10 @@ angular.module('forecastingModule').component('recommenderModule', {
 
             var self = this;
             self.search = "";
+            self.pais = "";
             self.startdate = "";
             self.presupuesto = "";
-            self.subvención = "";
+            self.subvencion = "";
             self.countries = "";
 
             $http.get('/api/v1/data/ListCountriesAvailable/').then(function successCallback(response) {
@@ -26,18 +27,14 @@ angular.module('forecastingModule').component('recommenderModule', {
 
             self.check = function () {
                 self.data = {
+                    "search": self.search,
                     "presupuesto": self.presupuesto,
-                    "subvencion": self.subvención,
-                    "country": self.countries,
-                    "startdate": self.startdate
+                    "subvencion": self.subvencion,
+                    "country": self.pais,
+                    "startdate": new Date(self.startdate).valueOf()
                 }
-                $http.post('/api/v1/data/CommunityEstimation/', self.data).then(function successCallback(response) {
-                    document.getElementById('entry').style.height = "100px"
-                    document.getElementById('loader').style.display = 'none'
-                    document.getElementById('sigma-container').style.display = ''
+                $http.post('/api/v1/data/GetRecommendation/', self.data).then(function successCallback(response) {
 
-                    self.estimation = response.data;
-                    self.loadgraph(self.estimation)
                     debugger;
 
                 }, function errorCallback(response) {
