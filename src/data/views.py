@@ -603,7 +603,7 @@ class GetRecommendationViewSet(ViewSet):
             Isolation = IsolationForest.predict(result)
             print(Isolation)
 
-            predict = [subvencion, presupuesto]
+            predict = [int(subvencion), int(presupuesto)]
             y = IsolationForest_Sub_Pres.predict([predict])
             print("SUB_PRES")
             print(y)
@@ -614,15 +614,18 @@ class GetRecommendationViewSet(ViewSet):
             plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
             pr = plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
             plt.contourf(xx, yy, Z, levels=[0, Z.max()], colors='palevioletred')
+            X_train = df[['subvencion', 'presupuesto']].as_matrix()
 
+            b1 = plt.scatter(X_train[:, 0], X_train[:, 1], c='yellow',
+                             s=25, edgecolor='k')
             c1 = plt.scatter(predict[0], predict[1], c='white',
                              s=150, edgecolor='k')
 
             plt.xlim((predict[0] / 3, predict[0] * 3))
             plt.ylim((predict[1] / 3, predict[1] * 3))
 
-            plt.legend([pr.collections[0], c1],
-                       ["Learning Limit", "Predicted Result"], loc="upper left")
+            plt.legend([pr.collections[0], b1, c1],
+                       ["Learning Limit", "Training set", "Predicted Result"], loc="upper left")
 
             path = 'www/static/images/foo.png'
 
