@@ -13,6 +13,10 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
 import pandas as pd
 import json
+import matplotlib
+
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 
 import numpy as np
