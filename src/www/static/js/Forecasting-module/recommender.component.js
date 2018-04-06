@@ -34,8 +34,13 @@ angular.module('forecastingModule').component('recommenderModule', {
                     "startdate": new Date(self.startdate).valueOf()
                 }
                 $http.post('/api/v1/data/GetRecommendation/', self.data).then(function successCallback(response) {
+                    self.resultGlobal = response.data.resultGlobal == 1 ? true : false;
+                    self.resultSubPres = response.data.resultSubPres == 1 ? true : false;
+
+                    $('#myModal').modal('show')
 
                     debugger;
+
 
                 }, function errorCallback(response) {
 

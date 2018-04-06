@@ -14,6 +14,7 @@ from rest_framework.viewsets import ViewSet
 import pandas as pd
 import json
 import matplotlib
+from sklearn import ensemble
 
 matplotlib.use('Agg')
 
@@ -573,8 +574,6 @@ class GetRecommendationViewSet(ViewSet):
             'data/models-h2020/tfidf.sav')
         IsolationForest = joblib.load(
             'data/models-h2020/IsolationForest.sav')
-        IsolationForest_Sub_Pres = joblib.load(
-            'data/models-h2020/IsolationForest_Sub_Pres.sav')
 
         mintime, maxtime = [1388534400, 1543622000]
         print(startdate / 1000)
@@ -604,6 +603,11 @@ class GetRecommendationViewSet(ViewSet):
             print(Isolation)
 
             predict = [int(subvencion), int(presupuesto)]
+            X = df.loc[df['country'] == float(LabelEncoder.transform([country]))]
+            X_train = X[['subvencion', 'presupuesto']].as_matrix()
+
+            Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42)
+            IsolationForest_Sub_Pres = Iso_Sub_Pres.fit(X_train)
             y = IsolationForest_Sub_Pres.predict([predict])
             print("SUB_PRES")
             print(y)
@@ -611,29 +615,31 @@ class GetRecommendationViewSet(ViewSet):
             xx, yy = np.meshgrid(np.linspace(mins, maxs, 500), np.linspace(minp, maxp, 500))
             Z = IsolationForest_Sub_Pres.decision_function(np.c_[xx.ravel(), yy.ravel()])
             Z = Z.reshape(xx.shape)
+            plt.figure(figsize=(6, 6), dpi=100)
+
             plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
             pr = plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
             plt.contourf(xx, yy, Z, levels=[0, Z.max()], colors='palevioletred')
-            X_train = df[['subvencion', 'presupuesto']].as_matrix()
 
             b1 = plt.scatter(X_train[:, 0], X_train[:, 1], c='yellow',
-                             s=25, edgecolor='k')
+                             s=50, edgecolor='k')
             c1 = plt.scatter(predict[0], predict[1], c='white',
-                             s=150, edgecolor='k')
+                             s=200, edgecolor='k')
 
-            plt.xlim((predict[0] / 3, predict[0] * 3))
-            plt.ylim((predict[1] / 3, predict[1] * 3))
+            plt.xlim((predict[0] / 10, predict[0] * 10))
+            plt.ylim((predict[1] / 10, predict[1] * 10))
 
             plt.legend([pr.collections[0], b1, c1],
                        ["Learning Limit", "Training set", "Predicted Result"], loc="upper left")
 
-            path = 'www/static/images/foo.png'
+            path = 'static/images/foo.png'
 
             try:
                 os.remove(path)
             except Exception as e:
                 print(e)
 
-            plt.savefig(path)
+            plt.savefig(path, dpi=100)
 
-        return HttpResponse(json.dumps({'result': str(Isolation)}), content_type="application/json")
+        return HttpResponse(json.dumps({'resultGlobal': str(Isolation[0]), 'resultSubPres': str(y[0])}),
+                            content_type="application/json")
