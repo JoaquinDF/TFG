@@ -13,8 +13,10 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.viewsets import ViewSet
 import pandas as pd
 import json
+import hashlib
 import matplotlib
 from sklearn import ensemble
+import glob
 
 matplotlib.use('Agg')
 
@@ -556,12 +558,16 @@ class ListCountriesAvailableViewSet(ViewSet):
 class GetRecommendationViewSet(ViewSet):
 
     def create(self, request):
+        plt.clf()
+
         entry = request.data.get('search', '*')
         presupuesto = request.data.get('presupuesto', '*')
         subvencion = request.data.get('subvencion', '*')
         country = request.data.get('country', '*')
         startdate = request.data.get('startdate', '*')
 
+        if entry == '*' or presupuesto == '*' or subvencion == '*' or country == '*' or startdate == '*':
+            return HttpResponse(json.dumps({"results": '0'}), content_type="application/json")
         df = joblib.load('data/models-h2020/pandas_all_SVM_data.sav')
 
         mins, maxs = df['subvencion'].quantile([0., 1.])
@@ -576,7 +582,6 @@ class GetRecommendationViewSet(ViewSet):
             'data/models-h2020/IsolationForest.sav')
 
         mintime, maxtime = [1388534400, 1543622000]
-        print(startdate / 1000)
         if int(startdate / 1000) < mintime | int(startdate / 1000) > maxtime:
             print('startdate low or high')
             return HttpResponse(json.dumps({"results": '0'}), content_type="application/json")
@@ -585,7 +590,6 @@ class GetRecommendationViewSet(ViewSet):
              'startdate': [startdate]}
 
         dataframe_no_objetive = pd.DataFrame(data=d)
-        pprint.pprint(dataframe_no_objetive)
         new_entry = []
         new_entry.append(entry)
         entry = tfidf.transform(new_entry)
@@ -595,27 +599,25 @@ class GetRecommendationViewSet(ViewSet):
             DimensionalityReduction = svd_model.transform(entry)
             DimensionalityReduction_dataframe = pd.DataFrame(DimensionalityReduction)
             result = pd.concat([dataframe_no_objetive, DimensionalityReduction_dataframe], axis=1)
-            print(result.head())
 
             result = result.drop(axis=1, labels=['startdate'])
-            print(result.shape)
             Isolation = IsolationForest.predict(result)
             print(Isolation)
 
             predict = [int(subvencion), int(presupuesto)]
             X = df.loc[df['country'] == float(LabelEncoder.transform([country]))]
             X_train = X[['subvencion', 'presupuesto']].as_matrix()
+            mins, maxs = X['subvencion'].quantile([0., 1.])
+            minp, maxp = X['presupuesto'].quantile([0., 1.])
 
             Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42)
             IsolationForest_Sub_Pres = Iso_Sub_Pres.fit(X_train)
             y = IsolationForest_Sub_Pres.predict([predict])
-            print("SUB_PRES")
             print(y)
 
             xx, yy = np.meshgrid(np.linspace(mins, maxs, 500), np.linspace(minp, maxp, 500))
             Z = IsolationForest_Sub_Pres.decision_function(np.c_[xx.ravel(), yy.ravel()])
             Z = Z.reshape(xx.shape)
-            plt.figure(figsize=(6, 6), dpi=100)
 
             plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
             pr = plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
@@ -626,20 +628,27 @@ class GetRecommendationViewSet(ViewSet):
             c1 = plt.scatter(predict[0], predict[1], c='white',
                              s=200, edgecolor='k')
 
-            plt.xlim((predict[0] / 10, predict[0] * 10))
-            plt.ylim((predict[1] / 10, predict[1] * 10))
+            plt.xlim((predict[0] / 10, predict[0] * 3))
+            plt.ylim((predict[1] / 10, predict[1] * 3))
 
             plt.legend([pr.collections[0], b1, c1],
                        ["Learning Limit", "Training set", "Predicted Result"], loc="upper left")
 
-            path = 'static/images/foo.png'
+            h = hashlib.new('ripemd160')
+            key = str(time.time())
+            h.update(key.encode())
+            key = h.hexdigest()[:6]
+            path_key = 'static/images/recommendation/' + key + '_foo.png'
+            path = 'static/images/recommendation/*'
 
             try:
-                os.remove(path)
+                for f in glob.glob(path):
+                    os.remove(f)
             except Exception as e:
                 print(e)
 
-            plt.savefig(path, dpi=100)
+            plt.savefig(path_key)
 
-        return HttpResponse(json.dumps({'resultGlobal': str(Isolation[0]), 'resultSubPres': str(y[0])}),
-                            content_type="application/json")
+        return HttpResponse(
+            json.dumps({'resultGlobal': str(Isolation[0]), 'resultSubPres': str(y[0]), 'image': '/' + path_key}),
+            content_type="application/json")

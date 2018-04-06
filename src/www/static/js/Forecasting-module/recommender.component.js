@@ -7,6 +7,20 @@ angular.module('forecastingModule').component('recommenderModule', {
 
         controller: ['$http', '$window', function forecastingController($http, $window) {
 
+
+            var ShowLoader = function () {
+                document.getElementById('loader').style.display = ''
+            }
+
+            var HideLoader = function () {
+                document.getElementById('loader').style.display = 'none'
+
+            }
+            var ShowLoader = function () {
+                document.getElementById('loader').style.display = ''
+
+            }
+
             var self = this;
             self.search = "";
             self.pais = "";
@@ -24,7 +38,13 @@ angular.module('forecastingModule').component('recommenderModule', {
 
             });
 
+            self.keydown = function (keyEvent) {
+                console.log('keydown -' + keyEvent);
+                if (keyEvent.key == 'Enter') {
 
+                    self.check();
+                }
+            }
             self.check = function () {
                 self.data = {
                     "search": self.search,
@@ -33,10 +53,14 @@ angular.module('forecastingModule').component('recommenderModule', {
                     "country": self.pais,
                     "startdate": new Date(self.startdate).valueOf()
                 }
-                $http.post('/api/v1/data/GetRecommendation/', self.data).then(function successCallback(response) {
-                    self.resultGlobal = response.data.resultGlobal == 1 ? true : false;
-                    self.resultSubPres = response.data.resultSubPres == 1 ? true : false;
 
+                $('#ModalLoader').modal('show')
+
+                $http.post('/api/v1/data/GetRecommendation/', self.data).then(function successCallback(response) {
+                    self.resultGlobal = response.data.resultGlobal == 1 ? "SI" : "NO";
+                    self.resultSubPres = response.data.resultSubPres == 1 ? "SI" : "NO";
+                    self.image = response.data.image;
+                    $('#ModalLoader').modal('hide')
                     $('#myModal').modal('show')
 
                     debugger;

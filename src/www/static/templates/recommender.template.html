@@ -1,9 +1,9 @@
-<form style="margin: 5%; width: 70%">
+<form id="form" style="margin: 5%; width: 70%">
 
 
     <div class="form-group" style="display: flex">
         <div><label for="exampleFormControlSelect1">Example select</label>
-            <select class="form-control" ng-model="$ctrl.pais">
+            <select class="form-control" ng-model="$ctrl.pais" ng-keydown="$ctrl.keydown($event)">
                 <option value="" selected> Seleccione País:</option>
                 <option ng-repeat="country in $ctrl.countries" value="{{ country }}">
                     {{ country }}
@@ -22,7 +22,7 @@
     <div class="form-group">
         <label for="exampleFormControlInput1">Fecha de Inicio del proyecto (Año-Mes-Día)</label>
 
-        <textarea id="entry" ng-model="$ctrl.startdate"
+        <textarea id="entry" ng-model="$ctrl.startdate" ng-keydown="$ctrl.keydown($event)"
                   class="form-control"
                   required
         >
@@ -32,7 +32,7 @@
     <div class="form-group">
         <label for="exampleFormControlInput1">Indique el presupuesto del proyecto (€)</label>
 
-        <textarea id="entry" ng-model="$ctrl.presupuesto"
+        <textarea id="entry" ng-model="$ctrl.presupuesto" ng-keydown="$ctrl.keydown($event)"
                   class="form-control"
                   required
         >
@@ -43,7 +43,7 @@
         <label for="exampleFormControlInput1">Indique la cantidad de financiación que desee obtener (€)</label>
 
         <textarea id="entry" ng-model="$ctrl.subvencion"
-                  class="form-control"
+                  class="form-control" ng-keydown="$ctrl.keydown($event)"
         >
         </textarea>
 
@@ -53,7 +53,8 @@
         <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
                   class="form-control"
                   required
-                  style=" height: 460px;">
+                  ng-keydown="$ctrl.keydown($event)"
+                  style=" height: 360px;">
         </textarea></div>
 
 
@@ -69,18 +70,33 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Recomendación</h4>
             </div>
+
             <div class="modal-body">
-                <p>El resultado del modelo predictivo con todos los datos es: {{ $ctrl.resultGlobal }}.</p>
+                <p>El resultado del modelo predictivo con la descripción del proyecto {{ $ctrl.resultGlobal }}.</p>
                 <hr class="style2">
                 <p>El resultado del modelo predictivo con los datos ajustados al país {{ $ctrl.pais }} es:
                     {{ $ctrl.resultSubPres }}.</p>
-                <img src="/static/images/foo.png" class="img-thumbnail">
+                <img src="{{ $ctrl.image }}" class="img-thumbnail">
 
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalLoader" role="dialog">
+    <div class="modal-dialog">
+
+
+        <div class="modal-body">
+            <div id="loader" class="loader" style="margin: 25%"></div>
+
+
         </div>
 
     </div>
