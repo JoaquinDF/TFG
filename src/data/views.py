@@ -507,7 +507,6 @@ class CommunityViewSet(ReadOnlyModelViewSet):
 
 
 class CommunityEstimationViewSet(ViewSet):
-
     def create(self, request):
 
         lsa_model = joblib.load(
@@ -556,10 +555,9 @@ class ListCountriesAvailableViewSet(ViewSet):
 
 
 class GetRecommendationViewSet(ViewSet):
-
     def create(self, request):
         plt.clf()
-
+        itime = time.time()
         entry = request.data.get('search', '*')
         presupuesto = request.data.get('presupuesto', '*')
         subvencion = request.data.get('subvencion', '*')
@@ -610,13 +608,18 @@ class GetRecommendationViewSet(ViewSet):
             mins, maxs = X['subvencion'].quantile([0., 1.])
             minp, maxp = X['presupuesto'].quantile([0., 1.])
 
-            Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42)
+            Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42, contamination=.05)
             IsolationForest_Sub_Pres = Iso_Sub_Pres.fit(X_train)
             y = IsolationForest_Sub_Pres.predict([predict])
             print(y)
 
-            xx, yy = np.meshgrid(np.linspace(mins, maxs, 500), np.linspace(minp, maxp, 500))
+            z = IsolationForest_Sub_Pres.decision_function([predict])
+            print(z)
+
+            xx, yy = np.meshgrid(np.linspace(predict[0] / 10, predict[0] * 3, 500),
+                                 np.linspace(predict[1] / 10, predict[1] * 3, 500))
             Z = IsolationForest_Sub_Pres.decision_function(np.c_[xx.ravel(), yy.ravel()])
+
             Z = Z.reshape(xx.shape)
 
             plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
@@ -630,6 +633,8 @@ class GetRecommendationViewSet(ViewSet):
 
             plt.xlim((predict[0] / 10, predict[0] * 3))
             plt.ylim((predict[1] / 10, predict[1] * 3))
+            plt.xlabel('Subvenciom')
+            plt.ylabel('Presupuesto')
 
             plt.legend([pr.collections[0], b1, c1],
                        ["Learning Limit", "Training set", "Predicted Result"], loc="upper left")
