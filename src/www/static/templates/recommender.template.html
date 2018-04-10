@@ -75,8 +75,14 @@
                 <p>El resultado del modelo predictivo con la descripción del proyecto {{ $ctrl.resultGlobal }}.</p>
                 <hr class="style2">
                 <p>El resultado del modelo predictivo con los datos ajustados al país {{ $ctrl.pais }} es:
-                    {{ $ctrl.resultSubPres }}.</p>
-                <img src="{{ $ctrl.image }}" class="img-thumbnail">
+                </p>
+                <div ng-repeat="(i,v) in $ctrl.image">
+                    <img src="{{ v }}" class="img-thumbnail" width="85%" height="85%" style="
+
+                    margin-left: auto;
+                    display: block;
+                    margin-right: auto;">
+                </div>
 
 
             </div>

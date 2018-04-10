@@ -60,6 +60,7 @@ angular.module('forecastingModule').component('recommenderModule', {
                     self.resultGlobal = response.data.resultGlobal == 1 ? "SI" : "NO";
                     self.resultSubPres = response.data.resultSubPres == 1 ? "SI" : "NO";
                     self.image = response.data.image;
+                    debugger;
                     $('#ModalLoader').modal('hide')
                     $('#myModal').modal('show')
 

@@ -557,6 +557,7 @@ class ListCountriesAvailableViewSet(ViewSet):
 class GetRecommendationViewSet(ViewSet):
     def create(self, request):
         plt.clf()
+        plt.figure(figsize=(10, 5))
         itime = time.time()
         entry = request.data.get('search', '*')
         presupuesto = request.data.get('presupuesto', '*')
@@ -594,6 +595,15 @@ class GetRecommendationViewSet(ViewSet):
         print()
         print()
         if entry is not '*':
+
+            path = 'static/images/recommendation/*'
+
+            try:
+                for f in glob.glob(path):
+                    os.remove(f)
+            except Exception as e:
+                print(e)
+
             DimensionalityReduction = svd_model.transform(entry)
             DimensionalityReduction_dataframe = pd.DataFrame(DimensionalityReduction)
             result = pd.concat([dataframe_no_objetive, DimensionalityReduction_dataframe], axis=1)
@@ -608,7 +618,7 @@ class GetRecommendationViewSet(ViewSet):
             mins, maxs = X['subvencion'].quantile([0., 1.])
             minp, maxp = X['presupuesto'].quantile([0., 1.])
 
-            Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42, contamination=.05)
+            Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42, contamination=.2)
             IsolationForest_Sub_Pres = Iso_Sub_Pres.fit(X_train)
             y = IsolationForest_Sub_Pres.predict([predict])
             print(y)
@@ -619,9 +629,7 @@ class GetRecommendationViewSet(ViewSet):
             xx, yy = np.meshgrid(np.linspace(predict[0] / 10, predict[0] * 3, 500),
                                  np.linspace(predict[1] / 10, predict[1] * 3, 500))
             Z = IsolationForest_Sub_Pres.decision_function(np.c_[xx.ravel(), yy.ravel()])
-
             Z = Z.reshape(xx.shape)
-
             plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
             pr = plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
             plt.contourf(xx, yy, Z, levels=[0, Z.max()], colors='palevioletred')
@@ -633,7 +641,7 @@ class GetRecommendationViewSet(ViewSet):
 
             plt.xlim((predict[0] / 10, predict[0] * 3))
             plt.ylim((predict[1] / 10, predict[1] * 3))
-            plt.xlabel('Subvenciom')
+            plt.xlabel('Subvencion')
             plt.ylabel('Presupuesto')
 
             plt.legend([pr.collections[0], b1, c1],
@@ -643,17 +651,56 @@ class GetRecommendationViewSet(ViewSet):
             key = str(time.time())
             h.update(key.encode())
             key = h.hexdigest()[:6]
-            path_key = 'static/images/recommendation/' + key + '_foo.png'
-            path = 'static/images/recommendation/*'
 
-            try:
-                for f in glob.glob(path):
-                    os.remove(f)
-            except Exception as e:
-                print(e)
+            path_key = []
+            path_key.append('static/images/recommendation/' + key + '_foo.png')
+            plt.savefig('static/images/recommendation/' + key + '_foo.png', )
 
-            plt.savefig(path_key)
+            print('')
 
+            # ##One-class SVM
+            # from sklearn.neighbors import NearestNeighbors
+            #
+            # plt.clf()
+            # plt.figure(figsize=(10, 5))
+            #
+            # OneClass = NearestNeighbors(n_neighbors=200)
+            # OneClass.fit(X_train)
+            #
+            # OneClassResult = OneClass.predict([predict])
+            # print(OneClassResult)
+            #
+            # xx, yy = np.meshgrid(np.linspace(predict[0] / 10, predict[0] * 3, 500),
+            #                      np.linspace(predict[1] / 10, predict[1] * 3, 500))
+            # Z = OneClass.decision_function(np.c_[xx.ravel(), yy.ravel()])
+            # Z = Z.reshape(xx.shape)
+            # plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
+            # plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
+            # plt.contourf(xx, yy, Z, levels=[0, Z.max()], colors='palevioletred')
+            #
+            # b1 = plt.scatter(X_train[:, 0], X_train[:, 1], c='yellow',
+            #                  s=50, edgecolor='k')
+            # c1 = plt.scatter(predict[0], predict[1], c='white',
+            #                  s=200, edgecolor='k')
+            #
+            # plt.xlim(mins, maxs)
+            # plt.ylim(minp, maxp)
+            # plt.xlabel('Subvencion')
+            # plt.ylabel('Presupuesto')
+            #
+            # plt.legend([pr.collections[0], b1, c1],
+            #            ["Learning Limit", "Training set", "Predicted Result"], loc="upper left")
+            #
+            # h = hashlib.new('ripemd160')
+            # key = str(time.time())
+            # h.update(key.encode())
+            # key = h.hexdigest()[:6]
+            #
+            # path_key.append('static/images/recommendation/' + key + '_foo.png')
+            #
+            # plt.savefig('static/images/recommendation/' + key + '_foo.png')
+
+            path_key = ['/' + x for x in path_key]
         return HttpResponse(
-            json.dumps({'resultGlobal': str(Isolation[0]), 'resultSubPres': str(y[0]), 'image': '/' + path_key}),
+            json.dumps({'resultGlobal': str(Isolation[0]), 'resultSubPres': str(y[0]), 'image': path_key}),
             content_type="application/json")
