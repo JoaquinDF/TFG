@@ -557,7 +557,6 @@ class ListCountriesAvailableViewSet(ViewSet):
 class GetRecommendationViewSet(ViewSet):
     def create(self, request):
         plt.clf()
-        plt.figure(figsize=(10, 5))
         itime = time.time()
         entry = request.data.get('search', '*')
         presupuesto = request.data.get('presupuesto', '*')
@@ -592,8 +591,7 @@ class GetRecommendationViewSet(ViewSet):
         new_entry = []
         new_entry.append(entry)
         entry = tfidf.transform(new_entry)
-        print()
-        print()
+
         if entry is not '*':
 
             path = 'static/images/recommendation/*'
@@ -625,9 +623,11 @@ class GetRecommendationViewSet(ViewSet):
 
             z = IsolationForest_Sub_Pres.decision_function([predict])
             print(z)
+            plt.figure(figsize=(8, 8))
+            plt.title("Isolation Forest")
 
-            xx, yy = np.meshgrid(np.linspace(predict[0] / 10, predict[0] * 3, 500),
-                                 np.linspace(predict[1] / 10, predict[1] * 3, 500))
+            xx, yy = np.meshgrid(np.linspace(predict[0] / 5, predict[0] * 2, 500),
+                                 np.linspace(predict[1] / 5, predict[1] * 2, 500))
             Z = IsolationForest_Sub_Pres.decision_function(np.c_[xx.ravel(), yy.ravel()])
             Z = Z.reshape(xx.shape)
             plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
@@ -639,8 +639,8 @@ class GetRecommendationViewSet(ViewSet):
             c1 = plt.scatter(predict[0], predict[1], c='white',
                              s=200, edgecolor='k')
 
-            plt.xlim((predict[0] / 10, predict[0] * 3))
-            plt.ylim((predict[1] / 10, predict[1] * 3))
+            plt.xlim((predict[0] / 5, predict[0] * 2))
+            plt.ylim((predict[1] / 5, predict[1] * 2))
             plt.xlabel('Subvencion')
             plt.ylabel('Presupuesto')
 
@@ -658,49 +658,58 @@ class GetRecommendationViewSet(ViewSet):
 
             print('')
 
-            # ##One-class SVM
-            # from sklearn.neighbors import NearestNeighbors
-            #
-            # plt.clf()
-            # plt.figure(figsize=(10, 5))
-            #
-            # OneClass = NearestNeighbors(n_neighbors=200)
-            # OneClass.fit(X_train)
-            #
-            # OneClassResult = OneClass.predict([predict])
-            # print(OneClassResult)
-            #
-            # xx, yy = np.meshgrid(np.linspace(predict[0] / 10, predict[0] * 3, 500),
-            #                      np.linspace(predict[1] / 10, predict[1] * 3, 500))
-            # Z = OneClass.decision_function(np.c_[xx.ravel(), yy.ravel()])
-            # Z = Z.reshape(xx.shape)
-            # plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
-            # plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
-            # plt.contourf(xx, yy, Z, levels=[0, Z.max()], colors='palevioletred')
-            #
-            # b1 = plt.scatter(X_train[:, 0], X_train[:, 1], c='yellow',
-            #                  s=50, edgecolor='k')
-            # c1 = plt.scatter(predict[0], predict[1], c='white',
-            #                  s=200, edgecolor='k')
-            #
-            # plt.xlim(mins, maxs)
-            # plt.ylim(minp, maxp)
-            # plt.xlabel('Subvencion')
-            # plt.ylabel('Presupuesto')
-            #
-            # plt.legend([pr.collections[0], b1, c1],
-            #            ["Learning Limit", "Training set", "Predicted Result"], loc="upper left")
-            #
-            # h = hashlib.new('ripemd160')
-            # key = str(time.time())
-            # h.update(key.encode())
-            # key = h.hexdigest()[:6]
-            #
-            # path_key.append('static/images/recommendation/' + key + '_foo.png')
-            #
-            # plt.savefig('static/images/recommendation/' + key + '_foo.png')
+            ##LocalOutlierFactor
+            from sklearn.neighbors import LocalOutlierFactor
+            clf = LocalOutlierFactor(n_neighbors=25, contamination=0.20)
+
+            clf.fit_predict(X_train)
+            scores_pred = clf.negative_outlier_factor_
+
+            threshold = stats.scoreatpercentile(scores_pred, 25)
+
+            result = clf._decision_function([predict])[0]
+            if result > threshold: print('TRUE')
+
+            plt.figure(figsize=(8, 8))
+
+            xx, yy = np.meshgrid(np.linspace(predict[0] / 5, predict[0] * 2, 50),
+                                 np.linspace(predict[1] / 5, predict[1] * 2, 50))
+            Z = clf._decision_function(np.c_[xx.ravel(), yy.ravel()])
+            Z = Z.reshape(xx.shape)
+
+            plt.title("Local Outlier Factor (LOF)")
+
+            pr = plt.contour(xx, yy, Z, levels=[threshold], linewidths=2, colors='darkred')
+            plt.contourf(xx, yy, Z, levels=[threshold, Z.max()], colors='palevioletred')
+
+            a = plt.scatter(X_train[:, 0], X_train[:, 1], c='yellow',
+                            edgecolor='k', s=75)
+            b = plt.scatter(predict[0], predict[1], c='blue',
+                            edgecolor='k', s=200)
+
+            plt.xlim((predict[0] / 5, predict[0] * 2))
+            plt.ylim((predict[1] / 5, predict[1] * 2))
+
+            plt.legend([a, b, pr.collections[0]],
+                       ["Training set",
+                        "Predicted Result", "learned decision function"],
+                       loc="upper left")
+
+            plt.xlabel('Subvencion')
+            plt.ylabel('Presupuesto')
+
+            h = hashlib.new('ripemd160')
+            key = str(time.time())
+            h.update(key.encode())
+            key = h.hexdigest()[:6]
+
+            path_key.append('static/images/recommendation/' + key + '_foo.png')
+
+            plt.savefig('static/images/recommendation/' + key + '_foo.png')
 
             path_key = ['/' + x for x in path_key]
+
+            print(time.time() - itime)
         return HttpResponse(
             json.dumps({'resultGlobal': str(Isolation[0]), 'resultSubPres': str(y[0]), 'image': path_key}),
             content_type="application/json")
