@@ -41,7 +41,7 @@ DATESTARTH2020 = 1388534400
 DATEENDH2020 = 1577836800
 timea = time.time()
 
-client = MongoClient('212.128.154.3', 27017)
+client = MongoClient('localhost', 27017)
 db = client.innhome
 
 db.authenticate(name='innhome', password='innhome00')
@@ -586,7 +586,7 @@ class GetRecommendationViewSet(ViewSet):
 
         d = {'country': LabelEncoder.transform([country]), 'subvencion': [subvencion], 'presupuesto': [presupuesto],
              'startdate': [startdate]}
-
+        pprint.pprint(d)
         dataframe_no_objetive = pd.DataFrame(data=d)
         new_entry = []
         new_entry.append(entry)
@@ -616,7 +616,7 @@ class GetRecommendationViewSet(ViewSet):
             mins, maxs = X['subvencion'].quantile([0., 1.])
             minp, maxp = X['presupuesto'].quantile([0., 1.])
 
-            Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42, contamination=.2)
+            Iso_Sub_Pres = ensemble.IsolationForest(max_samples=999999, random_state=42, contamination=0.25)
             IsolationForest_Sub_Pres = Iso_Sub_Pres.fit(X_train)
             y = IsolationForest_Sub_Pres.predict([predict])
             print(y)
@@ -624,23 +624,29 @@ class GetRecommendationViewSet(ViewSet):
             z = IsolationForest_Sub_Pres.decision_function([predict])
             print(z)
             plt.figure(figsize=(8, 8))
-            plt.title("Isolation Forest")
+            plt.title("Isolation Forest with result = " + str(y))
 
-            xx, yy = np.meshgrid(np.linspace(predict[0] / 5, predict[0] * 2, 500),
-                                 np.linspace(predict[1] / 5, predict[1] * 2, 500))
+            xx, yy = np.meshgrid(np.linspace(predict[0] / 15, predict[0] * 3, 120),
+                                 np.linspace(predict[1] / 15, predict[1] * 3, 120))
             Z = IsolationForest_Sub_Pres.decision_function(np.c_[xx.ravel(), yy.ravel()])
             Z = Z.reshape(xx.shape)
+
             plt.contourf(xx, yy, Z, levels=np.linspace(Z.min(), 0, 7), cmap=plt.cm.PuBu)
             pr = plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkred')
             plt.contourf(xx, yy, Z, levels=[0, Z.max()], colors='palevioletred')
+
+            Z[Z < .035] = -1
+
+            plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='green')
 
             b1 = plt.scatter(X_train[:, 0], X_train[:, 1], c='yellow',
                              s=50, edgecolor='k')
             c1 = plt.scatter(predict[0], predict[1], c='white',
                              s=200, edgecolor='k')
 
-            plt.xlim((predict[0] / 5, predict[0] * 2))
-            plt.ylim((predict[1] / 5, predict[1] * 2))
+            plt.xlim((predict[0] / 15, predict[0] * 3))
+            plt.ylim((predict[1] / 15, predict[1] * 3))
+
             plt.xlabel('Subvencion')
             plt.ylabel('Presupuesto')
 
@@ -660,24 +666,26 @@ class GetRecommendationViewSet(ViewSet):
 
             ##LocalOutlierFactor
             from sklearn.neighbors import LocalOutlierFactor
-            clf = LocalOutlierFactor(n_neighbors=25, contamination=0.20)
+            clf = LocalOutlierFactor()
 
             clf.fit_predict(X_train)
             scores_pred = clf.negative_outlier_factor_
 
             threshold = stats.scoreatpercentile(scores_pred, 25)
 
-            result = clf._decision_function([predict])[0]
-            if result > threshold: print('TRUE')
-
             plt.figure(figsize=(8, 8))
 
-            xx, yy = np.meshgrid(np.linspace(predict[0] / 5, predict[0] * 2, 50),
-                                 np.linspace(predict[1] / 5, predict[1] * 2, 50))
+            xx, yy = np.meshgrid(np.linspace(predict[0] / 5, predict[0] * 2, 120),
+                                 np.linspace(predict[1] / 5, predict[1] * 2, 120))
             Z = clf._decision_function(np.c_[xx.ravel(), yy.ravel()])
             Z = Z.reshape(xx.shape)
+            result = clf._decision_function([predict])[0]
+            if result > threshold:
+                y = [1]
+            else:
+                y = [-1]
 
-            plt.title("Local Outlier Factor (LOF)")
+            plt.title("Local Outlier Factor (LOF) with result = " + str(y))
 
             pr = plt.contour(xx, yy, Z, levels=[threshold], linewidths=2, colors='darkred')
             plt.contourf(xx, yy, Z, levels=[threshold, Z.max()], colors='palevioletred')
