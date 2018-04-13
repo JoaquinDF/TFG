@@ -3,16 +3,21 @@
 angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
     var ShowLoader = function () {
         document.getElementById('loader').style.display = ''
+        document.getElementById('grid').style.display = 'none'
+
     }
 
     var HideLoader = function () {
         document.getElementById('loader').style.display = 'none'
+        document.getElementById('grid').style.display = ''
+
 
     }
     $scope.loadparallels = function (data) {
 
 
         $scope.parallelcoordinates(data)
+
 
         $scope.comunidad = $routeParams.id == undefined ? "" : $routeParams.id;
         $scope.lessP = 0;
@@ -59,7 +64,9 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
 
         var apiget = '/api/v1/data/GraphH2020/?limit=14837&offset=0' + url;
         $scope.paralleldata = []
+        var deferred = $q.defer();
         $http.get(apiget).then(function successCallback(response) {
+
 
             $scope.paralleldata.push(response.data.results);
             HideLoader();
@@ -89,59 +96,54 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
                 debugger;
 
                 var dimensions = {
-                    "community":
-                        {
-                            orient: 'right',
-                            type: 'number',
-                            tickPadding: 0,
-                            innerTickSize: 8,
-                            ticks: 59
+                    "community": {
+                        orient: 'right',
+                        type: 'number',
+                        tickPadding: 0,
+                        innerTickSize: 8,
+                        ticks: 59
 
-                        },
+                    },
 
-                    "presupuesto":
-                        {
-                            orient: 'right',
-                            type: 'number',
-                            tickPadding: 0,
-                            innerTickSize: 8,
-                            ticks: 10
+                    "presupuesto": {
+                        orient: 'right',
+                        type: 'number',
+                        tickPadding: 0,
+                        innerTickSize: 8,
+                        ticks: 10
 
-                        },
+                    },
 
-                    "subvencion":
-                        {
-                            orient: 'right',
-                            type: 'number',
-                            tickPadding: 0,
-                            innerTickSize: 8,
-                            ticks: 10
+                    "subvencion": {
+                        orient: 'right',
+                        type: 'number',
+                        tickPadding: 0,
+                        innerTickSize: 8,
+                        ticks: 10
 
-                        },
-                    "country":
-                        {
-                            orient: 'right',
-                            type: 'string',
-                            tickPadding: 0,
-                            innerTickSize: 8,
-                            ticks: function () {
-                                var ticks = datagraph[0].map(function (obj) {
-                                    return obj.country;
-                                });
-                                ticks = ticks.filter(function (v, i) {
-                                    return (ticks.indexOf(v) == i);
-                                });
-                                return (ticks.length);
-                            }
-
-                        },
-                    "startdate":
-                        {
-                            orient: 'right',
-                            type: 'number',
-                            tickPadding: 0,
-                            innerTickSize: 8,
+                    },
+                    "country": {
+                        orient: 'right',
+                        type: 'string',
+                        tickPadding: 0,
+                        innerTickSize: 8,
+                        ticks: function () {
+                            var ticks = datagraph[0].map(function (obj) {
+                                return obj.country;
+                            });
+                            ticks = ticks.filter(function (v, i) {
+                                return (ticks.indexOf(v) == i);
+                            });
+                            return (ticks.length);
                         }
+
+                    },
+                    "startdate": {
+                        orient: 'right',
+                        type: 'number',
+                        tickPadding: 0,
+                        innerTickSize: 8,
+                    }
 
                 };
 
@@ -215,8 +217,9 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
             });
         });
     }
+
     if ($routeParams.id != undefined) {
-        $scope.loadparallels('&community=' + $routeParams.id)
+        $scope.loadparallels($routeParams.id)
     } else {
         $scope.loadparallels("")
 

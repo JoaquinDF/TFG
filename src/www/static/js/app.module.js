@@ -59,6 +59,9 @@ Appmodule.config(['$locationProvider', '$routeProvider',
             .when('/forecasting', {
                 template: '<forecasting-module style="display: block"></forecasting-module>'
             })
+            .when('/forecasting/:data', {
+                template: '<forecasting-module style="display: block"></forecasting-module>'
+            })
             .when('/recommender', {
                 template: '<recommender-module style="display: block"></recommender-module>'
             })

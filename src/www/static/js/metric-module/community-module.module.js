@@ -5,60 +5,63 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
     $scope.nodeinfo = [];
 
     $scope.tofind = function (data) {
-        var sigmainstance = sigma.instances()[0];
+
+        for (var instance in sigma.instances()) {
+            console.log(instance);
+            var sigmainstance = sigma.instances()[instance]
+
+            if (!data == "") {
+                if (!isNaN(data)) { //es un numero
+                    sigmainstance.graph.nodes().forEach(function (n) {
+                        if (parseFloat(data) != n.id) {
+                            n.color = 'rgb(211,211,211,0.3)'
+
+                        } else {
+                            n.color = n.originalColor
+                        }
+                    });
+                } else {
+
+                    sigmainstance.graph.nodes().forEach(function (n) {
+                        if (n.info.indexOf(data) == -1) {
+                            n.color = 'rgb(211,211,211,0.3)'
+
+                        } else {
+                            n.color = n.originalColor
+                        }
+                    });
 
 
-        if (!data == "") {
-            if (!isNaN(data)) { //es un numero
-                sigmainstance.graph.nodes().forEach(function (n) {
-                    if (parseFloat(data) != n.id) {
-                        n.color = 'rgb(211,211,211,0.3)'
+                }
+                sigmainstance.graph.edges().forEach(function (e) {
 
-                    } else {
-                        n.color = n.originalColor
-                    }
+
+                    e.color = 'rgba(198, 36, 63, 0.05)';
+
+
                 });
+
             } else {
 
                 sigmainstance.graph.nodes().forEach(function (n) {
-                    if (n.info.indexOf(data) == -1) {
-                        n.color = 'rgb(211,211,211,0.3)'
+                    n.color = n.originalColor
 
-                    } else {
-                        n.color = n.originalColor
-                    }
+
+                });
+                sigmainstance.graph.edges().forEach(function (e) {
+
+
+                    e.color = e.originalColor;
+
+
                 });
 
 
             }
-            sigmainstance.graph.edges().forEach(function (e) {
-
-
-                e.color = 'rgba(198, 36, 63, 0.05)';
-
-
-            });
-
-        } else {
-
-            sigmainstance.graph.nodes().forEach(function (n) {
-                n.color = n.originalColor
-
-
-            });
-            sigmainstance.graph.edges().forEach(function (e) {
-
-
-                e.color = e.originalColor;
-
-
-            });
-
-
+            sigmainstance.refresh()
         }
-        sigmainstance.refresh()
-    }
 
+    }
 
     $scope.showwordcloud = function (value) {
         if (value) {
@@ -391,4 +394,5 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
     $scope.communityObject($routeParams.group)
 
-}]);
+}])
+;

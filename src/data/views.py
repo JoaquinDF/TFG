@@ -403,7 +403,6 @@ class GraphH2020ViewSet(ReadOnlyModelViewSet):
 
         community = self.request.query_params.get('community', None)
         if community is not None and community is not '':
-
             data = community.split(" ")
             data = list(map(int, data))
 
@@ -418,6 +417,7 @@ class GraphH2020ViewSet(ReadOnlyModelViewSet):
 
             data = country.split(" ")
             data = list(map(str.upper, data))
+            data = [d for d in data if len(d) == 2]
             print(data)
             if len(data) > 0:
                 queryset = queryset.filter(country__in=list(data))

@@ -4,42 +4,57 @@
 angular.module('forecastingModule').component('forecastingModule', {
 
         templateUrl: '/static/templates/forecasting.template.html',
-        controller: ['$http', '$window', function forecastingController($http, $window) {
+    controller: ['$http', '$window', '$routeParams', function forecastingController($http, $window, $routeParams) {
 
             var self = this;
             self.search = "";
 
-            self.keydown = function (keyEvent) {
-                console.log('keydown -' + keyEvent);
-                if (keyEvent.key == 'Enter') {
 
-                    debugger;
-
-                    self.data = {
-                        entry: this.search
-                    };
-                    document.getElementById('loader').style.display = ''
-                    document.getElementById("nodeinfohover").innerHTML = "";
-                    document.getElementById("nodeinfo").innerHTML = "";
-                    document.getElementById('sigma-container').style.display = 'none'
+        self.createData = function () {
 
 
-                    $http.post('/api/v1/data/CommunityEstimation/', self.data).then(function successCallback(response) {
-                        document.getElementById('entry').style.height = "100px"
-                        document.getElementById('loader').style.display = 'none'
-                        document.getElementById('sigma-container').style.display = ''
+            debugger;
 
-                        self.estimation = response.data;
-                        self.loadgraph(self.estimation)
-                        debugger;
-
-                    }, function errorCallback(response) {
-
-
-                    });
-
-                }
+            self.data = {
+                entry: this.search
             };
+
+            document.getElementById('loader').style.display = ''
+            document.getElementById("nodeinfohover").innerHTML = "";
+            document.getElementById("nodeinfo").innerHTML = "";
+            document.getElementById('sigma-container').style.display = 'none'
+
+
+            $http.post('/api/v1/data/CommunityEstimation/', self.data).then(function successCallback(response) {
+                document.getElementById('entry').style.height = "100px"
+                document.getElementById('loader').style.display = 'none'
+                document.getElementById('sigma-container').style.display = ''
+
+                self.estimation = response.data;
+                self.loadgraph(self.estimation)
+                debugger;
+
+            }, function errorCallback(response) {
+
+
+            });
+
+        }
+
+        if ($routeParams.data != undefined) {
+
+            self.search = $routeParams.data
+            self.createData()
+
+        }
+
+
+        self.keydown = function (keyEvent) {
+            console.log('keydown -' + keyEvent);
+            if (keyEvent.key == 'Enter') {
+                self.createData()
+            }
+        }
 
 
             self.drawWordCloud = function (text, svglocation) {
