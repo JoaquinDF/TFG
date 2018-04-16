@@ -53,6 +53,14 @@ for d in documents:
 
 
 def stemmed_words(doc):
+    """
+
+    Args:
+        doc:
+
+    Returns:
+
+    """
     stemmer = EnglishStemmer()
     analyzer = TfidfVectorizer(
         strip_accents='unicode',
@@ -228,14 +236,15 @@ class PersonOrganizationViewSet(ReadOnlyModelViewSet):
     queryset = PersonaOrganizacion.objects.all()
     serializer_class = PersonaOrganizacionSerializer
 
-
 class RegionMetricViewSet(ReadOnlyModelViewSet):
     serializer_class = RegionMetricSerializer
 
     def get_queryset(self):
         """
         Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
+        by filtering against a `region` query parameter in the URL.
+
+
         """
         queryset = RegionMetric.objects.all()
         region = self.request.query_params.get('region', None)
@@ -247,6 +256,15 @@ class RegionMetricViewSet(ReadOnlyModelViewSet):
 
 class RegionMetricToPairDictViewSet(ViewSet):
     def create(self, request):
+        """
+
+        Args:
+            request:
+
+        Returns:
+
+        """
+
         what = request.data.get('?', '*')
 
         if what == 'orgnum':

@@ -45,7 +45,7 @@ angular.module('forecastingModule').component('recommenderModule', {
                     self.check();
                 }
             }
-          
+
 
             self.competence = function () {
                 var url = "/www/#!" + '/forecasting/' + self.search

@@ -64,7 +64,6 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
 
         var apiget = '/api/v1/data/GraphH2020/?limit=14837&offset=0' + url;
         $scope.paralleldata = []
-        var deferred = $q.defer();
         $http.get(apiget).then(function successCallback(response) {
 
 

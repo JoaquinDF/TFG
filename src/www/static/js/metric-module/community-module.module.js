@@ -261,6 +261,7 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
                     setTimeout(function () {
                         sigmaInstance.stopForceAtlas2();
                         document.getElementById('finder').style.display = ''
+                        document.getElementById('reload').style.display = ''
 
 
                     }, 3000);
@@ -271,6 +272,7 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
                         sigmaInstance.stopForceAtlas2();
                         document.getElementById('finder').style.display = ''
+                        document.getElementById('reload').style.display = ''
 
 
                     }, 1200);

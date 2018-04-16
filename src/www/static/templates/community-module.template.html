@@ -14,12 +14,21 @@
 
             }
         </style>
+        <script>
+            function reload() {
+                location.reload();
+            }
+        </script>
+        <div style="display: flex">
+            <button type="button" id="reload" class="btn btn-default btn-sm"
+                    style="margin-right: 10px; background-color: transparent;display: none; ">
+                <span class="glyphicon glyphicon-refresh" style="font-size: 35px;" onclick="reload()"></span>
+            </button>
 
+            <input size="80" id="finder" ng-model="find" placeholder="filtrado..." class=" searchtext w3-input"
+                   style="border-bottom: solid 1px rgba(180,33,59,0.25); display: none" ng-change="tofind(find)">
 
-        <input size="80" id="finder" ng-model="find" placeholder="filtrado..." class=" searchtext w3-input"
-               style="border-bottom: solid 1px rgba(180,33,59,0.25); display: none" ng-change="tofind(find)">
-
-
+        </div>
         <div id="container" class="graph col-sm-9 "
              style="display: inline-table; width: 55%; height: 85%;">
 
