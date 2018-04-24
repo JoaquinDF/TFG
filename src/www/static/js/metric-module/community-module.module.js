@@ -256,29 +256,31 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
                     linLogMode: true,
                 });
 
+                /*
+                 if (sigmaInstance.graph.nodes().length > 75) {
 
-                if (sigmaInstance.graph.nodes().length > 75) {
-                    setTimeout(function () {
-                        sigmaInstance.stopForceAtlas2();
-                        document.getElementById('finder').style.display = ''
-                        document.getElementById('reload').style.display = ''
+                 } else {
 
+                 setTimeout(function () {
 
-                    }, 3000);
-
-                } else {
-
-                    setTimeout(function () {
-
-                        sigmaInstance.stopForceAtlas2();
-                        document.getElementById('finder').style.display = ''
-                        document.getElementById('reload').style.display = ''
+                 sigmaInstance.stopForceAtlas2();
+                 document.getElementById('finder').style.display = ''
+                 document.getElementById('reload').style.display = ''
 
 
-                    }, 1200);
+                 }, 1200);
 
 
-                }
+                 }*/
+                setTimeout(function () {
+                    sigmaInstance.stopForceAtlas2();
+                    document.getElementById('finder').style.display = ''
+                    document.getElementById('reload').style.display = ''
+
+
+                }, 3000);
+
+
                 sigmaInstance.graph.nodes().forEach(function (n) {
                     n.originalColor = n.color;
                 });

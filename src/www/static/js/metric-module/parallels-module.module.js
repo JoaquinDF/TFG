@@ -218,7 +218,7 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
     }
 
     if ($routeParams.id != undefined) {
-        $scope.loadparallels($routeParams.id)
+        $scope.loadparallels('&community=' + $routeParams.id)
     } else {
         $scope.loadparallels("")
 
