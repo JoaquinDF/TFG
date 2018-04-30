@@ -123,7 +123,8 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
             }
 
 
-        } else if (where == "proy") {
+
+  } else if (where == "proy") {
             if (url1 == "") {
                 $scope.Proyectos = []
 
@@ -143,6 +144,25 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
                 });
             }
 
+        } else if (where == "call") {
+            if (url1 == "") {
+                $scope.Calls = []
+
+            } else {
+
+                var apiget = '/api/v1/data/call/?format=json&name=' + url1;
+
+                $scope.Calls;
+                $http.get(apiget).then(function successCallback(response) {
+                    $scope.Calls = (response.data.results)
+                    if ($scope.Calls.length > 5) {
+                        debugger
+                        $scope.Calls = $scope.Calls.slice(0, 5)
+                    }
+                    debugger;
+
+                });
+            }
 
         }
 

@@ -6,7 +6,7 @@
         <div class="panel-body">
             <div style="display: flex">
                 <h2>Proyectos </h2>
-                <i style="font-size:24px; margin-left: 35px" onclick="$('#finProject').modal('show')" class="fa">&#xf002;</i>
+                <i style="font-size:24px; margin-left: 13%" onclick="$('#finProject').modal('show')" class="fa">&#xf002;</i>
 
             </div>
 
@@ -20,13 +20,15 @@
 
         <div class="panel-body">
             <div style="display: flex">
-                <h2>Convocatorias </h2>
-                <i style="font-size:24px; margin-left: 35px" onclick="$('#finOrgs').modal('show')"
+                <h2>Organizaciones </h2>
+                <i style="font-size:24px; margin-left: 13%" onclick="$('#finOrgs').modal('show')"
                    class="fa">&#xf002;</i>
             </div>
 
             <hr class="style2">
-            Muestra todas las convocatorias de proyectos europeos, agrupadas por su tipo.
+            Muestra todas las organizaciones involucradas, europeas, nacionales e
+            internacionales.
+
         </div>
 
 
@@ -34,10 +36,14 @@
     <div class="panel panel-default  col-sm-3" style="margin: 1%">
 
 
-        <div class="panel-body"><h2>Organizaciones </h2>
-            <hr class="style2">
-            Muestra todas las organizaciones involucradas, europeas, nacionales e
-            internacionales.
+        <div class="panel-body">
+                        <div style="display: flex">
+
+           <h2>Organizaciones </h2>
+                <i style="font-size:24px; margin-left: 13%" onclick="$('#finOrgs').modal('show')"
+                   class="fa">&#xf002;</i>
+                        </div>
+             Muestra todas las convocatorias de proyectos europeos, agrupadas por su tipo.
         </div>
 
 
@@ -102,6 +108,42 @@
                     <a name="busquedaorg" class="w3-bar-item tablink w3-button"
                        href="/www/#!/o{{ organization.id }}"
                        style="display: block ; width: 100%"> {{ organization.nombre }} </a>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="finCalls" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Convocatorias</h4>
+            </div>
+
+            <div class="modal-body" ng-controller="HandleSearchEvents">
+                <input size="40" class="w3-input searchtext " ng-model="textmetric"
+                       placeholder=" Insert Call Name " ng-change="onMetricEnter(textmetric,'call')">
+                </form>
+
+
+                <div ng-repeat="call in Calls">
+
+                    <a name="busquedacall" class="w3-bar-item tablink w3-button"
+                       href="/www/#!/o{{ call.id }}"
+                       style="display: block ; width: 100%"> {{ call.nombre }} </a>
 
 
                 </div>

@@ -339,3 +339,6 @@ resizable-input {
     box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0);
     color: #555555;
 }
+.fa:hover {
+    color: #6f0300;
+}
