@@ -5,6 +5,7 @@
 
 
 var Appmodule = angular.module('innhomeweb', [
+    'dataList',
     'projectList',
     'callList',
     'organizationList',
@@ -85,7 +86,7 @@ Appmodule.config(['$locationProvider', '$routeProvider',
                 templateUrl: '/static/templates/parallels-module.template.html',
                 controller: 'PARALLELS'
             })
-
+            .when('/data', {template: '<start-list></start-list>'})
             .when('/p:id', {template: ' <search-list style="display: flex"></search-list>'})
             .when('/np:id', {template: ' <search-list style="display: flex"></search-list>'})
             .when('/c:id', {template: ' <search-list style="display: flex"></search-list>'})
@@ -104,7 +105,7 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
 
         if (where == "orgs") {
             if (url1 == "") {
-                $scope.Orgs = $scope.Orgs.clear();
+                $scope.Orgs = []
 
             } else {
 
@@ -124,11 +125,12 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
 
         } else if (where == "proy") {
             if (url1 == "") {
-                $scope.Proyectos = $scope.Proyectos.clear()
+                $scope.Proyectos = []
 
             } else {
 
                 var apiget = '/api/v1/data/project/?format=json&name=' + url1;
+
                 $scope.Proyectos;
                 $http.get(apiget).then(function successCallback(response) {
                     $scope.Proyectos = (response.data.results)

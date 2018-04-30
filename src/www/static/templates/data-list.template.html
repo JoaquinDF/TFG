@@ -1,0 +1,118 @@
+<div class="container-fluid row" style="margin-top: 5%">
+
+
+    <div class="panel panel-default col-sm-3 " style="margin: 1%">
+
+        <div class="panel-body">
+            <div style="display: flex">
+                <h2>Proyectos </h2>
+                <i style="font-size:24px; margin-left: 35px" onclick="$('#finProject').modal('show')" class="fa">&#xf002;</i>
+
+            </div>
+
+            <hr class="style2">
+            Muestra todas los de proyectos europeos, nacionales e internacionales.
+        </div>
+
+    </div>
+    <div class="panel panel-default  col-sm-3" style="margin: 1%">
+
+
+        <div class="panel-body">
+            <div style="display: flex">
+                <h2>Convocatorias </h2>
+                <i style="font-size:24px; margin-left: 35px" onclick="$('#finOrgs').modal('show')"
+                   class="fa">&#xf002;</i>
+            </div>
+
+            <hr class="style2">
+            Muestra todas las convocatorias de proyectos europeos, agrupadas por su tipo.
+        </div>
+
+
+    </div>
+    <div class="panel panel-default  col-sm-3" style="margin: 1%">
+
+
+        <div class="panel-body"><h2>Organizaciones </h2>
+            <hr class="style2">
+            Muestra todas las organizaciones involucradas, europeas, nacionales e
+            internacionales.
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="finProject" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Proyectos</h4>
+            </div>
+
+            <div class="modal-body" ng-controller="HandleSearchEvents">
+                <input size="40" class="w3-input searchtext " ng-model="textmetric"
+                       placeholder=" Insert Project Name " ng-keyup="onMetricEnter(textmetric,'proy')">
+
+                <div ng-repeat="proyecto in Proyectos">
+
+                    <a name="busquedaproy" class="w3-bar-item tablink w3-button"
+                       href="/www/#!p{{ proyecto.id }}"
+                       style="display: block ; width: 100%"> {{ proyecto.tituloProyecto }} </a>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="finOrgs" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Proyectos</h4>
+            </div>
+
+            <div class="modal-body" ng-controller="HandleSearchEvents">
+                <input size="40" class="w3-input searchtext " ng-model="textmetric"
+                       placeholder=" Insert Orgnization Name " ng-change="onMetricEnter(textmetric,'orgs')">
+                </form>
+
+
+                <div ng-repeat="organization in Orgs">
+
+                    <a name="busquedaorg" class="w3-bar-item tablink w3-button"
+                       href="/www/#!/o{{ organization.id }}"
+                       style="display: block ; width: 100%"> {{ organization.nombre }} </a>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

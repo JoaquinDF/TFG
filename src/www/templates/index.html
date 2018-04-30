@@ -43,6 +43,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.js"></script>
         <!-->
 
+        <script src="/static/js/data-list/data-list.module.js"></script>
+        <script src="/static/js/data-list/data-list.component.js"></script>
 
         <script src="/static/js/project-list/project-list.module.js"></script>
         <script src="/static/js/project-list/project-list.component.js"></script>
@@ -116,7 +118,7 @@
 
     </head>
 
-    <body class="w3-theme " ng-controller="HandleSearchEvents">
+    <body class="w3-theme ">
 
         <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4  w3-bar-block "
 
@@ -130,6 +132,8 @@
 
             <div class="w3-sidebar w3-bar-block w3-card-2 w3-theme-d4  w3-bar-block"
                  style="width: inherit; height: auto;">
+                <a class="w3-bar-item tablink w3-button" id="Transform" href="#!data"
+                   onclick="tabbarColor('Transform')">Data</a>
                 <div class="w3-bar-item w3-button" onclick="metricShow('data')">
                     Data <i class="fa fa-caret-down"></i></div>
                 <div id="data" class="w3-hide w3-theme w3-card-4">
@@ -148,7 +152,7 @@
                         </form>
 
 
-                        <div ng-repeat="proyecto in Proyectos">
+                        <!--<div ng-repeat="proyecto in Proyectos">
 
                             <a name="busquedaproy" class="w3-bar-item tablink w3-button"
                                href="/www/#!p{{ proyecto.id }}"
@@ -158,7 +162,7 @@
                              <script>addData('proy')</script>
                         </span>
 
-                        </div>
+                        </div>-->
 
                     </div>
 

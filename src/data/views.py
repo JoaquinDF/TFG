@@ -236,6 +236,7 @@ class PersonOrganizationViewSet(ReadOnlyModelViewSet):
     queryset = PersonaOrganizacion.objects.all()
     serializer_class = PersonaOrganizacionSerializer
 
+
 class RegionMetricViewSet(ReadOnlyModelViewSet):
     serializer_class = RegionMetricSerializer
 
