@@ -123,8 +123,7 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
             }
 
 
-
-  } else if (where == "proy") {
+        } else if (where == "proy") {
             if (url1 == "") {
                 $scope.Proyectos = []
 
