@@ -1,19 +1,25 @@
 'use strict';
 
 // Define the `projectList` module
-var slist= angular.module('searchList', []);
+var slist = angular.module('searchList', []);
+
+slist.controller('LOAD', ['$scope', '$window', function ($scope, $window) {
+    $scope.onURLclick = function (url1, url2) {
+        var url = "/www/#!" + url1 + url2
+
+        $window.location.href = url
+    }
+}])
 
 
+slist.controller('DEBUG', ['$scope', function ($scope) {
 
-
-slist.controller('DEBUG', ['$scope', function($scope) {
-
-    $scope.debug = function (a,b) {
+    $scope.debug = function (a, b) {
 
 
     }
 
-     $scope.isobj = function (a) {
+    $scope.isobj = function (a) {
         return (angular.isObject(a))
     }
 
@@ -24,7 +30,6 @@ slist.controller('DEBUG', ['$scope', function($scope) {
 slist //return the data filtered
     .filter('custom', function () {
         return function (input, search) {
-            debugger;
             var success;
             success = false;
 

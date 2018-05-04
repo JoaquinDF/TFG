@@ -25,16 +25,18 @@ def duplicate_collection(df, db, coll):
 def save_docs(df, dfa, dfb, db, coll):
     # del dfA['_id']
     # del dfB['_id']
+    df_a = dfa.astype(str)
+    df_b = dfb.astype(str)
     docs = []
     x_set = set()
     y_set = set()
     for x, y in set(df.index):
         x_set.add(x)
         y_set.add(y)
-    for i, row in dfa.iterrows():
+    for i, row in df_a.iterrows():
         if i not in x_set:
             docs.append(row.to_dict())
-    for i, row in dfb.iterrows():
+    for i, row in df_b.iterrows():
         if i not in y_set:
             docs.append(row.to_dict())
     x_index = set([x[0] for x in set(df.index)])
@@ -42,8 +44,8 @@ def save_docs(df, dfa, dfb, db, coll):
     for x, y in set(df.index):
         if x not in x_index or y not in y_index:
             continue
-        x_dict = dfa.loc[x].to_dict()
-        y_dict = dfb.loc[y].to_dict()
+        x_dict = df_a.loc[x].to_dict()
+        y_dict = df_b.loc[y].to_dict()
         for key in y_dict.keys():
             if key not in x_set:
                 x_dict[key] = y_dict[key]

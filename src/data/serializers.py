@@ -50,3 +50,27 @@ class PersonaOrganizacionSerializer(serializers.DocumentSerializer):
     class Meta:
         model = PersonaOrganizacion
         fields = '__all__'
+
+
+class CommunitySerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Community
+        fields = '__all__'
+
+
+class RegionMetricSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = RegionMetric
+        fields = '__all__'
+
+
+class OrganizationMetricSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = OrganizationMetric
+        fields = '__all__'
+
+
+class GraphH2020ViewSetSerializer(serializers.DocumentSerializer):
+    class Meta:
+        model = Graph_nodes
+        fields = '__all__'

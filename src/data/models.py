@@ -4,7 +4,7 @@ from mongoengine import *
 class Convocatoria(Document):
     tituloConvocatoria = StringField()
     fechaFinPresentacion = StringField()
-    presupuesto = FloatField()
+    presupuesto = StringField()
 
     meta = {
         'collection': 'data.calls'
@@ -16,10 +16,10 @@ class Proyecto(Document):
     estado = StringField(default='CONCEDIDO')
     fechaInicio = StringField(default=None)
     fechaFin = StringField(default=None)
-    presupuestoPresentado = FloatField()
-    presupuestoAceptado = FloatField()
-    prestamo = FloatField()
-    subvencion = FloatField()
+    presupuestoPresentado = StringField()
+    presupuestoAceptado = StringField()
+    prestamo = StringField()
+    subvencion = StringField()
 
     meta = {
         'collection': 'data.projects'
@@ -30,6 +30,8 @@ class Direccion(EmbeddedDocument):
     calle = StringField()
     cp = StringField()
     ciudad = StringField()
+    pais = StringField(default='')
+    european = BooleanField(default=False)
 
 
 class Organizacion(Document):
@@ -91,4 +93,63 @@ class PersonaOrganizacion(Document):
 
     meta = {
         'collection': 'data.person-organization'
+    }
+
+
+class OrganizationMetric(Document):
+    organization = StringField()
+    numeroProyectos = StringField()
+    porcentajeSubvencionado = StringField()
+    subvencionTotal = StringField()
+    presupuetoAceptadoTotal = StringField()
+
+    meta = {
+        'collection': 'data.organization-metric'
+    }
+
+
+class RegionMetric(Document):
+    country = StringField()
+    subvencionTotal = StringField()
+    presupuetoAceptadoTotal = StringField()
+    porcentajesubvencionado = StringField()
+    numeroProyectos = StringField()
+    numeroEmpresas = StringField()
+
+    meta = {
+        'collection': 'data.region-metric'
+    }
+
+
+class Community(Document):
+    communityId = StringField()
+    communityProjects = ListField(StringField())
+    label = StringField()
+
+    meta = {
+        'collection': 'data.community'
+    }
+
+
+class Graph_nodes(Document):
+    idnode = StringField()
+    tituloProyecto = StringField()
+    community = StringField()
+
+    idproject = StringField()
+    presupuesto = IntField()
+    subvencion = IntField()
+    country = StringField()
+    startdate = DateTimeField()
+    meta = {
+        'collection': 'data.graph_nodes'
+    }
+
+
+class Graph_edges(Document):
+    source = StringField()
+    target = StringField()
+    weight = StringField()
+    meta = {
+        'collection': 'data.graph_edges'
     }

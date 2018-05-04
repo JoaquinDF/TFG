@@ -1,0 +1,118 @@
+<form id="form" style="margin: 5%; width: 70%">
+
+
+    <div class="form-group" style="display: flex">
+        <div><label for="exampleFormControlSelect1">Example select</label>
+            <select class="form-control" ng-model="$ctrl.pais" ng-keydown="$ctrl.keydown($event)">
+                <option value="" selected> Seleccione País:</option>
+                <option ng-repeat="country in $ctrl.countries" value="{{ country }}">
+                    {{ country }}
+                </option>
+            </select>
+
+        </div>
+
+
+        <md-button ng- class="md-raised" ng-click="$ctrl.check()" style="margin-left:20% ">Recommend :
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </md-button>
+        <md-button ng- class="md-raised" ng-click="$ctrl.competence()" style="margin-left:4% ">Competence Estimation:
+            <span class=" glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        </md-button>
+
+
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Fecha de Inicio del proyecto (Año-Mes-Día)</label>
+
+        <textarea id="entry" ng-model="$ctrl.startdate" ng-keydown="$ctrl.keydown($event)"
+                  class="form-control"
+                  required
+        >
+            </textarea>
+
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Indique el presupuesto del proyecto (€)</label>
+
+        <textarea id="entry" ng-model="$ctrl.presupuesto" ng-keydown="$ctrl.keydown($event)"
+                  class="form-control"
+                  required
+        >
+        </textarea>
+
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Indique la cantidad de financiación que desee obtener (€)</label>
+
+        <textarea id="entry" ng-model="$ctrl.subvencion"
+                  class="form-control" ng-keydown="$ctrl.keydown($event)"
+        >
+        </textarea>
+
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Introduzca la descripción de su proyecto (Inglés)</label>
+        <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
+                  class="form-control"
+                  required
+                  ng-keydown="$ctrl.keydown($event)"
+                  style=" height: 360px;">
+        </textarea></div>
+
+
+</form>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Recomendación</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>El resultado del modelo predictivo con la descripción del proyecto {{ $ctrl.resultGlobal }}.</p>
+                <hr class="style2">
+                <p>El resultado del modelo predictivo con los datos ajustados al país {{ $ctrl.pais }} es:
+
+                </p>
+            </div>
+            <div class="modal-body" style="display: flex;">
+
+                <div ng-repeat="(i,v) in $ctrl.image">
+                    <img src="{{ v }}" class="img-thumbnail" width="95%" height="95%" style="
+
+                    margin-left: auto;
+                    display: block;
+                    margin-right: auto;">
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalLoader" role="dialog">
+    <div class="modal-dialog">
+
+
+        <div class="modal-body">
+            <div id="loader" class="loader" style="margin: 25%"></div>
+
+
+        </div>
+
+    </div>
+</div>

@@ -61,24 +61,24 @@
 
                     <div class="input-group  " ng-if="option.indexOf('id')==-1" style="width: 100%">
                         <div class="input-group"
-                         ng-if="$ctrl.nestedkey.indexOf(option)==-1">
-                        <input ng-model="$ctrl.MapperOptions[option]" ng-model-options="{ updateOn: 'blur' }"
-                               class="form-control searchtext"
-                               style="height: 100%;  position: initial">
-                        <span class="input-group-addon uppercase">{{ option }}</span>
-                    </div>
+                             ng-if="$ctrl.nestedkey.indexOf(option)==-1">
+                            <input ng-model="$ctrl.MapperOptions[option]" ng-model-options="{ updateOn: 'blur' }"
+                                   class="form-control searchtext"
+                                   style="height: 100%;  position: initial">
+                            <span class="input-group-addon uppercase">{{ option }}</span>
+                        </div>
                         <div class="input-group" ng-repeat="nest in $ctrl.nesteditems"
                              ng-if="$ctrl.nestedkey.indexOf(option)!=-1">
-                        <input ng-model="$ctrl.MapperOptions[option][nest]" ng-model-options="{ updateOn: 'blur' }"
-                               class="form-control searchtext"
-                               style="height: 100%; ;  position: initial">
-                        <span class="input-group-addon uppercase">{{ option }} : {{ nest }}</span>
+                            <input ng-model="$ctrl.MapperOptions[option][nest]" ng-model-options="{ updateOn: 'blur' }"
+                                   class="form-control searchtext"
+                                   style="height: 100%; ;  position: initial">
+                            <span class="input-group-addon uppercase">{{ option }} : {{ nest }}</span>
+                        </div>
+
+
                     </div>
 
-
                 </div>
-
-            </div>
             </div>
         </div>
 

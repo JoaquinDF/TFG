@@ -1,0 +1,64 @@
+<div class="row" style="height: 85%; border-style: none">
+    <div class="container-fluid col-sm-11" id="container-fluid"
+         style=" margin-top: 2%; margin-bottom: 2%; width: 100%">
+
+        <style>
+            .graph {
+                margin-left: 1%;
+                width: 70%;
+            !important;
+                height: 85%;
+            !important;
+
+                position: relative;
+
+            }
+        </style>
+        <script>
+            function reload() {
+                location.reload();
+            }
+        </script>
+        <div style="display: flex">
+            <button type="button" id="reload" class="btn btn-default btn-sm"
+                    style="margin-right: 10px; background-color: transparent;display: none; ">
+                <span class="glyphicon glyphicon-refresh" style="font-size: 35px;" onclick="reload()"></span>
+            </button>
+
+            <input size="80" id="finder" ng-model="find" placeholder="filtrado..." class=" searchtext w3-input"
+                   style="border-bottom: solid 1px rgba(180,33,59,0.25); display: none" ng-change="tofind(find)">
+
+        </div>
+        <div id="container" class="graph col-sm-9 "
+             style="display: inline-table; width: 55%; height: 85%;">
+
+        </div>
+
+
+        <div id="sigma-container" class="graph col-sm-8" style="display: inline-table ; "></div>
+
+        <div class="col-sm-3 " id="wordcloud"
+             style="display: inline-table;height: fit-content;">
+            <div id="nodeinfo" class="nodeinfo clickblue">
+
+            </div>
+            <div id="nodeinfohover" class="nodeinfo clickbrown">
+            </div>
+        </div>
+
+
+        <div id="loader" class="loader"/>
+
+
+        <div id="projectid" class="col-sm-3" style="display:none; height: fit-content;
+    padding: 1%; margin: 1%;">
+            <div ng-repeat="(key, value) in Proyecto[0]">
+                <h2> {{ key }}:
+
+                    <span>{{ value }} </span>
+                </h2>
+            </div>
+        </div>
+
+    </div>
+</div>

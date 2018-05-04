@@ -1,46 +1,45 @@
-<div class="container-fluid" style="margin-top: 5%">
-    <form class="form-inline">
-
-        <div style="width: 100%">
-            <div class="input-group searchcontainer" style="display: inline-flex">
-                <input ng-model="search" class="w3-input searchtext" placeholder="Palabra por la que filtrar:" required
-                       onkeyup="hidediv(event)" style="font-size: medium">
+<div class="container-fluid" style="margin-top: 3%">
 
 
-            </div>
-            <div class="input-group searchcontainer  " style="display: inline-flex ; width: auto;">
-
-                <input ng-value="$ctrl.currentpage" ng-model=$ctrl.pagecounter size="50" class="w3-input searchtext"
-                       style="width: 40%" ng-change="$ctrl.changepage($ctrl.pagecounter)">
-                <h5 style="font-size: medium; margin-right: 20px;"> de {{$ctrl.countprojects }} </h5>
-
-                <a href="" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
-                   ng-click="$ctrl.prevproject()" onmouseup=setTimeout(function(){hidediv(null);},50)>
-                    keyboard_arrow_left</a>
-
-                <a href="" class="btn btn-primary material-icons" style="margin: 0px; padding: 0px; width: auto"
-                   ng-click="$ctrl.nextproject()" onmouseup=setTimeout(function(){hidediv(null);},50)>
-                    keyboard_arrow_right</a>
-
-
-            </div>
+    <div style="margin: 20px; text-align: center; width: 70%" class="panel panel-default panel-body panelNoHover ">
+        <div style="display: inline-flex">
+            <input ng-model="search" class="w3-input searchtext" placeholder="Palabra por la que filtrar:" required
+                   ng-change="$ctrl.findProject(search)" onkeyup="hidediv(event)"  style="font-size: medium">
 
 
         </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li  ng-click="$ctrl.startingproject()"><a href="">First</a></li>
+                <li ng-click="$ctrl.prevproject()"
+                    onmouseup=setTimeout(function(){hidediv(null);},50)>
+                    <a href="">Prev</a></li>
+                <li class=" active"><a href="">{{ $ctrl.currentpage }}</a></li>
+                <li ng-click="$ctrl.nextproject()"
+                    onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
+                <li ng-click="$ctrl.lastproject()"><a href="">Last</a></li>
+            </ul>
+        </nav>
+
+    </div>
 
 
-    </form>
-
-
-    <div class="project w3-animate-opacity" style="margin: 20px">
+    <div class="project w3-animate-opacity" style="margin: 20px; width: 70%">
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
-            <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
+
+        
 
 
-                <div class="proyectcontainer">
+                <div class="panel panel-default panel-body">
 
-                    <div ng-repeat="(key, value) in proyecto | custom:search ">
+                   <div ng-click="$ctrl.editProject(proyecto.id)" class="edit">
+                            <i class="fa fa-pencil fa-lg"></i></div>
+
+                        <a href="/www/#!/p{{ proyecto.id }}" style="display: block; width: 75%">
+
+
+                    <div ng-repeat="(key, value) in proyecto ">
 
                <span ng-if="key =='tituloProyecto'">
 
@@ -56,9 +55,10 @@
 
 
                     </div>
+                                </a>
+
                 </div>
 
-            </a>
 
         </div>
     </div>
@@ -83,4 +83,53 @@
         }
     </script>
 
+</div>
+
+
+<div class="modal fade" id="editProject" role="dialog">
+    <div class="modal-dialog">
+
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editar el Proyecto:</h4>
+            </div>
+
+            <div class="modal-body ">
+                    <div  style="margin-bottom: 5%" ng-repeat="(key, value) in $ctrl.EditProject">
+
+               
+                        <span ng-if="key !='id'">
+                        <span ng-if="value" !="NaN">
+
+
+
+                                <h3> <span style="width: auto">{{ key }}:</span></span>  <input class="searchtext w3-input" id="{{key}}" style="margin-right: 30%;float: right;width: auto;" onfocus="this.select();" type="text" value={{value}}> </h3>
+
+
+
+
+                    </span>
+                    </span>
+
+
+                    </div>
+                    
+
+            </div>
+
+           
+
+
+            <div class="modal-footer">
+                <button type="button" ng-click="$ctrl.saveedit()" class="btn btn-default" data-dismiss="modal">Save</button>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+
+    </div>
 </div>

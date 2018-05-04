@@ -43,6 +43,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.js"></script>
         <!-->
 
+        <script src="/static/js/data-list/data-list.module.js"></script>
+        <script src="/static/js/data-list/data-list.component.js"></script>
 
         <script src="/static/js/project-list/project-list.module.js"></script>
         <script src="/static/js/project-list/project-list.component.js"></script>
@@ -63,48 +65,164 @@
         <script src="/static/js/admin-module/admin-module.module.js"></script>
         <script src="/static/js/admin-module/admin-module.component.js"></script>
 
+
+        <script src="/static/js/Forecasting-module/forecasting.module.js"></script>
+        <script src="/static/js/Forecasting-module/forecasting.component.js"></script>
+
         <script src="/static/js/metric-module/metric-module.module.js"></script>
         <script src="/static/js/metric-module/metric-module.component.js"></script>
 
 
-        <link href="/static/css/innhome.css" rel="stylesheet">
-        <script src="/static/js/app.module.js"></script>
+        <script src="/static/js/metric-module/parallels-module.module.js"></script>
+        <script src="/static/js/metric-module/community-module.module.js"></script>
 
+        <script src="/static/js/metric-module/maps-module.module.js"></script>
+        <script src="/static/js/Forecasting-module/recommender.component.js"></script>
+
+
+        <link href="/static/css/innhome.css" rel="stylesheet">
+
+        <script src="/static/js/app.module.js"></script>
+        <!-- MAPS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+        <script src="/static/js/datamaps/angular-datamaps.js"></script>
+        <script src="/static/js/datamaps/datamaps.all.js"></script>
+
+
+        <!-->
+
+
+        <!--Comunidades-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/sigma.min.js"></script>
+        <script src="/static/js/plugins/sigma.parsers.json/sigma.parsers.json.js"></script>
+
+        <script src="/static/js/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+        <script src="/static/js/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+
+        <script src="/static/js/metric-module/gexf-parser.js"></script>
+
+
+        <!--WordCloud-->
+        <script src="/static/js/plugins/word/cloud.js"></script>
+        <!---->
+
+        <!--Parallel coordinates-->
+
+        <link rel="stylesheet"
+              href="https://syntagmatic.github.io/parallel-coordinates/d3.parcoords.css">
+
+
+        <script src="/static/js/plugins/divgrid.js"></script>
+        <script src="/static/js/plugins/d3.parcoords.js"></script>
 
     </head>
 
     <body class="w3-theme ">
 
         <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4  w3-bar-block "
-             style="z-index:3;width:250px; " id="mySidebar">
-            <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/">
-                <img src="/static/images/innhome.png" style="width: 80%;padding-bottom: 30px;">
-                <img src="/static/images/bisite-usal-es.png" style="width: 80%;padding-bottom: 30px;"></a>
+
+             style="z-index:3;width:15%; " id="mySidebar">
+            <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/www/" style="background-color: #ccc">
+                <img src="/static/images/innhome.png" style="width: 80%;padding-bottom: 30px; text-align: left;">
+                <img src="/static/images/bisite-usal-es.png"
+                     style="width: 80%;padding-bottom: 30px; text-align: left; "></a>
             <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close
                 <i class="fa fa-remove"></i></a>
 
             <div class="w3-sidebar w3-bar-block w3-card-2 w3-theme-d4  w3-bar-block"
                  style="width: inherit; height: auto;">
-                <div class="w3-bar-item w3-button" onclick="myAccFunc()">
+                <a class="w3-bar-item tablink w3-button" id="Transform" href="#!data"
+                   onclick="tabbarColor('Transform')">Data</a>
+                <div class="w3-bar-item w3-button" onclick="metricShow('data')">
                     Data <i class="fa fa-caret-down"></i></div>
-                <div id="demoAcc" class="w3-hide w3-theme w3-card-4">
-                    <a class="w3-bar-item tablink w3-button  " id="Projects" href="#!project"
-                       onclick="tabbarColor('Projects')">Projects</a>
+                <div id="data" class="w3-hide w3-theme w3-card-4">
+
+
+                    <div class="w3-bar-item w3-button" onclick="metricShow('proy')">
+                        Projects <i class="fa fa-caret-down"></i></div>
+
+                    <div id="proy" class="w3-hide w3-theme w3-card-4">
+                        <form>
+                            <a class="w3-bar-item tablink w3-button" id="Projects" href="#!project"
+                               onclick="tabbarColor('Projects')">All Projects</a>
+
+                            <input size="50" class="w3-input searchtext " ng-model="textmetric"
+                                   placeholder=" Insert Project Name " ng-change="onMetricEnter(textmetric,'proy')">
+                        </form>
+
+
+                        <!--<div ng-repeat="proyecto in Proyectos">
+
+                            <a name="busquedaproy" class="w3-bar-item tablink w3-button"
+                               href="/www/#!p{{ proyecto.id }}"
+                               style="display: block"> {{ proyecto.tituloProyecto }} </a>
+
+                            <span ng-repeat-end="proyecto in Proyectos">
+                             <script>addData('proy')</script>
+                        </span>
+
+                        </div>-->
+
+                    </div>
+
+
                     <a class="w3-bar-item tablink w3-button" id="Calls" href="#!call" onclick="tabbarColor('Calls')">Calls</a>
                     <a class="w3-bar-item tablink w3-button" id="Organizations" href="#!organization"
                        onclick="tabbarColor('Organizations')">Organizations</a>
-
                 </div>
+
                 <a class="w3-bar-item tablink w3-button" id="Transform" href="#!transform"
                    onclick="tabbarColor('Transform')">Transform</a>
                 <a class="w3-bar-item tablink w3-button" id="Search" href="/www/#!search"
                    onclick="tabbarColor('Search')">Search</a>
                 <a class="w3-bar-item tablink w3-button" id="Admin" href="#!admin"
                    onclick="tabbarColor('Admin')">Admin</a>
-                <a class="w3-bar-item tablink w3-button" id="Metrics" href="#!metric" onclick="tabbarColor('Metrics')">Metrics</a>
 
+                <div class="w3-bar-item w3-button" onclick="metricShow('metricorgs')">
+                    Metrics <i class="fa fa-caret-down"></i></div>
+
+                <div id="metricorgs" class="w3-hide w3-theme w3-card-4">
+                    <form>
+
+                        <a class="w3-bar-item tablink w3-button" id="Maps" href="#!/maps/orgnum"
+                           onclick="tabbarColor('Maps')">Heat Maps</a>
+                        <a class="w3-bar-item tablink w3-button" id="h2020" href="#!/community/h2020/"
+                           onclick="tabbarColor('h2020')">H2020</a>
+                        <a class="w3-bar-item tablink w3-button" id="parallels" href="#!/parallels/"
+                           onclick="tabbarColor('parallels')">Parallels Coordinates(H2020)</a>
+                        <input size="50" class="w3-input searchtext " ng-model="textmetric"
+                               placeholder=" Insert Orgnization Name " ng-change="onMetricEnter(textmetric,'orgs')">
+                    </form>
+
+
+                    <div ng-repeat="organization in Orgs">
+
+                        <a name="busquedaorg" class="w3-bar-item tablink w3-button"
+                           href="/www/#!/o{{ organization.id }}"
+                           style="display: block"> {{ organization.nombre }} </a>
+
+                        <span ng-repeat-end="organization in Orgs">
+                             <script>addData('orgs')</script>
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+                <div class="w3-bar-item w3-button" onclick="metricShow('forecasting')">
+                    Forecasting <i class="fa fa-caret-down"></i></div>
+                <div id="forecasting" class="w3-hide w3-theme w3-card-4">
+
+                    <a class="w3-bar-item tablink w3-button" id="community" href="#!forecasting"
+                       onclick="tabbarColor('community')">Community Estimation</a>
+                    <a class="w3-bar-item tablink w3-button" id="recommender" href="#!recommender"
+                       onclick="tabbarColor('recommender')">Recommender System</a>
+
+
+                </div>
             </div>
-
             <footer class="footer w3-theme-d3" style="padding: 30px">
                 <img alt="Bisite Research Group" src="http://bisite.usal.es/archivos/favicon_2.png" width="42"
                      height="42">
@@ -113,15 +231,16 @@
                 © Copyright 2016 by Bisite Research Group
             </footer>
         </nav>
-
         <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
              id="myOverlay"></div>
 
-        <div class="w3-main" style="margin-left:250px;">
+        <div class="w3-main" style="margin-left:15%;">
 
             <div id="myTop" class="w3-container w3-top w3-theme-d4 w3-large">
                 <p><i class="fa fa-bars w3-button w3-theme-d3 w3-hide-large w3-xlarge" onclick="w3_open()"
-                      style="font-size: 31px">
+                      style="font-size: 31px
+
+">
 
                 </i>
 
@@ -131,16 +250,16 @@
                 <ng-view></ng-view>
             </div>
 
-            </div>
-
-
-
+        </div>
 
 
         <script>
-            window.onscroll = function () {
-                myFunction()
-            };
+            window.onscroll =
+
+                function () {
+                    myFunction()
+                };
+
 
             function myFunction() {
                 if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
@@ -164,7 +283,6 @@
 
 
             }
-
 
 
         </script>
