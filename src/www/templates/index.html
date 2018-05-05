@@ -118,7 +118,7 @@
 
     </head>
 
-    <body class="w3-theme ">
+    <body class="w3-theme " ng-controller="HandleSearchEvents">
 
         <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card-2 w3-theme-d4  w3-bar-block "
 
@@ -132,45 +132,10 @@
 
             <div class="w3-sidebar w3-bar-block w3-card-2 w3-theme-d4  w3-bar-block"
                  style="width: inherit; height: auto;">
-                <a class="w3-bar-item tablink w3-button" id="Transform" href="#!data"
-                   onclick="tabbarColor('Transform')">Data</a>
+                <a class="w3-bar-item tablink w3-button" id="data" href="#!data"
+                   onclick="tabbarColor('data')">Data</a>
                 <div class="w3-bar-item w3-button" onclick="metricShow('data')">
                     Data <i class="fa fa-caret-down"></i></div>
-                <div id="data" class="w3-hide w3-theme w3-card-4">
-
-
-                    <div class="w3-bar-item w3-button" onclick="metricShow('proy')">
-                        Projects <i class="fa fa-caret-down"></i></div>
-
-                    <div id="proy" class="w3-hide w3-theme w3-card-4">
-                        <form>
-                            <a class="w3-bar-item tablink w3-button" id="Projects" href="#!project"
-                               onclick="tabbarColor('Projects')">All Projects</a>
-
-                            <input size="50" class="w3-input searchtext " ng-model="textmetric"
-                                   placeholder=" Insert Project Name " ng-change="onMetricEnter(textmetric,'proy')">
-                        </form>
-
-
-                        <!--<div ng-repeat="proyecto in Proyectos">
-
-                            <a name="busquedaproy" class="w3-bar-item tablink w3-button"
-                               href="/www/#!p{{ proyecto.id }}"
-                               style="display: block"> {{ proyecto.tituloProyecto }} </a>
-
-                            <span ng-repeat-end="proyecto in Proyectos">
-                             <script>addData('proy')</script>
-                        </span>
-
-                        </div>-->
-
-                    </div>
-
-
-                    <a class="w3-bar-item tablink w3-button" id="Calls" href="#!call" onclick="tabbarColor('Calls')">Calls</a>
-                    <a class="w3-bar-item tablink w3-button" id="Organizations" href="#!organization"
-                       onclick="tabbarColor('Organizations')">Organizations</a>
-                </div>
 
                 <a class="w3-bar-item tablink w3-button" id="Transform" href="#!transform"
                    onclick="tabbarColor('Transform')">Transform</a>

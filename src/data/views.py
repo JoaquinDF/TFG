@@ -10,6 +10,8 @@ from rest_framework import filters
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
+
 from rest_framework.viewsets import ViewSet
 import pandas as pd
 import json
@@ -85,7 +87,7 @@ print(time.time() - timea)
 
 
 # CALL
-class CallViewSet(ReadOnlyModelViewSet):
+class CallViewSet(ModelViewSet):
     serializer_class = ConvocatoriaSerializer
     queryset = Convocatoria.objects.all()
     filter_backends = (filters.OrderingFilter,)
@@ -104,7 +106,7 @@ class CallViewSet(ReadOnlyModelViewSet):
 
 
 # PROJECT
-class ProjectViewSet(ReadOnlyModelViewSet, generics.ListAPIView):
+class ProjectViewSet(ModelViewSet, generics.ListAPIView):
     serializer_class = ProyectoSerializer
     queryset = Proyecto.objects.all()
 
@@ -129,7 +131,7 @@ class ProjectViewSet(ReadOnlyModelViewSet, generics.ListAPIView):
 
 
 # ORGANIZATION
-class OrganizationViewSet(ReadOnlyModelViewSet):
+class OrganizationViewSet(ModelViewSet):
     serializer_class = OrganizacionSerializer
     queryset = Organizacion.objects.all()
     filter_backends = (filters.OrderingFilter,)

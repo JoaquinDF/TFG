@@ -30,7 +30,10 @@ Appmodule.config(['$locationProvider', '$routeProvider',
 
 
             })
-
+            .when('/',
+                {
+                    template: '<start-list></start-list>'
+                })
             .when('/organization', {
                 template: '<organization-list></organization-list>'
             })

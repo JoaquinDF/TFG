@@ -42,8 +42,6 @@ a:focus {
     text-decoration: none;
 }
 
-
-
 .metricdiv:hover .buttonmetric {
     opacity: 1;
 
@@ -51,8 +49,7 @@ a:focus {
 
 .buttonmetric {
     text-align: center;
-    border: 1px solid #c62540;
-    border-radius: 12px;
+
     padding: 1px 10px;
     margin-left: 12px;
     opacity: 0;
@@ -105,10 +102,6 @@ a:focus {
 a:hover {
     text-decoration: none;
     color: black;
-}
-
-a:focus {
-    color: white;
 }
 
 .selectfontsize {
@@ -350,13 +343,13 @@ resizable-input {
     display: block;
 }
 
-.edit:hover{
-        color: darkblue;
-        background-color: #f8f8f8;
+.edit:hover {
+    color: darkblue;
+    background-color: #f8f8f8;
 }
 
 .edit {
-        float: right;
+    float: right;
 
     display: none;
 }
