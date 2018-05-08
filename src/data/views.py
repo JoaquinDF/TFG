@@ -1,6 +1,7 @@
 from bson.objectid import ObjectId
 from rest_framework import filters
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
+from mongoengine.queryset.visitor import Q
 
 from .serializers import *
 
@@ -39,6 +40,8 @@ from pymongo import MongoClient
 from sklearn import preprocessing
 
 from scipy import stats
+
+from rest_framework.renderers import JSONRenderer
 
 # TF-IDF
 DATESTARTH2020 = 1388534400
@@ -100,6 +103,17 @@ class CallViewSet(ModelViewSet):
             response = Convocatoria.objects(id=org)
         if name is not None:
             response = response.filter(tituloConvocatoria__icontains=name)
+
+        field = self.request.query_params.get('field', None)
+        data = self.request.query_params.get('data', None)
+
+        if field and data:
+            kwargs = {
+                '{0}'.format(field): data
+            }
+            pprint.pprint(kwargs)
+            response = response.filter(**kwargs)
+
         return response
 
 
@@ -110,14 +124,27 @@ class ProjectViewSet(ModelViewSet):
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('tituloProyecto',)
 
+    @property
     def get_queryset(self):
         response = Proyecto.objects.all()
         org = self.request.query_params.get('id', None)
         name = self.request.query_params.get('name', None)
+
         if org is not None:
             response = response.filter(id=ObjectId(org))
         if name is not None:
             response = response.filter(tituloProyecto__icontains=name)
+
+        field = self.request.query_params.get('field', None)
+        data = self.request.query_params.get('data', None)
+
+        if field and data:
+            kwargs = {
+                '{0}'.format(field): data
+            }
+            pprint.pprint(kwargs)
+            response = response.filter(**kwargs)
+
         return response
 
 
@@ -147,6 +174,18 @@ class OrganizationViewSet(ModelViewSet):
         query_params = self.request.query_params.get('name', None)
         if query_params is not None:
             queryset = queryset.filter(nombre__icontains=query_params)
+            return queryset
+
+        field = self.request.query_params.get('field', None)
+        data = self.request.query_params.get('data', None)
+
+        if field and data:
+            kwargs = {
+                '{0}'.format(field): data
+            }
+            pprint.pprint(kwargs)
+            queryset = queryset.filter(**kwargs)
+
         return queryset
 
 
@@ -736,3 +775,26 @@ class GetRecommendationViewSet(ViewSet):
         return HttpResponse(
             json.dumps({'resultGlobal': str(Isolation[0]), 'resultSubPres': str(y[0]), 'image': path_key}),
             content_type="application/json")
+
+
+class SearchViewSet(ViewSet):
+    def create(self, request):
+        model = request.data.get('model', '*')
+
+        if model == "project":
+            what = request.data.get('what', '*')
+            where = request.data.get('where', '*')
+
+            kwargs = {
+                '{0}__{1}'.format(what, 'icontains'): where,
+            }
+            from django.core import serializers
+
+            response = Proyecto.objects.all()
+            projets = response.filter(**kwargs)
+            data = serializers.serialize("json", projets)
+
+            serializer = ProyectoSerializer(projets[0])
+            pprint.pprint(serializer.data)
+
+            return Response(data)

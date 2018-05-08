@@ -30,7 +30,10 @@ Appmodule.config(['$locationProvider', '$routeProvider',
 
 
             })
-
+            .when('/',
+                {
+                    template: '<start-list></start-list>'
+                })
             .when('/organization', {
                 template: '<organization-list></organization-list>'
             })
@@ -47,7 +50,7 @@ Appmodule.config(['$locationProvider', '$routeProvider',
 
 
             .when('/search', {
-                template: '<search-list style="display: block"></search-list>'
+                template: '<search-data style="display: block"></search-data>'
             })
 
             .when('/metric', {

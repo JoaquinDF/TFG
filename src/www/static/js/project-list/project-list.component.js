@@ -9,9 +9,9 @@ angular.module('projectList').component('projectList', {
 
         self.projectfind = ""
 
-        self.startingproject = function() {
+        self.startingproject = function () {
 
-            $http.get('/api/v1/data/project/?limit=10&offset=0&ordering=tituloProyecto').then(function(responseprojects) {
+            $http.get('/api/v1/data/project/?limit=10&offset=0&ordering=tituloProyecto').then(function (responseprojects) {
 
                 self.projects = responseprojects.data.results;
                 self.projectsnext = responseprojects.data.next;
@@ -19,11 +19,12 @@ angular.module('projectList').component('projectList', {
                 self.countprojects = Math.floor(((responseprojects.data.count) / 10) + 1);
                 self.currentpage = 1;
             });
+
         }
 
-        self.nextproject = function() {
+        self.nextproject = function () {
             if (self.projectsnext) {
-                $http.get(self.projectsnext).then(function(responseprojects) {
+                $http.get(self.projectsnext).then(function (responseprojects) {
 
                     if (responseprojects.data) {
 
@@ -38,12 +39,12 @@ angular.module('projectList').component('projectList', {
 
         }
 
-        self.lastproject = function() {
+        self.lastproject = function () {
             var page = self.countprojects;
             page *= 10;
             page -= 10;
             var apitogo = "/api/v1/data/project/?limit=10&offset=" + page + "&ordering=tituloProyecto";
-            $http.get(apitogo).then(function(responseprojects) {
+            $http.get(apitogo).then(function (responseprojects) {
 
                 self.projects = responseprojects.data.results;
                 self.projectsnext = responseprojects.data.next;
@@ -52,9 +53,9 @@ angular.module('projectList').component('projectList', {
             });
         }
 
-        self.prevproject = function() {
+        self.prevproject = function () {
             if (self.currentpage > 1) {
-                $http.get(self.projectsprev).then(function(responseprojects) {
+                $http.get(self.projectsprev).then(function (responseprojects) {
                     if (responseprojects.data) {
                         self.projects = responseprojects.data.results;
                         self.projectsnext = responseprojects.data.next;
@@ -68,7 +69,7 @@ angular.module('projectList').component('projectList', {
         }
 
 
-        self.changepage = function(page) {
+        self.changepage = function (page) {
             if (!isNaN(page) && page && page < self.countprojects) {
                 self.currentpage = parseInt(page);
 
@@ -76,7 +77,7 @@ angular.module('projectList').component('projectList', {
                 page -= 10;
                 var http = "/api/v1/data/project/?limit=10&offset= " + page + "&ordering=tituloProyecto";
 
-                $http.get(http).then(function(responseprojects) {
+                $http.get(http).then(function (responseprojects) {
                     if (responseprojects.data) {
 
                         self.projects = responseprojects.data.results;
@@ -88,12 +89,12 @@ angular.module('projectList').component('projectList', {
             }
         }
 
-        self.findProject = function(toFind) {
+        self.findProject = function (toFind) {
             if ((toFind != "") && toFind) {
                 self.projectfind = toFind
                 var http = "/api/v1/data/project/?limit=10&offset=0&ordering=tituloProyecto&name=" + toFind;
 
-                $http.get(http).then(function(responseprojects) {
+                $http.get(http).then(function (responseprojects) {
                     if (responseprojects.data) {
 
                         self.projects = responseprojects.data.results;
@@ -113,35 +114,33 @@ angular.module('projectList').component('projectList', {
 
         }
 
-        self.saveedit = function(){
+        self.saveedit = function () {
             var keys = Object.keys(self.EditProject);
             var tosave = {}
 
 
-            for(var key in keys){
+            for (var key in keys) {
                 tosave[keys[key]] = $('#' + keys[key]).val()
             }
-                tosave['keys'] = keys.join()
+            tosave['keys'] = keys.join()
 
-                $http.put('/api/v1/data/project/' + self.EditProject['id'] + '/', tosave).then(function successCallback(response) {
+            $http.put('/api/v1/data/project/' + self.EditProject['id'] + '/', tosave).then(function successCallback(response) {
 
-                   self.findProject(self.projectfind)
+                self.findProject(self.projectfind)
 
-                }, function errorCallback(response) {
+            }, function errorCallback(response) {
 
-                    debugger;
-                });
-
-
-            }
+                debugger;
+            });
 
 
+        }
 
 
-        self.editProject = function(idtoEdit) {
+        self.editProject = function (idtoEdit) {
             self.EditProject = [];
             var http = "/api/v1/data/project/?id=" + idtoEdit;
-            $http.get(http).then(function(responseprojects) {
+            $http.get(http).then(function (responseprojects) {
                 if (responseprojects.data) {
 
                     self.EditProject = responseprojects.data.results[0];
@@ -151,11 +150,9 @@ angular.module('projectList').component('projectList', {
             });
 
 
-          
         }
 
-        self.startingproject(); 
-
+        self.startingproject();
 
 
     }]

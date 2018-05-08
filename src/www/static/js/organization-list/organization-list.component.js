@@ -7,133 +7,217 @@ angular.module('organizationList').component('organizationList', {
         controller: ['$http', function OrganizationListController($http, $scope) {
             var self = this;
             self.orgchange = 'EU'
-            $http.get('/api/v1/data/organization/?limit=10&offset=0&ordering=nombre&nation=EU').then(function (responseorganizations) {
+            self.orgfind = ""
 
-                self.organizations = responseorganizations.data.results;
-                self.organizationsnext = responseorganizations.data.next;
-                self.organizationsprev = responseorganizations.data.previous;
-                self.countorganizations = Math.floor(((responseorganizations.data.count) / 10) + 1);
-                self.currentpageorganizations = 1;
-                self.pagecounterorganizations;
+            self.startingorganization = function () {
+                $http.get('/api/v1/data/organization/?limit=10&offset=0&ordering=nombre&nation=EU').then(function (responseorganizations) {
 
-                self.nextorganization = function () {
-                    if (self.organizationsnext) {
-                        $http.get(self.organizationsnext).then(function (responseorganizations) {
+                    self.organizations = responseorganizations.data.results;
+                    self.organizationsnext = responseorganizations.data.next;
+                    self.organizationsprev = responseorganizations.data.previous;
+                    self.countorganizations = Math.floor(((responseorganizations.data.count) / 10) + 1);
+                    self.currentpageorganizations = 1;
+                    self.pagecounterorganizations;
+                });
 
-                            if (responseorganizations.data) {
-
-                                self.organizations = responseorganizations.data.results;
-                                self.organizationsnext = responseorganizations.data.next;
-                                self.organizationsprev = responseorganizations.data.previous;
-                                self.currentpageorganizations += 1;
-                                self.pagecounterorganizations = null;
-                            }
-                        });
-                    }
-                }
-                self.prevorganization = function () {
-                    if (self.currentpageorganizations > 1) {
-                        $http.get(self.organizationsprev).then(function (responseorganizations) {
-                            if (responseorganizations.data) {
-                                self.organizations = responseorganizations.data.results;
-                                self.organizationsnext = responseorganizations.data.next;
-                                self.organizationsprev = responseorganizations.data.previous;
-                                self.currentpageorganizations -= 1;
-                                self.pagecounterorganizations = null;
-
-                            }
-                        });
-                    }
-                }
+            }
 
 
-                self.onNationChanged = function (where) {
-                    if (where) {
-                        var togo = '/api/v1/data/organization/?limit=10&nation=' + where;
+            self.nextorganization = function () {
+                if (self.organizationsnext) {
+                    $http.get(self.organizationsnext).then(function (responseorganizations) {
 
-                        $http.get(togo).then(function (responseorganizations) {
-                            if (responseorganizations.data) {
-                                self.organizations = responseorganizations.data.results;
-                                self.organizationsnext = responseorganizations.data.next;
-                                self.organizationsprev = responseorganizations.data.previous;
-                                self.countorganizations = Math.floor(((responseorganizations.data.count) / 10) + 1);
-                                self.currentpageorganizations = 1;
-
-
-                            }
-                        });
-                    }
-
-
-                }
-
-                self.onHoverMetrics = function (organization) {
-                    if (!organization) return false;
-                    var country = organization.direccion.pais;
-
-                    var http = "/api/v1/data/RegionMetric/?region=" + country;
-
-                    $http.get(http).then(function (responseorganizations) {
                         if (responseorganizations.data) {
 
-                            var data = responseorganizations.data.results[0];
-
-                            self.regionName = data.country;
-                            self.numeroProyectosR = data.numeroProyectos;
-                            self.porcentajesubvencionadoR = (parseFloat(data.porcentajesubvencionado)).toFixed(1);
-                            self.numeroProyectosMedioR = (parseFloat(data.numeroProyectos) / parseFloat(data.numeroEmpresas)).toFixed(1);
-                            self.numeroEmpresas = parseFloat(data.numeroEmpresas)
-
-                            var http = "/api/v1/data/OrganizationMetric/?organization=" + organization.id;
-
-                            $http.get(http).then(function (responseorganizations) {
-                                if (responseorganizations.data) {
-
-                                    var data = responseorganizations.data.results[0];
-
-                                    self.porcentajesubvencionadoO = (parseFloat(data.porcentajeSubvencionado)).toFixed(1);
-                                    self.numeroProyectosO = data.numeroProyectos;
-
-
-                                    self.porcentajeRelativo = ((self.porcentajesubvencionadoO / self.porcentajesubvencionadoR)).toFixed(1);
-                                    self.proyectosRelativo = (self.numeroProyectosO - self.numeroProyectosMedioR).toFixed(1)
-
-
-                                }
-
-
-                            });
+                            self.organizations = responseorganizations.data.results;
+                            self.organizationsnext = responseorganizations.data.next;
+                            self.organizationsprev = responseorganizations.data.previous;
+                            self.currentpageorganizations += 1;
+                            self.pagecounterorganizations = null;
+                        }
+                    });
+                }
+            }
+            self.prevorganization = function () {
+                if (self.currentpageorganizations > 1) {
+                    $http.get(self.organizationsprev).then(function (responseorganizations) {
+                        if (responseorganizations.data) {
+                            self.organizations = responseorganizations.data.results;
+                            self.organizationsnext = responseorganizations.data.next;
+                            self.organizationsprev = responseorganizations.data.previous;
+                            self.currentpageorganizations -= 1;
+                            self.pagecounterorganizations = null;
 
                         }
-
                     });
+                }
+            }
+
+            self.lastorganization = function () {
+                var page = self.countorganizations;
+                page *= 10;
+                page -= 10;
+                var apitogo = "/api/v1/data/Organization/?limit=10&offset=" + page + "&ordering=nombre";
+                $http.get(apitogo).then(function (responseorgs) {
+
+                    self.organizations = responseorgs.data.results;
+                    self.organizationsnext = responseorgs.data.next;
+                    self.organizationsprev = responseorgs.data.previous;
+                    self.currentpage = self.countorganizations;
+                });
+            }
 
 
+            self.onNationChanged = function (where) {
+                debugger;
+                if (where) {
+                    var togo = '/api/v1/data/organization/?limit=10&nation=' + where;
+
+                    $http.get(togo).then(function (responseorganizations) {
+                        if (responseorganizations.data) {
+                            self.organizations = responseorganizations.data.results;
+                            self.organizationsnext = responseorganizations.data.next;
+                            self.organizationsprev = responseorganizations.data.previous;
+                            self.countorganizations = Math.floor(((responseorganizations.data.count) / 10) + 1);
+                            self.currentpageorganizations = 1;
+
+
+                        }
+                    });
                 }
 
 
-                self.changepage = function (page) {
-                    if (!isNaN(page) && page && page <= self.countorganizations) {
-                        self.currentpageorganizations = parseInt(page);
-                        page *= 10;
-                        page -= 10;
-                        var http = "/api/v1/data/organization/?limit=10&offset=" + page + "&ordering=nombre";
+            }
+
+            self.onHoverMetrics = function (organization) {
+                if (!organization) return false;
+                var country = organization.direccion.pais;
+
+                var http = "/api/v1/data/RegionMetric/?region=" + country;
+
+                $http.get(http).then(function (responseorganizations) {
+                    if (responseorganizations.data) {
+
+                        var data = responseorganizations.data.results[0];
+
+                        self.regionName = data.country;
+                        self.numeroProyectosR = data.numeroProyectos;
+                        self.porcentajesubvencionadoR = (parseFloat(data.porcentajesubvencionado)).toFixed(1);
+                        self.numeroProyectosMedioR = (parseFloat(data.numeroProyectos) / parseFloat(data.numeroEmpresas)).toFixed(1);
+                        self.numeroEmpresas = parseFloat(data.numeroEmpresas)
+
+                        var http = "/api/v1/data/OrganizationMetric/?organization=" + organization.id;
 
                         $http.get(http).then(function (responseorganizations) {
                             if (responseorganizations.data) {
 
-                                self.organizations = responseorganizations.data.results;
-                                self.organizationsnext = responseorganizations.data.next;
-                                self.organizationsprev = responseorganizations.data.previous;
+                                var data = responseorganizations.data.results[0];
+
+                                self.porcentajesubvencionadoO = (parseFloat(data.porcentajeSubvencionado)).toFixed(1);
+                                self.numeroProyectosO = data.numeroProyectos;
+
+
+                                self.porcentajeRelativo = ((self.porcentajesubvencionadoO / self.porcentajesubvencionadoR)).toFixed(1);
+                                self.proyectosRelativo = (self.numeroProyectosO - self.numeroProyectosMedioR).toFixed(1)
 
 
                             }
+
+
                         });
+
                     }
+
+                });
+
+
+            }
+
+
+            self.changepage = function (page) {
+                if (!isNaN(page) && page && page <= self.countorganizations) {
+                    self.currentpageorganizations = parseInt(page);
+                    page *= 10;
+                    page -= 10;
+                    var http = "/api/v1/data/organization/?limit=10&offset=" + page + "&ordering=nombre";
+
+                    $http.get(http).then(function (responseorganizations) {
+                        if (responseorganizations.data) {
+
+                            self.organizations = responseorganizations.data.results;
+                            self.organizationsnext = responseorganizations.data.next;
+                            self.organizationsprev = responseorganizations.data.previous;
+
+
+                        }
+                    });
+                }
+            }
+
+            self.findOrganization = function (toFind) {
+                if ((toFind != "") && toFind) {
+                    self.Organizationfind = toFind
+                    var http = "/api/v1/data/organization/?limit=10&offset=0&ordering=nombre&name=" + toFind;
+
+                    $http.get(http).then(function (responseorganizations) {
+                        if (responseorganizations.data) {
+
+                            self.organizations = responseorganizations.data.results;
+                            self.organizationsnext = responseorganizations.data.next;
+                            self.organizationsprev = responseorganizations.data.previous;
+                            self.countorganizations = Math.floor(((responseorganizations.data.count) / 10) + 1);
+                            self.currentpageorganizations = 1;
+
+                        }
+                    });
+                } else {
+
+                    self.startingorganization()
+
+
                 }
 
-            });
+            }
 
+            self.saveedit = function () {
+                var keys = Object.keys(self.EditOrganization);
+                var tosave = {}
+
+
+                for (var key in keys) {
+                    tosave[keys[key]] = $('#' + keys[key]).val()
+                }
+                tosave['keys'] = keys.join()
+
+                $http.put('/api/v1/data/organization/' + self.EditOrganization['id'] + '/', tosave).then(function successCallback(response) {
+
+                    self.findOrganization(self.EditOrganization)
+
+                }, function errorCallback(response) {
+
+                    debugger;
+                });
+
+
+            }
+
+
+            self.editOrganization = function (idtoEdit) {
+                self.EditOrganization = [];
+                var http = "/api/v1/data/organization/?id=" + idtoEdit;
+                $http.get(http).then(function (responseprojects) {
+                    if (responseprojects.data) {
+
+                        self.EditOrganization = responseprojects.data.results[0];
+                        $('#editOrganization').modal('show')
+
+                    }
+                });
+
+
+            }
+
+            self.startingorganization()
 
         }]
 

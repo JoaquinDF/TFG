@@ -6,7 +6,7 @@
         <div class="container-fluid" style="margin-top: 5%; margin-left: inherit">
 
 
-            <div class="input-group searchcontainer  " ng-controller="LOAD" style="display: inline-flex ; width: auto;">
+            <!-- <div class="input-group searchcontainer  " ng-controller="LOAD" style="display: inline-flex ; width: auto;">
                 <form ng-submit="onURLclick( $ctrl.selectsearch , $ctrl.textsearch )"
                       style="display: inline-flex; width: inherit; margin-bottom: 0px">
                     <input size="50" class="w3-input searchtext" ng-model="$ctrl.textsearch" placeholder="Search:">
@@ -34,16 +34,16 @@
                                 class="glyphicon glyphicon-search" aria-hidden="true"></span></md-button>
                 </form>
             </div>
-
+-->
             <ul class="project" ng-controller="DEBUG">
 
-                <div class="proyectcontainer">
+                <div>
                     <span ng-init="debug($ctrl.Calls.length>0 , 'CALLS LENGTH')"></span>
                     <span ng-if="$ctrl.Calls.length>0">
 
-                    <h2>Convocatoria:</h2>
+                    <h2>Convocatoria/s:</h2>
 
-                    <div ng-repeat="calls in $ctrl.Calls ">
+                    <div class="panel panel-default panel-body" ng-repeat="calls in $ctrl.Calls ">
                                     <a href="/www/#!/c{{ calls.id }}" style="display: block">
 
                         <div ng-repeat="(keycall,valuecall) in calls  | custom:$ctrl.textsearch">
@@ -54,86 +54,140 @@
 
                         </div>
 
-                                        <span ng-if="$last">
-                                        <hr class="style2">
-                                        </span>
+
 
                                     </a>
                     </div>
-   <hr class="style1">
   </span>
 
 
                     <span ng-if="$ctrl.Proyecto.length>0">
-                    <h2>Proyecto:</h2>
+                    <h2>Proyecto/s:</h2>
 
 
-                                     <div ng-repeat="proyecto in $ctrl.Proyecto   ">
+                                     <div class="panel panel-default panel-body"
+                                          ng-repeat="proyecto in $ctrl.Proyecto   ">
                                 <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
 
                                 <div ng-repeat="(key, value) in proyecto | custom:$ctrl.textsearch"
-                                     style="margin-left: 13%">
+                                >
 
 
                                          <span ng-if="value !='NaN'">
                                              <h3>{{ key }}:  <span>{{ value }} </span></h3>
                                         </span>
 
-                                        <span ng-if="$last">
-                                        <hr class="style2">
-                                        </span>
+
                                 </div>
 
                                 </a>
                                  </div>
-<hr class="style1">
                     </span>
 
 
                     <span ng-if="$ctrl.Orgs.length>0">
 
-                    <h2>Organizacion:</h2>
+                    <h2>Organizacion/es:</h2>
 
-                         <div ng-repeat="orgs in $ctrl.Orgs" style="display: flex">
-                    <a href="/www/#!/o{{ orgs.id }}" style="display: block">
+                         <div class="panel panel-default panel-body" ng-repeat="organization in $ctrl.Orgs"
+                              style="display: flex">
 
-                                <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
-                                     style="margin-left: 13%">
 
-                                              <span ng-if="isobj(value)== false">
+                    <div class="metricdiv" style="display: flex;"
+                         ng-mouseenter="$ctrl.onHoverMetrics(organization)">
+                        <a class="metric" href="/www/#!/o{{ organization.id }}" style="display: block; width: 50%">
 
-                                                        <span ng-if="value" !="NaN">
-                                                            <h3> {{ key }}:
+                                    <span ng-if="organization">
+									<div>
 
-                                                                <span>{{ value }} </span>
-                                                            </h3>
+										<div ng-repeat="(key, value) in organization | custom:search "
+                                             ng-controller="Ctrl">
+
+                                                        <span ng-if="key!='id'">
+
+                                             <span ng-if="isobj(value)== false">
+
+												<span ng-if="value" !="NaN">
+													<h3> {{ key }}:
+
+														<span>{{ value }} </span>
+													</h3>
+												</span>
+                                            </span>
                                                         </span>
-                                              </span>
 
-                                    <span ng-if="isobj(value)== true">
-                                                        <span ng-if="key!='_id'"><h3>{{ key }}:</h3></span>
-                                                        <div ng-repeat="(key2,value2) in value "
-                                                             style="margin-left: 13%">
-                                                            <h3> {{ key2 }}:
-                                                                <span>{{ value2 }} </span>
-                                                            </h3>
+                                        </div>
+                                        <div ng-repeat="(key, value) in organization | custom:search "
+                                             ng-controller="Ctrl">
+											<span ng-if="isobj(value)== true">
 
-                                                        </div>
+                                                <span ng-if="key!='id'">
+                                                    <h3>{{ key }}:</h3></span>
+												<div ng-repeat="(key2,value2) in value " style="margin-left: 13%">
+													<h3> {{ key2 }}:
+														<span>{{ value2 }} </span>
+													</h3>
+												</div>
 
-                                                    </span>
+                                                <span ng-if="key=='id'">
+                                <h3>ID :  <span>{{ value.id }} </span></h3>
 
-                                         <span ng-if="$last">
-                                            <hr class="style2">
-                                        </span>
+                                 </span>
+											</span>
 
+										</div>
+
+									</div>
+								</span>
+
+                        </a>
+                        <span ng-if="organization.direccion.pais!='PAIS'">
+                            <span ng-if="organization.direccion.pais!=''">
+
+                        <div class="buttonmetric ">
+                            <a href="/www/#!/metric{{ organization.id }}" style="display: flex; width: 100%">
+                                <div style="margin-right: 7%">
+                                    <h5>Métricas Region: {{ $ctrl.regionName }}</h5>
+                                    <p>Nº Empresas: {{ $ctrl.numeroEmpresas }}</p>
+                                    <p>Nº Total de Proyectos: {{ $ctrl.numeroProyectosR }}</p>
+                                    <p>Nº Medio de Proyectos: {{ $ctrl.numeroProyectosMedioR }}</p>
+
+                                </div>
+                                <hr class="style2">
+                                <div style="margin-right: 7%">
+                                    <h5>Metricas Organizacion: </h5>
+                                    <p>Nº de Proyectos: {{ $ctrl.numeroProyectosO }}</p>
+
+                                    <p>% subvencionado: {{ $ctrl.porcentajesubvencionadoO }}</p>
+
+
+                                </div>
+                                <hr class="style2">
+                                <div>
+                                    <h5>Mejoras relativas a la Region: </h5>
+                                    <span ng-if="$ctrl.porcentajeRelativo < 1">
+                                    <span style="color: red; font-size: x-large; font-weight: 600;">
+                                        {{ $ctrl.porcentajeRelativo}} %
+                                    </span>
+                                         Subvencion relativa a la region
+                                    </span>
+
+                                    <span ng-if="$ctrl.porcentajeRelativo >= 1">
+                                    <span style="color: limegreen; font-size: x-large; font-weight: 600;">
+                                       + {{ $ctrl.porcentajeRelativo }} %
+                                    </span>
+                                         Subvencion relativa a la region
+                                    </span>
 
 
                                 </div>
 
+                            </a>
+                        </div>
+                            </span>
+                        </span>
 
-                    </a>
-
-
+                    </div>
 
 
 

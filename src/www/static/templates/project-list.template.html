@@ -4,13 +4,13 @@
     <div style="margin: 20px; text-align: center; width: 70%" class="panel panel-default panel-body panelNoHover ">
         <div style="display: inline-flex">
             <input ng-model="search" class="w3-input searchtext" placeholder="Palabra por la que filtrar:" required
-                   ng-change="$ctrl.findProject(search)" onkeyup="hidediv(event)"  style="font-size: medium">
+                   ng-change="$ctrl.findProject(search)" onkeyup="hidediv(event)" style="font-size: medium">
 
 
         </div>
         <nav aria-label="Page navigation">
             <ul class="pagination">
-                <li  ng-click="$ctrl.startingproject()"><a href="">First</a></li>
+                <li ng-click="$ctrl.startingproject()"><a href="">First</a></li>
                 <li ng-click="$ctrl.prevproject()"
                     onmouseup=setTimeout(function(){hidediv(null);},50)>
                     <a href="">Prev</a></li>
@@ -28,15 +28,13 @@
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
 
-        
 
+            <div class="panel panel-default panel-body">
 
-                <div class="panel panel-default panel-body">
+                <div ng-click="$ctrl.editProject(proyecto.id)" class="edit">
+                    <i class="fa fa-pencil fa-lg"></i></div>
 
-                   <div ng-click="$ctrl.editProject(proyecto.id)" class="edit">
-                            <i class="fa fa-pencil fa-lg"></i></div>
-
-                        <a href="/www/#!/p{{ proyecto.id }}" style="display: block; width: 75%">
+                <a href="/www/#!/p{{ proyecto.id }}" style="display: block; width: 75%">
 
 
                     <div ng-repeat="(key, value) in proyecto ">
@@ -55,9 +53,9 @@
 
 
                     </div>
-                                </a>
+                </a>
 
-                </div>
+            </div>
 
 
         </div>
@@ -98,7 +96,7 @@
             </div>
 
             <div class="modal-body ">
-                    <div  style="margin-bottom: 5%" ng-repeat="(key, value) in $ctrl.EditProject">
+                <div style="margin-bottom: 5%" ng-repeat="(key, value) in $ctrl.EditProject">
 
                
                         <span ng-if="key !='id'">
@@ -106,7 +104,10 @@
 
 
 
-                                <h3> <span style="width: auto">{{ key }}:</span></span>  <input class="searchtext w3-input" id="{{key}}" style="margin-right: 30%;float: right;width: auto;" onfocus="this.select();" type="text" value={{value}}> </h3>
+                                <h3> <span style="width: auto">{{ key }}:</span></span>  <input
+                                class="searchtext w3-input" id="{{ key }}"
+                                style="margin-right: 30%;float: right;width: auto;" onfocus="this.select();" type="text"
+                                value="{{ value }}"> </h3>
 
 
 
@@ -115,16 +116,15 @@
                     </span>
 
 
-                    </div>
-                    
+                </div>
+
 
             </div>
 
-           
-
 
             <div class="modal-footer">
-                <button type="button" ng-click="$ctrl.saveedit()" class="btn btn-default" data-dismiss="modal">Save</button>
+                <button type="button" ng-click="$ctrl.saveedit()" class="btn btn-default" data-dismiss="modal">Save
+                </button>
 
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
@@ -133,3 +133,4 @@
 
     </div>
 </div>
+

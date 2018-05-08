@@ -236,15 +236,6 @@ angular.module('forecastingModule').component('forecastingModule', {
                         }, 3000);
 
 
-                        sigmaInstance.bind('clickNode', function (e) {
-
-
-                            self.reloadinfoonclick(e.data.node.info);
-
-
-                        });
-
-
                         sigmaInstance.bind('overNode', function (e) {
 
                             self.reloadinfoonhover(e.data.node.info);
