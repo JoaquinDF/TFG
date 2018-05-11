@@ -1,4 +1,5 @@
 from bson.objectid import ObjectId
+from mongoengine.context_managers import query_counter
 from rest_framework import filters
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from mongoengine.queryset.visitor import Q
@@ -103,21 +104,31 @@ class CallViewSet(ModelViewSet):
             response = Convocatoria.objects(id=org)
         if name is not None:
             response = response.filter(tituloConvocatoria__icontains=name)
+            return response
 
-        field = self.request.query_params.get('field', None)
-        data = self.request.query_params.get('data', None)
+        if not name and not org:
+            queryObjects = self.request.GET.items()
+            excludeQuery = ['offset', 'limit', 'ordering']
+            response = Convocatoria.objects.all()
+            queryObjects = [(k, v) for (k, v) in queryObjects if k not in excludeQuery]
 
-        if field and data:
-            kwargs = {
-                '{0}'.format(field): data
-            }
-            pprint.pprint(kwargs)
-            response = response.filter(**kwargs)
+            for (k, v) in queryObjects:
 
+                if len(queryObjects) > 1:
+                    print("Ya veramos como se trata")
+
+                else:
+                    kwargs = {
+                        '{0}'.format(k): v
+                    }
+                    response = response.filter(**kwargs)
+            return response
         return response
 
 
-# PROJECT
+        # PROJECT
+
+
 class ProjectViewSet(ModelViewSet):
     serializer_class = ProyectoSerializer
     queryset = Proyecto.objects.all()
@@ -127,6 +138,7 @@ class ProjectViewSet(ModelViewSet):
     @property
     def get_queryset(self):
         response = Proyecto.objects.all()
+
         org = self.request.query_params.get('id', None)
         name = self.request.query_params.get('name', None)
 
@@ -135,15 +147,24 @@ class ProjectViewSet(ModelViewSet):
         if name is not None:
             response = response.filter(tituloProyecto__icontains=name)
 
-        field = self.request.query_params.get('field', None)
-        data = self.request.query_params.get('data', None)
+        if not name and not org:
+            queryObjects = self.request.GET.items()
+            excludeQuery = ['offset', 'limit', 'ordering']
+            response = Proyecto.objects.all()
+            queryObjects = [(k, v) for (k, v) in queryObjects if k not in excludeQuery]
 
-        if field and data:
-            kwargs = {
-                '{0}'.format(field): data
-            }
-            pprint.pprint(kwargs)
-            response = response.filter(**kwargs)
+            for (k, v) in queryObjects:
+
+                if len(queryObjects) > 1:
+                    print("Ya veramos como se trata")
+
+                else:
+                    kwargs = {
+                        '{0}'.format(k): v
+                    }
+                    response = response.filter(**kwargs)
+
+            return response
 
         return response
 

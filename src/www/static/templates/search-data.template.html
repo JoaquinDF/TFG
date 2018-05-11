@@ -1,0 +1,197 @@
+<div class="container-fluid" style="margin-top: 3%; margin-left: inherit">
+
+
+    <ul class="nav nav-tabs">
+        <li class="active tablink"><a data-toggle="tab" class="tablinks" onclick="openTab(event, 'simple')"> Búsqueda
+            Simple</a>
+        </li>
+        <li class="tablinks"><a data-toggle="tab" onclick="openTab(event, 'referenciada')">Búsqueda Referenciada</a>
+        </li>
+
+    </ul>
+
+
+    <div class="tab-content">
+
+        <div id="simple" class="tabcontent tab-pane active">
+            <div class="panel panel-default panel-body panelNoHover"
+                 style="display: inline-flex ; width: 85%; padding: 3%;">
+
+                <input size="50" class="w3-input searchtext" ng-model="$ctrl.textsearch" placeholder="Search:"
+                       ng-change="">
+                <select style="width: 35%; margin-right: 2%" class="selectpicker" ng-model=$ctrl.selectsearch>
+                    <option value="" selected> Buscar:</option>
+
+                    <optgroup label="Proyectos">
+                        <option value="p?tituloProyecto=">Título Proyecto</option>
+                        <option value="p?estado=">Estado</option>
+                        <option value="p?presupuestoAceptado=">Presupuesto Aceptado</option>
+                        <option value="p?subvencion=">Subvencion</option>
+
+                    </optgroup>
+                    <optgroup label="Convocatorias">
+                        <option value="c?tituloConvocatoria=">Titulo Convocatoria</option>
+                        <option value="c?fechaFinPresentacion=">Fecha Fin Presentación (TODO)</option>
+                        <option value="c?presupuesto=">Presupuesto</option>
+                    </optgroup>
+
+
+                    <optgroup label="Organización" disabled>
+                        <option value="p?nombre=">Nombre</option>
+                        <option value="p?sector__0=">Sector</option>
+                        <option value="p?direccion__calle=">Calle</option>
+                        <option value="p?direccion__cp=">Cp</option>
+                        <option value="p?direccion__ciudad=">Ciudad</option>
+                        <option value="p?direccion__pais=">Pais</option>
+                        <option value="p?direccion__european=">European</option>
+
+                    </optgroup>
+
+                </select>
+                <select style="width: 35%; margin-right: 2%" class="selectpicker" ng-model=$ctrl.modeofsearch>
+                    <option value="" selected> Modo de Búsqueda</option>
+
+                    <option value="iexact">Exactamente</option>
+                    <option value="icontains">Contiene</option>
+                    <option value="istartswith">Empieza</option>
+                    <option value="iendswith">Acaba</option>
+
+
+                </select>
+
+                <button type="button" ng-click="$ctrl.tofind()" class="btn"> Search: <span
+                        class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+
+
+            </div>
+
+
+        </div>
+        <div id="referenciada" class="tabcontent tab-pane ">
+            <h3>Menu 2</h3>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
+                rem aperiam.</p>
+        </div>
+
+    </div>
+    <div ng-if="$ctrl.relatedCollection" style="width: 85%">
+
+        <div style="text-align: center;" class="panel panel-default panel-body panelNoHover ">
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li ng-click="$ctrl.startingsearch()"><a href="">First</a></li>
+                    <li ng-click="$ctrl.prevsearch()"
+                        onmouseup=setTimeout(function(){hidediv(null);},50)>
+                        <a href="">Prev</a></li>
+                    <li class=" active"><a href="">{{ $ctrl.currentpagesearch }}</a></li>
+                    <li ng-click="$ctrl.nextsearch()"
+                        onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
+                    <li ng-click="$ctrl.lastsearch()"><a href="">Last</a></li>
+                </ul>
+            </nav>
+
+
+        </div>
+        <div ng-if="$ctrl.relatedCollection =='project'" style="width: 85%">
+
+            <div ng-repeat="proyecto in $ctrl.datasearch  ">
+
+
+                <div class="panel panel-default panel-body">
+
+                    <div ng-click="$ctrl.editProject(proyecto.id)" class="edit">
+                        <i class="fa fa-pencil fa-lg"></i></div>
+
+                    <a href="/www/#!/p{{ proyecto.id }}" style="display: block; width: 75%">
+
+
+                        <div ng-repeat="(key, value) in proyecto ">
+
+               <span ng-if="key =='tituloProyecto'">
+
+                                     <h3>TituloProyecto:  <span>{{ proyecto.tituloProyecto }} </span></h3>
+
+
+            </span>
+                            <span ng-if="key !='tituloProyecto'">
+                        <span ng-if="value" !="NaN">
+                        <h3>{{ key }}:  <span>{{ value }} </span></h3>
+                    </span>
+                    </span>
+
+
+                        </div>
+                    </a>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div ng-if="$ctrl.relatedCollection =='call'" style="width: 85%">
+
+
+        <div ng-repeat="call in $ctrl.datasearch  ">
+            <div class="panel panel-default panel-body">
+
+                <div ng-click="$ctrl.editCall(call.id)" class="edit">
+                    <i class="fa fa-pencil fa-lg"></i></div>
+
+                <a href="/www/#!/c{{ call.id }}" style="display: block; width: 75%">
+
+
+                    <div ng-repeat="(key, value) in call ">
+
+
+                        <h3>{{ key }}: <span>{{ value }} </span></h3>
+
+
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+
+        function hidediv(evt) {
+            var x;
+            x = document.getElementsByClassName("ng-scope")
+
+            for (i = 0; i < x.length; i++) {
+
+                var a = x[i];
+                if ((a.innerText == "" || (/^\s+$/.test(a.innerText))) && a.tagName == "DIV") {
+                    a.style.display = 'none';
+                } else {
+                    a.style.display = 'block'
+                }
+                ;
+            }
+        }
+
+
+    </script>
+</div>
+
+
+</div>
+
+<script>
+    function openTab(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>

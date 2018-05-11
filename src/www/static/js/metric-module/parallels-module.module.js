@@ -102,6 +102,7 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
                         innerTickSize: 8,
                         ticks: 59
 
+
                     },
 
                     "presupuesto": {
