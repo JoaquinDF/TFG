@@ -179,35 +179,45 @@ class OrganizationViewSet(ModelViewSet):
     def get_queryset(self):
 
         queryset = Organizacion.objects.all()
-        query_params = self.request.query_params.get('id', None)
-        if query_params is not None:
-            queryset = queryset.filter(id=ObjectId(query_params))
+
+        id = self.request.query_params.get('id', None)
+        if id is not None:
+            queryset = queryset.filter(id=ObjectId(id))
             return queryset
 
-        query_params = self.request.query_params.get('nation', None)
-        if query_params is not None and query_params == 'ESP':
+        nation = self.request.query_params.get('nation', None)
+        if nation is not None and nation == 'ESP':
             queryset = queryset.filter(direccion__pais__icontains='pain')
             return queryset
-        if query_params is not None and query_params == 'EU':
+        if nation is not None and nation == 'EU':
             queryset = queryset.filter(direccion__european=True)
             return queryset
 
-        query_params = self.request.query_params.get('name', None)
-        if query_params is not None:
-            queryset = queryset.filter(nombre__icontains=query_params)
+        name = self.request.query_params.get('name', None)
+        if name is not None:
+            queryset = queryset.filter(nombre__icontains=name)
             return queryset
 
-        field = self.request.query_params.get('field', None)
-        data = self.request.query_params.get('data', None)
+        if not id and not nation and not name:
+            queryObjects = self.request.GET.items()
+            excludeQuery = ['offset', 'limit', 'ordering']
+            response = Organizacion.objects.all()
+            queryObjects = [(k, v) for (k, v) in queryObjects if k not in excludeQuery]
 
-        if field and data:
-            kwargs = {
-                '{0}'.format(field): data
-            }
-            pprint.pprint(kwargs)
-            queryset = queryset.filter(**kwargs)
+            for (k, v) in queryObjects:
 
-        return queryset
+                if len(queryObjects) > 1:
+                    print("Ya veramos como se trata")
+
+                else:
+                    kwargs = {
+                        '{0}'.format(k): v
+                    }
+                    response = response.filter(**kwargs)
+
+            return response
+
+        return response
 
 
 # PERSON
