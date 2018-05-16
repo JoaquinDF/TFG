@@ -14,7 +14,7 @@
                 <li ng-click="$ctrl.prevproject()"
                     onmouseup=setTimeout(function(){hidediv(null);},50)>
                     <a href="">Prev</a></li>
-                <li class=" active"><a href="">{{ $ctrl.currentpage }}</a></li>
+                <li class=" active"><a href="">{{ $ctrl.currentpage }} / {{ $ctrl.countprojects }}</a></li>
                 <li ng-click="$ctrl.nextproject()"
                     onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
                 <li ng-click="$ctrl.lastproject()"><a href="">Last</a></li>

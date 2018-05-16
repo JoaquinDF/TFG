@@ -14,7 +14,8 @@
                 <li ng-click="$ctrl.prevcall()"
                     onmouseup=setTimeout(function(){hidediv(null);},50)>
                     <a href="">Prev</a></li>
-                <li class=" active"><a href="">{{ $ctrl.currentpagecalls }}</a></li>
+                <li class=" active"><a href="">{{ $ctrl.currentpagecalls }} / {{ $ctrl.countcalls }}</a></li>
+
                 <li ng-click="$ctrl.nextcall()"
                     onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
                 <li ng-click="$ctrl.lastcall()"><a href="">Last</a></li>

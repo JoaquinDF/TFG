@@ -22,7 +22,8 @@
                             <li ng-click="$ctrl.prevorganization()"
                                 onmouseup=setTimeout(function(){hidediv(null);},50)>
                                 <a href="">Prev</a></li>
-                            <li class=" active"><a href="">{{ $ctrl.currentpageorganizations }}</a></li>
+                            <li class=" active"><a href="">{{ $ctrl.currentpageorganizations  }} /
+                                {{ $ctrl.countorganizations }}</a></li>
                             <li ng-click="$ctrl.nextorganization()"
                                 onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link"
                                                                                        href="">Next</a>
