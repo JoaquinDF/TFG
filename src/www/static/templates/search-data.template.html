@@ -15,7 +15,7 @@
 
         <div id="simple" class="tabcontent tab-pane active">
             <div class="panel panel-default panel-body panelNoHover"
-                 style="display: inline-flex ; width: 85%; padding: 3%;">
+                 style="display: inline-flex ;  padding: 3%; width: 95%">
 
                 <input size="50" class="w3-input searchtext" ng-model="$ctrl.textsearch" placeholder="Search:"
                        ng-change="">
@@ -36,14 +36,14 @@
                     </optgroup>
 
 
-                    <optgroup label="Organización" disabled>
-                        <option value="p?nombre=">Nombre</option>
-                        <option value="p?sector__0=">Sector</option>
-                        <option value="p?direccion__calle=">Calle</option>
-                        <option value="p?direccion__cp=">Cp</option>
-                        <option value="p?direccion__ciudad=">Ciudad</option>
-                        <option value="p?direccion__pais=">Pais</option>
-                        <option value="p?direccion__european=">European</option>
+                    <optgroup label="Organización">
+                        <option value="o?nombre=">Nombre</option>
+                        <option value="o?sector__0=">Sector</option>
+                        <option value="o?direccion__calle=">Calle</option>
+                        <option value="o?direccion__cp=">Cp</option>
+                        <option value="o?direccion__ciudad=">Ciudad</option>
+                        <option value="o?direccion__pais=">Pais</option>
+                        <option value="o?direccion__european=">European</option>
 
                     </optgroup>
 
@@ -74,7 +74,7 @@
         </div>
 
     </div>
-    <div ng-if="$ctrl.relatedCollection" style="width: 85%">
+    <div ng-if="$ctrl.relatedCollection && $ctrl.datasearch.length > 1">
 
         <div style="text-align: center;" class="panel panel-default panel-body panelNoHover ">
 
@@ -84,7 +84,7 @@
                     <li ng-click="$ctrl.prevsearch()"
                         onmouseup=setTimeout(function(){hidediv(null);},50)>
                         <a href="">Prev</a></li>
-                    <li class=" active"><a href="">{{ $ctrl.currentpagesearch }}</a></li>
+                    <li class=" active"><a href="">{{ $ctrl.currentpagesearch }} / {{ $ctrl.countsearch }}</a></li>
                     <li ng-click="$ctrl.nextsearch()"
                         onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
                     <li ng-click="$ctrl.lastsearch()"><a href="">Last</a></li>
@@ -93,7 +93,7 @@
 
 
         </div>
-        <div ng-if="$ctrl.relatedCollection =='project'" style="width: 85%">
+        <div ng-if="$ctrl.relatedCollection =='project'">
 
             <div ng-repeat="proyecto in $ctrl.datasearch  ">
 
@@ -129,31 +129,131 @@
 
             </div>
         </div>
-    </div>
-    <div ng-if="$ctrl.relatedCollection =='call'" style="width: 85%">
+
+        <div ng-if="$ctrl.relatedCollection =='call'">
+            <div ng-repeat="call in $ctrl.datasearch  ">
+                <div class="panel panel-default panel-body">
+
+                    <div ng-click="$ctrl.editCall(call.id)" class="edit">
+                        <i class="fa fa-pencil fa-lg"></i></div>
+
+                    <a href="/www/#!/c{{ call.id }}" style="display: block; width: 75%">
 
 
-        <div ng-repeat="call in $ctrl.datasearch  ">
-            <div class="panel panel-default panel-body">
-
-                <div ng-click="$ctrl.editCall(call.id)" class="edit">
-                    <i class="fa fa-pencil fa-lg"></i></div>
-
-                <a href="/www/#!/c{{ call.id }}" style="display: block; width: 75%">
+                        <div ng-repeat="(key, value) in call ">
 
 
-                    <div ng-repeat="(key, value) in call ">
+                            <h3>{{ key }}: <span>{{ value }} </span></h3>
 
 
-                        <h3>{{ key }}: <span>{{ value }} </span></h3>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div ng-if="$ctrl.relatedCollection =='organization'">
+            <div ng-repeat="organization in $ctrl.datasearch  ">
+                <div class="metricdiv" style="display: flex;"
+                     ng-mouseenter="$ctrl.onHoverMetrics(organization)">
+                    <a class="metric" href="/www/#!/o{{ organization.id }}" style="display: block; width: 50%">
+
+                                    <span ng-if="organization">
+									<div class="panel panel-default panel-body ">
+
+										<div ng-repeat="(key, value) in organization | custom:search "
+                                             ng-controller="Ctrl">
+
+                                                        <span ng-if="key!='id'">
+
+                                             <span ng-if="isobj(value)== false">
+
+												<span ng-if="value" !="NaN">
+													<h3> {{ key }}:
+
+														<span>{{ value }} </span>
+													</h3>
+												</span>
+                                            </span>
+                                                        </span>
+
+                                        </div>
+                                        <div ng-repeat="(key, value) in organization | custom:search "
+                                             ng-controller="Ctrl">
+											<span ng-if="isobj(value)== true">
+
+                                                <span ng-if="key!='id'">
+                                                    <h3>{{ key }}:</h3></span>
+												<div ng-repeat="(key2,value2) in value " style="margin-left: 13%">
+													<h3> {{ key2 }}:
+														<span>{{ value2 }} </span>
+													</h3>
+												</div>
+
+                                                <span ng-if="key=='id'">
+                                <h3>ID :  <span>{{ value.id }} </span></h3>
+
+                                 </span>
+											</span>
+
+										</div>
+
+									</div>
+								</span>
+
+                    </a>
+
+                    <div class="buttonmetric panel panel-default panel-body">
+                        <a href="/www/#!/metric{{ organization.id }}" style="display: flex; width: 100%">
+                            <div style="margin-right: 7%">
+                                <h5>Métricas Region: {{ $ctrl.regionName }}</h5>
+                                <p>Nº Empresas: {{ $ctrl.numeroEmpresas }}</p>
+                                <p>Nº Total de Proyectos: {{ $ctrl.numeroProyectosR }}</p>
+                                <p>Nº Medio de Proyectos: {{ $ctrl.numeroProyectosMedioR }}</p>
+
+                            </div>
+                            <hr class="style2">
+                            <div style="margin-right: 7%">
+                                <h5>Metricas Organizacion: </h5>
+                                <p>Nº de Proyectos: {{ $ctrl.numeroProyectosO }}</p>
+
+                                <p>% subvencionado: {{ $ctrl.porcentajesubvencionadoO }}</p>
 
 
+                            </div>
+                            <hr class="style2">
+                            <div>
+                                <h5>Mejoras relativas a la Region: </h5>
+                                <span ng-if="$ctrl.porcentajeRelativo < 1">
+                                    <span style="color: red; font-size: x-large; font-weight: 600;">
+                                        {{ $ctrl.porcentajeRelativo}} %
+                                    </span>
+                                         Subvencion relativa a la region
+                                    </span>
+
+                                <span ng-if="$ctrl.porcentajeRelativo >= 1">
+                                    <span style="color: limegreen; font-size: x-large; font-weight: 600;">
+                                       + {{ $ctrl.porcentajeRelativo }} %
+                                    </span>
+                                         Subvencion relativa a la region
+                                    </span>
+
+
+                            </div>
+
+                        </a>
                     </div>
-                </a>
+
+                </div>
+
 
             </div>
         </div>
+
+
     </div>
+
+
     <script>
 
 
