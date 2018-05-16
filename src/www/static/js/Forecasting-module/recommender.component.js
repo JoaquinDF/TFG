@@ -28,7 +28,7 @@ angular.module('forecastingModule').component('recommenderModule', {
             self.presupuesto = "";
             self.subvencion = "";
             self.countries = "";
-
+            self.textcount = 0;
             $http.get('/api/v1/data/ListCountriesAvailable/').then(function successCallback(response) {
 
                 self.countries = response.data;
@@ -38,12 +38,35 @@ angular.module('forecastingModule').component('recommenderModule', {
 
             });
 
-            self.keydown = function (keyEvent) {
-                console.log('keydown -' + keyEvent);
-                if (keyEvent.key == 'Enter') {
+            self.wordcount = function () {
+                var s = self.search;
+                if (s != undefined) {
+                    s = s.replace(/(^\s*)|(\s*$)/gi, "");
+                    s = s.replace(/[ ]{2,}/gi, " ");
+                    s = s.replace(/\n /, "\n");
+                    self.textcount = s.split(' ').length;
+                    console.log(self.textcount)
+                    if (self.textcount <= 100) {
+                        $("#countError").css("display", '');
 
+                    } else {
+                        $("#countError").css("display", 'none');
+
+                    }
+                } else {
+                    self.search = "";
+                    $("#countError").css("display", '');
+
+                }
+            }
+            self.keydown = function (keyEvent) {
+
+                if (keyEvent.key && keyEvent.key == 'Enter') {
+                    console.log('keydown -' + keyEvent);
                     self.check();
                 }
+
+
             }
 
 
