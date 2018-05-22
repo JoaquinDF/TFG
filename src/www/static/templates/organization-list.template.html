@@ -6,54 +6,59 @@
         <div class="container-fluid" style="margin-top: 5%">
 
             <div style="display: flex">
-                <div style="margin: 20px; text-align: center; width: 70%; margin-right: 10px;"
-                     class="panel panel-default panel-body panelNoHover ">
+                <div style="margin: 20px; text-align: center; width: 50%; margin-right: 10px;"
+                     class="card  card-body cardNoHover ">
                     <div style="display: inline-flex">
                         <input ng-model="search" class="w3-input searchtext" placeholder="Palabra por la que filtrar:"
                                required
                                ng-change="$ctrl.findOrganization(search)" onkeyup="hidediv(event)"
-                               style="font-size: medium">
+                               style="width:50%; font-size: medium">
 
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item" ng-click="$ctrl.startingorganization()"><a class="page-link"
+                                                                                                 href="">First</a>
+                                </li>
+                                <li class="page-item" ng-click="$ctrl.prevorganization()"
+                                    onmouseup=setTimeout(function(){hidediv(null);},50)>
+                                    <a class="page-link" href="">Prev</a></li>
+                                <li class="page-item active"><a class="page-link" href="">
+                                    {{ $ctrl.currentpageorganizations  }} /
+                                    {{ $ctrl.countorganizations }}</a></li>
+                                <li class="page-item" ng-click="$ctrl.nextorganization()"
+                                    onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link"
+                                                                                           href="">Next</a>
+                                </li>
+                                <li class="page-item" ng-click="$ctrl.lastorganization()"><a class="page-link"
+                                                                                             href="">Last</a></li>
+                            </ul>
+
+                        </nav>
 
                     </div>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li ng-click="$ctrl.startingorganization()"><a href="">First</a></li>
-                            <li ng-click="$ctrl.prevorganization()"
-                                onmouseup=setTimeout(function(){hidediv(null);},50)>
-                                <a href="">Prev</a></li>
-                            <li class=" active"><a href="">{{ $ctrl.currentpageorganizations  }} /
-                                {{ $ctrl.countorganizations }}</a></li>
-                            <li ng-click="$ctrl.nextorganization()"
-                                onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link"
-                                                                                       href="">Next</a>
-                            </li>
-                            <li ng-click="$ctrl.lastorganization()"><a href="">Last</a></li>
-                        </ul>
-
-                    </nav>
-
 
                 </div>
-                <div style="margin: 20px" class="panel panel-default panel-body panelNoHover ">
+                <div style="margin: 20px; width: 25%;" class="card  card-body cardNoHover ">
 
                     <form
                     >
 
                         <div class="radio">
-                            <label><input type="radio" value="ESP" ng-model="$ctrl.orgchange"
+                            <label><input style="margin-right: 2%" type="radio" value="ESP" ng-model="$ctrl.orgchange"
                                           ng-change="$ctrl.onNationChanged($ctrl.orgchange)"
-                                          name="optradio">Nacional</label>
+                                          name="optradio"> Nacional</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" checked="checked" value="EU" ng-model="$ctrl.orgchange"
+                            <label><input style="margin-right: 2%" type="radio" checked="checked" value="EU"
+                                          ng-model="$ctrl.orgchange"
                                           ng-change="$ctrl.onNationChanged($ctrl.orgchange)"
-                                          name="optradio">Europeo</label>
+                                          name="optradio"> Europeo</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" value="ALL" ng-model="$ctrl.orgchange"
+                            <label><input style="margin-right: 2%" type="radio" value="ALL" ng-model="$ctrl.orgchange"
                                           ng-change="$ctrl.onNationChanged($ctrl.orgchange)"
-                                          name="optradio">Todos</label>
+                                          name="optradio"> Todos</label>
                         </div>
                     </form>
 
@@ -69,7 +74,7 @@
                         <a class="metric" href="/www/#!/o{{ organization.id }}" style="display: block; width: 50%">
 
                                     <span ng-if="organization">
-									<div class="panel panel-default panel-body ">
+									<div class="card  card-body ">
 
 										<div ng-repeat="(key, value) in organization | custom:search "
                                              ng-controller="Ctrl">
@@ -113,7 +118,7 @@
 
                         </a>
 
-                        <div class="buttonmetric panel panel-default panel-body">
+                        <div class="buttonmetric card  card-body">
                             <a href="/www/#!/metric{{ organization.id }}" style="display: flex; width: 100%">
                                 <div style="margin-right: 7%">
                                     <h5>Métricas Region: {{ $ctrl.regionName }}</h5>

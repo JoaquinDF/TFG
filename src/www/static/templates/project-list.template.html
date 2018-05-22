@@ -1,35 +1,37 @@
 <div class="container-fluid" style="margin-top: 3%">
 
 
-    <div style="margin: 20px; text-align: center; width: 70%" class="panel panel-default panel-body panelNoHover ">
+    <div style="margin: 20px; text-align: center; width: 85%" class="card  card-body cardNoHover ">
         <div style="display: inline-flex">
             <input ng-model="search" class="w3-input searchtext" placeholder="Palabra por la que filtrar:" required
-                   ng-change="$ctrl.findProject(search)" onkeyup="hidediv(event)" style="font-size: medium">
+                   ng-change="$ctrl.findProject(search)" onkeyup="hidediv(event)" style="width: 50%; font-size: medium">
+
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination ">
+                    <li class="page-item" ng-click="$ctrl.startingproject()"><a class="page-link" href="">First</a></li>
+                    <li class="page-item" ng-click="$ctrl.prevproject()"
+                        onmouseup=setTimeout(function(){hidediv(null);},50)>
+                        <a class="page-link" href="">Prev</a></li>
+                    <li class="page-item active"><a class="page-link" href="">{{ $ctrl.currentpage }} /
+                        {{ $ctrl.countprojects }}</a>
+                    </li>
+                    <li class="page-item" ng-click="$ctrl.nextproject()"
+                        onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
+                    <li class="page-item" ng-click="$ctrl.lastproject()"><a class="page-link" href="">Last</a></li>
+                </ul>
+            </nav>
 
 
         </div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li ng-click="$ctrl.startingproject()"><a href="">First</a></li>
-                <li ng-click="$ctrl.prevproject()"
-                    onmouseup=setTimeout(function(){hidediv(null);},50)>
-                    <a href="">Prev</a></li>
-                <li class=" active"><a href="">{{ $ctrl.currentpage }} / {{ $ctrl.countprojects }}</a></li>
-                <li ng-click="$ctrl.nextproject()"
-                    onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
-                <li ng-click="$ctrl.lastproject()"><a href="">Last</a></li>
-            </ul>
-        </nav>
 
     </div>
-
-
-    <div class="project w3-animate-opacity" style="margin: 20px; width: 70%">
+    <div class="project w3-animate-opacity" style="margin: 20px; width: 85%">
 
         <div ng-repeat="proyecto in $ctrl.projects  ">
 
 
-            <div class="panel panel-default panel-body">
+            <div class="card  card-body" style="display: flow-root; margin-bottom: 10px">
 
                 <div ng-click="$ctrl.editProject(proyecto.id)" class="edit">
                     <i class="fa fa-pencil fa-lg"></i></div>

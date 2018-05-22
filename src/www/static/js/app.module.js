@@ -10,8 +10,6 @@ var Appmodule = angular.module('innhomeweb', [
     'callList',
     'organizationList',
     'searchList',
-    'adminModule',
-    'transformModule',
     'metricModule',
     'ngRoute',
     'datamaps',
@@ -19,6 +17,7 @@ var Appmodule = angular.module('innhomeweb', [
     'parallelsModule',
     'mapsModule',
     'communityModule',
+    'app.admin'
 ]);
 
 Appmodule.config(['$locationProvider', '$routeProvider',
@@ -40,13 +39,6 @@ Appmodule.config(['$locationProvider', '$routeProvider',
             .when('/call', {
                 template: '<call-list></call-list>'
             })
-            .when('/admin', {
-                template: '<admin-module style="display: flex; margin-top: 5%"></admin-module>'
-            })
-
-            .when('/transform', {
-                template: ' <transform-module style="display: flex"></transform-module>'
-            })
 
 
             .when('/search', {
@@ -66,6 +58,10 @@ Appmodule.config(['$locationProvider', '$routeProvider',
             .when('/forecasting/:data', {
                 template: '<forecasting-module style="display: block"></forecasting-module>'
             })
+            .when('/admin', {
+                template: '<admin-navbar></admin-navbar>'
+
+            })
             .when('/recommender', {
                 template: '<recommender-module style="display: block"></recommender-module>'
             })
@@ -83,6 +79,7 @@ Appmodule.config(['$locationProvider', '$routeProvider',
                 templateUrl: '/static/templates/parallels-module.template.html',
                 controller: 'PARALLELS'
             })
+
 
             .when('/parallels/:id/', {
 

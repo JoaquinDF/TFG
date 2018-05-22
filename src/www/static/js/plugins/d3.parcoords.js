@@ -602,7 +602,8 @@ d3.parcoords = function (config) {
 
         return cps;
 
-    };pc.shadows = function () {
+    };
+    pc.shadows = function () {
         flags.shadows = true;
         pc.alphaOnBrushed(0.1);
         pc.render();

@@ -14,7 +14,7 @@
 
                     <h2>Convocatoria/s:</h2>
 
-                    <div class="panel panel-default panel-body" ng-repeat="calls in $ctrl.Calls ">
+                    <div class="card  card-body" ng-repeat="calls in $ctrl.Calls ">
                                     <a href="/www/#!/c{{ calls.id }}" style="display: block">
 
                         <div ng-repeat="(keycall,valuecall) in calls  | custom:$ctrl.textsearch">
@@ -36,7 +36,7 @@
                     <h2>Proyecto/s:</h2>
 
 
-                                     <div class="panel panel-default panel-body"
+                                     <div class="card  card-body"
                                           ng-repeat="proyecto in $ctrl.Proyecto   ">
                                 <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
 
@@ -60,7 +60,7 @@
 
                     <h2>Organizacion/es:</h2>
 
-                         <div class="panel panel-default panel-body" ng-repeat="organization in $ctrl.Orgs"
+                         <div class="card  card-body" ng-repeat="organization in $ctrl.Orgs"
                               style="display: flex">
 
 

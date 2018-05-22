@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col">
+        <h4>Mapper: {{ vm.nombre }}</h4>
+    </div>
+    <div class="col">
+        <mapper-create class="float-right" options="vm.options"></mapper-create>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-sm table-striped">
+        <caption>
+            <button class="btn" ng-click="vm.onSiguiente(vm.mappers.previous)" ng-disabled="!vm.mappers.previous">
+                &#8592;
+            </button>
+            <button class="btn" ng-click="vm.onSiguiente(vm.mappers.next)" ng-disabled="!vm.mappers.next">&#8594;
+            </button>
+            <div class="float-right">
+                <label>Página {{ vm.page }} de {{ vm.total }}</label>
+            </div>
+        </caption>
+        <thead>
+            <tr>
+                <th>Collection</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="mapper in vm.mappers.results">
+                <td>{{ mapper.collection }}</td>
+                <td class="float-right">
+                    <mapper-edit mapper="mapper"></mapper-edit>
+                    <mapper-launch mapper="mapper"></mapper-launch>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

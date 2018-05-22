@@ -2,10 +2,12 @@
 
 
     <ul class="nav nav-tabs">
-        <li class="active tablink"><a data-toggle="tab" class="tablinks" onclick="openTab(event, 'simple')"> Búsqueda
-            Simple</a>
+        <li class="nav-item">
+            <a class="nav-link active" onclick="openTab(event, 'simple')">Búsqueda
+                Simple</a>
         </li>
-        <li class="tablinks"><a data-toggle="tab" onclick="openTab(event, 'referenciada')">Búsqueda Referenciada</a>
+        <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'referenciada')">Búsqueda Referenciada</a>
         </li>
 
     </ul>
@@ -14,53 +16,67 @@
     <div class="tab-content">
 
         <div id="simple" class="tabcontent tab-pane active">
-            <div class="panel panel-default panel-body panelNoHover"
-                 style="display: inline-flex ;  padding: 3%; width: 95%">
+            <div class="card  card-body cardNoHover"
+                 style="display: inline-flex ;  padding: 3%; width: 100%">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" ng-model="$ctrl.textsearch" placeholder="Search: "
+                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
 
-                <input size="50" class="w3-input searchtext" ng-model="$ctrl.textsearch" placeholder="Search:"
-                       ng-change="">
-                <select style="width: 35%; margin-right: 2%" class="selectpicker" ng-model=$ctrl.selectsearch>
-                    <option value="" selected> Buscar:</option>
+                        <select style="width: 35%; margin-right: 2%;margin-left: 5%" class="custom-select"
+                                ng-model=$ctrl.selectsearch>
+                            <option value="" selected> Buscar:</option>
 
-                    <optgroup label="Proyectos">
-                        <option value="p?tituloProyecto=">Título Proyecto</option>
-                        <option value="p?estado=">Estado</option>
-                        <option value="p?presupuestoAceptado=">Presupuesto Aceptado</option>
-                        <option value="p?subvencion=">Subvencion</option>
+                            <optgroup label="Proyectos">
+                                <option value="p?tituloProyecto=">Título Proyecto</option>
+                                <option value="p?estado=">Estado</option>
+                                <option value="p?presupuestoAceptado=">Presupuesto Aceptado</option>
+                                <option value="p?subvencion=">Subvencion</option>
 
-                    </optgroup>
-                    <optgroup label="Convocatorias">
-                        <option value="c?tituloConvocatoria=">Titulo Convocatoria</option>
-                        <option value="c?fechaFinPresentacion=">Fecha Fin Presentación (TODO)</option>
-                        <option value="c?presupuesto=">Presupuesto</option>
-                    </optgroup>
-
-
-                    <optgroup label="Organización">
-                        <option value="o?nombre=">Nombre</option>
-                        <option value="o?sector__0=">Sector</option>
-                        <option value="o?direccion__calle=">Calle</option>
-                        <option value="o?direccion__cp=">Cp</option>
-                        <option value="o?direccion__ciudad=">Ciudad</option>
-                        <option value="o?direccion__pais=">Pais</option>
-                        <option value="o?direccion__european=">European</option>
-
-                    </optgroup>
-
-                </select>
-                <select style="width: 35%; margin-right: 2%" class="selectpicker" ng-model=$ctrl.modeofsearch>
-                    <option value="" selected> Modo de Búsqueda</option>
-
-                    <option value="iexact">Exactamente</option>
-                    <option value="icontains">Contiene</option>
-                    <option value="istartswith">Empieza</option>
-                    <option value="iendswith">Acaba</option>
+                            </optgroup>
+                            <optgroup label="Convocatorias">
+                                <option value="c?tituloConvocatoria=">Titulo Convocatoria</option>
+                                <option value="c?fechaFinPresentacion=">Fecha Fin Presentación (TODO)</option>
+                                <option value="c?presupuesto=">Presupuesto</option>
+                            </optgroup>
 
 
-                </select>
+                            <optgroup label="Organización">
+                                <option value="o?nombre=">Nombre</option>
+                                <option value="o?sector__0=">Sector</option>
+                                <option value="o?direccion__calle=">Calle</option>
+                                <option value="o?direccion__cp=">Cp</option>
+                                <option value="o?direccion__ciudad=">Ciudad</option>
+                                <option value="o?direccion__pais=">Pais</option>
+                                <option value="o?direccion__european=">European</option>
 
-                <button type="button" ng-click="$ctrl.tofind()" class="btn"> Search: <span
-                        class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </optgroup>
+
+                        </select>
+                        <select style="width: 35%; margin-right: 2%" class="custom-select" ng-model=$ctrl.modeofsearch>
+                            <option value="" selected> Modo de Búsqueda</option>
+
+                            <option value="iexact">Exactamente</option>
+                            <option value="icontains">Contiene</option>
+                            <option value="istartswith">Empieza</option>
+                            <option value="iendswith">Acaba</option>
+
+
+                        </select>
+
+                        <button type="button" ng-click="$ctrl.tofind()" class="btn btn-outline-secondary"> Search: <span
+                                class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </div>
+
+                    <div ng-if="$ctrl.relatedCollection && $ctrl.datasearch.length > 1">
+                        <h5 s> Resultados: <span
+                                class="badge badge-success">{{$ctrl.countsearch*10}} </span></h5>
+                    </div>
+                    <div ng-if="$ctrl.relatedCollection && $ctrl.datasearch.length <= 1">
+                        <h5> Resultados: <span
+                                class="badge badge-danger"> 0 </span></h5>
+                    </div>
+                </div>
 
 
             </div>
@@ -76,29 +92,32 @@
     </div>
     <div ng-if="$ctrl.relatedCollection && $ctrl.datasearch.length > 1">
 
-        <div style="text-align: center;" class="panel panel-default panel-body panelNoHover ">
+        <div style="margin-top: 2% ; margin-bottom: 2%" class=" card  card-body cardNoHover">
 
             <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li ng-click="$ctrl.startingsearch()"><a href="">First</a></li>
-                    <li ng-click="$ctrl.prevsearch()"
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" ng-click="$ctrl.startingsearch()"><a class="page-link" href="">First</a></li>
+                    <li class="page-item" ng-click="$ctrl.prevsearch()"
                         onmouseup=setTimeout(function(){hidediv(null);},50)>
-                        <a href="">Prev</a></li>
-                    <li class=" active"><a href="">{{ $ctrl.currentpagesearch }} / {{ $ctrl.countsearch }}</a></li>
-                    <li ng-click="$ctrl.nextsearch()"
+                        <a class="page-link" href="">Prev</a></li>
+                    <li class="page-item active"><a class="page-link" href="">{{ $ctrl.currentpagesearch }} /
+                        {{ $ctrl.countsearch }}</a>
+                    </li>
+                    <li class="page-item" ng-click="$ctrl.nextsearch()"
                         onmouseup=setTimeout(function(){hidediv(null);},50)><a class="page-link" href="">Next</a></li>
-                    <li ng-click="$ctrl.lastsearch()"><a href="">Last</a></li>
+                    <li class="page-item" ng-click="$ctrl.lastsearch()"><a class="page-link" href="">Last</a></li>
                 </ul>
             </nav>
 
 
         </div>
+
         <div ng-if="$ctrl.relatedCollection =='project'">
 
             <div ng-repeat="proyecto in $ctrl.datasearch  ">
 
 
-                <div class="panel panel-default panel-body">
+                <div class="card  card-body" style="display: flow-root; margin-bottom: 10px">
 
                     <div ng-click="$ctrl.editProject(proyecto.id)" class="edit">
                         <i class="fa fa-pencil fa-lg"></i></div>
@@ -126,13 +145,12 @@
 
                 </div>
 
-
             </div>
         </div>
 
         <div ng-if="$ctrl.relatedCollection =='call'">
             <div ng-repeat="call in $ctrl.datasearch  ">
-                <div class="panel panel-default panel-body">
+                <div class="card  card-body">
 
                     <div ng-click="$ctrl.editCall(call.id)" class="edit">
                         <i class="fa fa-pencil fa-lg"></i></div>
@@ -159,7 +177,7 @@
                     <a class="metric" href="/www/#!/o{{ organization.id }}" style="display: block; width: 50%">
 
                                     <span ng-if="organization">
-									<div class="panel panel-default panel-body ">
+									<div class="card  card-body ">
 
 										<div ng-repeat="(key, value) in organization | custom:search "
                                              ng-controller="Ctrl">
@@ -203,7 +221,7 @@
 
                     </a>
 
-                    <div class="buttonmetric panel panel-default panel-body">
+                    <div class="buttonmetric card  card-body">
                         <a href="/www/#!/metric{{ organization.id }}" style="display: flex; width: 100%">
                             <div style="margin-right: 7%">
                                 <h5>Métricas Region: {{ $ctrl.regionName }}</h5>

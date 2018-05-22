@@ -1,0 +1,22 @@
+<div class="container-fluid" style="margin-top: 3%; margin-left: inherit">
+
+    <ul class="nav nav-tabs"
+    ="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="mappers-tab" data-toggle="tab" href="#mappers" role="tab" aria-controls="mappers"
+           aria-selected="true">Mappers</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks"
+           aria-selected="false">Tareas</a>
+    </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="mappers" role="tabpanel" aria-labelledby="mappers-tab">
+            <mapper-page></mapper-page>
+        </div>
+        <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+            <task-page></task-page>
+        </div>
+    </div>
+</div>
