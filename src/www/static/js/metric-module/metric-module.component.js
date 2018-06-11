@@ -157,7 +157,6 @@ angular.module('metricModule').component('metricModule', {
                         if (response.data) {
 
 
-                            self.labelspolar = Object.keys(response.data)
                             self.datapolar = []
                             var diff0 = 0
                             var sum = Object.values(response.data).reduce(function (pv, cv) {

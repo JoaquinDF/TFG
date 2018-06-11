@@ -24,56 +24,25 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 
 mlist.controller('Chart', ['$scope', function ($scope) {
     $scope.optionspie = {
-        tooltips: {bodyFontSize: 15, titleFontSize: 10},
+
         responsive: true,
         maintainAspectRatio: true,
-        display: true,
-        legend: {
-            display: true,
-            labels: {
-                fontSize: 20,
 
-            }
-        },
 
     };
     $scope.optionspolar = {
-        tooltips: {
-            bodyFontSize: 15, titleFontSize: 10,
-
-
-        },
         responsive: true,
         maintainAspectRatio: true,
-        display: true,
-        legend: {
-            display: false,
-            labels: {
-                fontSize: 20,
 
-            }
-        },
 
     };
 
     $scope.optionsbar = {
-        tooltips: {bodyFontSize: 20, titleFontSize: 15},
-        responsive: true,
-        legend: {
-            display: true,
-            labels: {
 
-                fontSize: 20,
-            }
-        },
-        scales: {
-            yAxes: [{
-                display: true,
-                ticks: {
-                    suggestedMin: 30
-                }
-            }]
-        }
+        responsive: true,
+        maintainAspectRatio: true,
+
+
     };
 
 

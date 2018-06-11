@@ -1,33 +1,16 @@
-<!DOCTYPE html>
-<html>
-
-    <div class="container-fluid row">
+<div class="container-fluid" style="margin-top: 3%; margin-left: inherit">
 
 
-        <div class="container-fluid col-sm-5" style="margin-top: 5%; margin-left: inherit; display: inline-block;">
+    <div ng-controller="DEBUG">
 
+        <div class="card card-body cardNoHover">
 
-            <ul class="project" ng-controller="DEBUG">
+            <h2 style="margin-left: 3%">Organizacion:</h2>
 
-                <div class="proyectcontainer">
+            <div ng-repeat="orgs in $ctrl.Orgs">
 
-                    <span ng-if="$ctrl.Proyecto.length>0">
-                        <md-button class="md-raised "
-                                   style="width: auto; position: absolute; top: 0; right: 0; margin-top: 1.5%; margin-right: 3%"
-                                   href="/www/#!o{{ $ctrl.Orgs[0].id }}"></a><span style="margin-top: 10%"
-                                                                                   class="glyphicon glyphicon-paperclip"
-                                                                                   aria-hidden="true"></span>
-                        </md-button>
-
-                    </span>
-
-                    <h2>Organizacion:</h2>
-
-                    <div ng-repeat="orgs in $ctrl.Orgs">
-                        <a href="/www/#!/metric{{ orgs.id }}" style="display: block">
-
-                            <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
-                                 style="margin-left: 13%">
+                <div ng-repeat="(key, value) in orgs  | custom:$ctrl.textsearch"
+                     style="margin-left: 3%">
 
                                               <span ng-if="isobj(value)== false">
 
@@ -38,67 +21,63 @@
                                                             </h3>
                                                         </span>
                                               </span>
-                                <span ng-if="isobj(value)== true">
+                    <span ng-if="isobj(value)== true">
                                                         <span ng-if="key!='_id'"><h3>{{ key }}:</h3></span>
                                                         <div ng-repeat="(key2,value2) in value "
-                                                             style="margin-left: 13%">
+                                                             style="margin-left: 3%">
                                                             <h3> {{ key2 }}:
                                                                 <span>{{ value2 }} </span>
                                                             </h3>
                                                         </div>
                                                     </span>
 
-                                <span ng-if="$last">
-                                        <hr class="style2">
-                                        </span>
-                            </div>
-                        </a>
-
-                    </div>
-
 
                 </div>
 
 
-            </ul>
+            </div>
+
         </div>
-        <div class="container-fluid col-sm-7 " style="margin-top: 5%; margin-left: inherit; display: inline-block;"
-             ng-controller="Chart">
+    </div>
+</div>
+<div class="container-fluid" style="margin-top: 1%;"
+     ng-controller="Chart">
 
-            <div class="row">
 
-                <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadcharts()">
-                    <h4>Métricas</h4>
-
-                    <div class="porcentajesubvencionado col-sm-6">
+    <div ng-if="$ctrl.Proyecto.length>0" ng-init="$ctrl.loadcharts()">
+        <div class="card">
+            <div class="card-header">
+                Métricas
+            </div>
+            <div class="card-body" style="">
+                <div class="row">
+                    <div class="col-md-4">
                         <h3> % de presupuesto subvencionado:</h3>
-                        <canvas id="doughnut" class="chart chart-doughnut"
+                        <canvas id=" doughnut"
+                                class="chart chart-doughnut"
                                 chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
-                                chart-options="optionspie">
+                        >
                         </canvas>
                     </div>
 
-                    <div class="col-sm-6">
-                        <h3>Subvencion con respecto al País:</h3>
-
-                        <canvas id="bar" class="chart chart-bar"
-                                chart-data="$ctrl.databar" chart-options="optionsbar"
-                                chart-series="$ctrl.seriesbar">
-
-                        </canvas>
-                    </div>
-                    <div class="col-sm-6">
+                    <div class="col-md-4">
                         <h3>Distribución de los sectores del País:</h3>
 
                         <canvas id="doughnut" class="chart chart-doughnut"
-                                chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar"
-                                chart-options="optionspolar">
+                                chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar">
 
                         </canvas>
 
-
                     </div>
+                    <div class=col-md-4">
+                        <h3>Subvencion con respecto al País:</h3>
 
+                        <canvas id="bar" class="chart chart-horizontal-bar"
+                                chart-data="$ctrl.databar" chart-options="optionsbar"
+                        >
+
+                        </canvas>
+                    </div>
                 </div>
 
 
@@ -107,24 +86,27 @@
 
         </div>
 
+
     </div>
 
+</div>
 
-    <script>
-        function tabcolor(id) {
 
-            var i;
-            var x = document.getElementsByClassName("tablink");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.background = 'none';
-                x[i].style.color = '#ffffff';
+<script>
+    function tabcolor(id) {
 
-            }
-            document.getElementById(id).style.background = '#ccc';
-            document.getElementById(id).style.color = '#000000';
-
+        var i;
+        var x = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.background = 'none';
+            x[i].style.color = '#ffffff';
 
         }
+        document.getElementById(id).style.background = '#ccc';
+        document.getElementById(id).style.color = '#000000';
 
 
-    </script>
+    }
+
+
+</script>
