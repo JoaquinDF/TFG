@@ -92,6 +92,37 @@ angular.module('metricModule').component('metricModule', {
                         });
 
 
+                        var http = '/api/v1/data/organization/?format=json&id=' + organizationid;
+
+                        $http.get(apiget).then(function successCallback(response) {
+                            self.OrgsRelated = [];
+                            self.OrgsRelated = response.data.results;
+
+                        });
+                        var apiget = '/api/v1/data/projectorganization/?format=json&organization=' + organizationid;
+
+                        $http.get(apiget).then(function successCallback(response) {
+                            var projectidarray = response.data.results;
+
+                            self.PRelacionados = [];
+
+                            projectidarray.forEach(function (id) {
+
+
+                                var apiget = '/api/v1/data/project/?format=json&id=' + id.proyecto;
+                                $http.get(apiget).then(function successCallback(response) {
+
+                                    self.PRelacionados.push(response.data.results[0])
+
+                                });
+
+
+                            });
+
+
+                        });
+
+
                         break;
 
                     case 'n':

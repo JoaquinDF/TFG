@@ -1,9 +1,9 @@
 <div class="container-fluid" style="margin-top: 3%; margin-left: inherit">
 
 
-    <div ng-controller="DEBUG">
+    <div ng-controller="DEBUG" class="row">
 
-        <div class="card card-body cardNoHover">
+        <div class="card card-body cardNoHover col-md-5" style="margin-right: 15px">
 
             <h2 style="margin-left: 3%">Organizacion:</h2>
 
@@ -38,9 +38,24 @@
             </div>
 
         </div>
+        <div class="card card-body cardNoHover col-md-5">
+
+            <h2 style="margin-left: 3%">Proyectos relacionados:</h2>
+            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                <div ng-repeat="pr in $ctrl.PRelacionados">
+                    <a class="pr" href="/www/#!/p{{ pr.id }}" style="display: block; width: 75%; margin-bottom: 3px">
+                        - {{ pr.tituloProyecto }}
+                    </a>
+                </div>
+
+
+            </div>
+
+        </div>
+
     </div>
 </div>
-<div class="container-fluid" style="margin-top: 1%;"
+<div style="margin-top: 1%;"
      ng-controller="Chart">
 
 
@@ -53,10 +68,9 @@
                 <div class="row">
                     <div class="col-md-4">
                         <h3> % de presupuesto subvencionado:</h3>
-                        <canvas id=" doughnut"
-                                class="chart chart-doughnut"
+                        <canvas id="doughnut" class="chart chart-doughnut"
                                 chart-data="$ctrl.datapie" chart-labels="$ctrl.labelspie"
-                        >
+                                chart-options="optionspie">
                         </canvas>
                     </div>
 
@@ -64,7 +78,8 @@
                         <h3>Distribución de los sectores del País:</h3>
 
                         <canvas id="doughnut" class="chart chart-doughnut"
-                                chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar">
+                                chart-data="$ctrl.datapolar" chart-labels="$ctrl.labelspolar"
+                                chart-options="optionspolar">
 
                         </canvas>
 
@@ -74,7 +89,7 @@
 
                         <canvas id="bar" class="chart chart-horizontal-bar"
                                 chart-data="$ctrl.databar" chart-options="optionsbar"
-                        >
+                                chart-series="$ctrl.seriesbar">
 
                         </canvas>
                     </div>

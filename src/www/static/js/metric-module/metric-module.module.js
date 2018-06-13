@@ -25,14 +25,27 @@ mlist.controller('DEBUG', ['$scope', function ($scope) {
 mlist.controller('Chart', ['$scope', function ($scope) {
     $scope.optionspie = {
 
+
         responsive: true,
         maintainAspectRatio: true,
+        display: true,
+        legend: {
+            display: true,
+            position: "bottom"
 
+        },
 
     };
     $scope.optionspolar = {
         responsive: true,
         maintainAspectRatio: true,
+        display: true,
+        legend: {
+            display: false,
+            position: "bottom"
+
+
+        },
 
 
     };
@@ -41,8 +54,12 @@ mlist.controller('Chart', ['$scope', function ($scope) {
 
         responsive: true,
         maintainAspectRatio: true,
+        display: true,
+        legend: {
+            display: true,
+            position: "bottom"
 
-
+        },
     };
 
 

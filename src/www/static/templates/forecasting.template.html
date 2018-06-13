@@ -1,10 +1,17 @@
 <div class="container-fluid" style="margin: 3%">
 
-                <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
-                          class="w3-input searchtext input-group searchcontainer"
-                          placeholder="Introduzca la descripción de su proyecto (Inglés)" required
-                          style="font-size: small; width:800px;height: 350px ">
-                </textarea>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Introduzca la descripción de su proyecto (Inglés)</label>
+
+        <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
+                  class="form-control"
+                  required
+                  style="font-size: small; width:800px;height: 350px ">
+            </textarea>
+
+    </div>
+
     <div style="display: flex">
         <div id="sigma-container" class="graph col-sm-8" style="display: inline-table ; margin: 0% "></div>
 

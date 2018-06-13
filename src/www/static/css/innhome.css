@@ -336,7 +336,7 @@ resizable-input {
     cursor: pointer;
     -webkit-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0);
     box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0);
-    color: #555555;
+    color: #000000;
 }
 
 .card:hover .edit {
@@ -358,3 +358,7 @@ td {
     color: black;
 }
 
+.pr:hover {
+    border-left: 1px solid red;
+    color: #555555;
+}

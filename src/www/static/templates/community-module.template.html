@@ -40,21 +40,20 @@
             </div>
             <div id="nodeinfohover" class="nodeinfo clickbrown">
             </div>
+            <div id="projectid" style="display:none; height: fit-content;
+    padding: 1%; margin: 1%;">
+                <div ng-repeat="(key, value) in Proyecto[0]">
+                    <h2> {{ key }}:
+
+                        <span>{{ value }} </span>
+                    </h2>
+                </div>
+            </div>
         </div>
 
 
         <div id="loader" class="loader"/>
 
-
-        <div id="projectid" class="col-sm-3" style="display:none; height: fit-content;
-    padding: 1%; margin: 1%;">
-            <div ng-repeat="(key, value) in Proyecto[0]">
-                <h2> {{ key }}:
-
-                    <span>{{ value }} </span>
-                </h2>
-            </div>
-        </div>
 
     </div>
 </div>
