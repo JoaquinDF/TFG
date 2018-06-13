@@ -101,8 +101,8 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
 
         var svg_location = svglocation;
-        var width = 400;
-        var height = 300;
+        var width = 350;
+        var height = 270;
 
         var fill = d3.scale.category20();
 
