@@ -6,9 +6,9 @@
         <div class="col-sm-6">
             <div class="card cardNoHover">
                 <div class="card-body cardNoHover">
-                    <div>
+                    <h2 style="margin-left: 3%">Organizacion:</h2>
+                    <div style="height: 40%; ">
 
-                        <h2 style="margin-left: 3%">Organizacion:</h2>
 
                         <div ng-repeat="orgs in $ctrl.Orgs">
 
@@ -47,9 +47,10 @@
         <div class="col-sm-6">
             <div class="card cardNoHover">
                 <div class="card-body cardNoHover">
-                    <div>
+                    <h2 style="margin-left: 3%">Proyectos relacionados:</h2>
+                    <div style="height: 40%; overflow: auto">
 
-                        <h2 style="margin-left: 3%">Proyectos relacionados:</h2>
+
                         <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
                             <div ng-repeat="pr in $ctrl.PRelacionados">
                                 <a class="pr" href="/www/#!/p{{ pr.id }}"
