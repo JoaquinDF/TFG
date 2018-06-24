@@ -1,47 +1,64 @@
-<div class="container-fluid" style="margin: 3%">
+<div class="container-fluid row" style="margin: 3%">
 
+    <div class="col-sm-7" style="height: 80%">
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Introduzca la descripción de su proyecto (Inglés)</label>
 
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Introduzca la descripción de su proyecto (Inglés)</label>
-
-        <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
-                  class="form-control"
-                  required
-                  style="font-size: small; width:800px;height: 350px ">
+            <textarea id="entry" ng-model="$ctrl.search" ng-keydown="$ctrl.keydown($event)"
+                      class="form-control"
+                      required
+                      style="font-size: small; width:800px;height: 350px ">
             </textarea>
 
+        </div>
+
+        <div id="loader" class="loader"
+             style="margin-top: 10%; margin-left: 30%; margin-bottom: 10%; display: none"></div>
+
+        <div id="sigma-container" class="graph" style="display: inline-table ; margin: 0% "></div>
+
     </div>
+    <div class="col-sm-5">
+        <div id="wordcloud"
+             style="height: fit-content;"></div>
 
-    <div style="display: flex">
-        <div id="sigma-container" class="graph col-sm-8" style="display: inline-table ; margin: 0% "></div>
-
-
-        <div class="col-sm-4z " id="wordcloud"
-             style="height: fit-content;">
-            <div id="nodeinfo" class="nodeinfo">
-
+        <div id="estimaciones" style="display:none; margin-bottom: 3%; margin-right: 5%" class="card cardNoHover">
+            <div class="card-header">
+                Estimaciones
             </div>
-            <div id="nodeinfohover" class="nodeinfo ">
+            <div class="card-body cardNoHover" style="">
+                <h3>
+                    Presupuesto Estimado: <span>{{ $ctrl.presupuesto }} </span>
+
+                </h3>
+                <h3>
+                    Subvención Estimada: <span>{{ $ctrl.presupuesto }} </span>
+                </h3>
+                <hr class="style2">
+                <h3>Palabras Representativas: <span>{{ $ctrl.mostrepresentative  }} </span></h3>
+
+
             </div>
         </div>
 
+        <div id="nodeinfohover" class="nodeinfo ">
+        </div>
     </div>
 
-    <style>
-        .graph {
-            margin-left: 12%;
-            width: 60%;
-        !important;
-            height: 70%;
-        !important;
+</div>
 
-            position: relative;
+<style>
+    .graph {
+        margin-left: 12%;
+        width: 90%;
+    !important;
+        height: 70%;
+    !important;
 
-        }
-    </style>
+        position: relative;
 
-
-    <div id="loader" class="loader" style="margin-top: 10%; margin-left: 30%; display: none"></div>
+    }
+</style>
 
 
 </div>

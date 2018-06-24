@@ -3,7 +3,7 @@ from mongoengine.context_managers import query_counter
 from rest_framework import filters
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from mongoengine.queryset.visitor import Q
-
+from .utils import *
 from .serializers import *
 
 # Imports Nuevos
@@ -38,11 +38,8 @@ from .serializers import *
 from collections import *
 from sklearn.externals import joblib
 from pymongo import MongoClient
-from sklearn import preprocessing
 
 from scipy import stats
-
-from rest_framework.renderers import JSONRenderer
 
 # TF-IDF
 DATESTARTH2020 = 1388534400
@@ -604,11 +601,13 @@ class CommunityEstimationViewSet(ViewSet):
             'data/models-h2020/tfidf.sav')
 
         new_entry = []
-        entry = request.data.get('entry', '*')
-        new_entry.append(entry)
+        entryinitial = request.data.get('entry', '*')
+        new_entry.append(entryinitial)
 
         entry = tfidf.transform(new_entry)
+        mostrepresentative = display_scores(tfidf, entry)
 
+        pprint.pprint(entry)
         if entry is not '*':
             lsa_entry = svd_model.transform(entry)
             sim = []
@@ -618,19 +617,39 @@ class CommunityEstimationViewSet(ViewSet):
                     'index': i,
                     'rho': rho
                 })
+
             sorted_sim = sorted(sim, reverse=True, key=lambda x: x['rho'])
-            Graph_nodes.objects.all()
 
             c = db.data.community
+            n = db.data.graph_nodes
             mayority_com = []
+            estimatedPresupuesto = []
+            estimatedSubvencion = []
 
             for entry in sorted_sim[:100]:
                 com = c.find_one({'communityProjects': entry['index']})
                 mayority_com.append(com['communityId'])
 
+                node = n.find_one({'idnode': entry['index']})
+                if node['presupuesto'] > 0:
+                    estimatedPresupuesto.append(node['presupuesto'])
+                if node['subvencion'] > 0:
+                    estimatedSubvencion.append(node['subvencion'])
+
             c = Counter(mayority_com)
             print(c.most_common())
-        return Response(dict(c.most_common()))
+            estimatedPresupuesto = np.mean(estimatedPresupuesto)
+
+            estimatedSubvencion = np.mean(estimatedSubvencion)
+            if estimatedSubvencion > estimatedPresupuesto:
+                estimatedSubvencion = estimatedPresupuesto
+
+            print(type(entry))
+            mostrepresentative = ' '.join(mostrepresentative)
+        return HttpResponse(
+            json.dumps({'communities': dict(c.most_common()), 'presupuesto': estimatedPresupuesto,
+                        'subvencion': estimatedSubvencion, 'most': mostrepresentative}),
+            content_type="application/json")
 
 
 class ListCountriesAvailableViewSet(ViewSet):

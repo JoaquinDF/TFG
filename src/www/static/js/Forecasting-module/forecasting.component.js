@@ -21,8 +21,8 @@ angular.module('forecastingModule').component('forecastingModule', {
 
             document.getElementById('loader').style.display = ''
             document.getElementById("nodeinfohover").innerHTML = "";
-            document.getElementById("nodeinfo").innerHTML = "";
             document.getElementById('sigma-container').style.display = 'none'
+            document.getElementById('estimaciones').style.display = 'none'
 
 
             $http.post('/api/v1/data/CommunityEstimation/', self.data).then(function successCallback(response) {
@@ -30,7 +30,14 @@ angular.module('forecastingModule').component('forecastingModule', {
                 document.getElementById('loader').style.display = 'none'
                 document.getElementById('sigma-container').style.display = ''
 
-                self.estimation = response.data;
+
+                self.estimation = response.data.communities;
+                self.mostrepresentative = response.data.most;
+                self.presupuesto = response.data.presupuesto.toFixed(2);
+                self.subvencion = response.data.subvencion.toFixed(2);
+
+                document.getElementById('estimaciones').style.display = ''
+
                 self.loadgraph(self.estimation)
                 debugger;
 
@@ -138,17 +145,6 @@ angular.module('forecastingModule').component('forecastingModule', {
             };
 
 
-            self.reloadinfoonclick = function (info) {
-
-
-                document.getElementById("nodeinfo").innerHTML = "";
-
-                var arraydata = info.split(",");
-                self.drawWordCloud(arraydata, '#nodeinfo')
-
-
-            };
-
             self.reloadinfoonhover = function (info) {
                 document.getElementById("nodeinfohover").innerHTML = "";
 
@@ -200,8 +196,8 @@ angular.module('forecastingModule').component('forecastingModule', {
                         sigmaInstance.graph.nodes().forEach(function (node, i, a) {
 
                             var color = d3.scale.linear()
-                                .domain([0, 50, 100])
-                                .range(["blue", "orange", "red"]);
+                                .domain([0, 10, 15, 20, 30, 35, 40, 50, 100])
+                                .range(["#321414", "#701C1C", "#800000", "#A40000", "#B31B1B", "#B22222", "#FF0000", "yellow", "yellow"]);
 
                             node.x = Math.cos(Math.PI * 2 * i / a.length);
                             node.y = Math.sin(Math.PI * 2 * i / a.length);
