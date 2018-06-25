@@ -625,6 +625,7 @@ class CommunityEstimationViewSet(ViewSet):
             mayority_com = []
             estimatedPresupuesto = []
             estimatedSubvencion = []
+            estimatedCountry = []
 
             for entry in sorted_sim[:100]:
                 com = c.find_one({'communityProjects': entry['index']})
@@ -635,12 +636,17 @@ class CommunityEstimationViewSet(ViewSet):
                     estimatedPresupuesto.append(node['presupuesto'])
                 if node['subvencion'] > 0:
                     estimatedSubvencion.append(node['subvencion'])
+                if node['country'] != 'PAIS':
+                    estimatedCountry.append(node['country'])
 
             c = Counter(mayority_com)
-            print(c.most_common())
-            estimatedPresupuesto = np.mean(estimatedPresupuesto)
 
+            print(c.most_common())
+
+            country = Counter(estimatedCountry).most_common()[0][0]
+            estimatedPresupuesto = np.mean(estimatedPresupuesto)
             estimatedSubvencion = np.mean(estimatedSubvencion)
+
             if estimatedSubvencion > estimatedPresupuesto:
                 estimatedSubvencion = estimatedPresupuesto
 
@@ -648,7 +654,7 @@ class CommunityEstimationViewSet(ViewSet):
             mostrepresentative = ' '.join(mostrepresentative)
         return HttpResponse(
             json.dumps({'communities': dict(c.most_common()), 'presupuesto': estimatedPresupuesto,
-                        'subvencion': estimatedSubvencion, 'most': mostrepresentative}),
+                        'subvencion': estimatedSubvencion, 'most': mostrepresentative, "country": country}),
             content_type="application/json")
 
 

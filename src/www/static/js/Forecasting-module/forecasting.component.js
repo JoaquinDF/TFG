@@ -35,6 +35,7 @@ angular.module('forecastingModule').component('forecastingModule', {
                 self.mostrepresentative = response.data.most;
                 self.presupuesto = response.data.presupuesto.toFixed(2);
                 self.subvencion = response.data.subvencion.toFixed(2);
+                self.country = response.data.country;
 
                 document.getElementById('estimaciones').style.display = ''
 

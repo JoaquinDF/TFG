@@ -42,7 +42,7 @@ Appmodule.config(['$locationProvider', '$routeProvider',
 
 
             .when('/search', {
-                template: '<search-data style="display: block"></search-data>'
+                template: '<search-data style="display: block;padding-bottom: 5%;"></search-data>'
             })
 
             .when('/metric', {
