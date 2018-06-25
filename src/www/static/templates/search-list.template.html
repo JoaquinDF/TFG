@@ -6,42 +6,58 @@
         <div class="container-fluid" style="margin-top: 5%; margin-left: inherit">
 
 
-            <ul class="project" ng-controller="DEBUG">
+            <ul class="nav nav-tabs">
+                <span ng-if="$ctrl.Calls.length>0">
+                <li class="nav-item">
+                    <a class="nav-link " onclick="openTab(event, 'calls')">Convocatoria
+                        </a>
+                </li>
+                </span>
+                <span ng-if="$ctrl.Proyecto.length>0">
 
-                <div>
-                    <span ng-init="debug($ctrl.Calls.length>0 , 'CALLS LENGTH')"></span>
-                    <span ng-if="$ctrl.Calls.length>0">
+                <li class="nav-item">
+                    <a class="nav-link active" onclick="openTab(event, 'projects')">Proyectos</a>
+                </li>
+                                </span>
+                <span ng-if="$ctrl.Orgs.length>0">
 
-                    <h2>Convocatoria/s:</h2>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="openTab(event, 'orgs')">Organizaciones</a>
+                </li>
+                                </span>
+            </ul>
 
-                    <div class="card  card-body" ng-repeat="calls in $ctrl.Calls ">
-                                    <a href="/www/#!/c{{ calls.id }}" style="display: block">
+            <div class="tab-content">
 
-                        <div ng-repeat="(keycall,valuecall) in calls  | custom:$ctrl.textsearch">
-
-
-                            <h3>{{ keycall }}: <span>{{ valuecall }} </span></h3>
-
-
-                        </div>
-
+                <div id="calls" class="tabcontent tab-pane">
 
 
-                                    </a>
+                    <div class="card  card-body cardNoHover" ng-repeat="calls in $ctrl.Calls " style="padding: 3%">
+                        <a href="/www/#!/c{{ calls.id }}" style="display: block">
+
+                            <div ng-repeat="(keycall,valuecall) in calls  | custom:$ctrl.textsearch">
+
+
+                                <h3>{{ keycall }}: <span>{{ valuecall }} </span></h3>
+
+
+                            </div>
+
+
+                        </a>
                     </div>
-  </span>
+
+                </div>
+
+                <div id="projects" class="tabcontent tab-pane active">
 
 
-                    <span ng-if="$ctrl.Proyecto.length>0">
-                    <h2>Proyecto/s:</h2>
+                    <div class="card  card-body cardNoHover" style="padding: 3%"
+                         ng-repeat="proyecto in $ctrl.Proyecto   ">
+                        <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
 
-
-                                     <div class="card  card-body"
-                                          ng-repeat="proyecto in $ctrl.Proyecto   ">
-                                <a href="/www/#!/p{{ proyecto.id }}" style="display: block">
-
-                                <div ng-repeat="(key, value) in proyecto | custom:$ctrl.textsearch"
-                                >
+                            <div ng-repeat="(key, value) in proyecto | custom:$ctrl.textsearch"
+                            >
 
 
                                          <span ng-if="value !='NaN'">
@@ -49,24 +65,22 @@
                                         </span>
 
 
-                                </div>
+                            </div>
 
-                                </a>
-                                 </div>
-                    </span>
+                        </a>
+                    </div>
+                </div>
 
-
-                    <span ng-if="$ctrl.Orgs.length>0">
-
-                    <h2>Organizacion/es:</h2>
-
-                         <div class="card  card-body" ng-repeat="organization in $ctrl.Orgs"
-                              style="display: flex">
+                <div id="orgs" class="tabcontent tab-pane">
 
 
-                    <div class="metricdiv" style="display: flex;"
-                         ng-mouseenter="$ctrl.onHoverMetrics(organization)">
-                        <a class="metric" href="/www/#!/o{{ organization.id }}" style="display: block; width: 50%">
+                    <div class="card  card-body cardNoHover" ng-repeat="organization in $ctrl.Orgs"
+                         style="display: flex ; padding: 3%">
+
+
+                        <div class="metricdiv" style="display: flex;"
+                             ng-mouseenter="$ctrl.onHoverMetrics(organization)">
+                            <a class="metric" href="/www/#!/o{{ organization.id }}" style="display: block; width: 50%">
 
                                     <span ng-if="organization">
 									<div>
@@ -111,8 +125,8 @@
 									</div>
 								</span>
 
-                        </a>
-                        <span ng-if="organization.direccion.pais!='PAIS'">
+                            </a>
+                            <span ng-if="organization.direccion.pais!='PAIS'">
                             <span ng-if="organization.direccion.pais!=''">
 
                         <div class="buttonmetric ">
@@ -158,22 +172,31 @@
                             </span>
                         </span>
 
+                        </div>
+
+
                     </div>
 
 
-
-
-                        </div>
-
-                    </span>
-
-
                 </div>
-
-
-            </ul>
-
-
+            </div>
         </div>
     </body>
 </html>
+<script>
+    function openTab(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("nav-link");
+        debugger;
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace("active", "");
+            debugger;
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
