@@ -749,7 +749,7 @@ class GetRecommendationViewSet(ViewSet):
 
             Z[Z < .035] = -1
 
-            plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='green')
+            th = plt.contour(xx, yy, Z, levels=[0], linewidths=2, colors='green')
 
             b1 = plt.scatter(X_train[:, 0], X_train[:, 1], c='yellow',
                              s=50, edgecolor='k')
@@ -762,8 +762,8 @@ class GetRecommendationViewSet(ViewSet):
             plt.xlabel('Subvencion')
             plt.ylabel('Presupuesto')
 
-            plt.legend([pr.collections[0], b1, c1],
-                       ["Learning Limit", "Training set", "Predicted Result"], loc="upper left")
+            plt.legend([pr.collections[0], th.collections[0], b1, c1],
+                       ["Learning Limit", "Learning Threshold", "Training set", "Predicted Result"], loc="upper left")
 
             h = hashlib.new('ripemd160')
             key = str(time.time())
