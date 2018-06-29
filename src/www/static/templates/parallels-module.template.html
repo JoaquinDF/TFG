@@ -51,18 +51,19 @@
             <input style="width: 25%; border-bottom: rgba(180,33,59,0.19) solid 1px; margin-bottom: 3px"
                    ng-model="comunidad"
                    class="searchtext w3-input"
-                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
+                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                   ng-model-options="{debounce:1000}">
             <h3>País: </h3>
             <input style="width: 25%; border-bottom: rgba(180,33,59,0.19) solid 1px; margin-bottom: 3px"
                    ng-model="pais"
                    class="searchtext w3-input"
-                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
+                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                   ng-model-options="{debounce:1000}">
 
         </div>
         <select ng-model="comunidad" style="width: 60%"
-                ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+                ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                ng-model-options="{debounce:1000}">
 
             <option ng-repeat="data in communities" value="{{ data.communityId }}">
                 {{ data.communityId }}
@@ -75,11 +76,12 @@
             <h3>Presupuesto: </h3>
             <H3> min: </h3>
             <input size="40" ng-model="lessP" class="searchtext w3-input"
-                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                   ng-model-options="{debounce:1000}">
             <H3> MAX: </h3>
             <input size="40" ng-model="moreP" class="searchtext w3-input"
-                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
+                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                   ng-model-options="{debounce:1000}">
         </div>
         <hr class="style2" style="margin: 2px; width: 60%;">
 
@@ -89,17 +91,18 @@
             <h3>Subvención: </h3>
             <H3> min: </h3>
             <input size="40" ng-model="lessS" class=" searchtext w3-input"
-                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
+                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                   ng-model-options="{debounce:1000}">
             <H3> MAX: </h3>
             <input size="40" ng-model="moreS" class=" searchtext w3-input"
-                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
-
+                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                   ng-model-options="{debounce:1000}">
         </div>
         <div style="display: flex; width: 30%">
             <h3>Titulo: </h3>
             <input ng-model="titulo" class="searchtext w3-input" placeholder=" Cointains..."
-                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)">
+                   ng-change="parallelcoordinates('&country='+ pais +'&title='+ titulo + '&moreP=' +moreP + '&lessP=' + lessP + '&moreS=' + moreS + '&lessS=' +lessS + '&community='+ comunidad)"
+                   ng-model-options="{debounce:1000}">
 
         </div>
 
