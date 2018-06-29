@@ -1,8 +1,15 @@
 'use strict';
-
+/**
+ * Controlador principal de las convocatorias
+ * @namespace innhomeweb.Predict */
 // Register `projectList` component, along with its associated controller and template!
 angular.module('forecastingModule').component('recommenderModule', {
-
+    /**
+     * Recoge todos los datos de país, subvención, presupuesto, fecha de inicio y la descripción del proyecto
+     * @memberof innhomeweb.Predict
+     * @method Predict
+     *@returns {array} Prediction Devuelve una predicción basada en los datos anteriores
+     */
         templateUrl: '/static/templates/recommender.template.html',
 
         controller: ['$http', '$window', function forecastingController($http, $window) {

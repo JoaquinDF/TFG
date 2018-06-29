@@ -1,21 +1,11 @@
 'use strict';
 
 // Register `countList` component, along with its associated controller and template!
-/**
- * @namespace innhomeweb
- *
- */
+
 
 /**
- * @class innhomeweb.callList
- * @memberOf innhomeweb
- */
-
-/**
- * @name startingcall
- * @function
- * @memberOf innhomeweb.callList.CallsListController
- * @returns {Array}  Devuelve el listado inicial de convocatorias.
+ * Controlador principal de las convocatorias
+ * @namespace innhomeweb.Call-list
  */
 
 
@@ -27,23 +17,13 @@ angular.module('callList').component('callList', {
             self.callfind = ""
 
 
-            /**
-             * A test module foo
-             * @version 1.0
-             * @exports mystuff/foo
-             * @namespace foo
-             */
+
             self.startingcall = function () {
                 /**
-                 * A method in first level, just for test
-                 * @memberof foo
-                 * @method testFirstLvl
-                 */
-                /**
-                 * @name startingcall
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 * @returns {Array}  Devuelve el listado inicial de convocatorias.
+                 * Devuelve el listado inicial de convocatorias.
+                 * @memberof innhomeweb.Call-list
+                 * @method startingcall
+                 * @returns {Array}
                  */
 
 
@@ -58,10 +38,10 @@ angular.module('callList').component('callList', {
             }
             self.nextcall = function () {
                 /**
-                 * @name nextcall
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 *@returns {array} Devuelve el listado siguiente de convocatorias.
+                 * Devuelve el listado siguiente de convocatorias.
+                 * @memberof innhomeweb.Call-list
+                 * @method nextcall
+                 *@returns {array}
                  */
 
                 if (self.callsnext) {
@@ -79,13 +59,13 @@ angular.module('callList').component('callList', {
                 }
             }
             self.prevcall = function () {
-                /**
-                 * @name prevcall
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 *@returns {array} Devuelve el listado anterior de convocatorias.
-                 */
 
+                /**
+                 * Devuelve el listado anterior de convocatorias.
+                 * @memberof innhomeweb.Call-list
+                 * @method prevcall
+                 *@returns {array}
+                 */
 
                 if (self.currentpagecalls > 1) {
                     $http.get(self.callsprev).then(function (responsecalls) {
@@ -102,13 +82,14 @@ angular.module('callList').component('callList', {
             }
 
             self.lastcall = function () {
-                /**
-                 * @name lastcall
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 *@returns {array} Devuelve el listado con las últimas convocatorias.
-                 */
 
+
+                /**
+                 * Devuelve el listado con las últimas convocatorias.
+                 * @memberof innhomeweb.Call-list
+                 * @method lastcall
+                 *@returns {array}
+                 */
 
                 var page = self.countcalls;
                 page *= 10;
@@ -123,12 +104,14 @@ angular.module('callList').component('callList', {
                 });
             }
             self.changepage = function (page) {
+
                 /**
-                 * @name changepage
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 *@param {string} Recibe la página a la que se quiere cambiar
-                 *@returns {array} Cambia de página.
+                 * Cambia de página dentro del listado de convocatorias.
+                 * @memberof innhomeweb.Call-list
+                 * @method changepage
+                 *  @param {string} page Recibe la página a la que se quiere cambiar
+
+                 *@returns {array}
                  */
 
 
@@ -152,12 +135,14 @@ angular.module('callList').component('callList', {
             }
 
             self.findCall = function (toFind) {
+
+
                 /**
-                 * @name findCall
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 *@param {string} Recibe una cadena y busca las convocatorias que contengan esa cadena
-                 *@returns {array} Devuelve el listado con las convocatorias.
+                 * Devuelve el listado con las convocatorias buscadas.
+                 * @memberof innhomeweb.Call-list
+                 * @method findCall
+                 *@param {string} toFind Recibe una cadena y busca las convocatorias que contengan esa cadena
+                 *@returns {array}
                  */
 
 
@@ -185,12 +170,12 @@ angular.module('callList').component('callList', {
             }
 
             self.saveedit = function () {
-                /**
-                 * @name saveedit
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 * @description Postea el cambio contra la API
 
+
+                /**
+                 * Postea el cambio contra la API
+                 * @memberof innhomeweb.Call-list
+                 * @method saveedit
                  */
 
 
@@ -218,15 +203,15 @@ angular.module('callList').component('callList', {
 
             self.editCall = function (idtoEdit) {
 
-
                 /**
-                 * @name editCall
+                 * Abre el modal para proceder con el edit.
+                 * @memberof innhomeweb.Call-list
+                 * @method editCall
+                 *@param {string} idtoEdit Indica el id del objecto que se va a editar
 
-                 * @function
-                 * @memberOf innhomeweb.callList.CallsListController
-                 * @description Abre el modal para proceder con el edit
-                 * @param  Indica el id del objecto que se va a editar
                  */
+
+
 
 
                 self.EditcallObject = [];

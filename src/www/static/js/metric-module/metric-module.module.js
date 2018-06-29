@@ -1,4 +1,8 @@
 'use strict';
+/**
+ * Modululo principal de las Métricas
+ * @namespace innhomeweb.Metric-Module
+ */
 
 var mlist = angular.module('metricModule', ["chart.js", 'ngMaterial']);
 

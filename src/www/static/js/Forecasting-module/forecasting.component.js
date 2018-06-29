@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * Controlador principal de las convocatorias
+ * @namespace innhomeweb.Competence-Module */
 // Register `projectList` component, along with its associated controller and template!
 angular.module('forecastingModule').component('forecastingModule', {
 
@@ -9,7 +11,11 @@ angular.module('forecastingModule').component('forecastingModule', {
             var self = this;
             self.search = "";
 
-
+        /**
+         * Envía a la API toda el texto descriptivo del proyecto y genera los resultados
+         * @memberof innhomeweb.Competence-Module
+         * @method createData
+         */
         self.createData = function () {
 
 
@@ -163,6 +169,13 @@ angular.module('forecastingModule').component('forecastingModule', {
                 color[2] = parseInt(hex.slice(5, 7), 16);
                 return color;
             }
+
+        /**
+         * Carga los Grafo con un Json
+         * @memberof innhomeweb.Competence-Module
+         * @method loadgraph
+         * @param {JSON} datajson Json con los datos del grafo
+         */
             self.loadgraph = function (datajson) {
                 document.getElementById('sigma-container').style.display = "block";
                 document.getElementById('sigma-container').innerHTML = ""

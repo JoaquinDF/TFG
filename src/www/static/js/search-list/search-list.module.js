@@ -1,5 +1,6 @@
 'use strict';
 
+
 // Define the `projectList` module
 var slist = angular.module('searchList', []);
 

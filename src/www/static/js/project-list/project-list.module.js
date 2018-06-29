@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * Modululo principal de las convocatorias
+ * @namespace innhomeweb.Project-list-Module
+ */
 // Define the `projectList` module
 var plist = angular.module('projectList', ['ngRoute']);
 

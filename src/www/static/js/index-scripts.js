@@ -1,6 +1,4 @@
-/**
- * Created by bisitemini on 17/8/17.
- */
+
 function w3_open() {
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("myOverlay").style.display = "block";

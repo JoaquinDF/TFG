@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * Controlador principal de los Mapas de Calor
+ * @namespace innhomeweb.Parallels
+ */
 angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
     var ShowLoader = function () {
         document.getElementById('loader').style.display = ''
@@ -13,6 +16,13 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
 
 
     }
+
+
+    /**
+     * Pide al servidor los datos necesarios para cargar las coordenadas paralelas, basándose en los filtros indicados en el HTML, como país o presupuesto mínimo.
+     * @memberof innhomeweb.Parallels
+     * @method loadparallels
+     */
     $scope.loadparallels = function (data) {
 
 
@@ -52,7 +62,12 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
 
     }
 
-
+    /**
+     * Carga las coordenadas paralelas con el Json de entrada.
+     * @memberof innhomeweb.Parallels
+     * @method parallelcoordinates
+     * @param {JSON} data Indica los datos que va a cargar sobre las coordenadas paralelas
+     */
     $scope.parallelcoordinates = function (url) {
         ShowLoader();
 

@@ -1,8 +1,16 @@
 'use strict';
 angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
-
-
+    /**
+     * Controlador principal de las Comunidades
+     * @namespace innhomeweb.Community-Module
+     */
     $scope.nodeinfo = [];
+    /**
+     * Busca un nodo tanto por temática referida como por id del nodo
+     * @memberof innhomeweb.Community-Module
+     * @method tofind
+     * @param {string} data Indica el texto a buscar
+     */
 
     $scope.tofind = function (data) {
 
@@ -63,6 +71,7 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
     }
 
+
     $scope.showwordcloud = function (value) {
         if (value) {
             document.getElementById('nodeinfohover').style.display = ''
@@ -82,6 +91,15 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
     }
 
+
+    /**
+     * Crea los Word-Clouds con el texto requerido
+     * @memberof innhomeweb.Community-Module
+     * @method drawWordCloud
+     * @param {string} text Indica el texto a aplicar el Word-Cloud
+     * @param {svg} svglocation Indica objeto SVG dónde irá el Word-Cloud
+
+     */
     $scope.drawWordCloud = function (text, svglocation) {
 
 
@@ -164,6 +182,12 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
     };
 
 
+    /**
+     * Recarga los Word-Clouds con el texto requerido al hacer click sobre un nodo
+     * @memberof innhomeweb.Community-Module
+     * @method reloadinfoonclick
+     * @param {string} text Indica el texto a recargar el Word-Cloud
+     */
     $scope.reloadinfoonclick = function (info) {
 
 
@@ -174,7 +198,12 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
 
     };
-
+    /**
+     * Recarga los Word-Clouds con el texto requerido al hacer hover sobre un nodo
+     * @memberof innhomeweb.Community-Module
+     * @method reloadinfoonhover
+     * @param {string} text Indica el texto a recargar el Word-Cloud
+     */
     $scope.reloadinfoonhover = function (info) {
         document.getElementById("nodeinfohover").innerHTML = "";
 
@@ -184,6 +213,12 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
     };
 
+    /**
+     * Carga el Grafo con los datos que se le pasa como argumento y a bindea todos los eventos que ocurren sobre el grafo, click, hover...
+     * @memberof innhomeweb.Community-Module
+     * @method communityObject
+     * @param {string} info Indica el JSON para cargar el grafo
+     */
     $scope.communityObject = function (datajson) {
         document.getElementById('sigma-container').style.display = "block";
         document.getElementById('sigma-container').innerHTML = ""
@@ -256,22 +291,7 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
                     linLogMode: true,
                 });
 
-                /*
-                 if (sigmaInstance.graph.nodes().length > 75) {
 
-                 } else {
-
-                 setTimeout(function () {
-
-                 sigmaInstance.stopForceAtlas2();
-                 document.getElementById('finder').style.display = ''
-                 document.getElementById('reload').style.display = ''
-
-
-                 }, 1200);
-
-
-                 }*/
                 setTimeout(function () {
                     sigmaInstance.stopForceAtlas2();
                     document.getElementById('finder').style.display = ''

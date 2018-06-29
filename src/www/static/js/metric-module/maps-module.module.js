@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * Controlador principal de los Mapas de Calor
+ * @namespace innhomeweb.Community-Maps
+ */
 angular.module('mapsModule', []).controller('ControladorMaps', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
 
     var what = $routeParams.map
@@ -28,7 +31,12 @@ angular.module('mapsModule', []).controller('ControladorMaps', ['$scope', '$http
 
     }
 
-
+    /**
+     * Crea los distintos mapas dependiendo el JSON de entrada
+     * @memberof innhomeweb.Community-Maps
+     * @method Createmaps
+     * @param {JSON} data Indica los datos que va a cargar sobre el mapa
+     */
     document.getElementById('container').innerHTML = "";
 
     $http.post(apiget, setobject).then(function successCallback(response) {

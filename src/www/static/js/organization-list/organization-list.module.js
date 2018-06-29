@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * Modululo principal de las convocatorias
+ * @namespace innhomeweb.Oranization-list-Module
+ */
 // Define the `projectList` module
 var olist = angular.module('organizationList', []);
 

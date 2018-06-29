@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Controlador principal de las convocatorias
+ * @namespace innhomeweb.Project-list
+ */
 // Register `projectList` component, along with its associated controller and template!
 angular.module('projectList').component('projectList', {
 
@@ -10,6 +14,12 @@ angular.module('projectList').component('projectList', {
         self.projectfind = ""
 
         self.startingproject = function () {
+            /**
+             * Devuelve el listado inicial de proyectos.
+             * @memberof innhomeweb.Project-list
+             * @method startingproject
+             * @returns {Array}
+             */
 
             $http.get('/api/v1/data/project/?limit=10&offset=0&ordering=tituloProyecto').then(function (responseprojects) {
 
@@ -23,6 +33,12 @@ angular.module('projectList').component('projectList', {
         }
 
         self.nextproject = function () {
+            /**
+             * Devuelve el listado siguiente de proyectos.
+             * @memberof innhomeweb.Project-list
+             * @method nextproject
+             *@returns {array}
+             */
             if (self.projectsnext) {
                 $http.get(self.projectsnext).then(function (responseprojects) {
 
@@ -40,6 +56,13 @@ angular.module('projectList').component('projectList', {
         }
 
         self.lastproject = function () {
+            /**
+             * Devuelve el listado con los últimos proyectos.
+             * @memberof innhomeweb.Project-list
+             * @method lastproject
+             *@returns {array}
+             */
+
             var page = self.countprojects;
             page *= 10;
             page -= 10;
@@ -54,6 +77,12 @@ angular.module('projectList').component('projectList', {
         }
 
         self.prevproject = function () {
+            /**
+             * Devuelve el listado anterior de proyectos.
+             *  @memberof innhomeweb.Project-list
+             *  @method prevproject
+             *@returns {array}
+             */
             if (self.currentpage > 1) {
                 $http.get(self.projectsprev).then(function (responseprojects) {
                     if (responseprojects.data) {
@@ -70,6 +99,14 @@ angular.module('projectList').component('projectList', {
 
 
         self.changepage = function (page) {
+            /**
+             * Cambia de página dentro del listado de proyectos.
+             * @memberof innhomeweb.Project-list
+             * @method changepage
+             *  @param {string} page Recibe la página a la que se quiere cambiar
+
+             *@returns {array}
+             */
             if (!isNaN(page) && page && page < self.countprojects) {
                 self.currentpage = parseInt(page);
 
@@ -90,6 +127,13 @@ angular.module('projectList').component('projectList', {
         }
 
         self.findProject = function (toFind) {
+            /**
+             * Devuelve el listado con las convocatorias buscadas.
+             * @memberof innhomeweb.Project-list
+             * @method findProject
+             *@param {string} toFind Recibe una cadena y busca los proyectos que contengan esa cadena
+             *@returns {array}
+             */
             if ((toFind != "") && toFind) {
                 self.projectfind = toFind
                 var http = "/api/v1/data/project/?limit=10&offset=0&ordering=tituloProyecto&name=" + toFind;
@@ -115,6 +159,12 @@ angular.module('projectList').component('projectList', {
         }
 
         self.saveedit = function () {
+            /**
+             * Postea el cambio contra la API
+             * @memberof innhomeweb.Project-list
+             * @method saveedit
+             */
+
             var keys = Object.keys(self.EditProject);
             var tosave = {}
 
@@ -138,6 +188,13 @@ angular.module('projectList').component('projectList', {
 
 
         self.editProject = function (idtoEdit) {
+            /**
+             * Abre el modal para proceder con el edit.
+             * @memberof innhomeweb.Project-list
+             * @method editProject
+             *@param {string} idtoEdit Indica el id del objecto que se va a editar
+
+             */
             self.EditProject = [];
             var http = "/api/v1/data/project/?id=" + idtoEdit;
             $http.get(http).then(function (responseprojects) {

@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Controlador principal de las convocatorias
+ * @namespace innhomeweb.Oranization-list
+ */
 // Register `projectList` component, along with its associated controller and template!
 angular.module('organizationList').component('organizationList', {
 
@@ -10,6 +14,12 @@ angular.module('organizationList').component('organizationList', {
             self.orgfind = ""
 
             self.startingorganization = function () {
+                /**
+                 * Devuelve el listado inicial de organizaciones.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method startingorganization
+                 * @returns {Array}
+                 */
                 $http.get('/api/v1/data/organization/?limit=10&offset=0&ordering=nombre&nation=EU').then(function (responseorganizations) {
 
                     self.organizations = responseorganizations.data.results;
@@ -24,6 +34,12 @@ angular.module('organizationList').component('organizationList', {
 
 
             self.nextorganization = function () {
+                /**
+                 * Devuelve el listado siguiente de organizaciones.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method nextorganization
+                 *@returns {array}
+                 */
                 if (self.organizationsnext) {
                     $http.get(self.organizationsnext).then(function (responseorganizations) {
 
@@ -39,6 +55,12 @@ angular.module('organizationList').component('organizationList', {
                 }
             }
             self.prevorganization = function () {
+                /**
+                 * Devuelve el listado anterior de organizaciones.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method prevorganization
+                 *@returns {array}
+                 */
                 if (self.currentpageorganizations > 1) {
                     $http.get(self.organizationsprev).then(function (responseorganizations) {
                         if (responseorganizations.data) {
@@ -54,6 +76,12 @@ angular.module('organizationList').component('organizationList', {
             }
 
             self.lastorganization = function () {
+                /**
+                 * Devuelve el listado con las últimas organizaciones.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method lastorganization
+                 *@returns {array}
+                 */
                 var page = self.countorganizations;
                 page *= 10;
                 page -= 10;
@@ -69,6 +97,14 @@ angular.module('organizationList').component('organizationList', {
 
 
             self.onNationChanged = function (where) {
+                /**
+                 * Cambia de nación dentro del listado de organizaciones.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method onNationChanged
+                 *  @param {string} where Recibe la nación a la que se quiere cambiar
+                 *@returns {array}
+                 */
+
                 debugger;
                 if (where) {
                     var togo = '/api/v1/data/organization/?limit=10&nation=' + where;
@@ -90,6 +126,14 @@ angular.module('organizationList').component('organizationList', {
             }
 
             self.onHoverMetrics = function (organization) {
+                /**
+                 * Carga las métricas de la organización determinada
+                 * @memberof innhomeweb.Oranization-list
+                 * @method onHoverMetrics
+                 * @param {string} organization Carga las métricas de la organización
+                 *@returns {array}
+                 */
+
                 if (!organization) return false;
                 var country = organization.direccion.pais;
 
@@ -135,6 +179,14 @@ angular.module('organizationList').component('organizationList', {
 
 
             self.changepage = function (page) {
+                /**
+                 * Cambia de página dentro del listado de organizaciones.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method changepage
+                 * @param {string} page Recibe la página a la que se quiere cambiar
+                 * @returns {array}
+                 */
+
                 if (!isNaN(page) && page && page <= self.countorganizations) {
                     self.currentpageorganizations = parseInt(page);
                     page *= 10;
@@ -155,6 +207,13 @@ angular.module('organizationList').component('organizationList', {
             }
 
             self.findOrganization = function (toFind) {
+                /**
+                 * Devuelve el listado con las organizaciones buscadas.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method findOrganization
+                 * @param {string} toFind Recibe una cadena y busca las organizaciones que contengan esa cadena
+                 * @returns {array}
+                 */
                 if ((toFind != "") && toFind) {
                     self.Organizationfind = toFind
                     var http = "/api/v1/data/organization/?limit=10&offset=0&ordering=nombre&name=" + toFind;
@@ -180,6 +239,12 @@ angular.module('organizationList').component('organizationList', {
             }
 
             self.saveedit = function () {
+                /**
+                 * Postea el cambio contra la API
+                 * @memberof innhomeweb.Oranization-list
+                 * @method saveedit
+                 */
+
                 var keys = Object.keys(self.EditOrganization);
                 var tosave = {}
 
@@ -203,6 +268,12 @@ angular.module('organizationList').component('organizationList', {
 
 
             self.editOrganization = function (idtoEdit) {
+                /**
+                 * Abre el modal para proceder con el edit.
+                 * @memberof innhomeweb.Oranization-list
+                 * @method editOrganization
+                 * @param {string} idtoEdit Indica el id del objecto que se va a editar
+                 */
                 self.EditOrganization = [];
                 var http = "/api/v1/data/organization/?id=" + idtoEdit;
                 $http.get(http).then(function (responseprojects) {
