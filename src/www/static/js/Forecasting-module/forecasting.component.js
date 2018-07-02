@@ -19,8 +19,6 @@ angular.module('forecastingModule').component('forecastingModule', {
         self.createData = function () {
 
 
-            debugger;
-
             self.data = {
                 entry: this.search
             };
@@ -46,7 +44,7 @@ angular.module('forecastingModule').component('forecastingModule', {
                 document.getElementById('estimaciones').style.display = ''
 
                 self.loadgraph(self.estimation)
-                debugger;
+
 
             }, function errorCallback(response) {
 

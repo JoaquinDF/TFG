@@ -105,7 +105,6 @@ angular.module('organizationList').component('organizationList', {
                  *@returns {array}
                  */
 
-                debugger;
                 if (where) {
                     var togo = '/api/v1/data/organization/?limit=10&nation=' + where;
 
@@ -260,7 +259,6 @@ angular.module('organizationList').component('organizationList', {
 
                 }, function errorCallback(response) {
 
-                    debugger;
                 });
 
 

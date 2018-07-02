@@ -117,7 +117,7 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
                         debugger
                         $scope.Orgs = $scope.Orgs.slice(0, 5)
                     }
-                    debugger;
+
 
                 });
             }
@@ -138,7 +138,7 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
                         debugger
                         $scope.Proyectos = $scope.Proyectos.slice(0, 5)
                     }
-                    debugger;
+
 
                 });
             }
@@ -158,7 +158,7 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
                         debugger
                         $scope.Calls = $scope.Calls.slice(0, 5)
                     }
-                    debugger;
+
 
                 });
             }
@@ -169,7 +169,7 @@ Appmodule.controller('HandleSearchEvents', ['$scope', '$http', function ($scope,
     }
 
     $scope.debug = function (a, b) {
-        debugger;
+
 
     }
 }])

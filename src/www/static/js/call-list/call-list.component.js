@@ -194,7 +194,6 @@ angular.module('callList').component('callList', {
 
                 }, function errorCallback(response) {
 
-                    debugger;
                 });
 
 

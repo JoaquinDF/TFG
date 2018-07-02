@@ -106,7 +106,6 @@ angular.module('mapsModule', []).controller('ControladorMaps', ['$scope', '$http
             }
             , done: function (datamap) {
                 datamap.svg.selectAll('.datamaps-subunit').on('dblclick', function (mapdata) {
-                    debugger;
                     $('#countrymodal').modal('show').data("country", mapdata.properties.name);
 
                 });

@@ -322,7 +322,6 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
                         });
 
 
-                        debugger;
 
 
                     }
@@ -368,7 +367,6 @@ angular.module('communityModule', []).controller('COMMUNITY', ['$scope', '$http'
 
                 });
                 sigmaInstance.bind('doubleClickNode', function (e) {
-                    debugger;
                     var community = e.data.node.label.split(' - ')[0];
 
                     sigmaInstance.graph.clear();

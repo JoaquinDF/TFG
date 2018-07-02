@@ -71,7 +71,6 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
     $scope.parallelcoordinates = function (url) {
         ShowLoader();
 
-        debugger;
         document.getElementById('choseparallel').style.display = ""
         document.getElementById('parallel').innerHTML = ""
         document.getElementById('grid').style.display = ''
@@ -107,7 +106,6 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
                 };
 
 
-                debugger;
 
                 var dimensions = {
                     "community": {

@@ -180,7 +180,7 @@ angular.module('projectList').component('projectList', {
 
             }, function errorCallback(response) {
 
-                debugger;
+
             });
 
 

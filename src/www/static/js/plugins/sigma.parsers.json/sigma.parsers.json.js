@@ -77,8 +77,6 @@
                 var maxvalue = MAX.size;
 
 
-                debugger;
-
                 var paletteScale = d3.scale.log()
                     .domain([MIN.size, MAX.size])
                     .range(["#000000", "#c62540"]);
@@ -109,7 +107,6 @@
 
                 }
 
-                debugger;
 
                 // Update the instance's graph:
                 if (sig instanceof sigma) {

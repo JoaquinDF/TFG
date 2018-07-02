@@ -515,7 +515,7 @@
 
     // Parsing the GEXF File
     function parse(gexf) {
-        debugger;
+
         return Graph(gexf);
     }
 
