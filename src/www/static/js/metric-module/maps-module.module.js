@@ -13,7 +13,7 @@ angular.module('mapsModule', []).controller('ControladorMaps', ['$scope', '$http
     var setobject = {
         "?": what
     }
-
+    $scope.selected = ""
 
     $scope.tabcolor = function (id) {
 
@@ -104,7 +104,13 @@ angular.module('mapsModule', []).controller('ControladorMaps', ['$scope', '$http
                         '</div>'].join('');
                 }
             }
+            , done: function (datamap) {
+                datamap.svg.selectAll('.datamaps-subunit').on('dblclick', function (mapdata) {
+                    debugger;
+                    $('#countrymodal').modal('show').data("country", mapdata.properties.name);
 
+                });
+            }
 
         });
 

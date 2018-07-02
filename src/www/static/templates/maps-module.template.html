@@ -1,22 +1,4 @@
 <div class="row" style="height: 85%; border-style: none">
-    <div class="w3-sidebar w3-bar-block w3-theme-d4 w3-card col-sm-1 "
-         style="width:auto; height:auto; border-radius: 3px">
-        <h5 class="w3-bar-item">Heat Maps</h5>
-        <a id="orgnum" class="w3-bar-item w3-button tablink" href="/www/#!/maps/orgnum"
-        > Nº Organizaciones
-        </a>
-        <a id="proynum" class="w3-bar-item w3-button tablink" href="/www/#!/maps/proynum"
-        > Nº Proyectos
-        </a>
-        <a id="avenum" class="w3-bar-item w3-button tablink" href="/www/#!/maps/avenum"
-        > Proyectos Medios
-        </a>
-
-        <a id="orgper" class="w3-bar-item w3-button tablink" href="/www/#!/maps/orgper"
-        > % Subvencion
-        </a>
-
-    </div>
 
 
     <div class="container-fluid col-sm-11" id="container-fluid"
@@ -25,9 +7,9 @@
         <style>
             .graph {
                 margin-left: 12%;
-                width: 60%;
+                width: 70%;
             !important;
-                height: 85%;
+                height: 90%;
             !important;
 
                 position: relative;
@@ -44,4 +26,28 @@
 
 </div>
 
+<div id="countrymodal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
 
+            <div class="modal-body">
+                <p>Se van a abrir el mapa de coordenadas paralelas del país seleccionado </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="recommenderButton " data-dismiss="modal"
+                        onclick="call()">Abrir
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var call = function () {
+        var data = $('#countrymodal').data('country');
+        location.href = '#!/parallels/' + data
+        debugger;
+    }
+
+</script>

@@ -29,13 +29,13 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
         $scope.parallelcoordinates(data)
 
 
-        $scope.comunidad = $routeParams.id == undefined ? "" : $routeParams.id;
+        $scope.pais = $.isNumeric($routeParams.id) ? "" : $routeParams.id;
         $scope.lessP = 0;
         $scope.moreP = 0;
         $scope.lessS = 0;
         $scope.moreS = 0;
         $scope.titulo = "";
-        $scope.pais = "";
+        $scope.comunidad = $.isNumeric($routeParams.id) ? $routeParams.id : "";
 
 
         function compare(a, b) {
@@ -234,11 +234,31 @@ angular.module('parallelsModule', []).controller('PARALLELS', ['$scope', '$http'
     }
 
     if ($routeParams.id != undefined) {
-        $scope.loadparallels('&community=' + $routeParams.id)
-    } else {
+        if ($.isNumeric($routeParams.id)) {
+            $scope.loadparallels('&community=' + $routeParams.id)
+        } else {
+            var api = "http://restcountries.eu/rest/v2/name/" + $routeParams.id;
+            var code = ""
+
+            $http.get(api).then(function successCallback(response) {
+
+                $scope.loadparallels('&country=' + response.data[0].alpha2Code)
+
+
+            }, function errorCallback(response) {
+
+
+            });
+
+
+        }
+    }
+
+    else {
         $scope.loadparallels("")
 
 
     }
 
-}]);
+}])
+;

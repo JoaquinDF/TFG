@@ -66,7 +66,7 @@ Appmodule.config(['$locationProvider', '$routeProvider',
                 template: '<recommender-module style="display: block"></recommender-module>'
             })
             .when('/maps/:map', {
-                templateUrl: '/static/templates/maps-metric-module.template.html',
+                templateUrl: '/static/templates/maps-module.template.html',
                 controller: 'ControladorMaps'
             })
 

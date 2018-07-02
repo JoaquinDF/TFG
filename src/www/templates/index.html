@@ -152,7 +152,7 @@
              style="z-index:3;width:15%; " id="mySidebar">
             <a class="w3-bar-item w3-button w3-border-bottom w3-large" onclick="tabbarColor('data')" href="/www/"
                style="background-color: #ccc">
-                <img src="/static/images/innhome.png" style="width: 100%;padding: 10px; margin-bottom: 20%">
+                <img src="/static/images/innhome.png" style="width: 100%; margin-bottom: 20%; margin-top: 20%;">
             </a>
             <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close
                 <i class="fa fa-remove"></i></a>
@@ -163,22 +163,28 @@
                    onclick="tabbarColor('data')">Datos</a>
 
 
-                <a class="w3-bar-item tablink w3-button" id="Search" href="/www/#!search"
+                <a class="w3-bar-item tablink w3-button" id="Search" href="#!search"
                    onclick="tabbarColor('Search')">Búsqueda</a>
-                <a class="w3-bar-item tablink w3-button" id="Admin" href="#!admin"
-                   onclick="tabbarColor('Admin')">Administración</a>
+
+                <a class="w3-bar-item tablink w3-button" id="h2020" href="#!/community/h2020/"
+                   onclick="tabbarColor('h2020')">Grafos H2020</a>
+
+                <a class="w3-bar-item tablink w3-button" id="parallels" href="#!/parallels/"
+                   onclick="tabbarColor('parallels')">Coordenadas Paralelas H2020</a>
 
                 <div class="w3-bar-item w3-button" onclick="metricShow('metricorgs')">
-                    Metrics <i class="fa fa-caret-down"></i></div>
+                    Mapas de Calor <i class="fa fa-caret-down"></i></div>
 
                 <div id="metricorgs" class="w3-hide w3-theme w3-card-4">
                     <a class="w3-bar-item tablink w3-button" id="Maps" href="#!/maps/orgnum"
-                       onclick="tabbarColor('Maps')">Mapas de Calor</a>
-                    <a class="w3-bar-item tablink w3-button" id="h2020" href="#!/community/h2020/"
-                       onclick="tabbarColor('h2020')">H2020</a>
-                    <a class="w3-bar-item tablink w3-button" id="parallels" href="#!/parallels/"
-                       onclick="tabbarColor('parallels')">Coordenadas Paralelas (H2020)</a>
+                       onclick="tabbarColor('Maps')">Número de Organizaciones</a>
 
+                    <a class="w3-bar-item tablink w3-button" id="Maps" href="#!/maps/proynum"
+                       onclick="tabbarColor('Maps')">Número de Proyectos</a>
+                    <a class="w3-bar-item tablink w3-button" id="Maps" href="#!/maps/avenum"
+                       onclick="tabbarColor('Maps')">Proyectos medios</a>
+                    <a class="w3-bar-item tablink w3-button" id="Maps" href="#!/maps/orgper"
+                       onclick="tabbarColor('Maps')">Porcentaje subvencionado</a>
 
                 </div>
 
